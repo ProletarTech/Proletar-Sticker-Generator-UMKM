@@ -1,0 +1,16 @@
+PROLETAR PROJECT STICKER GENERATOR (aplikasi web / PWA)
+
+Isi folder ini harus diunggah SEMUA ke hosting HTTPS, lalu dibuka dari alamatnya:
+- index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, icon-maskable-512.png
+
+Cara pasang jadi aplikasi (tanpa Play Store):
+1. Unggah folder ke hosting gratis: Netlify Drop (app.netlify.com/drop), GitHub Pages, atau Cloudflare Pages.
+2. Buka alamatnya di Chrome HP, lalu menu titik tiga > "Pasang aplikasi" / "Tambahkan ke layar utama".
+   Di layar intro juga akan muncul tombol "Pasang sebagai aplikasi".
+3. Setelah terpasang, aplikasi bisa dibuka offline (semua file sudah tersimpan).
+
+Mau jadi file APK untuk dibagikan atau Play Store?
+- Buka pwabuilder.com, masukkan alamat hosting tadi, pilih Android, unduh paketnya.
+- Atau bungkus dengan Capacitor / Bubblewrap bila ingin dikembangkan lebih lanjut.
+
+Catatan: file index.html di dalam folder ini tidak bisa diinstal bila hanya dibuka langsung dari penyimpanan HP (file://). Harus lewat hosting HTTPS.
