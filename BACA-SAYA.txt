@@ -1,7 +1,7 @@
 PROLETAR PROJECT STICKER GENERATOR (aplikasi web / PWA)
 
 Isi folder ini harus diunggah SEMUA ke hosting HTTPS, lalu dibuka dari alamatnya:
-- index.html, manifest.webmanifest, sw.js, icon-192.png, icon-512.png, icon-maskable-512.png
+- index.html, manifest.webmanifest, sw.js, proletar-logo.png, icon-192.png, icon-512.png, icon-maskable-512.png
 
 Cara pasang jadi aplikasi (tanpa Play Store):
 1. Unggah folder ke hosting gratis: Netlify Drop (app.netlify.com/drop), GitHub Pages, atau Cloudflare Pages.
@@ -24,9 +24,21 @@ Penghapus latar:
 - "Hapus latar otomatis" mendeteksi warna dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut terhapus.
 - "Magic Eraser" menghapus area dengan warna serupa yang tersambung dengan titik yang diklik. Klik titik lain untuk menambah area yang dihapus.
 - Undo/redo tersedia untuk kedua alat (Ctrl+Z dan Ctrl+Y; di Mac Cmd+Z dan Cmd+Shift+Z). Riwayat menyimpan maksimal 8 langkah atau 128 MB agar penggunaan memori tetap terbatas.
+- Perbandingan asli dan hasil tersedia lewat slider geser setelah penghapusan selesai.
 - Kedua alat berjalan sepenuhnya di perangkat. Hasilnya dapat diunduh atau dikirim ke Studio Warna dan Lembar Stiker.
 
 Upscaler:
 - Tab Upscaler memperbesar gambar 2×, 3×, atau 4× sepenuhnya offline menggunakan interpolasi browser berkualitas tinggi atau seimbang.
 - Interpolasi memperhalus hasil pembesaran, tetapi tidak menciptakan detail baru seperti upscaler AI. Ukuran hasil dibatasi maksimal 25 megapiksel dan sisi 12.000 piksel; bila perangkat gagal memproses, tersedia opsi coba lagi, turunkan resolusi, atau batalkan.
-- Hasil dapat diunduh sebagai PNG.
+- Slider perbandingan menampilkan asli dan hasil pembesaran. Hasil PNG dapat diunduh atau dikirim langsung ke Studio Warna maupun Lembar Stiker.
+
+Studio Warna:
+- Buat variasi logo secara batch hingga 100 desain; hasil dapat diunduh sebagai ZIP atau PNG satu per satu.
+- Ekspor mengikuti batas 25 megapiksel dan sisi 12.000 piksel. Ukuran total PNG dalam batch dibatasi 64 MB agar penggunaan memori tetap terkendali.
+- Unggahan dibatasi 25 MB dan 25 megapiksel; gambar di atas 12 megapiksel meminta konfirmasi karena dapat memakai banyak memori.
+- Kontrol tab dan unggah gambar mendukung keyboard; preferensi reduced-motion dan indikator fokus keyboard turut dihormati.
+
+Nama file lembar cetak:
+- Atur nama pesanan, bahan stiker, laminasi, finishing, dan jenis potongan pada Lembar Stiker.
+- PDF, PNG, SVG, DXF, dan PLT memakai nama yang mencantumkan spesifikasi tersebut, ukuran kertas, bentuk, dan ukuran stiker.
+- Metadata adalah label nama file saja. Cocokkan proses laminasi dan potongan dengan percetakan; pilihan nama tidak mengubah garis potong atau memberi efek finishing otomatis.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#7047eb">
+<meta name="theme-color" content="#1c3934">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Sticker Studio">
@@ -12,9 +12,7 @@
 <link rel="icon" href="icon-192.png">
 <title>Generator Stiker - Proletar Project</title>
 <style>
-:root{--bg:#f7f5ff;--card:#fff;--tx:#211b35;--mut:#777189;--bd:#e5e0f2;--ac:#7047eb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151220;--card:#201b2e;--tx:#f5f0ff;--mut:#b3abc5;--bd:#3a314b;--ac:#9b7bff}}
-:root[data-theme="dark"]{--bg:#151220;--card:#201b2e;--tx:#f5f0ff;--mut:#b3abc5;--bd:#3a314b;--ac:#9b7bff}
+:root{--bg:#f9edf0;--card:#f9edf0;--surface:#e6c8b7;--tx:#261311;--mut:#261311;--bd:#e6c8b7;--ac:#1c3934;--accent:#ba6a36;--cognac:#c3955b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 main{max-width:900px;margin:0 auto;padding:16px}
@@ -52,9 +50,9 @@ canvas#one{width:200px;height:200px;background:repeating-conic-gradient(#ccc 0 2
 .al{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
 canvas#one{touch-action:none;cursor:grab}
 #vpal{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
-#vpal i{display:block;width:34px;height:34px;border-radius:8px;border:3px solid var(--ac);cursor:pointer;position:relative}
-#vpal i.off{border-color:var(--bd);opacity:.35}
-#vpal i small{position:absolute;bottom:-14px;left:0;right:0;text-align:center;font:10px system-ui;color:var(--mut)}
+#vpal button{display:block;width:34px;height:34px;border-radius:8px;border:3px solid var(--ac);cursor:pointer;position:relative}
+#vpal button.off{border-color:var(--bd);opacity:.55}
+#vpal button small{position:absolute;bottom:-14px;left:0;right:0;text-align:center;font:10px system-ui;color:var(--mut)}
 #vpal{padding-bottom:14px}
 #insp{display:none;position:fixed;inset:0;z-index:50;background:#111;flex-direction:column}
 #insp.on{display:flex}
@@ -69,19 +67,17 @@ hr.sep{border:0;border-top:1px solid var(--bd);margin:14px 0}
 #splash{position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 50% 35%,#2a0f0b,#0d0d0d 70%);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .6s,visibility .6s}
 #splash.hide{opacity:0;visibility:hidden}
 .sp-in{max-width:360px;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px}
-.sp-logo{width:120px;height:120px;border-radius:50%;background:conic-gradient(from 0deg,#ef5a43,#d6361f,#7a1d10,#ef5a43);position:relative;animation:spin 6s linear infinite;box-shadow:0 0 40px rgba(239,90,67,.45);margin-bottom:18px}
-.sp-logo:before{content:"";position:absolute;inset:10px;border-radius:50%;background:#111}
-.sp-logo:after{content:"P";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 54px system-ui;color:#fff;animation:spin 6s linear infinite reverse}
+.sp-logo{display:block;width:min(280px,78vw);height:auto;max-height:190px;object-fit:contain;padding:14px;border-radius:18px;background:var(--bg);margin-bottom:14px}
 .sp-brand{font:800 26px/1.1 system-ui;letter-spacing:.14em;animation:rise .8s both}
-.sp-title{font:600 15px system-ui;letter-spacing:.32em;color:#ef5a43;animation:rise .8s .25s both}
+.sp-title{font:600 15px system-ui;letter-spacing:.2em;color:var(--surface);animation:rise .8s .25s both}
 .sp-tag{font-size:13px;color:#aaa;margin-top:6px;animation:rise .8s .5s both}
 .sp-bar{width:100%;height:4px;background:#2c2c2c;border-radius:4px;overflow:hidden;margin:22px 0 16px}
-.sp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ef5a43,#ffb199);animation:fill 2s ease-out forwards}
+.sp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cognac),var(--accent));animation:fill 2s ease-out forwards}
 #splash button.p{width:100%;flex:none}
 #splash button:disabled{opacity:.5}
 #loader{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;text-align:center;padding:24px}
 #loader.show{display:flex}
-.spin{width:58px;height:58px;border-radius:50%;border:6px solid rgba(255,255,255,.2);border-top-color:#ef5a43;animation:spin 0.9s linear infinite}
+.spin{width:58px;height:58px;border-radius:50%;border:6px solid rgba(249,237,240,.25);border-top-color:var(--surface);animation:spin 0.9s linear infinite}
 #done{position:fixed;inset:0;z-index:950;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px}
 #done.show{display:flex}
 .dn{background:var(--card);color:var(--tx);border-radius:16px;padding:22px;max-width:360px;width:100%;text-align:center;animation:pop .35s both}
@@ -92,6 +88,10 @@ hr.sep{border:0;border-top:1px solid var(--bd);margin:14px 0}
 #export-choice{position:fixed;inset:0;z-index:980;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:20px}
 #export-choice.show{display:flex}
 #export-choice .dn{max-width:420px}
+#app-error{position:fixed;left:50%;bottom:18px;z-index:1100;transform:translateX(-50%);width:min(680px,calc(100% - 28px));padding:14px 16px;border:2px solid #8f1d16;border-radius:14px;background:#fff1ef;color:#55110d;box-shadow:0 10px 32px #26131140}
+#app-error[hidden]{display:none}
+#app-error .error-row{display:flex;align-items:flex-start;gap:14px;justify-content:space-between}
+#app-error button{flex:none;padding:6px 10px;border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;font:inherit}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes fill{to{width:100%}}
@@ -108,7 +108,7 @@ body:not(.tab-studio) .vcard{display:none}
 body.tab-remove main > .card:not(#remove-card),body.tab-remove .modebar,body.tab-remove .vcard{display:none!important}
 body.tab-upscale main > .card,body.tab-upscale .modebar,body.tab-upscale .vcard{display:none!important}
 #remove-card{display:none}
-body.tab-remove #remove-card{display:block}
+body.tab-remove #remove-card{display:block!important}
 #upscale-card{display:none}
 body.tab-upscale #upscale-card{display:block!important}
 #remove-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
@@ -123,6 +123,18 @@ body.tab-upscale #upscale-card{display:block!important}
 .remove-previews{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .remove-previews figure{margin:0;min-width:0}
 .remove-previews figcaption{font-size:12px;color:var(--mut);margin-bottom:5px}
+.compare{display:none;margin:12px 0}
+.compare.show{display:block}
+.compare-title{font-size:13px;font-weight:750;margin:0 0 7px}
+.compare-stage{position:relative;width:100%;overflow:hidden;border:1px solid var(--bd);border-radius:14px;background-color:#ddd;background-image:linear-gradient(45deg,#bbb 25%,transparent 25%),linear-gradient(-45deg,#bbb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#bbb 75%),linear-gradient(-45deg,transparent 75%,#bbb 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;touch-action:pan-y}
+.compare-stage canvas{display:block;width:100%;height:auto}
+.compare-stage canvas.compare-top{position:absolute;inset:0;width:100%;height:100%;clip-path:inset(0 50% 0 0)}
+.compare-divider{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;box-shadow:0 0 4px #0008;transform:translateX(-50%);pointer-events:none}
+.compare-divider:after{content:"↔";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:30px;height:30px;border:2px solid white;border-radius:50%;background:var(--ac);color:#fff;font-size:14px;font-weight:800;box-shadow:0 2px 8px #0004}
+.compare-label{position:absolute;top:8px;padding:4px 8px;border-radius:999px;background:#171220bb;color:white;font-size:11px;font-weight:750;pointer-events:none}
+.compare-label.before{left:8px}
+.compare-label.after{right:8px}
+.compare-range{display:block;width:100%;margin:8px 0 0;accent-color:var(--ac)}
 .remove-preview{display:block;width:100%;height:auto;min-height:120px;max-height:480px;object-fit:contain;border:1px solid var(--bd);border-radius:8px;background-color:#ddd;background-image:linear-gradient(45deg,#bbb 25%,transparent 25%),linear-gradient(-45deg,#bbb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#bbb 75%),linear-gradient(-45deg,transparent 75%,#bbb 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}
 @media(max-width:560px){.maintabs button{padding:10px 5px;font-size:12px}.remove-controls{grid-template-columns:1fr}.remove-previews{grid-template-columns:1fr}}
 .vcard h2{margin:0 0 6px}
@@ -137,6 +149,13 @@ body:not(.easy) .ez{display:none!important}
 .stepn{display:inline-block;width:24px;height:24px;border-radius:50%;background:var(--ac);color:#fff;text-align:center;line-height:24px;font-size:13px;margin-right:8px}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:10px 0 20px}
 footer b{color:var(--tx)}
+.thumbs>div{display:flex;flex-direction:column;align-items:center;gap:5px}
+.thumbs .thumb-select{position:static;width:74px;height:74px;padding:4px;border:2px solid transparent;border-radius:12px;background:transparent;color:var(--tx);font:inherit;cursor:pointer}
+.thumbs .thumb-select img{border-radius:8px}
+.thumbs .thumb-select[aria-pressed=true]{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--card))}
+.thumbs .thumb-delete{position:static;width:auto;height:auto;padding:5px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit;cursor:pointer}
+.thumbs>button{position:static;width:auto;height:auto;padding:4px;border:2px solid transparent;border-radius:12px;background:transparent;color:var(--tx);cursor:pointer}
+.thumbs>button[aria-pressed=true]{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--card))}
 #sbs{display:none;position:fixed;inset:0;z-index:60;background:#111;flex-direction:column}
 #sbs.on{display:flex}
 #sbs .bar{display:flex;gap:6px;padding:8px;align-items:center;color:#eee;font-size:13px}
@@ -152,30 +171,32 @@ footer b{color:var(--tx)}
 #shv .bar{display:flex;gap:6px;padding:8px;padding-top:calc(8px + env(safe-area-inset-top,0px));align-items:center;color:#eee}
 #shv .bar button{padding:9px 8px;border:1px solid #444;border-radius:8px;background:#222;color:#eee;font:inherit}
 #shc{flex:1;width:100%;min-height:0;touch-action:none}
-.brand-kicker{display:inline-flex;align-items:center;gap:7px;margin:2px 0 8px;padding:5px 10px;border:1px solid color-mix(in srgb,var(--ac) 25%,transparent);border-radius:999px;background:color-mix(in srgb,var(--ac) 9%,var(--card));color:var(--ac);font-size:10px;font-weight:850;letter-spacing:.12em}
+.brand-head{display:flex;align-items:center;gap:clamp(16px,2vw,28px);margin-bottom:20px}
+.brand-logo{display:block;width:clamp(110px,12vw,170px);height:auto;flex:none}
+.brand-copy{min-width:0}
+.brand-kicker{display:inline-flex;align-items:center;gap:7px;margin:2px 0 8px;padding:5px 10px;border:1px solid var(--cognac);border-radius:999px;background:var(--surface);color:var(--ac);font-size:10px;font-weight:850;letter-spacing:.12em}
 .brand-kicker span{font-size:15px}
 h1{font-size:clamp(26px,4vw,34px);letter-spacing:-.045em;line-height:1.08}
 p.s{font-size:14px;max-width:630px;margin-bottom:18px}
-body{background-color:var(--bg);background-image:radial-gradient(ellipse at 6% 4%,color-mix(in srgb,var(--ac) 9%,transparent),transparent 34%),radial-gradient(ellipse at 95% 24%,color-mix(in srgb,#ff55a8 7%,transparent),transparent 28%);background-attachment:fixed}
-main{max-width:1060px;padding:clamp(14px,3vw,30px)}
-.maintabs{overflow-x:auto;scrollbar-width:none;padding:4px;margin:0 -4px 18px;scroll-snap-type:x mandatory}
-.maintabs::-webkit-scrollbar{display:none}
-.maintabs button{flex:1 0 auto;min-width:136px;padding:12px 14px;border:1px solid var(--bd);border-radius:14px;box-shadow:0 3px 12px #36225a0a;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;scroll-snap-align:start}
-.maintabs button:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--ac) 45%,var(--bd))}
-.maintabs button.on{background:linear-gradient(115deg,var(--ac),#a342ee 70%,#d74da5);border-color:transparent;box-shadow:0 8px 22px color-mix(in srgb,var(--ac) 25%,transparent)}
-.card,.vcard{border-radius:20px;padding:clamp(16px,2.5vw,24px);box-shadow:0 10px 30px #2d1a520a}
+body{background:var(--ac);color:var(--tx);background-attachment:fixed}
+main{width:calc(100% - clamp(20px,5vw,72px));max-width:1680px;margin:clamp(10px,2vw,24px) auto;padding:clamp(18px,2.5vw,38px);border-radius:26px;background:var(--bg);box-shadow:0 18px 48px #26131124}
+.maintabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;overflow:visible;padding:7px;margin:0 0 20px;border:1px solid var(--bd);border-radius:16px;background:var(--surface)}
+.maintabs button{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;padding:13px 12px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--tx);font-size:14px;font-weight:700;box-shadow:none;transition:transform .18s,border-color .18s,background .18s,color .18s;scroll-snap-align:unset}
+.maintabs button:hover{transform:translateY(-1px);border-color:var(--cognac);background:var(--bg)}
+.maintabs button.on{background:var(--ac);color:var(--bg);border-color:var(--ac);box-shadow:0 5px 14px #1c393433}
+.card,.vcard{border-radius:18px;padding:clamp(16px,2.5vw,24px);box-shadow:0 8px 24px #2613110d}
 .card h2,.vcard h2{font-size:19px;letter-spacing:-.02em}
-button.p{background:linear-gradient(110deg,var(--ac),#9850eb);box-shadow:0 5px 14px color-mix(in srgb,var(--ac) 18%,transparent);transition:transform .16s,filter .16s,box-shadow .16s}
-button.p:hover:not(:disabled){transform:translateY(-1px);filter:saturate(1.12);box-shadow:0 8px 18px color-mix(in srgb,var(--ac) 25%,transparent)}
+button.p{background:var(--ac);box-shadow:0 5px 14px #1c393426;transition:transform .16s,filter .16s,box-shadow .16s}
+button.p:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.12);box-shadow:0 8px 18px #1c393433}
 button.p:active:not(:disabled),.chips button:active{transform:scale(.98)}
 button.p:disabled{opacity:.48;box-shadow:none;cursor:not-allowed}
 button.p.o{box-shadow:none;background:color-mix(in srgb,var(--card) 78%,transparent)}
-button.p.o:hover:not(:disabled){border-color:var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 7%,var(--card))}
+button.p.o:hover:not(:disabled){border-color:var(--ac);color:var(--ac);background:var(--surface)}
 .remove-upload,.drop{border-radius:16px;border:2px dashed color-mix(in srgb,var(--ac) 35%,var(--bd));background:color-mix(in srgb,var(--ac) 3%,var(--card));transition:background .18s,border-color .18s,transform .18s}
 .remove-upload:hover,.drop:hover,.remove-upload.dragover,.drop.dragover{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 10%,var(--card));transform:translateY(-1px)}
 .remove-upload b,.drop b{color:var(--ac)}
 .remove-tools button,.chips button,.modebar button,.dpad button{transition:background .18s,border-color .18s,color .18s,transform .16s}
-.remove-tools button.on,.chips button.on,.modebar button.on{background:linear-gradient(110deg,var(--ac),#a342ee);border-color:transparent;color:#fff}
+.remove-tools button.on,.chips button.on,.modebar button.on{background:var(--ac);border-color:var(--ac);color:var(--bg)}
 select,input[type=number],input[type=text]{border-radius:11px;transition:border-color .18s,box-shadow .18s}
 select:focus-visible,input:focus-visible,button:focus-visible,.remove-upload:focus-visible,.drop:focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 35%,transparent);outline-offset:2px}
 input[type=range]{accent-color:var(--ac)}
@@ -184,40 +205,65 @@ input[type=range]{accent-color:var(--ac)}
 .remove-previews figcaption{font-weight:750;padding:2px 4px 6px}
 .info[role=status]{padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--ac) 6%,var(--card));border:1px solid color-mix(in srgb,var(--ac) 14%,var(--bd));line-height:1.5}
 .info[role=status]:empty{display:none}
+.job-custom[hidden]{display:none!important}
 .workflow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 16px}
 .workflow span{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:color-mix(in srgb,var(--ac) 8%,var(--card));color:var(--mut);font-size:11px;font-weight:750}
 .workflow b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--ac);color:#fff;font-size:10px}
 .workflow i{color:var(--bd);font-style:normal}
-@media(max-width:560px){main{padding:14px}.maintabs{gap:7px}.maintabs button{min-width:120px;padding:11px 12px;font-size:12px}.remove-controls{grid-template-columns:1fr}.remove-previews{grid-template-columns:1fr}.workflow{gap:5px}.workflow span{padding:5px 8px;font-size:10px}}
+body.tab-studio .sheet-work,body.tab-remove .sheet-work,body.tab-upscale .sheet-work{display:none!important}
+.sheet-work{display:flex;flex-direction:column}
+.sheet-controls{order:1}
+.sheet-preview{order:2}
+@media(min-width:1100px){
+main{width:calc(100% - clamp(20px,5vw,72px));max-width:1680px;margin:clamp(10px,2vw,24px) auto;padding:clamp(20px,2.5vw,38px)}
+.sheet-work{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:20px;align-items:start}
+.sheet-controls{display:flex;flex-direction:column;gap:12px;min-width:0;grid-column:1;grid-row:1}
+.sheet-controls>.card{margin:0}
+.sheet-preview{position:sticky;top:18px;min-width:0;grid-column:2;grid-row:1}
+.sheet-preview>.card{margin:0}
+.sheet-preview .pv{max-height:82vh}
+canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
+}
+@media(max-width:760px){main{width:calc(100% - 20px);padding:18px;border-radius:20px}.brand-head{align-items:flex-start;gap:14px}.brand-logo{width:92px}.maintabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:6px}.maintabs button{padding:11px 8px;font-size:13px}}
+@media(max-width:560px){main{padding:14px}.brand-head{gap:10px}.brand-logo{width:72px}.brand-kicker{font-size:9px;letter-spacing:.08em}.maintabs{gap:5px}.maintabs button{font-size:12px}.remove-controls{grid-template-columns:1fr}.remove-previews{grid-template-columns:1fr}.workflow{gap:5px}.workflow span{padding:5px 8px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-#splash{background:radial-gradient(circle at 28% 22%,#5934b9,#171220 62%,#100d18)}
-.sp-logo{background:conic-gradient(from 0deg,#b34cf4,#7047eb,#ff55a8,#d9ff5c,#b34cf4);box-shadow:0 0 42px #9b64ff77}
-.sp-title{color:#d0a8ff}
-.sp-bar i{background:linear-gradient(90deg,#9b7bff,#ff55a8,#d9ff5c)}
-.spin{border-top-color:#b58aff}
+#splash{background:radial-gradient(circle at 50% 35%,#1c3934,#261311 72%)}
+.sp-logo{animation:none;box-shadow:0 10px 30px #26131166}
+.sp-title{color:#e6c8b7}
+.sp-bar i{background:linear-gradient(90deg,#c3955b,#ba6a36)}
+.spin{border-top-color:#e6c8b7}
+.dn .ck{background:var(--ac)}
+.maintabs button:focus-visible{outline-color:var(--accent)}
+@media(forced-colors:active){button:focus-visible,input:focus-visible,select:focus-visible,[role=tab]:focus-visible{outline:3px solid Highlight;outline-offset:3px}.maintabs button.on,.remove-tools button.on,.chips button.on{border:2px solid Highlight}}
 </style>
 </head>
 <body>
 <div id="splash"><div class="sp-in">
-<div class="sp-logo"></div>
-<div class="sp-brand">PROLETAR PROJECT</div>
-<div class="sp-title">STICKER GENERATOR</div>
+<img class="sp-logo" src="proletar-logo.png" alt="Perpustakaan Proletar">
+<div class="sp-brand">STICKER GENERATOR</div>
+<div class="sp-title">CREATIVE STUDIO</div>
 <div class="sp-tag">Support UMKM 🇮🇩</div>
 <div class="sp-bar"><i></i></div>
 <button class="p" id="sp-go" disabled>Memuat...</button>
 <button class="p o" id="install" hidden style="color:#fff;border-color:#555;margin-top:8px">Pasang sebagai aplikasi</button>
 </div></div>
-<div id="loader"><div class="spin"></div><div id="loadmsg" style="font-weight:600">Memproses...</div><div style="font-size:12px;opacity:.8">Mohon tunggu, jangan tutup halaman ini</div></div>
-<div id="done"><div class="dn"><div class="ck">✓</div><h3>Berhasil dirender!</h3><p id="done-name"></p><p id="done-info" style="color:var(--tx);margin-top:-6px"></p><div class="btns"><button class="p" id="done-dl">⬇ Unduh sekarang</button><button class="p o" id="done-x">Tutup</button></div><p id="done-msg" style="margin:12px 0 0"></p></div></div>
+<div id="loader" role="status" aria-live="polite" aria-atomic="true" aria-busy="false"><div class="spin" aria-hidden="true"></div><div id="loadmsg" style="font-weight:600">Memproses...</div><div style="font-size:12px;opacity:.8">Mohon tunggu, jangan tutup halaman ini</div></div>
+<div id="done" role="dialog" aria-modal="true" aria-labelledby="done-title"><div class="dn"><div class="ck" aria-hidden="true">✓</div><h3 id="done-title">Berhasil dirender!</h3><p id="done-name"></p><p id="done-info" style="color:var(--tx);margin-top:-6px"></p><div class="btns"><button class="p" id="done-dl">⬇ Unduh sekarang</button><button class="p o" id="done-x">Tutup</button></div><p id="done-msg" style="margin:12px 0 0" role="status"></p></div></div>
 <div id="export-choice" role="dialog" aria-modal="true" aria-labelledby="export-choice-title"><div class="dn"><h3 id="export-choice-title">Ekspor belum berhasil</h3><p id="export-choice-msg">Perangkat mungkin kehabisan memori saat membuat gambar.</p><div class="btns"><button class="p" data-export-choice="retry">Coba lagi</button><button class="p o" data-export-choice="lower">Turunkan resolusi</button><button class="p o" data-export-choice="cancel">Batalkan</button></div></div></div>
+<div id="app-error" role="alert" aria-live="assertive" aria-atomic="true" hidden><div class="error-row"><span id="app-error-message"></span><button id="app-error-close" type="button" aria-label="Tutup pesan error">Tutup</button></div></div>
 
 <main>
+<div class="brand-head">
+<img class="brand-logo" src="proletar-logo.png" alt="Perpustakaan Proletar">
+<div class="brand-copy">
 <div class="brand-kicker"><span>✦</span> OFFLINE CREATIVE STUDIO</div>
 <h1>Proletar Sticker Studio</h1>
 <p class="s">Bikin, edit, dan siapkan stiker dengan workflow kreatif yang simpel. Semua proses gambar tetap di perangkatmu.</p>
-<div class="maintabs"><button id="t-studio">🎨 Studio Warna</button><button id="t-remove">✂️ Hapus Latar</button><button id="t-upscale">🔎 Upscaler</button><button id="t-sheet" class="on">🧩 Lembar Stiker</button></div>
-<div id="studio-host"></div>
-<section class="card" id="remove-card">
+</div>
+</div>
+<div class="maintabs" role="tablist" aria-label="Tab alat"><button id="t-studio" role="tab" aria-selected="false" aria-controls="studio-host" tabindex="-1">🎨 Studio Warna</button><button id="t-remove" role="tab" aria-selected="false" aria-controls="remove-card" tabindex="-1">✂️ Hapus Latar</button><button id="t-upscale" role="tab" aria-selected="false" aria-controls="upscale-card" tabindex="-1">🔎 Upscaler</button><button id="t-sheet" class="on" role="tab" aria-selected="true" aria-controls="sheet-panel" tabindex="0">🧩 Lembar Stiker</button></div>
+<div id="studio-host" role="tabpanel" aria-labelledby="t-studio" tabindex="0"></div>
+<section class="card" id="remove-card" role="tabpanel" aria-labelledby="t-remove" tabindex="0">
 <h2>Penghapus latar PNG</h2>
 <p class="info">Pemrosesan dilakukan sepenuhnya di perangkat. Warna latar diambil otomatis dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut transparan.</p>
 <div class="workflow" aria-label="Alur kerja"><span><b>1</b> Upload</span><i>→</i><span><b>2</b> Pilih alat</span><i>→</i><span><b>3</b> Preview</span><i>→</i><span><b>4</b> Unduh</span></div>
@@ -239,10 +285,15 @@ input[type=range]{accent-color:var(--ac)}
 <figure><figcaption>Asli</figcaption><canvas id="remove-original" class="remove-preview"></canvas></figure>
 <figure><figcaption>Hasil transparan</figcaption><canvas id="remove-result" class="remove-preview"></canvas></figure>
 </div>
+<div class="compare" id="remove-compare">
+<p class="compare-title">Geser untuk membandingkan</p>
+<div class="compare-stage"><canvas id="remove-compare-before"></canvas><canvas id="remove-compare-after" class="compare-top"></canvas><div class="compare-divider" aria-hidden="true"></div><span class="compare-label before">Asli</span><span class="compare-label after">Hasil</span></div>
+<input class="compare-range" id="remove-compare-range" type="range" min="0" max="100" value="50" aria-label="Geser perbandingan asli dan hasil">
+</div>
 <p class="info" id="remove-status" role="status" style="margin-top:10px"></p>
 <div class="btns"><button class="p" id="remove-process" disabled>Hapus latar otomatis</button><button class="p o" id="remove-download" disabled>Unduh PNG transparan</button><button class="p o" id="remove-to-studio" disabled>Kirim ke Studio Warna</button><button class="p o" id="remove-to-sheet" disabled>Kirim ke Lembar Stiker</button></div>
 </section>
-<section class="card" id="upscale-card">
+<section class="card" id="upscale-card" role="tabpanel" aria-labelledby="t-upscale" tabindex="0">
 <h2>Upscaler gambar</h2>
 <p class="info">Memperbesar gambar sepenuhnya offline dengan interpolasi berkualitas tinggi dari browser. Ini memperhalus pembesaran, tetapi tidak menciptakan detail baru seperti upscaler AI.</p>
 <div class="workflow" aria-label="Alur kerja"><span><b>1</b> Upload</span><i>→</i><span><b>2</b> Atur skala</span><i>→</i><span><b>3</b> Bandingkan</span><i>→</i><span><b>4</b> Unduh</span></div>
@@ -257,8 +308,14 @@ input[type=range]{accent-color:var(--ac)}
 <figure><figcaption>Asli</figcaption><canvas id="upscale-original" class="remove-preview"></canvas></figure>
 <figure><figcaption>Hasil diperbesar</figcaption><canvas id="upscale-result" class="remove-preview"></canvas></figure>
 </div>
+<div class="compare" id="upscale-compare">
+<p class="compare-title">Geser untuk membandingkan</p>
+<div class="compare-stage"><canvas id="upscale-compare-before"></canvas><canvas id="upscale-compare-after" class="compare-top"></canvas><div class="compare-divider" aria-hidden="true"></div><span class="compare-label before">Asli</span><span class="compare-label after">Diperbesar</span></div>
+<input class="compare-range" id="upscale-compare-range" type="range" min="0" max="100" value="50" aria-label="Geser perbandingan asli dan hasil upscaler">
+</div>
 <p class="info" id="upscale-status" role="status" style="margin-top:10px"></p>
 <div class="btns"><button class="p" id="upscale-process" disabled>Perbesar gambar</button><button class="p o" id="upscale-download" disabled>Unduh PNG</button></div>
+<div class="btns" style="margin-top:8px"><button class="p o" id="upscale-to-studio" disabled>Kirim ke Studio Warna</button><button class="p o" id="upscale-to-sheet" disabled>Kirim ke Lembar Stiker</button></div>
 </section>
 <div id="vec-card" class="vcard"><h2><span class="stepn">V</span>Vektor (trace)</h2>
 <p class="info" style="margin:0 0 8px">Ubah logo jadi vektor di sini. Pilih logo dari daftar di bawah, atau kirim dari Studio Warna di atas. Lembar Stiker hanya mengurus stiker.</p>
@@ -266,10 +323,18 @@ input[type=range]{accent-color:var(--ac)}
 <div class="btns" style="margin:10px 0"><button class="p o" id="vup">Pilih / upload logo</button><button class="p" id="vtosheet">Buka Lembar Stiker →</button></div>
 <p class="info" id="vhint" style="margin:0 0 6px"></p>
 <div id="vbody"></div></div>
+<div class="sheet-work" id="sheet-panel" role="tabpanel" aria-labelledby="t-sheet" tabindex="0">
+<div class="sheet-preview">
+<div class="card">
+<p class="info" id="info"></p>
+<div class="pv"><canvas id="cv"></canvas></div>
+</div>
+</div>
+<div class="sheet-controls">
 <div class="modebar"><span>Mode:</span><button id="m-easy">Mudah</button><button id="m-adv">Lanjutan</button></div>
 
 <div class="card">
-<label class="drop" for="file"><b><span class="stepn">1</span>Pilih logo</b> (bisa lebih dari satu)<br><small>PNG / JPG / SVG · maks. 25 MB dan 25 MP per gambar; konfirmasi di atas 12 MP</small></label>
+<label class="drop" id="sheet-upload-label" for="file"><b><span class="stepn">1</span>Pilih logo</b> (bisa lebih dari satu)<br><small>PNG / JPG / SVG · maks. 25 MB dan 25 MP per gambar; konfirmasi di atas 12 MP</small></label>
 <input id="file" type="file" accept="image/*,.svg" multiple>
 <div class="thumbs" id="thumbs"></div>
 <div class="row"><input type="checkbox" id="pautovec" checked><label for="pautovec"><b>Auto vektor</b>: logo diubah jadi vektor otomatis (tepi lebih tajam). Matikan untuk memakai gambar asli.</label></div>
@@ -421,8 +486,16 @@ input[type=range]{accent-color:var(--ac)}
 </div>
 
 <div class="card">
-<p class="info" id="info"></p>
-<div class="pv"><canvas id="cv"></canvas></div>
+<h2>Identitas pesanan &amp; nama file</h2>
+<p class="info">Spesifikasi ini membantu percetakan mengenali file. Pilihan ini hanya memberi label nama file; bentuk garis potong dan laminasi tidak diterapkan otomatis.</p>
+<label class="f">Nama pekerjaan / pesanan (opsional)<input id="job-name" type="text" maxlength="50" placeholder="Contoh: pesanan-kopi-oktober"></label>
+<div class="grid" style="margin-top:10px">
+<label class="f">Jenis / bahan stiker<select id="job-material"><option value="vinyl-putih">Vinyl putih</option><option value="vinyl-transparan">Vinyl transparan</option><option value="cromo">Cromo</option><option value="kraft">Kraft</option><option value="custom">Lainnya / custom</option></select><input class="job-custom" id="job-material-custom" type="text" maxlength="32" placeholder="Tulis bahan stiker" aria-label="Jenis atau bahan stiker custom" hidden></label>
+<label class="f">Laminasi<select id="job-lamination"><option value="tanpa-laminasi">Tanpa laminasi</option><option value="glossy">Glossy</option><option value="doff">Doff / matte</option><option value="custom">Lainnya / custom</option></select><input class="job-custom" id="job-lamination-custom" type="text" maxlength="32" placeholder="Tulis jenis laminasi" aria-label="Jenis laminasi custom" hidden></label>
+<label class="f">Finishing tambahan<select id="job-finish"><option value="standar">Standar</option><option value="hologram">Hologram</option><option value="uv-spot">UV spot</option><option value="hot-stamping">Hot stamping</option><option value="custom">Lainnya / custom</option></select><input class="job-custom" id="job-finish-custom" type="text" maxlength="32" placeholder="Tulis finishing" aria-label="Finishing custom" hidden></label>
+<label class="f">Jenis potongan<select id="job-cut"><option value="kiss-cut">Kiss-cut (potong lapisan stiker)</option><option value="die-cut">Die-cut (tembus sampai alas)</option><option value="potong-lembar">Potong lembar / trim</option><option value="custom">Lainnya / custom</option></select><input class="job-custom" id="job-cut-custom" type="text" maxlength="32" placeholder="Tulis jenis potongan" aria-label="Jenis potongan custom" hidden></label>
+</div>
+<p class="info" id="job-filename-preview" role="status" aria-live="polite" style="margin:10px 0 0"></p>
 </div>
 
 <div class="card" id="cost">
@@ -454,6 +527,8 @@ input[type=range]{accent-color:var(--ac)}
 <li>Selalu tes potong satu lembar dulu untuk atur force dan offset.</li>
 </ul></div>
 
+</div>
+</div>
 <div id="shv"><div class="bar"><button id="shfit">Pas layar</button><button id="sh11">1:1</button><span id="shinfo" style="flex:1;font-size:12px"></span><button id="shx">Tutup</button></div><canvas id="shc"></canvas></div>
 <div id="sbs"><div class="bar"><select id="sl"><option value="raw">Kiri: Asli</option><option value="vec">Kiri: Vektor</option><option value="ras">Kiri: Raster</option><option value="fin">Kiri: Hasil akhir</option></select><select id="sr"><option value="raw">Kanan: Asli</option><option value="vec">Kanan: Vektor</option><option value="ras">Kanan: Raster</option><option value="fin" selected>Kanan: Hasil akhir</option></select><input id="svbg" type="color" value="#ffffff" title="Warna latar"><button id="sclose" style="margin-left:auto">Tutup</button></div>
 <div class="sc"><div><canvas id="sc0"></canvas></div><div><canvas id="sc1"></canvas></div></div>
@@ -461,13 +536,12 @@ input[type=range]{accent-color:var(--ac)}
 <div id="insp"><div class="bar"><button data-im="raw">Asli</button><button data-im="vec" class="on">Vektor</button><button data-im="out">Garis trace</button><button id="iclose">Tutup</button></div><canvas id="icv"></canvas></div>
 <footer>© <span id="yr"></span> <b>Proletar Project</b> · Support UMKM 🇮🇩</footer>
 <template id="studio-tpl"><style>
-:host{display:block;--ink:#211b35;--muted:#777189;--line:#e5e0f2;--pu:#7047eb;--pu2:#a342ee;--panel:#fff;--bg:#f7f5ff;--soft:#f0eaff}
-@media (prefers-color-scheme:dark){:host{--ink:#f5f0ff;--muted:#b3abc5;--line:#3a314b;--panel:#201b2e;--bg:#151220;--soft:#302541;--pu:#9b7bff}}
+:host{display:block;--ink:#261311;--muted:#261311;--line:#e6c8b7;--pu:#1c3934;--pu2:#ba6a36;--panel:#f9edf0;--bg:#f9edf0;--soft:#e6c8b7}
 *{box-sizing:border-box}.app{color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0}
 .app{max-width:1400px;margin:auto}
 header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.mark{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#744cf3,#4b25cb);display:grid;place-items:center;color:#fff;font-size:22px;font-weight:800;flex:none}
+.mark{width:64px;height:46px;object-fit:contain;flex:none}
 h1{font-size:clamp(22px,3vw,32px);line-height:1.15;margin:0;letter-spacing:-.6px}.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
 .work{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
@@ -477,11 +551,12 @@ h2{font-size:15px;font-weight:800;margin:0 0 12px;display:flex;align-items:cente
 .up.drag{border-color:var(--pu);background:var(--soft)}.up strong{color:var(--ink)}
 input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .btn{padding:11px 14px;border-radius:11px;font-weight:800;border:1px solid var(--line);background:var(--panel)}
-.btn.p{color:#fff;border:0;background:linear-gradient(100deg,#6338e8,#774cf0)}.btn.s{background:var(--soft);color:var(--pu);border-color:transparent}.btn.full{width:100%}
+.btn.p{color:var(--panel);border:0;background:var(--pu)}.btn.s{background:var(--soft);color:var(--pu);border-color:transparent}.btn.full{width:100%}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin:0 0 10px}
 .tab{padding:8px 4px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:12px;font-weight:700;color:var(--muted)}
-.tab.on{background:var(--soft);border-color:var(--pu);color:var(--pu)}
+.tab.on{background:var(--pu);border-color:var(--pu);color:var(--panel)}
+.app button:focus-visible,.app input:focus-visible,.app select:focus-visible,.app [tabindex="0"]:focus-visible{outline:3px solid var(--pu2);outline-offset:3px}
 label.f{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;margin:10px 0 5px}label.f span{font-weight:600;color:var(--muted)}
 input[type=range]{width:100%;accent-color:var(--pu)}
 select,input[type=number]{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
@@ -490,27 +565,32 @@ input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2p
 .pal{display:flex;flex-wrap:wrap;gap:5px;flex:1}.pal button{width:22px;height:22px;border-radius:7px;border:1px solid #0002;padding:0}
 .pal button:hover{transform:scale(1.12)}
 .hid{display:none!important}
-.stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#fff;background-image:linear-gradient(45deg,#e7e7ee 25%,transparent 25%),linear-gradient(-45deg,#e7e7ee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e7e7ee 75%),linear-gradient(-45deg,transparent 75%,#e7e7ee 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
+.stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#f9edf0;background-image:linear-gradient(45deg,#e6c8b7 25%,transparent 25%),linear-gradient(-45deg,#e6c8b7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e6c8b7 75%),linear-gradient(-45deg,transparent 75%,#e6c8b7 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
 #cv{display:block;max-width:100%;max-height:560px;width:auto;height:auto;box-shadow:0 8px 24px #0002}
 .empty{text-align:center;color:#73748b;max-width:320px}.empty .big{font-size:40px}
 .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}.sw{width:28px;height:28px;border-radius:50%;border:1px solid #0002;flex:none}
 .bar small{display:block;color:var(--muted);font-size:12px}.bar .act{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 .status{font-size:12px;color:var(--muted);margin-top:8px;min-height:18px}
 .note{font-size:12px;color:var(--muted);margin:8px 0 0}
+.chk{display:flex;flex-wrap:wrap;gap:8px}.chk label{display:flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:12px}
+.prog{height:8px;margin-top:12px;border-radius:99px;background:var(--soft);overflow:hidden}.prog i{display:block;width:0;height:100%;background:var(--pu);transition:width .15s}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px;margin-top:10px}.thumbs img{width:100%;height:76px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+@media(forced-colors:active){.app button:focus-visible,.app input:focus-visible,.app select:focus-visible{outline:3px solid Highlight;outline-offset:3px}}
+@media(prefers-reduced-motion:reduce){:host *, :host *::before, :host *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
-@media(max-width:900px){.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
+@media(max-width:900px){.app{width:calc(100% - 20px);padding:16px;border-radius:20px}.mark{width:92px}.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
 </style><div class="app"><main class="work">
 <aside class="panel">
  <section class="card">
   <h2><span class="n">1</span>Upload logo</h2>
   <label class="up" id="drop" for="file"><strong>Pilih PNG atau seret ke sini</strong><small>PNG transparan paling bagus. Diproses di browser, tidak diunggah ke server.</small></label>
   <input id="file" type="file" accept="image/png,image/webp,image/jpeg">
-  <div class="status" id="fstat">Belum ada file dipilih.</div>
+  <div class="status" id="fstat" role="status" aria-live="polite">Belum ada file dipilih.</div>
  </section>
 
  <section class="card">
   <h2><span class="n">2</span>Warna logo</h2>
-  <div class="tabs" data-g="logoMode"><button class="tab on" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="orig">Warna asli</button></div>
+  <div class="tabs" data-g="logoMode" role="group" aria-label="Mode warna logo"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradasi</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Warna asli</button></div>
   <div id="lgrp">
    <div class="cr"><b>Warna A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
    <div class="cr lg2"><b>Warna B</b><input type="color" id="lb" value="#DE74C8"><div class="pal" data-t="lb"></div></div>
@@ -522,7 +602,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 
  <section class="card">
   <h2><span class="n">3</span>Background</h2>
-  <div class="tabs" data-g="bgMode"><button class="tab on" data-v="transparent">Transparan</button><button class="tab" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="radial">Radial</button><button class="tab" data-v="mesh">Mesh</button></div>
+  <div class="tabs" data-g="bgMode" role="group" aria-label="Mode background"><button type="button" class="tab on" data-v="transparent" aria-pressed="true">Transparan</button><button type="button" class="tab" data-v="solid" aria-pressed="false">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradasi</button><button type="button" class="tab" data-v="radial" aria-pressed="false">Radial</button><button type="button" class="tab" data-v="mesh" aria-pressed="false">Mesh</button></div>
   <div id="bgrp" class="hid">
    <div class="cr"><b>Warna A</b><input type="color" id="ba" value="#FFCFE7"><div class="pal" data-t="ba"></div></div>
    <div class="cr bg2"><b>Warna B</b><input type="color" id="bb" value="#584CF6"><div class="pal" data-t="bb"></div></div>
@@ -553,6 +633,22 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   <p class="note" id="size">Ukuran kanvas: -</p>
   <p class="note">Skala di atas 1× memperbesar kanvas, tetapi tidak menambah detail yang tidak ada di PNG sumber.</p>
  </section>
+ <section class="card">
+  <h2><span class="n">5</span>Batch generate</h2>
+  <label class="f">Jumlah variasi <span id="bnv">12</span></label><input id="bn" type="range" min="1" max="100" value="12">
+  <label class="f">Mode warna logo yang boleh muncul</label>
+  <div class="chk" id="bl"><label><input type="checkbox" value="solid" checked>Solid</label><label><input type="checkbox" value="gradient" checked>Gradasi</label><label><input type="checkbox" value="orig">Warna asli</label></div>
+  <label class="f">Mode background yang boleh muncul</label>
+  <div class="chk" id="bb2"><label><input type="checkbox" value="transparent">Transparan</label><label><input type="checkbox" value="solid" checked>Solid</label><label><input type="checkbox" value="gradient" checked>Gradasi</label><label><input type="checkbox" value="radial" checked>Radial</label><label><input type="checkbox" value="mesh" checked>Mesh</label></div>
+  <label class="f">Ikut diacak</label>
+  <div class="chk"><label><input type="checkbox" id="bpat" checked>Pola &amp; grain</label><label><input type="checkbox" id="brat">Rasio kanvas</label></div>
+  <button class="btn p full" id="batch" style="margin-top:12px">📦 Generate &amp; download ZIP</button>
+  <div class="prog hid" id="prog" role="progressbar" aria-label="Progres pembuatan variasi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progi"></i></div>
+  <div id="zipbox" class="hid" style="margin-top:12px"><button class="btn p full" id="zipbtn">↓ Download ZIP</button><button class="btn full" id="pngsbtn" style="margin-top:8px">↓ Download PNG satu per satu</button><p class="note">Setelah klik, akan muncul konfirmasi simpan. Setujui supaya file tersimpan.</p></div>
+  <div class="status" id="bstat" role="status"></div>
+  <div class="thumbs" id="thumbs"></div>
+  <p class="note">Klik thumbnail untuk menyimpan satu PNG. Warna diambil dari palet. Pakai pengaturan padding, glow, dan skala dari panel di atas. Semua PNG dikemas dalam satu file ZIP.</p>
+ </section>
  <button class="btn s full" id="rndAll">✨ Acak semua (warna logo + background)</button>
 </aside>
 
@@ -562,12 +658,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   <div class="bar">
    <span class="sw" id="sw"></span>
    <div><strong style="font-size:13px">Warna logo</strong><small id="hex">-</small><small id="cmyk">-</small></div>
-   <div class="act"><button class="btn" id="copy">Salin kode warna</button><button class="btn s" id="send">➕ Kirim ke daftar logo</button><button class="btn p" id="dl">↓ Download PNG HD</button></div>
+   <div class="act"><button class="btn" id="copy">Salin kode warna</button><button class="btn s" id="send">➕ Kirim ke daftar logo</button><button class="btn p" id="dl">↓ Download PNG HD</button><button class="btn" id="dltest">Tes unduhan</button></div>
   </div>
   <div class="status" id="stat" role="status">Siap. Upload logo untuk memulai.</div>
+  <pre id="dbg" class="hid"></pre>
  </div>
 </section>
-</main></div></template>
+</main><footer>© <span id="yr"></span> Proletar Project · Support UMKM · CMYK di sini simulasi dari RGB, bukan profil ICC percetakan.</footer></div></template>
 </main>
 
 <script>/** @license
@@ -1617,8 +1714,8 @@ function drawPal(){
   const el=$('vpal');el.innerHTML='';const lg=logos[sel];if(!lg||!lg.vec||!lg.vpal)return;
   lg.vpal.forEach(p=>{
     if(p.area<=0&&p.on)return;
-    const i=document.createElement('i');i.style.background=p.hex;if(!p.on)i.className='off';
-    i.innerHTML='<small>'+Math.round(p.area*100)+'%</small>';
+    const i=document.createElement('button');i.type='button';i.style.background=p.hex;i.className=p.on?'':'off';i.setAttribute('aria-pressed',String(p.on));i.setAttribute('aria-label',`Warna ${p.hex}, ${Math.round(p.area*100)}% area, klik untuk ${p.on?'menonaktifkan':'mengaktifkan'}`);
+    i.innerHTML='<small aria-hidden="true">'+Math.round(p.area*100)+'%</small>';
     i.onclick=()=>{
       const dr=lg.vdrop||(lg.vdrop=[]),ix=dr.indexOf(p.hex);
       if(ix>=0)dr.splice(ix,1);else if(lg.vpal.filter(q=>q.on).length>1)dr.push(p.hex);
@@ -1828,11 +1925,14 @@ function effInfo(){
 function renderThumbs(){
   const t=$('thumbs');t.innerHTML='';
   logos.forEach((lg,i)=>{
-    const d=document.createElement('div');if(i===sel)d.className='sel';
-    d.innerHTML=`<img src="${lg.url}" style="background:${lg.corner}"><button aria-label="Hapus">×</button>`;
-    d.onclick=()=>{sel=i;renderThumbs();loadPanel();render()};
-    d.querySelector('button').onclick=e=>{e.stopPropagation();const [removed]=logos.splice(i,1);if(removed.ownedUrl)URL.revokeObjectURL(removed.ownedUrl);sel=Math.max(0,Math.min(sel,logos.length-1));renderThumbs();loadPanel();render()};
-    t.appendChild(d);
+    const group=document.createElement('div'),select=document.createElement('button'),image=document.createElement('img'),remove=document.createElement('button');
+    group.setAttribute('role','group');group.setAttribute('aria-label',`Logo ${i+1}`);
+    select.type='button';select.className='thumb-select';select.setAttribute('aria-pressed',String(i===sel));select.setAttribute('aria-label',`Pilih logo ${i+1}`);
+    image.src=lg.url;image.alt='';image.style.background=lg.corner;select.appendChild(image);
+    select.onclick=()=>{sel=i;renderThumbs();loadPanel();render()};
+    remove.type='button';remove.className='thumb-delete';remove.textContent='Hapus';remove.setAttribute('aria-label',`Hapus logo ${i+1}`);
+    remove.onclick=()=>{const [removed]=logos.splice(i,1);if(removed.ownedUrl)URL.revokeObjectURL(removed.ownedUrl);sel=Math.max(0,Math.min(sel,logos.length-1));renderThumbs();loadPanel();render()};
+    group.append(select,remove);t.appendChild(group);
   });
 }
 function loadPanel(){
@@ -1927,8 +2027,8 @@ function validateImageDimensions(img){
 }
 const readURL=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)});
 async function makeLogo0(url){
-  const img=new Image();img.src=url;
-  if(img.decode)await img.decode();else await new Promise((ok,no)=>{img.onload=ok;img.onerror=no});
+  const img=new Image();
+  await new Promise((ok,no)=>{img.onload=ok;img.onerror=()=>no(new Error('Gambar tidak dapat dimuat.'));img.src=url});
   if(!img.naturalWidth)throw new Error('kosong');
   const corner=cornerColor(img);
   return {id:nextId++,img,url,corner,fit:'contain',zoom:100,ox:0,oy:0,auto:true,bgc:corner,key:false,tol:40,sharp:30,qty:0,bw:0,bc:'#ffffff',vec:false,vcol:8,vdet:85,vsm:30,vcor:40,vmin:20,vmode:'cubic',vnat:true,vstack:'stacked',vdrop:[],vpal:[],vout:'',vimg:null,vsvg:'',vv:0,vk:''};
@@ -2068,19 +2168,21 @@ let LASTINFO='';
 function askExportFallback(message,detail,lower,lowerUnit='dpi'){
   hideLoader();
   $('export-choice-msg').textContent=message+(detail?` ${detail}`:'');
-  $('export-choice').classList.add('show');
+  openModal($('export-choice'),'[data-export-choice="retry"]');
   return new Promise(resolve=>{
-    const finish=choice=>{$('export-choice').classList.remove('show');$('export-choice').querySelectorAll('[data-export-choice]').forEach(b=>b.removeEventListener('click',onClick));resolve(choice)};
+    const finish=choice=>{closeModal($('export-choice'));$('export-choice').removeEventListener('keydown',onEscape);$('export-choice').querySelectorAll('[data-export-choice]').forEach(b=>b.removeEventListener('click',onClick));resolve(choice)};
     const onClick=e=>finish(e.currentTarget.dataset.exportChoice);
+    const onEscape=e=>{if(e.key==='Escape'){e.preventDefault();finish('cancel')}};
     $('export-choice').querySelectorAll('[data-export-choice]').forEach(b=>b.addEventListener('click',onClick,{once:true}));
     $('export-choice').onclick=e=>{if(e.target===$('export-choice'))finish('cancel')};
+    $('export-choice').addEventListener('keydown',onEscape);
   }).then(choice=>{if(choice!=='cancel')showLoader(choice==='lower'?`Mencoba ${lower} ${lowerUnit}...`:'Mencoba kembali...');return choice});
 }
 function saveFile(name,blob){
   hideLoader();
   $('done-info').textContent=LASTINFO;LASTINFO='';
   $('done-name').textContent=name+' ('+(blob.size/1048576).toFixed(1)+' MB)';
-  $('done-msg').textContent='';$('done').classList.add('show');
+  $('done-msg').textContent='';openModal($('done'),'#done-dl');
   $('done-dl').onclick=async()=>{
     $('done-dl').disabled=true;await doSave(name,blob);$('done-dl').disabled=false;
     $('done-msg').textContent=$('dlstatus').textContent;
@@ -2139,7 +2241,7 @@ $('png').onclick=async()=>{
   }
   try{
     LASTINFO=`PNG ${pw}×${ph} px, ${dpi} dpi${dpi<initialDpi?` (diturunkan dari ${initialDpi} dpi karena batas perangkat)`:''}${LL()?' (mode lossless).':'.'}`;
-    await saveFile(`stiker-${pw}x${ph}px-${dpi}dpi.png`,await pngDpi(blob,dpi));
+    await saveFile(sheetFileName('png').replace(/\.png$/,`-${dpi}dpi.png`),await pngDpi(blob,dpi));
   }catch(err){$('dlstatus').textContent='Gagal menyiapkan PNG: '+((err&&err.message)||err)}
   busy(false);
 };
@@ -2186,7 +2288,8 @@ $('pdf').onclick=async()=>{
       });
     }
     LASTINFO=rasterDpi?`PDF raster ${dpi} dpi${dpi<initialDpi?` (diturunkan dari ${initialDpi} dpi karena batas perangkat)`:''}.`:(LL()?('PDF lossless: gambar asli disematkan tanpa kompresi atau resampling (resolusi maksimal sesuai foto asli, sekitar '+Math.round(nativeDpi())+' dpi).'):('PDF dengan resolusi gambar '+dpi+' dpi.'));
-    await saveFile(`stiker-${+W.toFixed(1)}x${+H.toFixed(1)}mm-${rasterDpi?dpi+'dpi':LL()?'lossless':dpi+'dpi'}.pdf`,pdf.output('blob'));
+    const suffix=rasterDpi?`-${dpi}dpi`:LL()?'-lossless':`-${dpi}dpi`;
+    await saveFile(sheetFileName('pdf').replace(/\.pdf$/,`${suffix}.pdf`),pdf.output('blob'));
     break;
   }catch(err){
     const current=rasterDpi||initialDpi,lower=rasterDpi?Math.max(72,Math.floor(current*0.8)):Math.max(72,Math.floor(Math.min(initialDpi,1200)*0.8));
@@ -2217,7 +2320,7 @@ $('svg').onclick=async()=>{
     const br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
     const dots=marksSvg();
     const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${dots}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${g}</g></svg>`;
-    await saveFile(`garis-potong-${+W.toFixed(1)}x${+H.toFixed(1)}mm.svg`,new Blob([svg],{type:'image/svg+xml'}));
+    await saveFile(sheetFileName('svg'),new Blob([svg],{type:'image/svg+xml'}));
   }catch(err){$('dlstatus').textContent='Gagal membuat SVG: '+((err&&err.message)||err)}
   busy(false);
 };
@@ -2227,6 +2330,51 @@ const clampDpi=(v,d)=>Math.min(2400,Math.max(72,Math.round(+v)||d));
 const outDpi=()=>$('pxm').checked?clampDpi($('mdpi').value,600):clampDpi($('dpi').value,300);
 const pdfDpi=()=>clampDpi($('pdpi').value,1200);
 const cutName=()=>($('cname').value||'CutContour').replace(/[^\w-]/g,'_');
+function filenamePart(value,fallback){
+  const clean=String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40).replace(/-+$/,'');
+  return clean||fallback;
+}
+function jobSpec(selectId,inputId,fallback){
+  const select=$(selectId);
+  return filenamePart(select.value==='custom'?$(inputId).value:select.value,fallback);
+}
+function sheetFileName(extension){
+  calc();
+  const {w,h}=cellSize(),job=filenamePart($('job-name').value,'pesanan');
+  const parts=[
+    'stiker',job,
+    jobSpec('job-material','job-material-custom','bahan'),
+    jobSpec('job-lamination','job-lamination-custom','laminasi'),
+    jobSpec('job-finish','job-finish-custom','finishing'),
+    jobSpec('job-cut','job-cut-custom','potongan'),
+    `${+W.toFixed(1)}x${+H.toFixed(1)}mm`,
+    filenamePart($('shape').value,'bentuk'),
+    `${+w.toFixed(1)}x${+h.toFixed(1)}mm`
+  ];
+  return `${parts.join('-')}.${extension}`;
+}
+function updateJobFilenamePreview(){
+  for(const [selectId,inputId] of [['job-material','job-material-custom'],['job-lamination','job-lamination-custom'],['job-finish','job-finish-custom'],['job-cut','job-cut-custom']]){
+    const select=$(selectId),custom=$(inputId),show=select.value==='custom';
+    custom.hidden=!show;custom.setAttribute('aria-label',select.labels[0]?.textContent.trim()||'Nilai custom');
+    custom.required=show;
+  }
+  try{
+    const sample=sheetFileName('pdf');
+    $('job-filename-preview').textContent=`Contoh nama file: ${sample.replace(/\.pdf$/,'')}.{pdf,png,svg,dxf,plt}`;
+  }catch(error){
+    $('job-filename-preview').textContent='Atur ukuran kertas dan stiker untuk melihat contoh nama file.';
+  }
+}
+['job-name','job-material','job-material-custom','job-lamination','job-lamination-custom','job-finish','job-finish-custom','job-cut','job-cut-custom'].forEach(id=>{
+  $(id).addEventListener('input',updateJobFilenamePreview);
+  $(id).addEventListener('change',updateJobFilenamePreview);
+});
+['paper','shape','pw','ph','d','h','pxw','pxh','pxd','mdpi','ppx','pxm'].forEach(id=>{
+  $(id).addEventListener('input',updateJobFilenamePreview);
+  $(id).addEventListener('change',updateJobFilenamePreview);
+});
+updateJobFilenamePreview();
 const MACH={
  roland:{t:'L',s:5,w:.3,o:8,c:'CutContour',h:'Roland: impor PDF/SVG ke CorelDRAW/Illustrator, beri nama spot color CutContour, lalu Print & Cut via CutStudio/VersaWorks.'},
  graphtec:{t:'dot',s:3,w:.3,o:10,c:'CutContour',h:'Graphtec ARMS: pakai DXF atau SVG di Graphtec Studio / Cutting Master, 4 titik registrasi.'},
@@ -2273,8 +2421,8 @@ async function pngDpi(blob,dpi){
   const o=new Uint8Array(b.length+21);o.set(b.subarray(0,33));o.set(d,33);o.set(b.subarray(33),54);
   return new Blob([o],{type:'image/png'});
 }
-$('dxf').onclick=async()=>{if(needLogo())return;await saveFile(`garis-potong-${+W.toFixed(1)}x${+H.toFixed(1)}mm.dxf`,new Blob([exportDXF(calc())],{type:'application/dxf'}))};
-$('plt').onclick=async()=>{if(needLogo())return;await saveFile(`garis-potong-${+W.toFixed(1)}x${+H.toFixed(1)}mm.plt`,new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
+$('dxf').onclick=async()=>{if(needLogo())return;await saveFile(sheetFileName('dxf'),new Blob([exportDXF(calc())],{type:'application/dxf'}))};
+$('plt').onclick=async()=>{if(needLogo())return;await saveFile(sheetFileName('plt'),new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
 $('mach').onchange=applyMach;
 ['pxw','pxh'].forEach(id=>{$(id).addEventListener('input',()=>{const k=25.4/(+$('mdpi').value||600),w=+$('pxw').value,h=+$('pxh').value;if(w>0&&h>0){$('paper').value='custom';$('pw').value=(w*k).toFixed(2);$('ph').value=(h*k).toFixed(2)}updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 $('h').addEventListener('input',()=>{const v=$('shape').value;if(v==='circle'||v==='square'){$('shape').value=v==='circle'?'oval':'rect';$('shape').dispatchEvent(new Event('change',{bubbles:true}))}updateBtns();schedule()});
@@ -2416,12 +2564,40 @@ render();
 })();
 
 /* ============ Intro, loading, popup, rasio ============ */
-let loadT=null;
-function showLoader(m){$('loadmsg').textContent=m;$('loader').classList.add('show');clearTimeout(loadT);loadT=setTimeout(hideLoader,90000)}
-function hideLoader(){$('loader').classList.remove('show');clearTimeout(loadT)}
+let loadT=null,modalReturnFocus=null;
+function openModal(dialog,selector){
+  if(!dialog.classList.contains('show'))modalReturnFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
+  dialog.classList.add('show');requestAnimationFrame(()=>dialog.querySelector(selector)?.focus());
+  dialog.onkeydown=event=>{
+    if(event.key!=='Tab')return;
+    const controls=[...dialog.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex]:not([tabindex="-1"])')].filter(element=>element.offsetParent!==null);
+    if(!controls.length)return;
+    const first=controls[0],last=controls[controls.length-1];
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+  };
+}
+function closeModal(dialog){
+  dialog.classList.remove('show');dialog.onkeydown=null;
+  if(modalReturnFocus?.isConnected)modalReturnFocus.focus();
+  modalReturnFocus=null;
+}
+function showLoader(m){
+  $('loadmsg').textContent=m;$('loader').setAttribute('aria-busy','true');$('loader').classList.add('show');
+  clearTimeout(loadT);loadT=setTimeout(()=>{$('loadmsg').textContent='Masih diproses. Gambar besar mungkin membutuhkan waktu lebih lama.'},90000);
+}
+function hideLoader(){$('loader').classList.remove('show');$('loader').setAttribute('aria-busy','false');clearTimeout(loadT)}
+function reportAppError(message){
+  $('app-error-message').textContent='Terjadi kendala yang tidak tertangani. '+message+' Periksa pengaturan lalu coba lagi; muat ulang halaman bila masalah berlanjut.';
+  $('app-error').hidden=false;
+}
 (function(){
-  $('done-x').onclick=()=>$('done').classList.remove('show');
-  $('done').addEventListener('click',e=>{if(e.target===$('done'))$('done').classList.remove('show')});
+  $('app-error-close').onclick=()=>$('app-error').hidden=true;
+  window.addEventListener('error',event=>reportAppError(event.message||'Kesalahan skrip.'));
+  window.addEventListener('unhandledrejection',event=>reportAppError((event.reason&&event.reason.message)||String(event.reason||'Kesalahan proses.')));
+  $('done-x').onclick=()=>closeModal($('done'));
+  $('done').addEventListener('click',e=>{if(e.target===$('done'))closeModal($('done'))});
+  $('done').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeModal($('done'))}});
   const watch=(id,re)=>new MutationObserver(()=>{const t=$(id).textContent;if(re.test(t))showLoader(t);else hideLoader()}).observe($(id),{childList:true,characterData:true,subtree:true});
   watch('status',/^Memuat/);watch('vecst',/^(Sedang|Auto|Menganalisis)/);
   setTimeout(()=>{$('sp-go').disabled=false;$('sp-go').textContent='Mulai'},2100);
@@ -2522,7 +2698,7 @@ R.querySelectorAll('.pal').forEach(p=>{PAL.forEach(h=>{const b=document.createEl
 /* tabs */
 R.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{M[t.dataset.g]=b.dataset.v;sync();sched()}));
 function sync(){
-  R.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',M[t.dataset.g]===b.dataset.v)));
+  R.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>{const selected=M[t.dataset.g]===b.dataset.v;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}));
   $('lgrp').classList.toggle('hid',M.logoMode==='orig');
   R.querySelectorAll('.lg2').forEach(e=>e.classList.toggle('hid',M.logoMode!=='gradient'));
   $('bgrp').classList.toggle('hid',M.bgMode==='transparent');
@@ -2558,7 +2734,8 @@ window.addEventListener('background-image',e=>{
   const file=new File([e.detail.blob],e.detail.name,{type:'image/png'});
   loadFile(file);
 });
-const dz=$('drop');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+const dz=$('drop');dz.tabIndex=0;dz.setAttribute('role','button');dz.setAttribute('aria-label','Pilih atau jatuhkan gambar logo');$('file').tabIndex=-1;$('file').setAttribute('aria-hidden','true');dz.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();$('file').click()}});
+['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
 ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
 dz.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
 
@@ -2642,6 +2819,129 @@ async function saveFile(n,blob){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=n;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),60000);st.textContent='Mengunduh: '+n;
 }
+function dbg(message){$('dbg').classList.remove('hid');$('dbg').textContent=message}
+function renderBlob(requestedScale){
+  const {W,H}=layout(),safe=Math.min(MAX_EXPORT_SIDE/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS/(W*H)));
+  let scale=Math.min(requestedScale,safe);
+  if(scale<0.1)throw new Error('Ukuran kanvas terlalu besar untuk diekspor dengan aman.');
+  const attempt=async()=>{
+    const c=document.createElement('canvas'),o=render(c,scale);
+    const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+    if(!blob)throw new Error('Browser gagal membuat PNG.');
+    const thumb=document.createElement('canvas'),factor=Math.min(1,160/Math.max(o.w,o.h));
+    thumb.width=Math.max(1,Math.round(o.w*factor));thumb.height=Math.max(1,Math.round(o.h*factor));
+    const tx=thumb.getContext('2d');if(!tx)throw new Error('Canvas thumbnail tidak tersedia.');
+    tx.drawImage(c,0,0,thumb.width,thumb.height);
+    c.width=c.height=1;
+    return {blob,o,thumb,shrunk:scale<requestedScale};
+  };
+  return (async()=>{
+    let lastError;
+    while(scale>=0.1){
+      try{return await attempt()}
+      catch(error){lastError=error;if(scale<=0.1)break;scale=Math.max(0.1,scale*.75);await new Promise(resolve=>setTimeout(resolve,0))}
+    }
+    throw lastError||new Error('Ekspor PNG gagal pada ukuran aman terkecil.');
+  })();
+}
+const CRC_TABLE=(()=>{const table=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;table[n]=c>>>0}return table})();
+function crc32(bytes){let c=0xFFFFFFFF;for(let i=0;i<bytes.length;i++)c=CRC_TABLE[(c^bytes[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function makeZip(files){
+  const enc=new TextEncoder(),local=[],central=[];let offset=0,size=0;
+  const now=new Date(),time=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1),date=((Math.max(1980,now.getFullYear())-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate();
+  for(const file of files){
+    const filename=enc.encode(file.name),crc=crc32(file.data),length=file.data.length;
+    const lh=new DataView(new ArrayBuffer(30));lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(10,time,true);lh.setUint16(12,date,true);lh.setUint32(14,crc,true);lh.setUint32(18,length,true);lh.setUint32(22,length,true);lh.setUint16(26,filename.length,true);
+    local.push(new Uint8Array(lh.buffer),filename,file.data);size+=30+filename.length+length;
+    const ch=new DataView(new ArrayBuffer(46));ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);ch.setUint16(12,time,true);ch.setUint16(14,date,true);ch.setUint32(16,crc,true);ch.setUint32(20,length,true);ch.setUint32(24,length,true);ch.setUint16(28,filename.length,true);ch.setUint32(42,offset,true);
+    central.push(new Uint8Array(ch.buffer),filename);offset=size;
+  }
+  let centralSize=0;for(const part of central)centralSize+=part.length;
+  const end=new DataView(new ArrayBuffer(22));end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);end.setUint32(12,centralSize,true);end.setUint32(16,size,true);
+  return new Blob([...local,...central,new Uint8Array(end.buffer)],{type:'application/zip'});
+}
+const BATCH_SETTINGS=['la','lb','lang','ba','bb','bang','pat','pcol','psize','pop','grain','ratio','cw','ch','pad','glow','gcol','scale'];
+let batchBusy=false,batchFiles=[],batchZip=null,batchZipName='';
+const checkedModes=id=>[...R.querySelectorAll(`#${id} input:checked`)].map(input=>input.value);
+function randomizeBatch(logoModes,bgModes,withPattern,withRatio){
+  M.logoMode=pick(logoModes);M.bgMode=pick(bgModes);
+  const a=pick(PAL);let b=pick(PAL);while(b===a)b=pick(PAL);
+  setColor('la',a);setColor('lb',b);$('lang').value=rnd(361);
+  if(M.bgMode!=='transparent'){
+    let first,second,tries=0;
+    const minContrast=color=>M.logoMode==='orig'?9:Math.min(contrast(color,a),M.logoMode==='gradient'?contrast(color,b):9);
+    do{first=pick(PAL);second=pick(PAL);tries++}while((first===second||minContrast(first)<1.6)&&tries<60);
+    setColor('ba',first);setColor('bb',second);$('bang').value=rnd(361);newMesh();
+    if(withPattern){
+      $('pat').value=Math.random()<.45?pick(['dots','stripes','grid','rings']):'none';
+      setColor('pcol',lum(first)>.5?'#17172b':'#ffffff');$('psize').value=24+rnd(80);$('pop').value=12+rnd(25);
+      $('grain').value=Math.random()<.4?8+rnd(24):0;
+    }
+  }
+  if(withRatio)$('ratio').value=pick(['1:1','4:5','9:16','3:2','16:9','orig']);
+}
+$('bn').addEventListener('input',()=>{$('bnv').textContent=v('bn')});
+$('zipbtn').onclick=async()=>{if(batchZip)await saveFile(batchZipName,batchZip)};
+$('pngsbtn').onclick=async()=>{
+  if(!batchFiles.length||batchBusy)return;
+  batchBusy=true;$('pngsbtn').disabled=true;
+  try{
+    for(let i=0;i<batchFiles.length;i++){
+      const file=batchFiles[i];$('stat').textContent=`Mengunduh PNG ${i+1} dari ${batchFiles.length}...`;
+      await saveFile(file.name,new Blob([file.data],{type:'image/png'}));
+      await new Promise(resolve=>setTimeout(resolve,350));
+    }
+    $('stat').textContent=`Selesai: ${batchFiles.length} PNG dikirim untuk diunduh.`;
+  }catch(error){$('stat').textContent='Unduhan PNG batch gagal.';dbg('Unduhan batch: '+((error&&error.message)||error))}
+  finally{batchBusy=false;$('pngsbtn').disabled=false}
+};
+$('batch').onclick=async()=>{
+  if(batchBusy)return;
+  if(!img){alert('Upload logo terlebih dahulu.');return}
+  const logoModes=checkedModes('bl'),bgModes=checkedModes('bb2');
+  if(!logoModes.length||!bgModes.length){alert('Pilih minimal satu mode logo dan satu mode background.');return}
+  const count=+v('bn'),requestedScale=+v('scale'),withPattern=$('bpat').checked,withRatio=$('brat').checked;
+  const savedModes={...M},savedValues=BATCH_SETTINGS.map(id=>v(id)),savedMesh=mesh.map(point=>({...point}));
+  const files=[];let shrunk=0,limitReached=false,errorMessage='';
+  const maxBatchBytes=64*1024*1024;
+  batchBusy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('zipbox').classList.add('hid');$('progi').style.width='0';$('dbg').classList.add('hid');
+  R.querySelectorAll('#thumbs img').forEach(image=>{if(image.src.startsWith('blob:'))URL.revokeObjectURL(image.src)});
+  $('thumbs').replaceChildren();
+  try{
+    for(let i=0;i<count;i++){
+      randomizeBatch(logoModes,bgModes,withPattern,withRatio);sync();
+      const rendered=await renderBlob(requestedScale);
+      const data=new Uint8Array(await rendered.blob.arrayBuffer());
+      if(data.byteLength>maxBatchBytes-files.reduce((total,file)=>total+file.data.byteLength,0)){limitReached=true;break}
+      if(rendered.shrunk)shrunk++;
+      const fileName=`${name}-${String(files.length+1).padStart(3,'0')}-${M.logoMode}-${M.bgMode}-${rendered.o.w}x${rendered.o.h}.png`;
+      const file={name:fileName,data};files.push(file);
+      const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');thumb.alt=fileName;thumb.title='Klik untuk simpan '+fileName;
+      thumb.addEventListener('click',()=>saveFile(file.name,new Blob([file.data],{type:'image/png'})));
+      $('thumbs').appendChild(thumb);
+      const percent=Math.round((i+1)/count*100);$('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));$('stat').textContent=`Membuat variasi ${i+1} dari ${count} (${percent}%)...`;
+      await new Promise(resolve=>setTimeout(resolve,0));
+    }
+  }catch(error){errorMessage=(error&&error.message)||String(error);dbg('Batch gagal: '+errorMessage)}
+  finally{
+    Object.assign(M,savedModes);BATCH_SETTINGS.forEach((id,index)=>{$(id).value=savedValues[index]});mesh=savedMesh;tintKey='';sync();sched();
+    $('batch').disabled=false;batchBusy=false;
+  }
+  if(files.length){
+    try{
+      batchFiles=files;batchZip=makeZip(files);batchZipName=`${name}-batch-${files.length}png.zip`;
+      $('zipbtn').textContent=`↓ Download ZIP (${files.length} PNG, ${(batchZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+      $('stat').textContent=`${files.length} PNG siap. Klik tombol Download ZIP.`+(shrunk?` ${shrunk} desain diturunkan resolusinya demi batas perangkat.`:'')+(limitReached?' Batas ukuran batch 64 MB tercapai; variasi lainnya tidak dibuat.':'')+(errorMessage?' Batch dihentikan: '+errorMessage:'');
+    }catch(error){batchFiles=[];batchZip=null;$('stat').textContent='Gagal mengemas ZIP batch.';dbg('ZIP gagal: '+((error&&error.message)||error))}
+  }else if(limitReached){$('stat').textContent='Batas ukuran batch tercapai sebelum PNG pertama selesai.'}
+  else if(errorMessage){$('stat').textContent='Batch gagal dibuat: '+errorMessage}
+  else{$('stat').textContent='Tidak ada file dibuat. Pilih skala lebih kecil.'}
+};
+$('dltest').onclick=async()=>{
+  try{await saveFile('tes-unduhan.txt',new Blob(['Unduhan Studio Warna berfungsi.'],{type:'text/plain;charset=utf-8'}));$('stat').textContent='Tes unduhan dimulai.'}
+  catch(error){$('stat').textContent='Tes unduhan gagal.';dbg('Tes unduhan: '+((error&&error.message)||error))}
+};
+new MutationObserver(()=>{$('bstat').textContent=$('stat').textContent}).observe($('stat'),{childList:true,characterData:true,subtree:true});
 $('dl').onclick=async()=>{
   if(!img){alert('Upload logo terlebih dahulu.');return}
   const requested=+v('scale'),{W,H}=layout(),safe=Math.min(MAX_EXPORT_SIDE/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS/(W*H)));
@@ -2682,15 +2982,24 @@ function setTab(t){
   document.body.classList.toggle('tab-studio',t==='studio');
   document.body.classList.toggle('tab-remove',t==='remove');
   document.body.classList.toggle('tab-upscale',t==='upscale');
-  $('t-studio').classList.toggle('on',t==='studio');$('t-sheet').classList.toggle('on',t==='sheet');$('t-upscale').classList.toggle('on',t==='upscale');
-  $('t-remove').classList.toggle('on',t==='remove');
+  const tabs={studio:'t-studio',remove:'t-remove',upscale:'t-upscale',sheet:'t-sheet'};
+  Object.entries(tabs).forEach(([key,id])=>{const selected=key===t,button=$(id);button.classList.toggle('on',selected);button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1});
   window.scrollTo(0,0);
 }
 (function(){
   const root=$('studio-host').attachShadow({mode:'open'});
   root.appendChild($('studio-tpl').content.cloneNode(true));
   initStudio(root);
+  enableImageDrop('sheet-upload-label','file');
   $('t-studio').onclick=()=>setTab('studio');$('t-remove').onclick=()=>setTab('remove');$('t-upscale').onclick=()=>setTab('upscale');$('t-sheet').onclick=()=>setTab('sheet');
+  const tabButtons=[...document.querySelectorAll('.maintabs [role=tab]')];
+  document.querySelector('.maintabs').addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    const current=tabButtons.indexOf(document.activeElement);if(current<0)return;
+    event.preventDefault();
+    const next=event.key==='Home'?0:event.key==='End'?tabButtons.length-1:(current+(event.key==='ArrowRight'?1:-1)+tabButtons.length)%tabButtons.length;
+    tabButtons[next].focus();tabButtons[next].click();
+  });
   window.addEventListener('studio-send',async e=>{
     showLoader('Mengirim logo ke Lembar Stiker...');await pause();
     try{
@@ -2720,6 +3029,8 @@ function setTab(t){
 function enableImageDrop(labelId,inputId){
   const label=$(labelId),input=$(inputId);
   label.setAttribute('role','button');label.tabIndex=0;
+  label.setAttribute('aria-label',label.textContent.replace(/\s+/g,' ').trim());
+  input.tabIndex=-1;input.setAttribute('aria-hidden','true');
   label.addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();input.click()}
   });
@@ -2731,11 +3042,38 @@ function enableImageDrop(labelId,inputId){
   }));
   label.addEventListener('drop',e=>{
     e.preventDefault();label.classList.remove('dragover');
-    const file=e.dataTransfer?.files?.[0];
-    if(!file)return;
-    const transfer=new DataTransfer();transfer.items.add(file);input.files=transfer.files;
+    const files=e.dataTransfer?.files;if(!files?.length)return;
+    const transfer=new DataTransfer(),selected=input.multiple?files:[files[0]];
+    for(const file of selected)transfer.items.add(file);
+    input.files=transfer.files;
     input.dispatchEvent(new Event('change',{bubbles:true}));
   });
+}
+function setupImageComparison(prefix,sourceCanvas,outputCanvas){
+  const wrapper=$(prefix+'-compare'),stage=wrapper.querySelector('.compare-stage');
+  const before=$(prefix+'-compare-before'),after=$(prefix+'-compare-after');
+  const range=$(prefix+'-compare-range'),divider=stage.querySelector('.compare-divider');
+  function updatePosition(){
+    const value=Number(range.value);
+    after.style.clipPath=`inset(0 ${100-value}% 0 0)`;
+    divider.style.left=`${value}%`;
+  }
+  function hide(){wrapper.classList.remove('show')}
+  function render(){
+    if(!sourceCanvas.width||!sourceCanvas.height||!outputCanvas.width||!outputCanvas.height){hide();return}
+    before.width=after.width=sourceCanvas.width;
+    before.height=after.height=sourceCanvas.height;
+    const beforeContext=before.getContext('2d'),afterContext=after.getContext('2d');
+    if(!beforeContext||!afterContext)throw new Error('Perangkat tidak dapat menyiapkan perbandingan gambar.');
+    beforeContext.clearRect(0,0,before.width,before.height);
+    beforeContext.drawImage(sourceCanvas,0,0,before.width,before.height);
+    afterContext.clearRect(0,0,after.width,after.height);
+    afterContext.drawImage(outputCanvas,0,0,after.width,after.height);
+    stage.style.aspectRatio=`${before.width} / ${before.height}`;
+    wrapper.classList.add('show');updatePosition();
+  }
+  range.addEventListener('input',updatePosition);
+  return {render,hide};
 }
 (function(){
   let image=null,imageUrl='',imageName='gambar',resultBlob=null,resultCanvas=null,currentBlob=null,job=0,magicMode=false,magicBusy=false;
@@ -2744,6 +3082,7 @@ function enableImageDrop(labelId,inputId){
   const process=$('remove-process'),download=$('remove-download'),toStudio=$('remove-to-studio'),toSheet=$('remove-to-sheet');
   const undoButton=$('remove-undo'),redoButton=$('remove-redo');
   const autoMode=$('remove-auto-mode'),magicModeButton=$('remove-magic-mode'),toolHint=$('remove-tool-hint');
+  const comparison=setupImageComparison('remove',source,output);
   enableImageDrop('remove-upload-label','remove-input');
   function updateHistoryButtons(){
     undoButton.disabled=magicBusy||process.disabled||!undoHistory.length;
@@ -2766,6 +3105,7 @@ function enableImageDrop(labelId,inputId){
     output.width=Math.max(1,Math.round(canvas.width*s));output.height=Math.max(1,Math.round(canvas.height*s));
     output.getContext('2d').drawImage(canvas,0,0,output.width,output.height);
     download.disabled=false;toStudio.disabled=toSheet.disabled=blob.size>MAX_IMAGE_BYTES;
+    comparison.render();
   }
   async function canvasFromBlob(blob){
     const bitmap=await createImageBitmap(blob);
@@ -2815,6 +3155,7 @@ function enableImageDrop(labelId,inputId){
   function invalidateResult(){
     resultBlob=null;resultCanvas=null;
     download.disabled=toStudio.disabled=toSheet.disabled=true;
+    comparison.hide();
     const x=output.getContext('2d');x.clearRect(0,0,output.width,output.height);
   }
   function preview(){
@@ -2856,7 +3197,7 @@ function enableImageDrop(labelId,inputId){
     const rect=source.getBoundingClientRect();
     const x=Math.min(image.naturalWidth-1,Math.max(0,Math.floor((e.clientX-rect.left)/rect.width*image.naturalWidth)));
     const y=Math.min(image.naturalHeight-1,Math.max(0,Math.floor((e.clientY-rect.top)/rect.height*image.naturalHeight)));
-    const token=++job;magicBusy=true;process.disabled=true;updateHistoryButtons();
+    const token=++job;magicBusy=true;process.disabled=true;$('remove-status').setAttribute('aria-busy','true');updateHistoryButtons();
     $('remove-status').textContent='Magic Eraser sedang menganalisis area...';await pause();
     try{
       const w=resultCanvas?.width||image.naturalWidth,h=resultCanvas?.height||image.naturalHeight,total=w*h;
@@ -2906,7 +3247,7 @@ function enableImageDrop(labelId,inputId){
         $('remove-status').textContent='Magic Eraser gagal: '+((err&&err.message)||err);
       }
     }finally{
-      if(token===job){magicBusy=false;process.disabled=false;updateHistoryButtons()}
+      if(token===job){magicBusy=false;process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
     }
   });
   function sampleBackground(data,w,h){
@@ -2929,7 +3270,7 @@ function enableImageDrop(labelId,inputId){
   }
   process.onclick=async()=>{
     if(!image)return;
-    process.disabled=true;updateHistoryButtons();const token=++job;
+    process.disabled=true;$('remove-status').setAttribute('aria-busy','true');updateHistoryButtons();const token=++job;
     let scale=1,lowerAutomatically=false,retry=true;
     $('remove-status').textContent='Menganalisis warna latar...';await pause();
     while(retry){
@@ -2978,7 +3319,7 @@ function enableImageDrop(labelId,inputId){
         }
       }
     }
-  if(token===job){process.disabled=false;updateHistoryButtons()}
+  if(token===job){process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
   };
   download.onclick=async()=>{
     if(!resultBlob)return;
@@ -2999,10 +3340,13 @@ function enableImageDrop(labelId,inputId){
 (function(){
   const input=$('upscale-input'),scaleSelect=$('upscale-scale'),qualitySelect=$('upscale-quality');
   const source=$('upscale-original'),output=$('upscale-result'),process=$('upscale-process'),download=$('upscale-download');
+  const toStudio=$('upscale-to-studio'),toSheet=$('upscale-to-sheet');
+  const comparison=setupImageComparison('upscale',source,output);
   enableImageDrop('upscale-upload-label','upscale-input');
   let image=null,imageName='gambar',resultBlob=null,resultScale=1,job=0,busy=false;
   function invalidate(){
     resultBlob=null;resultScale=1;download.disabled=true;
+    toStudio.disabled=toSheet.disabled=true;comparison.hide();
     const ctx=output.getContext('2d');ctx.clearRect(0,0,output.width,output.height);
   }
   function preview(){
@@ -3055,7 +3399,7 @@ function enableImageDrop(labelId,inputId){
     if(!image||busy)return;
     let target=getTarget(),scale=target.scale,lowerAutomatically=false,retry=true;
     if(scale<=1){updateTargetStatus();return}
-    busy=true;invalidate();process.disabled=true;input.disabled=scaleSelect.disabled=qualitySelect.disabled=true;const token=++job;
+    busy=true;invalidate();process.disabled=true;$('upscale-status').setAttribute('aria-busy','true');input.disabled=scaleSelect.disabled=qualitySelect.disabled=true;const token=++job;
     while(retry){
       retry=false;
       try{
@@ -3075,6 +3419,8 @@ function enableImageDrop(labelId,inputId){
         const s=Math.min(1,1200/Math.max(width,height));output.width=Math.max(1,Math.round(width*s));output.height=Math.max(1,Math.round(height*s));
         output.getContext('2d').drawImage(canvas,0,0,output.width,output.height);
         download.disabled=false;
+        toStudio.disabled=toSheet.disabled=blob.size>MAX_IMAGE_BYTES;
+        comparison.render();
         $('upscale-status').textContent=`Selesai: ${image.naturalWidth} × ${image.naturalHeight} → ${width} × ${height} px (${(width/image.naturalWidth).toFixed(2)}×). Interpolasi ${qualitySelect.value==='high'?'berkualitas tinggi':'seimbang'}; detail baru tidak dibuat.${blob.size>MAX_IMAGE_BYTES?' PNG lebih dari 25 MB, tetapi tetap dapat diunduh.':''}`;
       }catch(err){
         if(token!==job)return;
@@ -3094,7 +3440,7 @@ function enableImageDrop(labelId,inputId){
         }
       }
     }
-    if(token===job){busy=false;input.disabled=scaleSelect.disabled=qualitySelect.disabled=false;process.disabled=false}
+    if(token===job){busy=false;input.disabled=scaleSelect.disabled=qualitySelect.disabled=false;process.disabled=false;$('upscale-status').setAttribute('aria-busy','false')}
   };
   download.onclick=async()=>{
     if(!resultBlob)return;
@@ -3102,6 +3448,13 @@ function enableImageDrop(labelId,inputId){
       await saveFile(`${imageName}-upscale-${resultScale.toFixed(2)}x.png`,resultBlob);
     }catch(err){$('upscale-status').textContent='Gagal menyiapkan unduhan: '+((err&&err.message)||err)}
   };
+  function sendResult(eventName){
+    if(!resultBlob)return;
+    const filename=`${imageName}-upscale-${resultScale.toFixed(2)}x.png`;
+    window.dispatchEvent(new CustomEvent(eventName,{detail:{blob:resultBlob,name:filename}}));
+  }
+  toStudio.onclick=()=>sendResult('background-send-studio');
+  toSheet.onclick=()=>sendResult('background-send-sheet');
 })();
 
 /* ============ Menu vektor dipindah ke tab Studio ============ */
@@ -3116,10 +3469,11 @@ function enableImageDrop(labelId,inputId){
   function drawVT(){
     const t=$('vthumbs');t.innerHTML='';
     logos.forEach((lg,i)=>{
-      const d=document.createElement('div');if(i===sel)d.className='sel';
-      d.innerHTML=`<img src="${lg.url}" style="background:${lg.corner}">`;
-      d.onclick=()=>{sel=i;renderThumbs();loadPanel();schedule()};
-      t.appendChild(d);
+      const button=document.createElement('button'),image=document.createElement('img'),selected=i===sel;
+      button.type='button';button.setAttribute('aria-pressed',String(selected));button.setAttribute('aria-label',`Pilih logo ${i+1} untuk pengaturan vektor`);
+      image.src=lg.url;image.alt='';image.style.background=lg.corner;button.appendChild(image);
+      button.onclick=()=>{sel=i;renderThumbs();loadPanel();schedule()};
+      t.appendChild(button);
     });
     $('vbody').style.display=logos.length?'':'none';
     if(!logos.length)$('vhint').textContent='Belum ada logo. Upload logo atau kirim dari Studio Warna.';
@@ -3129,7 +3483,7 @@ function enableImageDrop(labelId,inputId){
   drawVT();
 })();
 
-if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(error=>{reportAppError('Penyimpanan offline gagal diaktifkan: '+((error&&error.message)||error))})})}
 </script>
 </body>
 </html>

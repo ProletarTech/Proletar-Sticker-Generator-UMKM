@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CMYK Logo Studio</title>
+<style>
+:root{--ink:#17172b;--muted:#73748b;--line:#e7e7f1;--pu:#6338e8;--pu2:#7d56f5;--panel:#fff;--bg:#f6f6fb;--soft:#efebff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#efeffa;--muted:#9a9bb5;--line:#34344a;--panel:#20202e;--bg:#14141d;--soft:#2b2646;--pu:#8c6bff}}
+:root[data-theme="dark"]{--ink:#efeffa;--muted:#9a9bb5;--line:#34344a;--panel:#20202e;--bg:#14141d;--soft:#2b2646;--pu:#8c6bff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0}
+.app{max-width:1400px;margin:auto;padding:24px 20px 32px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.mark{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#744cf3,#4b25cb);display:grid;place-items:center;color:#fff;font-size:22px;font-weight:800;flex:none}
+h1{font-size:clamp(22px,3vw,32px);line-height:1.15;margin:0;letter-spacing:-.6px}.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
+.work{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
+.panel{display:flex;flex-direction:column;gap:16px}
+h2{font-size:15px;font-weight:800;margin:0 0 12px;display:flex;align-items:center;gap:9px}.n{width:26px;height:26px;border-radius:8px;background:var(--soft);color:var(--pu);display:grid;place-items:center;font-size:13px}
+.up{border:1.5px dashed var(--line);border-radius:14px;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;padding:14px;color:var(--muted);cursor:pointer}
+.up.drag{border-color:var(--pu);background:var(--soft)}.up strong{color:var(--ink)}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.btn{padding:11px 14px;border-radius:11px;font-weight:800;border:1px solid var(--line);background:var(--panel)}
+.btn.p{color:#fff;border:0;background:linear-gradient(100deg,#6338e8,#774cf0)}.btn.s{background:var(--soft);color:var(--pu);border-color:transparent}.btn.full{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin:0 0 10px}
+.tab{padding:8px 4px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:12px;font-weight:700;color:var(--muted)}
+.tab.on{background:var(--soft);border-color:var(--pu);color:var(--pu)}
+label.f{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;margin:10px 0 5px}label.f span{font-weight:600;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--pu)}
+select,input[type=number]{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.cr{display:flex;align-items:center;gap:8px;margin-top:8px}.cr b{font-size:12px;min-width:56px}
+input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2px;border-radius:9px;background:var(--panel);flex:none}
+.pal{display:flex;flex-wrap:wrap;gap:5px;flex:1}.pal button{width:22px;height:22px;border-radius:7px;border:1px solid #0002;padding:0}
+.pal button:hover{transform:scale(1.12)}
+.hid{display:none!important}
+.stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#fff;background-image:linear-gradient(45deg,#e7e7ee 25%,transparent 25%),linear-gradient(-45deg,#e7e7ee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e7e7ee 75%),linear-gradient(-45deg,transparent 75%,#e7e7ee 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
+#cv{display:block;max-width:100%;max-height:560px;width:auto;height:auto;box-shadow:0 8px 24px #0002}
+.empty{text-align:center;color:#73748b;max-width:320px}.empty .big{font-size:40px}
+.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}.sw{width:28px;height:28px;border-radius:50%;border:1px solid #0002;flex:none}
+.bar small{display:block;color:var(--muted);font-size:12px}.bar .act{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:18px}
+.note{font-size:12px;color:var(--muted);margin:8px 0 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
+.chk{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}.chk label{display:flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--line);border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:var(--panel)}.chk input{accent-color:var(--pu);margin:0}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:12px}.thumbs img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:8px;border:1px solid var(--line);background:#fff}
+#dbg{white-space:pre-wrap;word-break:break-word;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--soft);border-radius:10px;padding:10px;margin-top:8px}
+.prog{height:6px;border-radius:6px;background:var(--soft);overflow:hidden;margin-top:10px}.prog i{display:block;height:100%;width:0;background:var(--pu);transition:width .15s}
+@media(max-width:900px){.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="mark">◉</div><div><h1>CMYK Logo Studio</h1><p class="sub">Acak warna logo PNG, atur background dan rasio. Bentuk logo tidak berubah.</p></div></header>
+<main class="work">
+<aside class="panel">
+ <section class="card">
+  <h2><span class="n">1</span>Upload logo</h2>
+  <label class="up" id="drop" for="file"><strong>Pilih PNG atau seret ke sini</strong><small>PNG transparan paling bagus. Diproses di browser, tidak diunggah ke server.</small></label>
+  <input id="file" type="file" accept="image/png,image/webp,image/jpeg">
+  <div class="status" id="fstat">Belum ada file dipilih.</div>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">2</span>Warna logo</h2>
+  <div class="tabs" data-g="logoMode"><button class="tab on" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="orig">Warna asli</button></div>
+  <div id="lgrp">
+   <div class="cr"><b>Warna A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
+   <div class="cr lg2"><b>Warna B</b><input type="color" id="lb" value="#DE74C8"><div class="pal" data-t="lb"></div></div>
+   <div class="lg2"><label class="f">Arah gradasi <span id="langv">135°</span></label><input id="lang" type="range" min="0" max="360" value="135"></div>
+  </div>
+  <button class="btn s full" id="rndLogo" style="margin-top:12px">🎲 Acak warna logo (dari palet)</button>
+  <p class="note">Hanya warna piksel yang berubah. Transparansi dan tepi halus (antialias) dipertahankan.</p>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">3</span>Background</h2>
+  <div class="tabs" data-g="bgMode"><button class="tab on" data-v="transparent">Transparan</button><button class="tab" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="radial">Radial</button><button class="tab" data-v="mesh">Mesh</button></div>
+  <div id="bgrp" class="hid">
+   <div class="cr"><b>Warna A</b><input type="color" id="ba" value="#FFCFE7"><div class="pal" data-t="ba"></div></div>
+   <div class="cr bg2"><b>Warna B</b><input type="color" id="bb" value="#584CF6"><div class="pal" data-t="bb"></div></div>
+   <div id="bangw"><label class="f">Arah gradasi <span id="bangv">135°</span></label><input id="bang" type="range" min="0" max="360" value="135"></div>
+   <button class="btn s full hid" id="rndMesh" style="margin-top:10px">Acak ulang bentuk mesh</button>
+   <label class="f">Pola di atas background</label>
+   <select id="pat"><option value="none">Tanpa pola</option><option value="dots">Titik</option><option value="stripes">Garis diagonal</option><option value="grid">Grid</option><option value="rings">Lingkaran konsentris</option></select>
+   <div id="patc" class="hid">
+    <div class="cr"><b>Warna pola</b><input type="color" id="pcol" value="#FFFFFF"><div class="pal" data-t="pcol"></div></div>
+    <label class="f">Ukuran pola <span id="psv">48</span></label><input id="psize" type="range" min="12" max="160" value="48">
+    <label class="f">Kekuatan pola <span id="pov">25%</span></label><input id="pop" type="range" min="5" max="80" value="25">
+   </div>
+   <label class="f">Tekstur grain halus <span id="gv">0%</span></label><input id="grain" type="range" min="0" max="60" value="0">
+  </div>
+  <button class="btn s full" id="rndBg" style="margin-top:12px">🎲 Acak background</button>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">4</span>Komposisi &amp; ekspor</h2>
+  <label class="f">Rasio kanvas</label>
+  <select id="ratio"><option value="orig">Ikuti rasio logo</option><option value="1:1">1:1 Persegi</option><option value="4:5">4:5 Potret</option><option value="9:16">9:16 Story</option><option value="3:2">3:2 Lanskap</option><option value="16:9">16:9 Layar lebar</option><option value="297:420">A3 potret</option><option value="420:297">A3 lanskap</option><option value="custom">Custom</option></select>
+  <div id="cust" class="hid" style="display:flex;gap:8px;margin-top:8px"><input type="number" id="cw" value="1080" min="1" aria-label="Lebar"><input type="number" id="ch" value="1350" min="1" aria-label="Tinggi"></div>
+  <label class="f">Jarak tepi (padding) <span id="padv">10%</span></label><input id="pad" type="range" min="0" max="40" value="10">
+  <label class="f">Glow lembut di logo <span id="glv">0</span></label><input id="glow" type="range" min="0" max="100" value="0">
+  <div class="cr hid" id="glc"><b>Warna glow</b><input type="color" id="gcol" value="#FFFFFF"><div class="pal" data-t="gcol"></div></div>
+  <label class="f">Skala ekspor</label>
+  <select id="scale"><option value="1">1× (resolusi asli logo, tanpa resize)</option><option value="2">2× (kanvas lebih besar)</option><option value="3">3×</option><option value="4">4×</option></select>
+  <p class="note" id="size">Ukuran kanvas: -</p>
+  <p class="note">Skala di atas 1× memperbesar kanvas, tetapi tidak menambah detail yang tidak ada di PNG sumber.</p>
+ </section>
+ <section class="card">
+  <h2><span class="n">5</span>Batch generate</h2>
+  <label class="f">Jumlah variasi <span id="bnv">12</span></label><input id="bn" type="range" min="1" max="100" value="12">
+  <label class="f">Mode warna logo yang boleh muncul</label>
+  <div class="chk" id="bl"><label><input type="checkbox" value="solid" checked>Solid</label><label><input type="checkbox" value="gradient" checked>Gradasi</label><label><input type="checkbox" value="orig">Warna asli</label></div>
+  <label class="f">Mode background yang boleh muncul</label>
+  <div class="chk" id="bb2"><label><input type="checkbox" value="transparent">Transparan</label><label><input type="checkbox" value="solid" checked>Solid</label><label><input type="checkbox" value="gradient" checked>Gradasi</label><label><input type="checkbox" value="radial" checked>Radial</label><label><input type="checkbox" value="mesh" checked>Mesh</label></div>
+  <label class="f">Ikut diacak</label>
+  <div class="chk"><label><input type="checkbox" id="bpat" checked>Pola &amp; grain</label><label><input type="checkbox" id="brat">Rasio kanvas</label></div>
+  <button class="btn p full" id="batch" style="margin-top:12px">📦 Generate &amp; download ZIP</button>
+  <div class="prog hid" id="prog"><i id="progi"></i></div>
+  <div id="zipbox" class="hid" style="margin-top:12px"><button class="btn p full" id="zipbtn">↓ Download ZIP</button><button class="btn full" id="pngsbtn" style="margin-top:8px">↓ Download PNG satu per satu</button><p class="note">Setelah klik, akan muncul konfirmasi simpan. Setujui supaya file tersimpan.</p></div>
+  <div class="status" id="bstat" role="status"></div>
+  <div class="thumbs" id="thumbs"></div>
+  <p class="note">Klik thumbnail untuk menyimpan satu PNG. Warna diambil dari palet. Pakai pengaturan padding, glow, dan skala dari panel di atas. Semua PNG dikemas dalam satu file ZIP.</p>
+ </section>
+ <button class="btn s full" id="rndAll">✨ Acak semua (warna logo + background)</button>
+</aside>
+
+<section class="prev">
+ <div class="card">
+  <div class="stage" id="stage"><div class="empty" id="empty"><div class="big">▧</div><strong>Logo kamu akan muncul di sini</strong><p>Upload PNG untuk mulai bereksperimen.</p></div><canvas id="cv" class="hid"></canvas></div>
+  <div class="bar">
+   <span class="sw" id="sw"></span>
+   <div><strong style="font-size:13px">Warna logo</strong><small id="hex">-</small><small id="cmyk">-</small></div>
+   <div class="act"><button class="btn" id="copy">Salin kode warna</button><button class="btn p" id="dl">↓ Download PNG HD</button><button class="btn" id="dltest">Tes unduhan</button></div>
+  </div>
+  <div class="status" id="stat" role="status">Siap. Upload logo untuk memulai.</div>
+  <pre id="dbg" class="hid"></pre>
+ </div>
+</section>
+</main>
+<footer>© <span id="yr"></span> Proletar Project · Support UMKM · CMYK di sini simulasi dari RGB, bukan profil ICC percetakan.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id),v=id=>$(id).value;
+$('yr').textContent=new Date().getFullYear();
+const PAL=['#EB683C','#FF8752','#FFCFE7','#D33636','#DE74C8','#584CF6','#4D84F5','#479D53','#F9DB48'];
+const M={logoMode:'solid',bgMode:'transparent'};
+let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false;
+const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
+function hex2rgb(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
+function lum(h){const c=hex2rgb(h).map(x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+function contrast(a,b){const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+function cmyk(h){let [r,g,b]=hex2rgb(h).map(x=>x/255);const k=1-Math.max(r,g,b);if(k>=.999)return [0,0,0,100];return [(1-r-k)/(1-k),(1-g-k)/(1-k),(1-b-k)/(1-k),k].map(x=>Math.round(x*100))}
+function setColor(id,h){$(id).value=h.toLowerCase()}
+
+/* palette chips */
+document.querySelectorAll('.pal').forEach(p=>{PAL.forEach(h=>{const b=document.createElement('button');b.style.background=h;b.title=h;b.setAttribute('aria-label',h);b.onclick=()=>{setColor(p.dataset.t,h);sched()};p.appendChild(b)})});
+/* tabs */
+document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{M[t.dataset.g]=b.dataset.v;sync();sched()}));
+function sync(){
+  document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',M[t.dataset.g]===b.dataset.v)));
+  $('lgrp').classList.toggle('hid',M.logoMode==='orig');
+  document.querySelectorAll('.lg2').forEach(e=>e.classList.toggle('hid',M.logoMode!=='gradient'));
+  $('bgrp').classList.toggle('hid',M.bgMode==='transparent');
+  const two=['gradient','radial','mesh'].includes(M.bgMode);
+  document.querySelectorAll('.bg2').forEach(e=>e.classList.toggle('hid',!two));
+  $('bangw').classList.toggle('hid',M.bgMode!=='gradient');
+  $('rndMesh').classList.toggle('hid',M.bgMode!=='mesh');
+  $('patc').classList.toggle('hid',v('pat')==='none');
+  $('glc').classList.toggle('hid',+v('glow')===0);
+  $('cust').classList.toggle('hid',v('ratio')!=='custom');$('cust').style.display=v('ratio')==='custom'?'flex':'none';
+  $('langv').textContent=v('lang')+'°';$('bangv').textContent=v('bang')+'°';$('psv').textContent=v('psize');$('pov').textContent=v('pop')+'%';
+  $('gv').textContent=v('grain')+'%';$('padv').textContent=v('pad')+'%';$('glv').textContent=v('glow');
+}
+['la','lb','lang','ba','bb','bang','pat','pcol','psize','pop','grain','ratio','cw','ch','pad','glow','gcol','scale'].forEach(id=>$(id).addEventListener('input',()=>{sync();sched()}));
+
+/* load */
+function loadFile(f){
+  if(!f)return;
+  if(!/^image\/(png|webp|jpeg)$/.test(f.type)){alert('Pilih file PNG, WebP, atau JPEG.');return}
+  const u=URL.createObjectURL(f),im=new Image();
+  im.onload=()=>{img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
+    $('fstat').textContent=`${f.name} · ${ow} × ${oh} px`;$('stat').textContent='Logo dimuat.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
+  im.onerror=()=>{alert('File gambar tidak bisa dibaca.');URL.revokeObjectURL(u)};im.src=u;
+}
+$('file').onchange=e=>{loadFile(e.target.files[0]);e.target.value=''};
+const dz=$('drop');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
+dz.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
+
+/* drawing */
+function lin(c,w,h,deg,a,b){const r=deg*Math.PI/180,cx=w/2,cy=h/2,len=Math.abs(w*Math.cos(r))+Math.abs(h*Math.sin(r)),dx=Math.cos(r)*len/2,dy=Math.sin(r)*len/2;const g=c.createLinearGradient(cx-dx,cy-dy,cx+dx,cy+dy);g.addColorStop(0,a);g.addColorStop(1,b);return g}
+function tinted(){
+  const key=[M.logoMode,v('la'),v('lb'),v('lang')].join('|');
+  if(tint&&tintKey===key)return tint;
+  const c=document.createElement('canvas');c.width=ow;c.height=oh;const x=c.getContext('2d');x.drawImage(img,0,0);
+  if(M.logoMode!=='orig'){x.globalCompositeOperation='source-in';x.fillStyle=M.logoMode==='gradient'?lin(x,ow,oh,+v('lang'),v('la'),v('lb')):v('la');x.fillRect(0,0,ow,oh)}
+  tint=c;tintKey=key;return c;
+}
+function ratioVal(){const r=v('ratio');if(r==='orig')return 0;if(r==='custom')return Math.max(1,+v('cw')||1)/Math.max(1,+v('ch')||1);const [a,b]=r.split(':').map(Number);return a/b}
+function layout(){const p=+v('pad')/100,W0=ow/(1-2*p),H0=oh/(1-2*p),r=ratioVal();if(!r)return {W:Math.round(W0),H:Math.round(H0)};const W=Math.max(W0,H0*r);return {W:Math.round(W),H:Math.round(W/r)}}
+function newMesh(){mesh=[];for(let i=0;i<5;i++)mesh.push({x:Math.random(),y:Math.random(),r:.45+Math.random()*.5,c:pick(PAL)})}
+function noiseTile(){if(noise)return noise;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),d=x.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const g=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=g;d.data[i+3]=255}x.putImageData(d,0,0);return noise=c}
+function drawPattern(x,W,H,k){
+  const t=v('pat');if(t==='none')return;const s=+v('psize')*k;x.save();x.globalAlpha=+v('pop')/100;x.fillStyle=x.strokeStyle=v('pcol');x.lineWidth=Math.max(1,s*.1);
+  if(t==='dots'){for(let y=s/2;y<H+s;y+=s)for(let xx=s/2;xx<W+s;xx+=s){x.beginPath();x.arc(xx,y,s*.14,0,7);x.fill()}}
+  else if(t==='stripes'){x.beginPath();for(let o=-H;o<W;o+=s){x.moveTo(o,H);x.lineTo(o+H,0)}x.stroke()}
+  else if(t==='grid'){x.beginPath();for(let xx=0;xx<=W;xx+=s){x.moveTo(xx,0);x.lineTo(xx,H)}for(let y=0;y<=H;y+=s){x.moveTo(0,y);x.lineTo(W,y)}x.stroke()}
+  else if(t==='rings'){const R=Math.hypot(W,H)/2;for(let r=s;r<R;r+=s){x.beginPath();x.arc(W/2,H/2,r,0,7);x.stroke()}}
+  x.restore();
+}
+function render(c,k){
+  const {W,H}=layout(),w=Math.round(W*k),h=Math.round(H*k);
+  c.width=w;c.height=h;const x=c.getContext('2d');x.clearRect(0,0,w,h);
+  if(M.bgMode!=='transparent'){
+    if(M.bgMode==='solid'){x.fillStyle=v('ba');x.fillRect(0,0,w,h)}
+    else if(M.bgMode==='gradient'){x.fillStyle=lin(x,w,h,+v('bang'),v('ba'),v('bb'));x.fillRect(0,0,w,h)}
+    else if(M.bgMode==='radial'){const g=x.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.hypot(w,h)/2);g.addColorStop(0,v('ba'));g.addColorStop(1,v('bb'));x.fillStyle=g;x.fillRect(0,0,w,h)}
+    else{x.fillStyle=v('ba');x.fillRect(0,0,w,h);const R=Math.max(w,h);mesh.forEach((m,i)=>{const col=i===0?v('bb'):m.c,g=x.createRadialGradient(m.x*w,m.y*h,0,m.x*w,m.y*h,m.r*R);g.addColorStop(0,col+'ee');g.addColorStop(1,col+'00');x.fillStyle=g;x.fillRect(0,0,w,h)})}
+    drawPattern(x,w,h,k);
+    const gr=+v('grain');if(gr>0){x.save();x.globalAlpha=gr/100*.45;x.globalCompositeOperation='overlay';x.fillStyle=x.createPattern(noiseTile(),'repeat');x.fillRect(0,0,w,h);x.restore()}
+  }
+  const lw=Math.round(ow*k),lh=Math.round(oh*k),dx=Math.round((w-lw)/2),dy=Math.round((h-lh)/2),g=+v('glow');
+  x.save();x.imageSmoothingEnabled=k!==1;x.imageSmoothingQuality='high';
+  if(g>0){x.shadowColor=v('gcol');x.shadowBlur=g/100*.12*Math.max(lw,lh);x.shadowOffsetX=x.shadowOffsetY=0}
+  x.drawImage(tinted(),dx,dy,lw,lh);x.restore();
+  return {w,h};
+}
+function frame(){
+  pend=false;if(!img)return;
+  const {W,H}=layout(),k=Math.min(1,900/Math.max(W,H));
+  const o=render($('cv'),k);
+  const s=+v('scale');$('size').textContent=`Ukuran kanvas: ${W*s} × ${H*s} px (preview ${o.w} × ${o.h})`;
+  const h=v('la');$('sw').style.background=M.logoMode==='gradient'?`linear-gradient(135deg,${v('la')},${v('lb')})`:(M.logoMode==='orig'?'conic-gradient(#EB683C,#F9DB48,#479D53,#4D84F5,#DE74C8,#EB683C)':h);
+  if(M.logoMode==='orig'){$('hex').textContent='Warna asli logo';$('cmyk').textContent='Tidak diubah'}
+  else{$('hex').textContent=M.logoMode==='gradient'?`${v('la').toUpperCase()} → ${v('lb').toUpperCase()}`:v('la').toUpperCase();const c=cmyk(h);$('cmyk').textContent=`C ${c[0]} · M ${c[1]} · Y ${c[2]} · K ${c[3]} (simulasi)`}
+}
+function sched(){if(pend)return;pend=true;requestAnimationFrame(frame)}
+
+/* randomizers */
+function rndLogo(){
+  const a=pick(PAL);let b=pick(PAL);while(b===a)b=pick(PAL);
+  if(M.logoMode==='orig')M.logoMode='solid';
+  setColor('la',a);setColor('lb',b);if(M.logoMode==='gradient')$('lang').value=rnd(361);
+}
+function rndBg(){
+  M.bgMode=pick(['solid','gradient','radial','mesh','gradient','mesh']);
+  const L=v('la');let a,b,t=0;
+  do{a=pick(PAL);b=pick(PAL);t++}while((a===b||contrast(a,L)<1.6)&&t<40);
+  setColor('ba',a);setColor('bb',b);$('bang').value=rnd(361);newMesh();
+  $('pat').value=Math.random()<.4?pick(['dots','stripes','grid','rings']):'none';
+  setColor('pcol',lum(a)>.5?'#17172b':'#ffffff');$('psize').value=24+rnd(80);$('pop').value=12+rnd(25);
+  $('grain').value=Math.random()<.4?8+rnd(24):0;
+}
+$('rndLogo').onclick=()=>{rndLogo();sync();sched();$('stat').textContent='Warna logo diacak dari palet.'};
+$('rndBg').onclick=()=>{rndBg();sync();sched();$('stat').textContent='Background diacak.'};
+$('rndAll').onclick=()=>{rndLogo();rndBg();sync();sched();$('stat').textContent='Warna logo dan background diacak.'};
+$('rndMesh').onclick=()=>{newMesh();sched()};
+$('copy').onclick=async()=>{const t=M.logoMode==='gradient'?`${v('la')} ${v('lb')}`:v('la');try{await navigator.clipboard.writeText(t.toUpperCase());$('stat').textContent='Kode '+t.toUpperCase()+' disalin.'}catch(e){$('stat').textContent='Kode warna: '+t.toUpperCase()}};
+
+/* export */
+const DLMSG={declined:'Unduhan dibatalkan.',too_large:'File terlalu besar. Kecilkan skala ekspor atau jumlah variasi.',rate_limited:'Masih ada konfirmasi simpan yang terbuka. Tunggu sebentar lalu klik lagi.',rejected_extension:'Format file ini tidak diizinkan untuk diunduh.',extension_not_enabled:'Format file ini sedang tidak tersedia di tampilan ini.',unavailable:'Fitur unduh tidak tersedia di tampilan ini.',not_granted:'Izin unduh belum diberikan untuk halaman ini.',capability_disabled:'Fitur unduh dimatikan untuk halaman ini.',capability_removed:'Fitur unduh dicabut untuk halaman ini.'};
+const dbgEl=$('dbg');
+function dbg(t){dbgEl.classList.remove('hid');dbgEl.textContent+=(dbgEl.textContent?'\n':'')+t}
+async function getDl(){
+  if(!(window.claude&&window.claude.use)){dbg('window.claude tidak ada: halaman tidak dibuka lewat artifact claude.ai.');return null}
+  const t0=Date.now();let d=null;
+  try{d=await window.claude.use('downloads')}catch(e){dbg('use(downloads) error: '+((e&&e.code)||'')+' '+((e&&e.message)||e))}
+  dbg('use(downloads): '+(d?'tersedia':'null, fitur unduh tidak aktif di tampilan ini')+' ('+(Date.now()-t0)+' ms)');
+  return d;
+}
+function anchorSave(n,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000)}
+const hasClaude=()=>!!(window.claude&&window.claude.use);
+async function saveFile(n,blob){
+  const st=$('stat');dbgEl.textContent='';dbgEl.classList.add('hid');st.textContent='Menyiapkan unduhan: '+n+' ...';
+  const d=hasClaude()?await getDl():null;
+  if(d){
+    try{const r=await d.save({filename:n,data:blob});st.textContent=(r.status==='saved'?'Tersimpan: ':'Terkirim: ')+n}
+    catch(e){const c=e&&e.code;console.warn('downloads gagal',e);st.textContent=DLMSG[c]||('Gagal menyimpan'+(c?' ('+c+')':'')+(e&&e.message?': '+e.message:'')+'.');dbg('save gagal: '+(c||'?')+' - '+((e&&e.message)||''))}
+    return;
+  }
+  try{anchorSave(n,blob);st.textContent='Mengunduh: '+n+(hasClaude()?'. Fitur unduh artifact tidak aktif, memakai unduhan biasa (bisa diblokir oleh pratinjau).':'')}
+  catch(e){st.textContent='Unduhan diblokir di tampilan ini. Buka di browser biasa.';dbg('Unduh biasa gagal: '+((e&&e.message)||e))}
+}
+$('dltest').onclick=async()=>{
+  dbgEl.textContent='';$('stat').textContent='Menjalankan tes unduhan...';dbg('Tes unduhan');
+  const d=await getDl();
+  try{const p=window.claude&&await window.claude.use('permissions');if(p&&p.state)dbg('izin: '+JSON.stringify(await p.state('downloads')))}catch(e){dbg('cek izin gagal: '+((e&&e.message)||e))}
+  if(!d){$('stat').textContent='Tes selesai: fitur unduh tidak aktif. Lihat keterangan di bawah.';return}
+  try{const r=await d.save({filename:'tes-unduhan.txt',data:'Tes unduhan CMYK Logo Studio'});dbg('save tes: '+r.status);$('stat').textContent='Tes berhasil: '+r.status+'.'}
+  catch(e){dbg('save tes gagal: '+((e&&e.code)||'?')+' - '+((e&&e.message)||''));$('stat').textContent='Tes gagal: '+((e&&e.code)||'tidak diketahui')}
+};
+const MAXPX=1.2e8;
+async function renderBlob(s){
+  const {W,H}=layout();let k=s,shrunk=false;
+  if(W*k*H*k>MAXPX){k=Math.sqrt(MAXPX/(W*H));shrunk=true}
+  for(let t=0;t<6;t++){
+    try{const c=document.createElement('canvas'),o=render(c,k);const blob=await new Promise(r=>c.toBlob(r,'image/png'));const tr=160/Math.max(o.w,o.h),tc=document.createElement('canvas');tc.width=Math.max(1,Math.round(o.w*tr));tc.height=Math.max(1,Math.round(o.h*tr));tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);c.width=c.height=1;if(blob)return {blob,o,shrunk,k,thumb:tc}}catch(e){}
+    k*=0.75;shrunk=true;await new Promise(r=>setTimeout(r,0));
+  }
+  return null;
+}
+$('dl').onclick=async()=>{
+  if(!img){alert('Upload logo terlebih dahulu.');return}
+  const s=+v('scale');
+  $('dl').disabled=true;$('stat').textContent='Membuat PNG...';await new Promise(r=>setTimeout(r,30));
+  try{
+    const rb=await renderBlob(s);if(!rb)throw new Error('gagal');
+    await saveFile(`${name}-${(v('la')).slice(1)}-${rb.o.w}x${rb.o.h}.png`,rb.blob);
+    if(rb.shrunk)$('stat').textContent+=` (ukuran diperkecil otomatis ke ${rb.o.w}×${rb.o.h} px agar muat di perangkat ini)`;
+  }catch(e){$('stat').textContent='Gagal membuat PNG bahkan di ukuran kecil. Coba muat ulang halaman.'}
+  $('dl').disabled=false;
+};
+
+/* batch generate */
+$('bn').addEventListener('input',()=>{$('bnv').textContent=v('bn')});
+const checked=id=>[...document.querySelectorAll('#'+id+' input:checked')].map(i=>i.value);
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(u){let c=0xFFFFFFFF;for(let i=0;i<u.length;i++)c=CRC[(c^u[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function makeZip(files){
+  const enc=new TextEncoder(),parts=[],cen=[];let off=0;const d=new Date(),dt=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1),dd=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+  for(const f of files){
+    const nm=enc.encode(f.name),crc=crc32(f.data),sz=f.data.length,lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(10,dt,true);lh.setUint16(12,dd,true);lh.setUint32(14,crc,true);lh.setUint32(18,sz,true);lh.setUint32(22,sz,true);lh.setUint16(26,nm.length,true);
+    parts.push(new Uint8Array(lh.buffer),nm,f.data);
+    const ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);ch.setUint16(12,dt,true);ch.setUint16(14,dd,true);ch.setUint32(16,crc,true);ch.setUint32(20,sz,true);ch.setUint32(24,sz,true);ch.setUint16(28,nm.length,true);ch.setUint32(42,off,true);
+    cen.push(new Uint8Array(ch.buffer),nm);off+=30+nm.length+sz;
+  }
+  let cs=0;cen.forEach(p=>cs+=p.length);const e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cen,new Uint8Array(e.buffer)],{type:'application/zip'});
+}
+const IDS=['la','lb','lang','ba','bb','bang','pat','pcol','psize','pop','grain','ratio','cw','ch','pad','glow','gcol','scale'];
+function randomizeOne(lm,bm,withPat,withRat){
+  M.logoMode=pick(lm);
+  const a=pick(PAL);let b=pick(PAL);while(b===a)b=pick(PAL);
+  setColor('la',a);setColor('lb',b);$('lang').value=rnd(361);
+  M.bgMode=pick(bm);
+  if(M.bgMode!=='transparent'){
+    let c1,c2,t=0;const worst=x=>M.logoMode==='orig'?9:Math.min(contrast(x,a),M.logoMode==='gradient'?contrast(x,b):9);
+    do{c1=pick(PAL);c2=pick(PAL);t++}while((c1===c2||worst(c1)<1.6)&&t<60);
+    setColor('ba',c1);setColor('bb',c2);$('bang').value=rnd(361);newMesh();
+    if(withPat){
+      $('pat').value=Math.random()<.45?pick(['dots','stripes','grid','rings']):'none';
+      setColor('pcol',lum(c1)>.5?'#17172b':'#ffffff');$('psize').value=24+rnd(80);$('pop').value=12+rnd(25);
+      $('grain').value=Math.random()<.4?8+rnd(24):0;
+    }
+  }
+  if(withRat)$('ratio').value=pick(['1:1','4:5','9:16','3:2','16:9','orig']);
+}
+let busy=false,zipBlob=null,zipName='',zipUrl='',batchFiles=[];
+$('zipbtn').onclick=()=>{if(zipBlob)saveFile(zipName,zipBlob)};
+$('pngsbtn').onclick=async()=>{
+  if(!batchFiles.length||busy)return;busy=true;
+  const st=$('stat'),tot=batchFiles.length;dbgEl.textContent='';
+  const d=hasClaude()?await getDl():null;
+  if(!d){
+    for(let i=0;i<tot;i++){const f=batchFiles[i];st.textContent=`Mengunduh PNG ${i+1} dari ${tot}...`;try{anchorSave(f.name,new Blob([f.data],{type:'image/png'}))}catch(e){dbg('Gagal: '+f.name)}await new Promise(r=>setTimeout(r,350))}
+    st.textContent=`Selesai: ${tot} PNG dikirim ke folder Downloads. Jika browser menanyakan izin unduh banyak file, pilih Izinkan.`;busy=false;return}
+  let ok=0;
+  for(let i=0;i<tot;i++){
+    const f=batchFiles[i];st.textContent=`PNG ${i+1} dari ${tot}: setujui konfirmasi simpan di layar...`;
+    let tries=0;
+    for(;;){
+      try{await d.save({filename:f.name,data:new Blob([f.data],{type:'image/png'})});ok++;break}
+      catch(e){const c=e&&e.code;
+        if(c==='rate_limited'&&tries<15){tries++;st.textContent=`PNG ${i+1} dari ${tot}: menunggu giliran konfirmasi...`;await new Promise(r=>setTimeout(r,2000));continue}
+        st.textContent=(DLMSG[c]||('Gagal ('+(c||'?')+').'))+` Tersimpan ${ok} dari ${tot}.`;dbg('berhenti di '+f.name+': '+(c||'?')+' '+((e&&e.message)||''));busy=false;return}
+    }
+  }
+  st.textContent=`Selesai: ${ok} PNG tersimpan.`;busy=false;
+};
+$('batch').onclick=async()=>{
+  if(busy)return;
+  if(!img){alert('Upload logo terlebih dahulu.');return}
+  const lm=checked('bl'),bm=checked('bb2');
+  if(!lm.length||!bm.length){alert('Pilih minimal satu mode logo dan satu mode background.');return}
+  const N=+v('bn'),s=+v('scale'),withPat=$('bpat').checked,withRat=$('brat').checked;
+  const snap={M:{...M},vals:IDS.map(i=>v(i)),mesh:JSON.parse(JSON.stringify(mesh))};
+  busy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('zipbox').classList.add('hid');$('progi').style.width='0';
+  document.querySelectorAll('#thumbs img').forEach(i=>URL.revokeObjectURL(i.src));$('thumbs').innerHTML='';
+  const files=[],pad=String(N).length>3?String(N).length:3;let skipped=0,shrunk=0;
+  try{
+    for(let i=0;i<N;i++){
+      randomizeOne(lm,bm,withPat,withRat);
+      const rb=await renderBlob(s);if(!rb){skipped++;continue}
+      const {blob,o,thumb}=rb;if(rb.shrunk)shrunk++;
+      const fn=`${name}-${String(files.length+1).padStart(pad,'0')}-${M.logoMode}-${M.bgMode}-${o.w}x${o.h}.png`;
+      files.push({name:fn,data:new Uint8Array(await blob.arrayBuffer())});
+      const im=new Image();im.src=thumb.toDataURL('image/png');im.alt=fn;im.title='Klik untuk simpan '+fn;im.style.cursor='pointer';im.onclick=()=>saveFile(fn,blob);$('thumbs').appendChild(im);
+      $('progi').style.width=((i+1)/N*100)+'%';$('stat').textContent=`Membuat variasi ${i+1} dari ${N}...`;
+      await new Promise(r=>setTimeout(r,0));
+    }
+  }catch(e){$('stat').textContent='Batch gagal. Coba jumlah atau skala lebih kecil.';dbg('Batch error: '+((e&&e.message)||e))}
+  Object.assign(M,snap.M);IDS.forEach((id,i)=>$(id).value=snap.vals[i]);mesh=snap.mesh;tintKey='';sync();sched();
+  if(files.length){
+    $('stat').textContent='Mengemas ZIP...';await new Promise(r=>setTimeout(r,20));
+    batchFiles=files;zipBlob=makeZip(files);zipName=`${name}-batch-${files.length}png.zip`;
+    
+    
+    $('zipbtn').textContent=`↓ Download ZIP (${files.length} PNG, ${(zipBlob.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+    $('stat').textContent=`${files.length} PNG siap. Klik tombol Download ZIP.`+(shrunk?` ${shrunk} desain diperkecil otomatis agar muat di perangkat ini.`:'')+(skipped?` ${skipped} gagal dibuat.`:'');
+  }else if(!$('stat').textContent.startsWith('Batch gagal'))$('stat').textContent='Tidak ada file dibuat. Pilih skala lebih kecil.';
+  busy=false;$('batch').disabled=false;
+};
+window.addEventListener('error',e=>{try{dbg('Error: '+e.message+(e.lineno?' (baris '+e.lineno+')':''))}catch(_){}});window.addEventListener('unhandledrejection',e=>{try{dbg('Error: '+((e.reason&&e.reason.message)||e.reason))}catch(_){}});
+new MutationObserver(()=>{$('bstat').textContent=$('stat').textContent}).observe($('stat'),{childList:true,characterData:true,subtree:true});
+sync();
+</script>
+</body>
+</html>

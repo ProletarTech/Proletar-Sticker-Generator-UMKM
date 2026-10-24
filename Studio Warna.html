@@ -5,14 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CMYK Logo Studio</title>
 <style>
-:root{--ink:#17172b;--muted:#73748b;--line:#e7e7f1;--pu:#6338e8;--pu2:#7d56f5;--panel:#fff;--bg:#f6f6fb;--soft:#efebff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#efeffa;--muted:#9a9bb5;--line:#34344a;--panel:#20202e;--bg:#14141d;--soft:#2b2646;--pu:#8c6bff}}
-:root[data-theme="dark"]{--ink:#efeffa;--muted:#9a9bb5;--line:#34344a;--panel:#20202e;--bg:#14141d;--soft:#2b2646;--pu:#8c6bff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+:root{--ink:#261311;--muted:#261311;--line:#e6c8b7;--pu:#1c3934;--pu2:#ba6a36;--panel:#f9edf0;--bg:#f9edf0;--soft:#e6c8b7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:#1c3934;color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0}
-.app{max-width:1400px;margin:auto;padding:24px 20px 32px}
+.app{max-width:1680px;width:calc(100% - clamp(20px,5vw,72px));margin:clamp(10px,2vw,24px) auto;padding:clamp(20px,2.5vw,38px);border-radius:26px;background:var(--bg);box-shadow:0 18px 48px #26131124}
 header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.mark{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#744cf3,#4b25cb);display:grid;place-items:center;color:#fff;font-size:22px;font-weight:800;flex:none}
+.mark{width:128px;height:auto;object-fit:contain;flex:none}
 h1{font-size:clamp(22px,3vw,32px);line-height:1.15;margin:0;letter-spacing:-.6px}.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
 .work{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
@@ -22,20 +20,21 @@ h2{font-size:15px;font-weight:800;margin:0 0 12px;display:flex;align-items:cente
 .up.drag{border-color:var(--pu);background:var(--soft)}.up strong{color:var(--ink)}
 input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .btn{padding:11px 14px;border-radius:11px;font-weight:800;border:1px solid var(--line);background:var(--panel)}
-.btn.p{color:#fff;border:0;background:linear-gradient(100deg,#6338e8,#774cf0)}.btn.s{background:var(--soft);color:var(--pu);border-color:transparent}.btn.full{width:100%}
+.btn.p{color:var(--panel);border:0;background:var(--pu)}.btn.s{background:var(--soft);color:var(--pu);border-color:transparent}.btn.full{width:100%}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px;margin:0 0 10px}
 .tab{padding:8px 4px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:12px;font-weight:700;color:var(--muted)}
-.tab.on{background:var(--soft);border-color:var(--pu);color:var(--pu)}
+.tab.on{background:var(--pu);border-color:var(--pu);color:var(--panel)}
 label.f{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;margin:10px 0 5px}label.f span{font-weight:600;color:var(--muted)}
 input[type=range]{width:100%;accent-color:var(--pu)}
+.app button:focus-visible,.app input:focus-visible,.app select:focus-visible,.app [tabindex="0"]:focus-visible{outline:3px solid var(--pu2);outline-offset:3px}
 select,input[type=number]{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
 .cr{display:flex;align-items:center;gap:8px;margin-top:8px}.cr b{font-size:12px;min-width:56px}
 input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2px;border-radius:9px;background:var(--panel);flex:none}
 .pal{display:flex;flex-wrap:wrap;gap:5px;flex:1}.pal button{width:22px;height:22px;border-radius:7px;border:1px solid #0002;padding:0}
 .pal button:hover{transform:scale(1.12)}
 .hid{display:none!important}
-.stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#fff;background-image:linear-gradient(45deg,#e7e7ee 25%,transparent 25%),linear-gradient(-45deg,#e7e7ee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e7e7ee 75%),linear-gradient(-45deg,transparent 75%,#e7e7ee 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
+.stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#f9edf0;background-image:linear-gradient(45deg,#e6c8b7 25%,transparent 25%),linear-gradient(-45deg,#e6c8b7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e6c8b7 75%),linear-gradient(-45deg,transparent 75%,#e6c8b7 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
 #cv{display:block;max-width:100%;max-height:560px;width:auto;height:auto;box-shadow:0 8px 24px #0002}
 .empty{text-align:center;color:#73748b;max-width:320px}.empty .big{font-size:40px}
 .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}.sw{width:28px;height:28px;border-radius:50%;border:1px solid #0002;flex:none}
@@ -47,24 +46,26 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-top:12px}.thumbs img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:8px;border:1px solid var(--line);background:#fff}
 #dbg{white-space:pre-wrap;word-break:break-word;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--soft);border-radius:10px;padding:10px;margin-top:8px}
 .prog{height:6px;border-radius:6px;background:var(--soft);overflow:hidden;margin-top:10px}.prog i{display:block;height:100%;width:0;background:var(--pu);transition:width .15s}
+@media(forced-colors:active){.app button:focus-visible,.app input:focus-visible,.app select:focus-visible{outline:3px solid Highlight;outline-offset:3px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:900px){.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="mark">◉</div><div><h1>CMYK Logo Studio</h1><p class="sub">Acak warna logo PNG, atur background dan rasio. Bentuk logo tidak berubah.</p></div></header>
+<header><img class="mark" src="proletar-logo.png" alt="Perpustakaan Proletar"><div><h1>CMYK Logo Studio</h1><p class="sub">Acak warna logo PNG, atur background dan rasio. Bentuk logo tidak berubah.</p></div></header>
 <main class="work">
 <aside class="panel">
  <section class="card">
   <h2><span class="n">1</span>Upload logo</h2>
   <label class="up" id="drop" for="file"><strong>Pilih PNG atau seret ke sini</strong><small>PNG transparan paling bagus. Diproses di browser, tidak diunggah ke server.</small></label>
-  <input id="file" type="file" accept="image/png,image/webp,image/jpeg">
-  <div class="status" id="fstat">Belum ada file dipilih.</div>
+  <input id="file" type="file" accept="image/png,image/webp,image/jpeg" aria-label="Pilih gambar logo">
+  <div class="status" id="fstat" role="status" aria-live="polite">Belum ada file dipilih.</div>
  </section>
 
  <section class="card">
   <h2><span class="n">2</span>Warna logo</h2>
-  <div class="tabs" data-g="logoMode"><button class="tab on" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="orig">Warna asli</button></div>
+  <div class="tabs" data-g="logoMode" role="group" aria-label="Mode warna logo"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradasi</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Warna asli</button></div>
   <div id="lgrp">
    <div class="cr"><b>Warna A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
    <div class="cr lg2"><b>Warna B</b><input type="color" id="lb" value="#DE74C8"><div class="pal" data-t="lb"></div></div>
@@ -76,7 +77,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 
  <section class="card">
   <h2><span class="n">3</span>Background</h2>
-  <div class="tabs" data-g="bgMode"><button class="tab on" data-v="transparent">Transparan</button><button class="tab" data-v="solid">Solid</button><button class="tab" data-v="gradient">Gradasi</button><button class="tab" data-v="radial">Radial</button><button class="tab" data-v="mesh">Mesh</button></div>
+  <div class="tabs" data-g="bgMode" role="group" aria-label="Mode background"><button type="button" class="tab on" data-v="transparent" aria-pressed="true">Transparan</button><button type="button" class="tab" data-v="solid" aria-pressed="false">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradasi</button><button type="button" class="tab" data-v="radial" aria-pressed="false">Radial</button><button type="button" class="tab" data-v="mesh" aria-pressed="false">Mesh</button></div>
   <div id="bgrp" class="hid">
    <div class="cr"><b>Warna A</b><input type="color" id="ba" value="#FFCFE7"><div class="pal" data-t="ba"></div></div>
    <div class="cr bg2"><b>Warna B</b><input type="color" id="bb" value="#584CF6"><div class="pal" data-t="bb"></div></div>
@@ -117,7 +118,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   <label class="f">Ikut diacak</label>
   <div class="chk"><label><input type="checkbox" id="bpat" checked>Pola &amp; grain</label><label><input type="checkbox" id="brat">Rasio kanvas</label></div>
   <button class="btn p full" id="batch" style="margin-top:12px">📦 Generate &amp; download ZIP</button>
-  <div class="prog hid" id="prog"><i id="progi"></i></div>
+  <div class="prog hid" id="prog" role="progressbar" aria-label="Progres pembuatan variasi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progi"></i></div>
   <div id="zipbox" class="hid" style="margin-top:12px"><button class="btn p full" id="zipbtn">↓ Download ZIP</button><button class="btn full" id="pngsbtn" style="margin-top:8px">↓ Download PNG satu per satu</button><p class="note">Setelah klik, akan muncul konfirmasi simpan. Setujui supaya file tersimpan.</p></div>
   <div class="status" id="bstat" role="status"></div>
   <div class="thumbs" id="thumbs"></div>
@@ -135,7 +136,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
    <div class="act"><button class="btn" id="copy">Salin kode warna</button><button class="btn p" id="dl">↓ Download PNG HD</button><button class="btn" id="dltest">Tes unduhan</button></div>
   </div>
   <div class="status" id="stat" role="status">Siap. Upload logo untuk memulai.</div>
-  <pre id="dbg" class="hid"></pre>
+  <pre id="dbg" class="hid" role="log" aria-live="polite" aria-relevant="additions text"></pre>
  </div>
 </section>
 </main>
@@ -146,6 +147,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 const $=id=>document.getElementById(id),v=id=>$(id).value;
 $('yr').textContent=new Date().getFullYear();
 const PAL=['#EB683C','#FF8752','#FFCFE7','#D33636','#DE74C8','#584CF6','#4D84F5','#479D53','#F9DB48'];
+const MAX_IMAGE_BYTES=25e6,MAX_IMAGE_PIXELS=25e6,WARN_IMAGE_PIXELS=12e6,MAX_EXPORT_PIXELS=25e6,MAX_EXPORT_SIDE=12000,MAX_BATCH_BYTES=64*1024*1024;
 const M={logoMode:'solid',bgMode:'transparent'};
 let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false;
 const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
@@ -160,7 +162,7 @@ document.querySelectorAll('.pal').forEach(p=>{PAL.forEach(h=>{const b=document.c
 /* tabs */
 document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{M[t.dataset.g]=b.dataset.v;sync();sched()}));
 function sync(){
-  document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',M[t.dataset.g]===b.dataset.v)));
+  document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>{const selected=M[t.dataset.g]===b.dataset.v;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}));
   $('lgrp').classList.toggle('hid',M.logoMode==='orig');
   document.querySelectorAll('.lg2').forEach(e=>e.classList.toggle('hid',M.logoMode!=='gradient'));
   $('bgrp').classList.toggle('hid',M.bgMode==='transparent');
@@ -180,13 +182,17 @@ function sync(){
 function loadFile(f){
   if(!f)return;
   if(!/^image\/(png|webp|jpeg)$/.test(f.type)){alert('Pilih file PNG, WebP, atau JPEG.');return}
+  if(f.size>MAX_IMAGE_BYTES){$('stat').textContent='Gambar ditolak: ukuran file melebihi batas 25 MB.';return}
   const u=URL.createObjectURL(f),im=new Image();
-  im.onload=()=>{img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
+  im.onload=()=>{URL.revokeObjectURL(u);const pixels=im.naturalWidth*im.naturalHeight;
+    if(pixels>MAX_IMAGE_PIXELS){$('stat').textContent='Gambar ditolak: resolusi melebihi batas 25 megapiksel.';return}
+    if(pixels>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${f.name} berukuran ${im.naturalWidth} × ${im.naturalHeight} px (${(pixels/1e6).toFixed(1)} MP). Gambar besar dapat memakai banyak memori. Tetap muat?`)){$('stat').textContent='Gambar besar tidak dimuat.';return}
+    img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
     $('fstat').textContent=`${f.name} · ${ow} × ${oh} px`;$('stat').textContent='Logo dimuat.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
   im.onerror=()=>{alert('File gambar tidak bisa dibaca.');URL.revokeObjectURL(u)};im.src=u;
 }
 $('file').onchange=e=>{loadFile(e.target.files[0]);e.target.value=''};
-const dz=$('drop');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+const dz=$('drop');dz.tabIndex=0;dz.setAttribute('role','button');dz.setAttribute('aria-label','Pilih atau jatuhkan gambar logo');$('file').tabIndex=-1;$('file').setAttribute('aria-hidden','true');dz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('file').click()}});['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
 ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
 dz.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
 
@@ -292,15 +298,22 @@ $('dltest').onclick=async()=>{
   try{const r=await d.save({filename:'tes-unduhan.txt',data:'Tes unduhan CMYK Logo Studio'});dbg('save tes: '+r.status);$('stat').textContent='Tes berhasil: '+r.status+'.'}
   catch(e){dbg('save tes gagal: '+((e&&e.code)||'?')+' - '+((e&&e.message)||''));$('stat').textContent='Tes gagal: '+((e&&e.code)||'tidak diketahui')}
 };
-const MAXPX=1.2e8;
 async function renderBlob(s){
-  const {W,H}=layout();let k=s,shrunk=false;
-  if(W*k*H*k>MAXPX){k=Math.sqrt(MAXPX/(W*H));shrunk=true}
-  for(let t=0;t<6;t++){
-    try{const c=document.createElement('canvas'),o=render(c,k);const blob=await new Promise(r=>c.toBlob(r,'image/png'));const tr=160/Math.max(o.w,o.h),tc=document.createElement('canvas');tc.width=Math.max(1,Math.round(o.w*tr));tc.height=Math.max(1,Math.round(o.h*tr));tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);c.width=c.height=1;if(blob)return {blob,o,shrunk,k,thumb:tc}}catch(e){}
-    k*=0.75;shrunk=true;await new Promise(r=>setTimeout(r,0));
+  const {W,H}=layout(),safe=Math.min(MAX_EXPORT_SIDE/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS/(W*H)));
+  let k=Math.min(s,safe),lastError;
+  if(k<0.1)throw new Error('Ukuran kanvas terlalu besar untuk diekspor dengan aman.');
+  while(k>=0.1){
+    try{
+      const c=document.createElement('canvas'),o=render(c,k),blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+      if(!blob)throw new Error('Browser gagal membuat PNG.');
+      const factor=Math.min(1,160/Math.max(o.w,o.h)),thumb=document.createElement('canvas');
+      thumb.width=Math.max(1,Math.round(o.w*factor));thumb.height=Math.max(1,Math.round(o.h*factor));
+      const ctx=thumb.getContext('2d');if(!ctx)throw new Error('Canvas thumbnail tidak tersedia.');
+      ctx.drawImage(c,0,0,thumb.width,thumb.height);c.width=c.height=1;
+      return {blob,o,shrunk:k<s, k,thumb};
+    }catch(error){lastError=error;if(k<=0.1)break;k=Math.max(0.1,k*.75);await new Promise(resolve=>setTimeout(resolve,0))}
   }
-  return null;
+  throw lastError||new Error('Ekspor PNG gagal pada resolusi terendah yang aman.');
 }
 $('dl').onclick=async()=>{
   if(!img){alert('Upload logo terlebih dahulu.');return}
@@ -310,7 +323,7 @@ $('dl').onclick=async()=>{
     const rb=await renderBlob(s);if(!rb)throw new Error('gagal');
     await saveFile(`${name}-${(v('la')).slice(1)}-${rb.o.w}x${rb.o.h}.png`,rb.blob);
     if(rb.shrunk)$('stat').textContent+=` (ukuran diperkecil otomatis ke ${rb.o.w}×${rb.o.h} px agar muat di perangkat ini)`;
-  }catch(e){$('stat').textContent='Gagal membuat PNG bahkan di ukuran kecil. Coba muat ulang halaman.'}
+  }catch(e){$('stat').textContent='Gagal membuat PNG: '+((e&&e.message)||e);dbg('Ekspor PNG gagal: '+((e&&e.message)||e))}
   $('dl').disabled=false;
 };
 
@@ -380,31 +393,32 @@ $('batch').onclick=async()=>{
   if(!lm.length||!bm.length){alert('Pilih minimal satu mode logo dan satu mode background.');return}
   const N=+v('bn'),s=+v('scale'),withPat=$('bpat').checked,withRat=$('brat').checked;
   const snap={M:{...M},vals:IDS.map(i=>v(i)),mesh:JSON.parse(JSON.stringify(mesh))};
-  busy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('zipbox').classList.add('hid');$('progi').style.width='0';
+  busy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('prog').setAttribute('aria-valuenow','0');$('zipbox').classList.add('hid');$('progi').style.width='0';
   document.querySelectorAll('#thumbs img').forEach(i=>URL.revokeObjectURL(i.src));$('thumbs').innerHTML='';
-  const files=[],pad=String(N).length>3?String(N).length:3;let skipped=0,shrunk=0;
+  const files=[],pad=String(N).length>3?String(N).length:3;let skipped=0,shrunk=0,totalBytes=0,limitReached=false;
   try{
     for(let i=0;i<N;i++){
       randomizeOne(lm,bm,withPat,withRat);
       const rb=await renderBlob(s);if(!rb){skipped++;continue}
       const {blob,o,thumb}=rb;if(rb.shrunk)shrunk++;
       const fn=`${name}-${String(files.length+1).padStart(pad,'0')}-${M.logoMode}-${M.bgMode}-${o.w}x${o.h}.png`;
-      files.push({name:fn,data:new Uint8Array(await blob.arrayBuffer())});
-      const im=new Image();im.src=thumb.toDataURL('image/png');im.alt=fn;im.title='Klik untuk simpan '+fn;im.style.cursor='pointer';im.onclick=()=>saveFile(fn,blob);$('thumbs').appendChild(im);
-      $('progi').style.width=((i+1)/N*100)+'%';$('stat').textContent=`Membuat variasi ${i+1} dari ${N}...`;
+      if(totalBytes+blob.size>MAX_BATCH_BYTES){limitReached=true;break}
+      const data=new Uint8Array(await blob.arrayBuffer());files.push({name:fn,data});totalBytes+=data.byteLength;
+      const preview=document.createElement('button'),im=document.createElement('img');preview.type='button';preview.setAttribute('aria-label','Unduh '+fn);preview.title='Klik untuk simpan '+fn;im.src=thumb.toDataURL('image/png');im.alt='';preview.appendChild(im);preview.onclick=()=>saveFile(fn,new Blob([data],{type:'image/png'}));$('thumbs').appendChild(preview);
+      const percent=Math.round((i+1)/N*100);$('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));$('stat').textContent=`Membuat variasi ${i+1} dari ${N} (${percent}%)...`;
       await new Promise(r=>setTimeout(r,0));
     }
   }catch(e){$('stat').textContent='Batch gagal. Coba jumlah atau skala lebih kecil.';dbg('Batch error: '+((e&&e.message)||e))}
   Object.assign(M,snap.M);IDS.forEach((id,i)=>$(id).value=snap.vals[i]);mesh=snap.mesh;tintKey='';sync();sched();
-  if(files.length){
-    $('stat').textContent='Mengemas ZIP...';await new Promise(r=>setTimeout(r,20));
-    batchFiles=files;zipBlob=makeZip(files);zipName=`${name}-batch-${files.length}png.zip`;
-    
-    
-    $('zipbtn').textContent=`↓ Download ZIP (${files.length} PNG, ${(zipBlob.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
-    $('stat').textContent=`${files.length} PNG siap. Klik tombol Download ZIP.`+(shrunk?` ${shrunk} desain diperkecil otomatis agar muat di perangkat ini.`:'')+(skipped?` ${skipped} gagal dibuat.`:'');
-  }else if(!$('stat').textContent.startsWith('Batch gagal'))$('stat').textContent='Tidak ada file dibuat. Pilih skala lebih kecil.';
-  busy=false;$('batch').disabled=false;
+  try{
+    if(files.length){
+      $('stat').textContent='Mengemas ZIP...';await new Promise(r=>setTimeout(r,20));
+      batchFiles=files;zipBlob=makeZip(files);zipName=`${name}-batch-${files.length}png.zip`;
+      $('zipbtn').textContent=`↓ Download ZIP (${files.length} PNG, ${(zipBlob.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+      $('stat').textContent=`${files.length} PNG siap. Klik tombol Download ZIP.`+(shrunk?` ${shrunk} desain diperkecil otomatis agar muat di perangkat ini.`:'')+(skipped?` ${skipped} gagal dibuat.`:'')+(limitReached?' Batas total batch 64 MB tercapai; variasi tambahan tidak dibuat.':'');
+    }else if(!$('stat').textContent.startsWith('Batch gagal'))$('stat').textContent=limitReached?'Batas batch 64 MB tercapai sebelum PNG pertama selesai.':'Tidak ada file dibuat. Pilih skala lebih kecil.';
+  }catch(error){batchFiles=[];zipBlob=null;$('zipbox').classList.add('hid');$('stat').textContent='Gagal mengemas batch menjadi ZIP.';dbg('ZIP batch gagal: '+((error&&error.message)||error))}
+  finally{busy=false;$('batch').disabled=false}
 };
 window.addEventListener('error',e=>{try{dbg('Error: '+e.message+(e.lineno?' (baris '+e.lineno+')':''))}catch(_){}});window.addEventListener('unhandledrejection',e=>{try{dbg('Error: '+((e.reason&&e.reason.message)||e.reason))}catch(_){}});
 new MutationObserver(()=>{$('bstat').textContent=$('stat').textContent}).observe($('stat'),{childList:true,characterData:true,subtree:true});
