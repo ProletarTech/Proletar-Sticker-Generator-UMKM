@@ -37,5 +37,12 @@ Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser d
 - `BACA-SAYA.txt` — catatan penggunaan dan batas pemrosesan.
 - `manifest.webmanifest`, `sw.js`, ikon, dan logo — aset instalasi/PWA.
 - `LICENSE` — lisensi proyek.
+- `NOTICE.md` — penjelasan lisensi kode dan batas penggunaan merek/aset Proletar.
 
 Perubahan pada branch `main` dipublikasikan melalui GitHub Pages.
+
+## Lisensi dan atribusi
+
+Kode asli Proletar dilisensikan di bawah **GNU GPL v3.0** dan boleh digunakan, diubah, serta didistribusikan, termasuk secara komersial, dengan mengikuti GPLv3 dan ketentuan atribusi tambahan yang dijelaskan di [NOTICE.md](NOTICE.md). Komponen pihak ketiga mengikuti lisensi dan pemberitahuannya masing-masing.
+
+Nama dan logo Proletar merupakan identitas merek terpisah dan tidak mendapat izin penggunaan dari lisensi kode. Baca [NOTICE.md](NOTICE.md) sebelum memakai atau mendistribusikan fork.
