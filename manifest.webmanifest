@@ -1,13 +1,13 @@
 {
- "name": "Proletar Project Sticker Generator",
- "short_name": "Sticker Gen",
- "description": "Buat lembar stiker siap cetak dan potong dari logo. Support UMKM.",
+ "name": "Proletar Project Sticker Studio",
+ "short_name": "Sticker Studio",
+ "description": "Studio warna logo + lembar stiker siap cetak dan potong. Support UMKM.",
  "start_url": "./index.html",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#111111",
- "theme_color": "#d6361f",
+ "background_color": "#f7f5ff",
+ "theme_color": "#7047eb",
  "lang": "id",
  "icons": [
   {
