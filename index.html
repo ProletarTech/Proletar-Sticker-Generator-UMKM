@@ -267,7 +267,7 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <h2>Penghapus latar PNG</h2>
 <p class="info">Pemrosesan dilakukan sepenuhnya di perangkat. Warna latar diambil otomatis dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut transparan.</p>
 <div class="workflow" aria-label="Alur kerja"><span><b>1</b> Upload</span><i>→</i><span><b>2</b> Pilih alat</span><i>→</i><span><b>3</b> Preview</span><i>→</i><span><b>4</b> Unduh</span></div>
-<label class="remove-upload" id="remove-upload-label" for="remove-input"><b>Pilih atau jatuhkan gambar di sini</b><br><small>PNG, JPG, atau WebP · maks. 25 MB dan 25 megapiksel</small></label>
+<label class="remove-upload" id="remove-upload-label" for="remove-input"><b>Pilih atau jatuhkan gambar di sini</b><br><small>PNG, JPG, atau WebP · tanpa batas ukuran unggahan</small></label>
 <input id="remove-input" type="file" accept="image/png,image/jpeg,image/webp">
 <div class="remove-tools" role="group" aria-label="Alat penghapus">
 <button type="button" id="remove-auto-mode" class="on" aria-pressed="true">Hapus latar otomatis</button>
@@ -297,7 +297,7 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <h2>Upscaler gambar</h2>
 <p class="info">Memperbesar gambar sepenuhnya offline dengan interpolasi berkualitas tinggi dari browser. Ini memperhalus pembesaran, tetapi tidak menciptakan detail baru seperti upscaler AI.</p>
 <div class="workflow" aria-label="Alur kerja"><span><b>1</b> Upload</span><i>→</i><span><b>2</b> Atur skala</span><i>→</i><span><b>3</b> Bandingkan</span><i>→</i><span><b>4</b> Unduh</span></div>
-<label class="remove-upload" id="upscale-upload-label" for="upscale-input"><b>Pilih atau jatuhkan gambar di sini</b><br><small>PNG, JPG, atau WebP · maks. 25 MB dan 25 megapiksel</small></label>
+<label class="remove-upload" id="upscale-upload-label" for="upscale-input"><b>Pilih atau jatuhkan gambar di sini</b><br><small>PNG, JPG, atau WebP · tanpa batas ukuran unggahan</small></label>
 <input id="upscale-input" type="file" accept="image/png,image/jpeg,image/webp">
 <div class="remove-controls">
 <label class="f">Faktor pembesaran<select id="upscale-scale"><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option></select></label>
@@ -334,10 +334,9 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <div class="modebar"><span>Mode:</span><button id="m-easy">Mudah</button><button id="m-adv">Lanjutan</button></div>
 
 <div class="card">
-<label class="drop" id="sheet-upload-label" for="file"><b><span class="stepn">1</span>Pilih logo</b> (bisa lebih dari satu)<br><small>PNG / JPG / SVG · maks. 25 MB dan 25 MP per gambar; konfirmasi di atas 12 MP</small></label>
+<label class="drop" id="sheet-upload-label" for="file"><b><span class="stepn">1</span>Pilih logo</b> (bisa lebih dari satu)<br><small>PNG / JPG / SVG · tanpa batas ukuran unggahan</small></label>
 <input id="file" type="file" accept="image/*,.svg" multiple>
 <div class="thumbs" id="thumbs"></div>
-<div class="row"><input type="checkbox" id="pautovec" checked><label for="pautovec"><b>Auto vektor</b>: logo diubah jadi vektor otomatis (tepi lebih tajam). Matikan untuk memakai gambar asli.</label></div>
 <p class="info" id="status" style="margin:10px 0 0"></p>
 <p class="info" style="margin:12px 0 6px">Rasio gambar logo (untuk logo terpilih)</p>
 <div class="chips" id="ratio-chips"><button data-r="orig">Asli</button><button data-r="1:1">1:1</button><button data-r="4:3">4:3</button><button data-r="3:4">3:4</button><button data-r="16:9">16:9</button><button data-r="9:16">9:16</button></div>
@@ -444,10 +443,9 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <div class="row" style="margin:0;align-self:end"><input type="checkbox" id="newrow" checked><label for="newrow">Tiap logo mulai di baris baru</label></div>
 </div>
 <div class="grid" style="margin-top:10px">
-<label class="f">Resolusi gambar di PDF (dpi)<input id="pdpi" type="number" list="dpi-list" value="1200" min="72" max="2400" step="1"></label>
-<label class="f">Resolusi file PNG (dpi)<input id="dpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><datalist id="dpi-list"><option value="150"><option value="300"><option value="600"><option value="1200"><option value="2400"></datalist>
+<label class="f">DPI acuan kanvas &amp; pratinjau<input id="dpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><datalist id="dpi-list"><option value="150"><option value="300"><option value="600"><option value="1200"><option value="2400"></datalist>
 </div>
-<p class="info" style="margin:8px 0 0">PDF paling tajam untuk cetak: tiap logo disimpan sekali dalam resolusi tinggi, jadi ukuran file tetap kecil. Resolusi yang dipakai otomatis tidak melebihi resolusi asli logo.</p>
+<p class="info" style="margin:8px 0 0">Saat lossless mati, gambar raster PDF dirender sesuai DPI PDF yang dipilih. Menaikkan DPI tidak menambah detail di luar resolusi logo asli. Saat lossless aktif, gambar asli disematkan tanpa resize.</p>
 <input type="checkbox" id="lossless" hidden>
 <button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Mode lossless: MATI</button>
 <p class="info" id="llinfo" style="margin:8px 0 0"></p>
@@ -467,8 +465,9 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <label class="f">Diameter stiker (px)<input id="pxd" type="number" value="378" min="20"></label>
 <label class="f">Warna latar lembar<input id="sbg" type="color" value="#ffffff"></label>
 </div>
-<div class="row"><input type="checkbox" id="strans"><label for="strans">Latar transparan (PNG)</label></div>
-<div class="row"><input type="checkbox" id="pvp" checked><label for="pvp">PDF vektor murni untuk logo yang sudah divektor (tajam tanpa batas DPI)</label></div>
+<p class="info" style="margin:8px 0 0">Setiap tombol mengunduh formatnya sendiri: PDF memakai pengaturan DPI PDF di atas; SVG garis potong dan SVG tanpa gambar berisi jalur vektor; SVG lembar memakai ulang gambar sumber PNG/JPEG tanpa menurunkan resolusi jika tidak ada efek raster.</p>
+<div class="row"><input type="checkbox" id="strans"><label for="strans">Latar transparan di pratinjau dan SVG lembar</label></div>
+<p class="info" style="margin:8px 0 0">Logo dengan status “Mode vektor aktif” otomatis dimasukkan ke PDF sebagai vektor. Logo raster tetap memakai DPI PDF yang dipilih; lossless menyematkan gambar asli tanpa resize.</p>
 <hr class="sep">
 <div class="grid">
 <label class="f">Mesin potong<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), paling umum</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka (HPGL)</option><option value="custom">Custom</option></select></label>
@@ -509,18 +508,17 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <p class="info" id="k-out" style="margin-top:12px;font-size:14px;color:var(--tx)"></p>
 </div>
 
-<div class="card"><h2 class="ez"><span class="stepn">3</span>Unduh hasilnya</h2><p class="info ez" style="margin:0 0 10px">PDF = file siap cetak (paling tajam). PNG = gambar lembar stiker. SVG = garis potong untuk mesin potong.</p><div class="btns">
+<div class="card"><h2 class="ez"><span class="stepn">3</span>Unduh hasilnya</h2><p class="info ez" style="margin:0 0 10px">PDF = file siap cetak. SVG garis potong untuk mesin cutting; SVG lembar berisi raster tanpa vektorisasi dan memakai ulang sumber bila memungkinkan.</p><label class="f" style="margin:0 0 10px">Resolusi gambar di PDF (dpi)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><div class="btns">
 <button class="p" id="pdf">Unduh PDF</button>
-<button class="p o" id="png">Unduh PNG 300 dpi</button>
-<button class="p o" id="svg">Unduh SVG garis potong</button><button class="p o" id="dxf">Unduh DXF garis potong</button><button class="p o" id="plt">Unduh PLT (HPGL)</button>
-</div><label class="f ez" id="ez-dpi-wrap" style="margin:10px 0 0">Kualitas PNG<select id="ez-dpi"><option value="150">Draft (150 dpi)</option><option value="300" selected>Standar (300 dpi)</option><option value="600">Tajam (600 dpi, berat)</option></select></label><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Sertakan garis potong / lingkaran bantu (magenta) di PDF dan PNG. Matikan kalau file mau dicetak langsung.</label></div><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
+<button class="p o" id="svg">Unduh SVG garis potong + marka</button><button class="p o" id="svg-contour">Unduh SVG tanpa gambar (kontur + marka)</button><button class="p o" id="svg-sheet">Unduh SVG lembar (gambar raster)</button><button class="p o" id="dxf">Unduh DXF garis potong</button><button class="p o" id="plt">Unduh PLT (HPGL)</button>
+</div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Sertakan garis potong / lingkaran bantu (magenta) di PDF. Matikan kalau file mau dicetak langsung.</label></div><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
 
 <div class="card btns"><button class="p o" id="psave">Simpan proyek</button><button class="p o" id="popen">Buka proyek</button><input id="projfile" type="file" accept=".json,application/json"></div>
 <div class="card" style="font-size:13px">
 <b>Panduan potong (kiss cut / die cut)</b>
 <ul style="margin:8px 0 0;padding-left:18px;color:var(--mut)">
 <li><b>PDF</b>: gambar cetak + garis potong vektor magenta (tebal 0,1 mm) di atasnya. Matikan centang kalau mau PDF cetak saja.</li>
-<li><b>SVG</b>: hanya garis potong (grup <code>CutContour</code>) dan tanda registrasi, vektor murni. Bisa di-import ke CorelDRAW, Illustrator, atau software mesin.</li>
+<li><b>SVG tanpa gambar</b>: kontur potong dan tanda registrasi, vektor murni tanpa gambar raster. Pengaturan bentuk, layout, offset kontur, serta tipe/ukuran/posisi marka mengikuti kontrol di atas.</li>
 <li><b>Kiss cut</b> = pisau hanya memotong lapisan stiker, backing tidak tembus. <b>Die cut</b> = potong tembus. Ini diatur di mesin (force, kedalaman pisau), bukan di file.</li>
 <li>Mesin Roland/Summa biasanya membaca garis potong dari warna spot bernama <b>CutContour</b>. Di CorelDRAW, beri nama spot color itu pada garis magenta setelah import.</li>
 <li>Tanda registrasi tiap merek mesin beda (Graphtec ARMS, Summa OPOS, dll). Titik dan siku di file ini bentuk umum, jadi kalau mesinmu butuh format khusus, tambahkan tanda dari software mesinnya.</li>
@@ -1453,7 +1451,6 @@ function schedule(){if(pend)return;pend=true;requestAnimationFrame(()=>{pend=fal
 
 /* ---------- mode lossless ---------- */
 const LL=()=>$('lossless').checked;
-let llPrev=true;
 function nativeDpi(){
   if(!logos.length)return 0;
   const L=calc();let m=0;
@@ -1464,18 +1461,12 @@ function pngDpiVal(){
   const px=$('pxm').checked;
   readPaper();
   const requested=LL()&&!px?(nativeDpi()||outDpi()):outDpi();
+  if(px&&outDpi()===2400)return 2400;
   return Math.min(requested,Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS*25.4*25.4/(W*H)))));
 }
 function applyLossless(){
-  const on=LL(),pa=$('pautovec'),b=$('llbtn');
+  const on=LL(),b=$('llbtn');
   b.textContent='Mode lossless: '+(on?'AKTIF':'MATI');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);
-  if(on){
-    if(!pa.disabled)llPrev=pa.checked;
-    pa.checked=false;pa.disabled=true;
-  }else{
-    if(pa.disabled){pa.checked=llPrev;pa.disabled=false}
-    
-  }
   tileCache.clear();
   updateBtns();loadPanel();schedule();
 }
@@ -1909,7 +1900,7 @@ function render(){
   $('info').textContent=`${L.cols} kolom × ${L.rows} baris · ${L.cells.length} posisi`+(logos.length?`, terisi ${used}`:'')
     +(logos.length>1?' · '+logos.map((l,i)=>`#${i+1}: ${cnt[i]||0}`).join(', '):'')
     +(fixed>L.cells.length?' · jumlah melebihi kapasitas lembar, sebagian dipotong':'')
-    +` · 1 stiker = ${Math.round(L.w/25.4*dp)}×${Math.round(L.h/25.4*dp)} px di PNG ${dp} dpi`;
+    +` · 1 stiker = ${Math.round(L.w/25.4*dp)}×${Math.round(L.h/25.4*dp)} px pada ${dp} dpi`;
   {const n=nativeDpi(),pd=pngDpiVal();$('llinfo').textContent=LL()?('Lossless aktif: sharpen &amp; trace dimatikan, gambar tidak diperkecil lebih dari perlu. '+(n?'Resolusi asli logo ≈ '+Math.round(n)+' dpi. ':'')+'PDF menyematkan gambar asli apa adanya tanpa resize (bisa di-zoom sedalam resolusi sumber); PNG memakai '+pd+' dpi'+(!$('pxm').checked&&n&&pd<Math.floor(n)?' (dibatasi batas kanvas perangkat, pakai PDF untuk 1:1)':'')+'.').replace('&amp;','&'):''}
   renderOne();effInfo();
 }
@@ -2015,16 +2006,7 @@ oc.addEventListener('wheel',e=>{
 },{passive:false});
 
 /* ---------- upload ---------- */
-const MAX_IMAGE_BYTES=25e6,MAX_IMAGE_PIXELS=25e6,WARN_IMAGE_PIXELS=12e6;
 const MAX_EXPORT_PIXELS=25e6,MAX_EXPORT_SIDE=12000;
-function validateImageFile(file){
-  if(file.size>MAX_IMAGE_BYTES)throw new Error('Ukuran file melebihi batas 25 MB.');
-}
-function validateImageDimensions(img){
-  const px=img.naturalWidth*img.naturalHeight;
-  if(px>MAX_IMAGE_PIXELS)throw new Error('Resolusi gambar melebihi batas 25 megapiksel.');
-  return px;
-}
 const readURL=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)});
 async function makeLogo0(url){
   const img=new Image();
@@ -2036,28 +2018,24 @@ async function makeLogo0(url){
 $('file').onchange=async e=>{
   const files=[...e.target.files];e.target.value='';
   if(!files.length)return;
-  const st=$('status');let ok=0,fail=0,skip=0;const errors=[];
+  const st=$('status');let ok=0,fail=0;const errors=[];
   for(let i=0;i<files.length;i++){
     st.textContent=`Memuat gambar ${i+1} dari ${files.length}...`;await pause();
     try{
-      validateImageFile(files[i]);
-      const lgn=await makeLogo(await readAny(files[i])),px=validateImageDimensions(lgn.img);
-      if(px>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${files[i].name} berukuran ${lgn.img.naturalWidth} × ${lgn.img.naturalHeight} px (${(px/1e6).toFixed(1)} MP). Gambar besar dapat memakai banyak memori. Tetap muat?`)){skip++;continue}
-      logos.push(lgn);ok++;sel=logos.length-1;renderThumbs();loadPanel();if($('pautovec').checked){st.textContent=`Auto scan logo ${i+1} dari ${files.length}...`;await pause();await autoScan(lgn);loadPanel()}
+      const lgn=await makeLogo(await readAny(files[i]));
+      logos.push(lgn);ok++;sel=logos.length-1;renderThumbs();loadPanel();
     }catch(err){fail++;errors.push(err&&err.message||'Gagal membaca gambar')}
   }
-  const keep=st.textContent;
-  st.textContent=[`${ok} logo ditambahkan.`,skip?`${skip} dilewati.`:'',fail?`${fail} gagal: ${[...new Set(errors)].join(' ')}`:'',!fail&&!skip&&$('pautovec').checked&&keep.startsWith('Auto scan:')?keep:''].filter(Boolean).join(' ');
+  st.textContent=[`${ok} logo ditambahkan.`,fail?`${fail} gagal: ${[...new Set(errors)].join(' ')}`:''].filter(Boolean).join(' ');
   await pause();schedule();
-  if(!fail&&!skip)setTimeout(()=>{st.textContent=''},$('pautovec').checked?7000:2500);
+  if(!fail)setTimeout(()=>{st.textContent=''},2500);
 };
 ['paper','shape','pw','ph','d','h','gap','mar','bleed','layout','newrow','guide','credit','vcut','dpi'].forEach(id=>$(id).addEventListener('input',schedule));
 
 /* ---------- save / load project ---------- */
-const GIDS=['paper','shape','pw','ph','d','h','gap','mar','bleed','layout','newrow','guide','credit','vcut','dpi','pdpi','pxm','mdpi','ppx','pxw','pxh','pxd','sbg','strans','pvp','mach','mtype','msz','moff','mw','cname','cox','coy','pautovec','lossless','ctxt','cpos','csize','ccol','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw'];
+const GIDS=['paper','shape','pw','ph','d','h','gap','mar','bleed','layout','newrow','guide','credit','vcut','dpi','pdpi','pxm','mdpi','ppx','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','ctxt','cpos','csize','ccol','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw'];
 const LKEYS=['fit','zoom','ox','oy','auto','bgc','key','tol','sharp','qty','bw','bc','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vb'];
 $('psave').onclick=async()=>{
-  if(needLogo())return;
   const g={};GIDS.forEach(id=>g[id]=$(id).type==='checkbox'?$(id).checked:$(id).value);
   try{
     const projectLogos=await Promise.all(logos.map(async l=>{
@@ -2162,8 +2140,8 @@ function imgCell(pdf,lg,L,cx,cy,shape,bleed,im){
 }
 
 /* ---------- export ---------- */
-function busy(b,msg){if(b)showLoader(msg||"Memproses...");else hideLoader();['pdf','png','svg'].forEach(id=>$(id).disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
-function updateBtns(){readPaper();$('pdf').textContent=LL()?'Unduh PDF (lossless)':'Unduh PDF ('+pdfDpi()+' dpi)';const pd=pngDpiVal(),px=$('pxm').checked,req=LL()&&!px?(nativeDpi()||outDpi()):outDpi(),limited=pd<req;$('png').textContent=(px||LL())?'Unduh PNG '+Math.round(W/25.4*pd)+'×'+Math.round(H/25.4*pd)+' px'+(LL()&&!px?' (lossless)':'')+(limited?' · batas aman':''):'Unduh PNG ('+pd+' dpi'+(limited?' · batas aman':'')+')'}
+function busy(b,msg){if(b)showLoader(msg||"Memproses...");else hideLoader();['pdf','svg','svg-contour','svg-sheet'].forEach(id=>$(id).disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
+function updateBtns(){readPaper();$('pdf').textContent=LL()?'Unduh PDF (lossless)':'Unduh PDF ('+pdfDpi()+' dpi)'}
 let LASTINFO='';
 function askExportFallback(message,detail,lower,lowerUnit='dpi'){
   hideLoader();
@@ -2184,13 +2162,18 @@ function saveFile(name,blob){
   $('done-name').textContent=name+' ('+(blob.size/1048576).toFixed(1)+' MB)';
   $('done-msg').textContent='';openModal($('done'),'#done-dl');
   $('done-dl').onclick=async()=>{
-    $('done-dl').disabled=true;await doSave(name,blob);$('done-dl').disabled=false;
-    $('done-msg').textContent=$('dlstatus').textContent;
+    const button=$('done-dl');button.disabled=true;
+    try{
+      await doSave(name,blob);
+      $('done-msg').textContent=$('dlstatus').textContent;
+    }catch(error){
+      const message='Gagal mengunduh: '+((error&&error.message)||error);
+      $('dlstatus').textContent=message;$('done-msg').textContent=message;
+    }finally{button.disabled=false}
   };
   return Promise.resolve();
 }
-async function doSave(name,blob){
-  const st=$('dlstatus');
+async function doSave(name,blob,st=$('dlstatus')){
   try{
     let dl=null;
     if(window.claude&&window.claude.use)dl=await window.claude.use('downloads');
@@ -2210,43 +2193,23 @@ async function doSave(name,blob){
   setTimeout(()=>URL.revokeObjectURL(a.href),60000);
   st.textContent='Mengunduh: '+name;
 }
-function needLogo(){if(!logos.length){$('dlstatus').textContent='Tambahkan minimal satu logo dulu.';return true}return false}
-$('png').onclick=async()=>{
-  if(needLogo())return;
-  let dpi=pngDpiVal();
-  if(dpi<72){$('dlstatus').textContent='Ukuran kertas terlalu besar untuk diekspor dengan aman, bahkan pada 72 dpi.';return}
-  const initialDpi=dpi;
-  busy(true,'Membuat PNG '+dpi+' dpi...');await pause();
-  let blob=null,pw=0,ph=0,lowerAutomatically=false;
-  while(true){
-    try{
-      calc();const k=dpi/25.4;pw=Math.round(W*k);ph=Math.round(H*k);
-      const c=document.createElement('canvas');c.width=pw;c.height=ph;
-      const x=c.getContext('2d');if(!x)throw new Error('canvas');
-      draw(x,k,$('vcut').checked);
-      const p=x.getImageData(0,0,1,1).data;if(!$('strans').checked&&p[3]<200)throw new Error('limit');
-      blob=await new Promise(r=>c.toBlob(r,'image/png'));
-      if(!blob)throw new Error('limit');
-      break;
-    }catch(err){
-      const lower=Math.max(72,Math.floor(dpi*0.8));
-      if(lower===dpi){$('dlstatus').textContent='Ekspor PNG gagal bahkan pada 72 dpi. Coba kertas lebih kecil atau kurangi isi lembar.';busy(false);return}
-      if(lowerAutomatically){dpi=lower;$('loadmsg').textContent=`Perangkat terbatas, mencoba ${dpi} dpi...`;await pause();continue}
-      const dims=`Resolusi saat ini ${pw} × ${ph} px (${dpi} dpi).`;
-      const choice=await askExportFallback('Perangkat gagal membuat PNG pada resolusi ini. Anda dapat mengulangi percobaan, menurunkan resolusi otomatis sampai berhasil, atau membatalkan.',dims,lower);
-      if(choice==='cancel'){$('dlstatus').textContent='Ekspor PNG dibatalkan.';busy(false);return}
-      if(choice==='lower'){dpi=lower;lowerAutomatically=true}
-      await pause();
-    }
-  }
-  try{
-    LASTINFO=`PNG ${pw}×${ph} px, ${dpi} dpi${dpi<initialDpi?` (diturunkan dari ${initialDpi} dpi karena batas perangkat)`:''}${LL()?' (mode lossless).':'.'}`;
-    await saveFile(sheetFileName('png').replace(/\.png$/,`-${dpi}dpi.png`),await pngDpi(blob,dpi));
-  }catch(err){$('dlstatus').textContent='Gagal menyiapkan PNG: '+((err&&err.message)||err)}
-  busy(false);
-};
+function saveDirectFile(name,blob,status){
+  if(!status)throw new Error('Status unduhan tidak tersedia.');
+  return doSave(name,blob,status);
+}
+function needLogo(){if(!logos.length){$('dlstatus').textContent='SVG lembar berisi gambar logo, jadi butuh minimal satu logo. Untuk lembar kosong, pakai PDF, SVG garis potong, atau SVG tanpa gambar.';return true}return false}
+function svgRasterSource(lg,id){
+  const direct=/^data:image\/(?:png|jpe?g);base64,/i.test(lg.url);
+  if(!direct||lg.key||(lg.ratio&&lg.ratio!=='orig')||lg.vec||(!LL()&&lg.sharp>0)||TXTO())return null;
+  const src=lg.img,iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height;
+  if(!iw||!ih)return null;
+  return {definition:`<image id="${id}" x="0" y="0" width="${iw}" height="${ih}" preserveAspectRatio="none" xlink:href="${lg.url}"/>`,iw,ih};
+}
+function svgShapePath(cx,cy,w,h,shape,grow){
+  return shPoly(cx,cy,w,h,shape,grow)
+    .map((p,i)=>`${i?'L':'M'}${p[0].toFixed(4)} ${p[1].toFixed(4)}`).join(' ')+' Z';
+}
 $('pdf').onclick=async()=>{
-  if(needLogo())return;
   if(!window.jspdf){$('dlstatus').textContent='Library PDF belum termuat. Cek koneksi internet lalu muat ulang halaman.';return}
   const initialDpi=pdfDpi();let rasterDpi=null,lowerAutomatically=false;
   busy(true,'Membuat PDF '+initialDpi+' dpi...');await pause();
@@ -2263,10 +2226,10 @@ $('pdf').onclick=async()=>{
     const urls={},imgs={};
     forCells(L,(cx,cy,li)=>{
       const lg=logos[li],id=lg?lg.id:0;
-      if($('pvp').checked&&lg&&lg.vec&&lg.vimg&&lg.vsvg){vecCell(pdf,lg,L,cx,cy,s,bleed);return}
+      if(lg&&lg.vec&&lg.vimg&&lg.vsvg){vecCell(pdf,lg,L,cx,cy,s,bleed);return}
       if(LL()&&!rasterDpi&&lg&&!TXTO()&&!(lg.vec&&lg.vimg)){try{imgCell(pdf,lg,L,cx,cy,s,bleed,origImg(lg,imgs));return}catch(e){}}
       if(!urls[id]){
-        const sd=rasterDpi||((lg&&!lg.vec)?25.4/fitScale(lg,L.w,L.h):dpi),tw=L.w+2*bleed,th=L.h+2*bleed;
+        const sd=rasterDpi||dpi,tw=L.w+2*bleed,th=L.h+2*bleed;
         let tp;
         if(LL()&&!rasterDpi&&lg)tp=sd/25.4;
         else tp=Math.max(72,Math.min(dpi,sd))/25.4;
@@ -2287,7 +2250,18 @@ $('pdf').onclick=async()=>{
         else pdf.rect(x,y,L.w,L.h,'S');
       });
     }
-    LASTINFO=rasterDpi?`PDF raster ${dpi} dpi${dpi<initialDpi?` (diturunkan dari ${initialDpi} dpi karena batas perangkat)`:''}.`:(LL()?('PDF lossless: gambar asli disematkan tanpa kompresi atau resampling (resolusi maksimal sesuai foto asli, sekitar '+Math.round(nativeDpi())+' dpi).'):('PDF dengan resolusi gambar '+dpi+' dpi.'));
+    const usedLogos=logos.filter((_,i)=>L.assign.includes(i)),vectorCount=usedLogos.filter(l=>l.vec&&l.vimg&&l.vsvg).length,rasterCount=usedLogos.length-vectorCount;
+    if(vectorCount){
+      LASTINFO=`PDF memakai vektor untuk ${vectorCount} logo`;
+      if(rasterCount)LASTINFO+=`, raster ${LL()?'lossless':' '+dpi+' dpi'} untuk ${rasterCount} logo`;
+      LASTINFO+='.';
+    }else if(rasterDpi){
+      LASTINFO=`PDF raster ${dpi} dpi${dpi<initialDpi?` (diturunkan dari ${initialDpi} dpi karena batas perangkat)`:''}.`;
+    }else if(LL()){
+      LASTINFO=`PDF lossless: gambar asli disematkan tanpa kompresi atau resampling (resolusi maksimal sesuai foto asli, sekitar ${Math.round(nativeDpi())} dpi).`;
+    }else{
+      LASTINFO=`PDF dengan resolusi gambar ${dpi} dpi.`;
+    }
     const suffix=rasterDpi?`-${dpi}dpi`:LL()?'-lossless':`-${dpi}dpi`;
     await saveFile(sheetFileName('pdf').replace(/\.pdf$/,`${suffix}.pdf`),pdf.output('blob'));
     break;
@@ -2305,7 +2279,6 @@ $('pdf').onclick=async()=>{
   busy(false);
 };
 $('svg').onclick=async()=>{
-  if(needLogo())return;
   busy(true,'Membuat SVG...');await pause();
   try{
     const L=calc(),s=$('shape').value,f=n=>n.toFixed(3);let g='';
@@ -2324,11 +2297,110 @@ $('svg').onclick=async()=>{
   }catch(err){$('dlstatus').textContent='Gagal membuat SVG: '+((err&&err.message)||err)}
   busy(false);
 };
+$('svg-contour').onclick=async()=>{
+  busy(true,'Membuat SVG kontur...');
+  await pause();
+  try{
+    const L=calc(),shape=$('shape').value,f=n=>n.toFixed(3);
+    let contours='';
+    forCells(L,(cx,cy)=>{
+      cx+=+$('cox').value||0;cy+=+$('coy').value||0;
+      const x=cx-L.w/2,y=cy-L.h/2;
+      if(shape==='circle'||shape==='oval')contours+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
+      else if(shape==='hex')contours+=`<polygon points="${hexPts(cx,cy,L.w,L.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
+      else{const r=shape==='rounded'?Math.min(L.w,L.h)*0.22:0;contours+=`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+    });
+    const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
+    const br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
+    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
+    LASTINFO='SVG vektor berisi kontur potong dan marka registrasi sesuai pengaturan; tanpa gambar raster.';
+    await saveFile(sheetFileName('svg').replace(/\.svg$/,'-tanpa-gambar.svg'),new Blob([svg],{type:'image/svg+xml'}));
+  }catch(err){$('dlstatus').textContent='Gagal membuat SVG tanpa gambar: '+((err&&err.message)||err)}
+  busy(false);
+};
+$('svg-sheet').onclick=async()=>{
+  if(needLogo())return;
+  const requestedDpi=pngDpiVal(),safeDpiForTile=(w,h)=>{
+    let dpi=Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(w,h),Math.sqrt(MAX_EXPORT_PIXELS*25.4*25.4/(w*h))));
+    while(dpi>0){
+      const width=Math.round(w*dpi/25.4),height=Math.round(h*dpi/25.4);
+      if(width<=MAX_EXPORT_SIDE&&height<=MAX_EXPORT_SIDE&&width*height<=MAX_EXPORT_PIXELS)return dpi;
+      dpi--;
+    }
+    return 0;
+  };
+  const bleed=+$('bleed').value||0,L=calc(),tileW=L.w+2*bleed,tileH=L.h+2*bleed;
+  const safeDpi=safeDpiForTile(tileW,tileH);
+  let dpi=Math.min(requestedDpi,safeDpi),lowerAutomatically=false;
+  if(dpi<72){$('dlstatus').textContent='Ukuran kertas terlalu besar untuk SVG lembar, bahkan pada 72 dpi.';return}
+  busy(true,'Menyusun SVG lembar '+dpi+' dpi...');await pause();
+  while(true){
+    try{
+      const tiles=new Map(),nativeTiles=new Map(),tileData=[],nativeClips=[],logoCount=new Set(L.assign.filter(i=>i>=0)).size;let nativeCount=0;
+      for(const li of L.assign){
+        if(li<0||tiles.has(li))continue;
+        $('loadmsg').textContent=`Menyiapkan gambar ${tiles.size+1} dari ${logoCount} pada ${dpi} dpi...`;
+        await pause();
+        const id=`tile-${tiles.size}`;
+        const nativeTile=svgRasterSource(logos[li],id);
+        if(nativeTile){tileData.push(nativeTile.definition);nativeTiles.set(li,nativeTile);nativeCount++}
+        else{
+          const tile=getTile(logos[li],L,$('shape').value,bleed,dpi/25.4);
+          const png=await new Promise((resolve,reject)=>tile.toBlob(blob=>blob?resolve(blob):reject(new Error('Browser gagal menyimpan gambar logo untuk SVG.')),'image/png'));
+          const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error||new Error('Gagal membaca gambar logo hasil ekspor.'));reader.readAsDataURL(png)});
+          tileData.push(`<image id="${id}" width="${tileW}" height="${tileH}" xlink:href="${dataUrl}"/>`);
+        }
+        tiles.set(li,id);
+      }
+      let images='',copyIndex=0;
+      forCells(L,(cx,cy,li)=>{
+        if(nativeTiles.has(li)){
+          const lg=logos[li],native=nativeTiles.get(li),sc=fitScale(lg,L.w,L.h),outerId=`native-outer-${copyIndex}`,innerId=`native-inner-${copyIndex++}`;
+          const outer=svgShapePath(cx,cy,L.w,L.h,$('shape').value,bleed),inner=lg.bw>0?svgShapePath(cx,cy,L.w,L.h,$('shape').value,-lg.bw):outer;
+          nativeClips.push(`<clipPath id="${outerId}" clipPathUnits="userSpaceOnUse"><path d="${outer}"/></clipPath>`);
+          if(lg.bw>0)nativeClips.push(`<clipPath id="${innerId}" clipPathUnits="userSpaceOnUse"><path d="${inner}"/></clipPath>`);
+          const imgX=cx-native.iw*sc/2+lg.ox/100*L.w,imgY=cy-native.ih*sc/2+lg.oy/100*L.h;
+          const background=lg.auto?lg.corner:lg.bgc;
+          images+=`<g clip-path="url(#${outerId})"><path d="${outer}" fill="${lg.bw>0?lg.bc:background}"/>${lg.bw>0?`<path d="${inner}" fill="${background}"/>`:''}<use xlink:href="#${tiles.get(li)}" transform="matrix(${sc} 0 0 ${sc} ${imgX} ${imgY})"${lg.bw>0?` clip-path="url(#${innerId})"`:''}/></g>`;
+          return;
+        }
+        images+=`<use xlink:href="#${tiles.get(li)}" x="${cx-L.w/2-bleed}" y="${cy-L.h/2-bleed}"/>`;
+      });
+      const f=n=>n.toFixed(3),shape=$('shape').value;
+      let cuts='';
+      if($('vcut').checked)forCells(L,(cx,cy)=>{
+        cx+=+$('cox').value||0;cy+=+$('coy').value||0;
+        const x=cx-L.w/2,y=cy-L.h/2;
+        if(shape==='circle'||shape==='oval')cuts+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
+        else if(shape==='hex')cuts+=`<polygon points="${hexPts(cx,cy,L.w,L.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
+        else{const r=shape==='rounded'?Math.min(L.w,L.h)*0.22:0;cuts+=`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+      });
+      const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
+      const br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
+      const bg=$('strans').checked?'':`<rect width="${W}" height="${H}" fill="${$('sbg').value}"/>`;
+      const credit=$('credit').checked?`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="2.6" fill="#000">© Proletar Project · Support UMKM</text>`:'';
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileData.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g>${credit}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g></svg>`;
+      LASTINFO=`SVG lembar: ${nativeCount} logo PNG/JPEG memakai gambar sumber asli dan digunakan ulang; logo dengan efek raster memakai ${dpi} dpi${dpi<requestedDpi?` (dibatasi dari ${requestedDpi} dpi untuk ukuran stiker)`:''}. Jalur potong tetap vektor.`;
+      await saveFile(sheetFileName('svg').replace(/\.svg$/,'-lembar.svg'),new Blob([svg],{type:'image/svg+xml'}));
+      break;
+    }catch(err){
+      const lower=Math.max(72,Math.min(Math.floor(dpi*0.8),safeDpi));
+      if(lower>=dpi){$('dlstatus').textContent='Ekspor SVG lembar gagal pada resolusi terendah yang aman: '+((err&&err.message)||err);break}
+      if(lowerAutomatically){dpi=lower;$('loadmsg').textContent=`Perangkat terbatas, mencoba SVG lembar ${dpi} dpi...`;await pause();continue}
+      const detail=`Setiap gambar logo dirender pada ${dpi} dpi.`;
+      const choice=await askExportFallback('Browser gagal menyiapkan gambar raster untuk SVG lembar. Menurunkan resolusi akan mencoba bertahap sampai berhasil.',detail,lower);
+      if(choice==='cancel'){$('dlstatus').textContent='Ekspor SVG lembar dibatalkan.';break}
+      if(choice==='lower'){dpi=lower;lowerAutomatically=true}
+      await pause();
+    }
+  }
+  busy(false);
+};
 
 /* ---------- mesin cutting, marka registrasi, piksel ---------- */
 const clampDpi=(v,d)=>Math.min(2400,Math.max(72,Math.round(+v)||d));
 const outDpi=()=>$('pxm').checked?clampDpi($('mdpi').value,600):clampDpi($('dpi').value,300);
-const pdfDpi=()=>clampDpi($('pdpi').value,1200);
+const pdfDpi=()=>clampDpi($('pdpi').value,2400);
 const cutName=()=>($('cname').value||'CutContour').replace(/[^\w-]/g,'_');
 function filenamePart(value,fallback){
   const clean=String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40).replace(/-+$/,'');
@@ -2361,7 +2433,7 @@ function updateJobFilenamePreview(){
   }
   try{
     const sample=sheetFileName('pdf');
-    $('job-filename-preview').textContent=`Contoh nama file: ${sample.replace(/\.pdf$/,'')}.{pdf,png,svg,dxf,plt}`;
+    $('job-filename-preview').textContent=`Contoh nama file: ${sample.replace(/\.pdf$/,'')}.{pdf,svg,dxf,plt}`;
   }catch(error){
     $('job-filename-preview').textContent='Atur ukuran kertas dan stiker untuk melihat contoh nama file.';
   }
@@ -2413,16 +2485,8 @@ function exportDXF(L){const f=n=>n.toFixed(4);let s='0\nSECTION\n2\nHEADER\n9\n$
 }
 function exportPLT(L){const q=p=>Math.round(p[0]*40)+','+Math.round((H-p[1])*40);let s='IN;SP1;';
   cutPolys(L).forEach(p=>{s+='PU'+q(p[0])+';PD'+p.concat([p[0]]).map(q).join(',')+';'});return s+'PU0,0;SP0;\n'}
-async function pngDpi(blob,dpi){
-  const b=new Uint8Array(await blob.arrayBuffer()),m=Math.round(dpi/0.0254),d=new Uint8Array(21),v=new DataView(d.buffer);
-  v.setUint32(0,9);d.set([112,72,89,115],4);v.setUint32(8,m);v.setUint32(12,m);d[16]=1;
-  const T=[];for(let n=0;n<256;n++){let k=n;for(let j=0;j<8;j++)k=k&1?0xEDB88320^(k>>>1):k>>>1;T[n]=k}
-  let c=-1;for(let i=4;i<17;i++)c=T[(c^d[i])&255]^(c>>>8);v.setUint32(17,(c^-1)>>>0);
-  const o=new Uint8Array(b.length+21);o.set(b.subarray(0,33));o.set(d,33);o.set(b.subarray(33),54);
-  return new Blob([o],{type:'image/png'});
-}
-$('dxf').onclick=async()=>{if(needLogo())return;await saveFile(sheetFileName('dxf'),new Blob([exportDXF(calc())],{type:'application/dxf'}))};
-$('plt').onclick=async()=>{if(needLogo())return;await saveFile(sheetFileName('plt'),new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
+$('dxf').onclick=async()=>{await saveFile(sheetFileName('dxf'),new Blob([exportDXF(calc())],{type:'application/dxf'}))};
+$('plt').onclick=async()=>{await saveFile(sheetFileName('plt'),new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
 $('mach').onchange=applyMach;
 ['pxw','pxh'].forEach(id=>{$(id).addEventListener('input',()=>{const k=25.4/(+$('mdpi').value||600),w=+$('pxw').value,h=+$('pxh').value;if(w>0&&h>0){$('paper').value='custom';$('pw').value=(w*k).toFixed(2);$('ph').value=(h*k).toFixed(2)}updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 $('h').addEventListener('input',()=>{const v=$('shape').value;if(v==='circle'||v==='square'){$('shape').value=v==='circle'?'oval':'rect';$('shape').dispatchEvent(new Event('change',{bubbles:true}))}updateBtns();schedule()});
@@ -2548,16 +2612,10 @@ render();
     const one=$('one');
     if(e){if(!one._home){one._home=one.parentNode;one._next=one.nextSibling}$('ez-one').appendChild(one);$('pgrid').value='0';fire($('pgrid'),'input')}
     else if(one._home){one._home.insertBefore(one,one._next&&one._next.parentNode===one._home?one._next:null)}
-    if(e){$('pxm').checked=false;fire($('pxm'),'input');fire($('pxm'),'change');$('pdpi').value='1200';fire($('pdpi'),'input')}
+    if(e){$('pxm').checked=false;fire($('pxm'),'input');fire($('pxm'),'change')}
     try{localStorage.setItem('mode',e?'easy':'adv')}catch(_){}
     sync();
   }
-  $('pautovec').addEventListener('change',async()=>{
-    const on=$('pautovec').checked;
-    for(const l of logos){if(on){if(!l.vec)await autoScan(l)}else{l.vec=false}}
-    loadPanel();schedule();
-  });
-  $('ez-dpi').addEventListener('change',()=>{$('dpi').value=$('ez-dpi').value;fire($('dpi'),'input');fire($('dpi'),'change')});
   $('m-easy').onclick=()=>setMode(true);$('m-adv').onclick=()=>setMode(false);
   let m='easy';try{m=localStorage.getItem('mode')||'easy'}catch(_){}
   setMode(m!=='adv');
@@ -2657,15 +2715,14 @@ async function readAny(f){
 
 /* ============ Mode Mudah: lossless default ============ */
 (function(){
-  const row=$('pautovec').parentElement,ll=$('llbtn');
+  const row=$('pdf').closest('.card'),ll=$('llbtn');
   ll.style.width='100%';ll.style.marginTop='8px';row.after(ll);
   const note=document.createElement('p');note.className='info';note.id='ll-help';note.style.margin='6px 0 0';
   ll.after(note);
   function sync(){
     const on=LL();
-    note.textContent=on?'Lossless aktif: PDF dan PNG tanpa kompresi, resolusi maksimal sesuai foto asli. Auto vektor otomatis dimatikan.':'Lossless mati: PDF/PNG memakai resolusi pilihan dan boleh memakai auto vektor.';
-    $('ez-dpi-wrap').style.display=on?'none':'';
-    $('ez-llnote').textContent=on?'Mode lossless AKTIF: PDF dan PNG dibuat dengan resolusi maksimal sesuai foto asli, tanpa kompresi.':'';
+    note.textContent=on?'Lossless aktif: PDF tanpa kompresi, resolusi maksimal sesuai foto asli. Vektorisasi hanya berjalan saat Anda mengaktifkannya di Studio Warna.':'Lossless mati: PDF memakai resolusi pilihan. Vektorisasi hanya berjalan saat Anda mengaktifkannya di Studio Warna.';
+    $('ez-llnote').textContent=on?'Mode lossless AKTIF: PDF dibuat dengan resolusi maksimal sesuai foto asli, tanpa kompresi.':'';
   }
   new MutationObserver(sync).observe($('info'),{childList:true,characterData:true,subtree:true});
   $('llbtn').addEventListener('click',()=>setTimeout(sync,50));
@@ -2718,13 +2775,10 @@ function sync(){
 function loadFile(f){
   if(!f)return;
   if(!/^image\/(png|webp|jpeg)$/.test(f.type)){alert('Pilih file PNG, WebP, atau JPEG.');return}
-  if(f.size>MAX_IMAGE_BYTES){$('stat').textContent='Gambar ditolak: ukuran file melebihi batas 25 MB.';return}
   const u=URL.createObjectURL(f),im=new Image();
   im.onload=()=>{
     URL.revokeObjectURL(u);
     const px=im.naturalWidth*im.naturalHeight;
-    if(px>MAX_IMAGE_PIXELS){$('stat').textContent='Gambar ditolak: resolusi melebihi batas 25 megapiksel.';return}
-    if(px>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${f.name} berukuran ${im.naturalWidth} × ${im.naturalHeight} px (${(px/1e6).toFixed(1)} MP). Gambar besar dapat memakai banyak memori. Tetap muat?`)){$('stat').textContent='Gambar besar tidak dimuat.';return}
     img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
     $('fstat').textContent=`${f.name} · ${ow} × ${oh} px`;$('stat').textContent='Logo dimuat.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
   im.onerror=()=>{alert('File gambar tidak bisa dibaca.');URL.revokeObjectURL(u)};im.src=u;
@@ -2810,15 +2864,6 @@ $('rndMesh').onclick=()=>{newMesh();sched()};
 $('copy').onclick=async()=>{const t=M.logoMode==='gradient'?`${v('la')} ${v('lb')}`:v('la');try{await navigator.clipboard.writeText(t.toUpperCase());$('stat').textContent='Kode '+t.toUpperCase()+' disalin.'}catch(e){$('stat').textContent='Kode warna: '+t.toUpperCase()}};
 
 /* export */
-async function saveFile(n,blob){
-  const st=$('stat');
-  try{
-    let d=null;if(window.claude&&window.claude.use)d=await window.claude.use('downloads');
-    if(d){const r=await d.save({filename:n,data:blob});st.textContent=(r.status==='saved'?'Tersimpan: ':'Terkirim: ')+n;return}
-  }catch(e){const c=e&&e.code;if(c==='declined'){st.textContent='Unduhan dibatalkan.';return}if(c==='too_large'){st.textContent='File terlalu besar. Kecilkan skala ekspor.';return}}
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=n;document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),60000);st.textContent='Mengunduh: '+n;
-}
 function dbg(message){$('dbg').classList.remove('hid');$('dbg').textContent=message}
 function renderBlob(requestedScale){
   const {W,H}=layout(),safe=Math.min(MAX_EXPORT_SIDE/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS/(W*H)));
@@ -2881,14 +2926,14 @@ function randomizeBatch(logoModes,bgModes,withPattern,withRatio){
   if(withRatio)$('ratio').value=pick(['1:1','4:5','9:16','3:2','16:9','orig']);
 }
 $('bn').addEventListener('input',()=>{$('bnv').textContent=v('bn')});
-$('zipbtn').onclick=async()=>{if(batchZip)await saveFile(batchZipName,batchZip)};
+$('zipbtn').onclick=async()=>{if(batchZip)await saveDirectFile(batchZipName,batchZip,$('stat'))};
 $('pngsbtn').onclick=async()=>{
   if(!batchFiles.length||batchBusy)return;
   batchBusy=true;$('pngsbtn').disabled=true;
   try{
     for(let i=0;i<batchFiles.length;i++){
       const file=batchFiles[i];$('stat').textContent=`Mengunduh PNG ${i+1} dari ${batchFiles.length}...`;
-      await saveFile(file.name,new Blob([file.data],{type:'image/png'}));
+      await saveDirectFile(file.name,new Blob([file.data],{type:'image/png'}),$('stat'));
       await new Promise(resolve=>setTimeout(resolve,350));
     }
     $('stat').textContent=`Selesai: ${batchFiles.length} PNG dikirim untuk diunduh.`;
@@ -2917,7 +2962,7 @@ $('batch').onclick=async()=>{
       const fileName=`${name}-${String(files.length+1).padStart(3,'0')}-${M.logoMode}-${M.bgMode}-${rendered.o.w}x${rendered.o.h}.png`;
       const file={name:fileName,data};files.push(file);
       const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');thumb.alt=fileName;thumb.title='Klik untuk simpan '+fileName;
-      thumb.addEventListener('click',()=>saveFile(file.name,new Blob([file.data],{type:'image/png'})));
+      thumb.addEventListener('click',()=>saveDirectFile(file.name,new Blob([file.data],{type:'image/png'}),$('stat')));
       $('thumbs').appendChild(thumb);
       const percent=Math.round((i+1)/count*100);$('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));$('stat').textContent=`Membuat variasi ${i+1} dari ${count} (${percent}%)...`;
       await new Promise(resolve=>setTimeout(resolve,0));
@@ -2938,7 +2983,7 @@ $('batch').onclick=async()=>{
   else{$('stat').textContent='Tidak ada file dibuat. Pilih skala lebih kecil.'}
 };
 $('dltest').onclick=async()=>{
-  try{await saveFile('tes-unduhan.txt',new Blob(['Unduhan Studio Warna berfungsi.'],{type:'text/plain;charset=utf-8'}));$('stat').textContent='Tes unduhan dimulai.'}
+  try{await saveDirectFile('tes-unduhan.txt',new Blob(['Unduhan Studio Warna berfungsi.'],{type:'text/plain;charset=utf-8'}),$('stat'));$('stat').textContent='Tes unduhan dimulai.'}
   catch(error){$('stat').textContent='Tes unduhan gagal.';dbg('Tes unduhan: '+((error&&error.message)||error))}
 };
 new MutationObserver(()=>{$('bstat').textContent=$('stat').textContent}).observe($('stat'),{childList:true,characterData:true,subtree:true});
@@ -2952,7 +2997,7 @@ $('dl').onclick=async()=>{
     try{
       const c=document.createElement('canvas'),o=render(c,scale);
       const blob=await new Promise(r=>c.toBlob(r,'image/png'));if(!blob)throw new Error('gagal');
-      await saveFile(`${name}-${(v('la')).slice(1)}-${o.w}x${o.h}.png`,blob);
+      await saveDirectFile(`${name}-${(v('la')).slice(1)}-${o.w}x${o.h}.png`,blob,$('stat'));
       break;
     }catch(e){
       const lower=Math.max(0.1,scale*0.8);
@@ -3104,7 +3149,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     const s=Math.min(1,1200/Math.max(canvas.width,canvas.height));
     output.width=Math.max(1,Math.round(canvas.width*s));output.height=Math.max(1,Math.round(canvas.height*s));
     output.getContext('2d').drawImage(canvas,0,0,output.width,output.height);
-    download.disabled=false;toStudio.disabled=toSheet.disabled=blob.size>MAX_IMAGE_BYTES;
+    download.disabled=false;toStudio.disabled=toSheet.disabled=false;
     comparison.render();
   }
   async function canvasFromBlob(blob){
@@ -3168,15 +3213,11 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   input.onchange=async e=>{
     const f=e.target.files[0];input.value='';if(!f)return;
     if(!/^image\/(png|jpeg|webp)$/.test(f.type)){$('remove-status').textContent='Format tidak didukung. Pilih PNG, JPG, atau WebP.';return}
-    if(f.size>MAX_IMAGE_BYTES){$('remove-status').textContent='Gambar ditolak: ukuran file melebihi batas 25 MB.';return}
     const token=++job,url=URL.createObjectURL(f),im=new Image();
     $('remove-status').textContent='Memuat gambar...';
     im.onload=()=>{
       URL.revokeObjectURL(url);
       if(token!==job)return;
-      const pixels=im.naturalWidth*im.naturalHeight;
-      if(pixels>MAX_IMAGE_PIXELS){process.disabled=!image;$('remove-status').textContent='Gambar ditolak: resolusi melebihi batas 25 megapiksel.';return}
-      if(pixels>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${f.name} berukuran ${im.naturalWidth} × ${im.naturalHeight} px (${(pixels/1e6).toFixed(1)} MP). Tetap muat?`)){process.disabled=!image;$('remove-status').textContent='Gambar besar tidak dimuat.';return}
       image=im;imageName=(f.name||'gambar').replace(/\.[^.]+$/,'');magicBusy=false;initialFileBlob=currentBlob=f;undoHistory.length=redoHistory.length=0;invalidateResult();preview();updateHistoryButtons();
       $('remove-file-info').textContent=`${f.name} · ${im.naturalWidth} × ${im.naturalHeight} px · ${(f.size/1048576).toFixed(1)} MB`;
       $('remove-status').textContent='Gambar siap. Tekan “Hapus latar” untuk memproses.';
@@ -3243,7 +3284,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     }catch(err){
       if(token===job){
         const hasResult=!!resultBlob;
-        download.disabled=!hasResult;toStudio.disabled=toSheet.disabled=!hasResult||resultBlob.size>MAX_IMAGE_BYTES;
+        download.disabled=toStudio.disabled=toSheet.disabled=!hasResult;
         $('remove-status').textContent='Magic Eraser gagal: '+((err&&err.message)||err);
       }
     }finally{
@@ -3301,7 +3342,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
         if(!blob)throw new Error('Perangkat gagal membuat PNG transparan.');
         const historyLimited=saveHistory(currentBlob);showResultCanvas(c,blob);
-        $('remove-status').textContent=`Selesai. Latar ${bg.map(Math.round).join(', ')} dihapus; hasil ${w} × ${h} px${scale<1?` (diturunkan dari ${baseWidth} × ${baseHeight} px karena batas perangkat)`:''}.${blob.size>MAX_IMAGE_BYTES?' Ukuran PNG melebihi 25 MB; unduh hasilnya lalu gunakan gambar yang lebih ringan untuk mengirim ke menu lain.':''}${historyLimited?' Undo untuk langkah ini tidak tersedia karena ukuran gambar terlalu besar.':''}`;
+        $('remove-status').textContent=`Selesai. Latar ${bg.map(Math.round).join(', ')} dihapus; hasil ${w} × ${h} px${scale<1?` (diturunkan dari ${baseWidth} × ${baseHeight} px karena batas perangkat)`:''}.${historyLimited?' Undo untuk langkah ini tidak tersedia karena ukuran gambar terlalu besar.':''}`;
       }catch(err){
         if(token!==job)return;
         const lower=scale*0.8;
@@ -3323,7 +3364,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   };
   download.onclick=async()=>{
     if(!resultBlob)return;
-    try{await saveFile(`${imageName}-transparan.png`,resultBlob)}
+    try{await saveDirectFile(`${imageName}-transparan.png`,resultBlob,$('remove-status'))}
     catch(err){$('remove-status').textContent='Gagal menyiapkan unduhan: '+((err&&err.message)||err)}
   };
   toStudio.onclick=()=>{
@@ -3377,15 +3418,11 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   input.onchange=e=>{
     const file=e.target.files[0];input.value='';if(!file)return;
     if(!/^image\/(png|jpeg|webp)$/.test(file.type)){$('upscale-status').textContent='Format tidak didukung. Pilih PNG, JPG, atau WebP.';return}
-    if(file.size>MAX_IMAGE_BYTES){$('upscale-status').textContent='Gambar ditolak: ukuran file melebihi batas 25 MB.';return}
     const token=++job,url=URL.createObjectURL(file),nextImage=new Image();
     $('upscale-status').textContent='Memuat gambar...';
     nextImage.onload=()=>{
       URL.revokeObjectURL(url);
       if(token!==job)return;
-      const pixels=nextImage.naturalWidth*nextImage.naturalHeight;
-      if(pixels>MAX_IMAGE_PIXELS){$('upscale-status').textContent='Gambar ditolak: resolusi melebihi batas 25 megapiksel.';return}
-      if(pixels>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${file.name} berukuran ${nextImage.naturalWidth} × ${nextImage.naturalHeight} px (${(pixels/1e6).toFixed(1)} MP). Tetap muat?`)){$('upscale-status').textContent='Gambar besar tidak dimuat.';return}
       image=nextImage;imageName=(file.name||'gambar').replace(/\.[^.]+$/,'');invalidate();preview();
       $('upscale-file-info').textContent=`${file.name} · ${image.naturalWidth} × ${image.naturalHeight} px · ${(file.size/1048576).toFixed(1)} MB`;
       updateTargetStatus();
@@ -3419,9 +3456,9 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         const s=Math.min(1,1200/Math.max(width,height));output.width=Math.max(1,Math.round(width*s));output.height=Math.max(1,Math.round(height*s));
         output.getContext('2d').drawImage(canvas,0,0,output.width,output.height);
         download.disabled=false;
-        toStudio.disabled=toSheet.disabled=blob.size>MAX_IMAGE_BYTES;
+        toStudio.disabled=toSheet.disabled=false;
         comparison.render();
-        $('upscale-status').textContent=`Selesai: ${image.naturalWidth} × ${image.naturalHeight} → ${width} × ${height} px (${(width/image.naturalWidth).toFixed(2)}×). Interpolasi ${qualitySelect.value==='high'?'berkualitas tinggi':'seimbang'}; detail baru tidak dibuat.${blob.size>MAX_IMAGE_BYTES?' PNG lebih dari 25 MB, tetapi tetap dapat diunduh.':''}`;
+        $('upscale-status').textContent=`Selesai: ${image.naturalWidth} × ${image.naturalHeight} → ${width} × ${height} px (${(width/image.naturalWidth).toFixed(2)}×). Interpolasi ${qualitySelect.value==='high'?'berkualitas tinggi':'seimbang'}; detail baru tidak dibuat.`;
       }catch(err){
         if(token!==job)return;
         const lower=scale*0.8;
@@ -3445,7 +3482,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   download.onclick=async()=>{
     if(!resultBlob)return;
     try{
-      await saveFile(`${imageName}-upscale-${resultScale.toFixed(2)}x.png`,resultBlob);
+      await saveDirectFile(`${imageName}-upscale-${resultScale.toFixed(2)}x.png`,resultBlob,$('upscale-status'));
     }catch(err){$('upscale-status').textContent='Gagal menyiapkan unduhan: '+((err&&err.message)||err)}
   };
   function sendResult(eventName){
@@ -3463,7 +3500,6 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   let n=start;while(n){nodes.push(n);if(n===end)break;n=n.nextElementSibling}
   const prev=start.previousElementSibling;if(prev&&prev.tagName==='HR')prev.remove();
   nodes.forEach(x=>body.appendChild(x));
-  $('pautovec').parentElement.style.display='none';
   $('vup').onclick=()=>$('file').click();
   $('vtosheet').onclick=()=>setTab('sheet');
   function drawVT(){

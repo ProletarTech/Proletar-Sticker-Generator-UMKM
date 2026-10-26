@@ -19,14 +19,16 @@ Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser d
 - **Upscaler:** perbesar gambar 2×, 3×, atau 4× dengan interpolasi browser. Fitur ini menghaluskan pembesaran, bukan menghasilkan detail baru seperti upscaler AI.
 - **Lembar Stiker:** susun beberapa desain pada ukuran kertas termasuk A3+, atur ukuran stiker, jarak, margin, bleed, dan garis potong.
 - Ekspor lembar cetak tersedia sebagai **PDF** dan **PNG**; file potong tersedia sebagai **SVG**, **DXF**, dan **PLT**.
+- **SVG tanpa gambar** berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
 - Nama ekspor lembar cetak dapat mencantumkan pesanan, bahan, laminasi, finishing, potongan, ukuran kertas, bentuk, dan ukuran stiker.
 
 **Catatan produksi:** informasi bahan, laminasi, finishing, dan jenis potongan hanya menjadi label nama file. Pilihan tersebut tidak mengubah proses finishing atau geometri potong secara otomatis. Konfirmasikan spesifikasi produksi dan margin aman dengan percetakan.
 
 ## Batas pemrosesan
 
-- Gambar unggahan dibatasi hingga **25 MB** dan **25 megapiksel** per gambar. Gambar di atas 12 megapiksel meminta konfirmasi karena dapat memakai banyak memori.
+- Tidak ada batas ukuran file atau megapiksel untuk unggahan gambar.
 - Hasil ekspor dibatasi hingga **25 megapiksel** dan sisi terpanjang **12.000 piksel**. Jika perangkat mencapai batas memori, aplikasi menyediakan opsi untuk mencoba lagi dengan resolusi lebih rendah atau membatalkan.
+- SVG lembar menyematkan gambar sumber PNG/JPEG satu kali dan memakai ulang untuk duplikat tanpa menurunkan resolusi; logo dengan efek yang perlu diproses piksel tetap dirender sesuai DPI ekspor.
 - Total PNG dalam batch Studio Warna dibatasi hingga **64 MB**.
 - Penghapus latar dan upscaler bekerja dengan piksel yang berdekatan/warna yang dipilih dan interpolasi; periksa tepi desain sebelum mengirim ke percetakan.
 

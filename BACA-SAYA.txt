@@ -16,9 +16,10 @@ Mau jadi file APK untuk dibagikan atau Play Store?
 Catatan: file index.html di dalam folder ini tidak bisa diinstal bila hanya dibuka langsung dari penyimpanan HP (file://). Harus lewat hosting HTTPS.
 
 Batas gambar dan ekspor:
-- Gambar maksimal 25 MB dan 25 megapiksel. Gambar di atas 12 megapiksel akan meminta konfirmasi karena dapat memakai banyak memori.
+- Tidak ada batas ukuran file atau megapiksel untuk unggahan gambar.
 - PNG dibatasi maksimal 25 megapiksel dan sisi terpanjang 12.000 piksel. Jika batas perangkat tercapai saat membuat PNG atau PDF, pilih coba lagi, turunkan resolusi otomatis, atau batalkan.
 - Saat resolusi diturunkan, aplikasi mencoba bertahap dan menampilkan ukuran serta DPI hasil akhirnya. PDF lossless dapat beralih ke raster beresolusi lebih rendah hanya jika pengguna memilih menurunkan resolusi.
+- SVG lembar menyematkan gambar sumber PNG/JPEG satu kali dan memakai ulang untuk duplikat tanpa menurunkan resolusi; logo dengan efek yang perlu diproses piksel tetap dirender sesuai DPI ekspor.
 
 Penghapus latar:
 - "Hapus latar otomatis" mendeteksi warna dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut terhapus.
@@ -34,8 +35,9 @@ Upscaler:
 
 Studio Warna:
 - Buat variasi logo secara batch hingga 100 desain; hasil dapat diunduh sebagai ZIP atau PNG satu per satu.
+- SVG tanpa gambar berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
 - Ekspor mengikuti batas 25 megapiksel dan sisi 12.000 piksel. Ukuran total PNG dalam batch dibatasi 64 MB agar penggunaan memori tetap terkendali.
-- Unggahan dibatasi 25 MB dan 25 megapiksel; gambar di atas 12 megapiksel meminta konfirmasi karena dapat memakai banyak memori.
+- Tidak ada batas ukuran file atau megapiksel untuk unggahan.
 - Kontrol tab dan unggah gambar mendukung keyboard; preferensi reduced-motion dan indikator fokus keyboard turut dihormati.
 
 Nama file lembar cetak:

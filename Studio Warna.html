@@ -147,7 +147,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 const $=id=>document.getElementById(id),v=id=>$(id).value;
 $('yr').textContent=new Date().getFullYear();
 const PAL=['#EB683C','#FF8752','#FFCFE7','#D33636','#DE74C8','#584CF6','#4D84F5','#479D53','#F9DB48'];
-const MAX_IMAGE_BYTES=25e6,MAX_IMAGE_PIXELS=25e6,WARN_IMAGE_PIXELS=12e6,MAX_EXPORT_PIXELS=25e6,MAX_EXPORT_SIDE=12000,MAX_BATCH_BYTES=64*1024*1024;
+const MAX_EXPORT_PIXELS=25e6,MAX_EXPORT_SIDE=12000,MAX_BATCH_BYTES=64*1024*1024;
 const M={logoMode:'solid',bgMode:'transparent'};
 let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false;
 const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
@@ -182,11 +182,8 @@ function sync(){
 function loadFile(f){
   if(!f)return;
   if(!/^image\/(png|webp|jpeg)$/.test(f.type)){alert('Pilih file PNG, WebP, atau JPEG.');return}
-  if(f.size>MAX_IMAGE_BYTES){$('stat').textContent='Gambar ditolak: ukuran file melebihi batas 25 MB.';return}
   const u=URL.createObjectURL(f),im=new Image();
-  im.onload=()=>{URL.revokeObjectURL(u);const pixels=im.naturalWidth*im.naturalHeight;
-    if(pixels>MAX_IMAGE_PIXELS){$('stat').textContent='Gambar ditolak: resolusi melebihi batas 25 megapiksel.';return}
-    if(pixels>WARN_IMAGE_PIXELS&&!confirm(`Gambar ${f.name} berukuran ${im.naturalWidth} × ${im.naturalHeight} px (${(pixels/1e6).toFixed(1)} MP). Gambar besar dapat memakai banyak memori. Tetap muat?`)){$('stat').textContent='Gambar besar tidak dimuat.';return}
+  im.onload=()=>{URL.revokeObjectURL(u);
     img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
     $('fstat').textContent=`${f.name} · ${ow} × ${oh} px`;$('stat').textContent='Logo dimuat.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
   im.onerror=()=>{alert('File gambar tidak bisa dibaca.');URL.revokeObjectURL(u)};im.src=u;
