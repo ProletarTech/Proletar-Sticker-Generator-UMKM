@@ -15,9 +15,10 @@ Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser d
 ## Fitur dan format ekspor
 
 - **Studio Warna:** buat variasi warna logo, simpan PNG satu per satu, atau buat batch hingga 100 desain sebagai ZIP.
+- **Pratinjau File:** buka PDF, SVG/SVGZ, PNG, JPG, WebP, GIF, BMP, dan AVIF dalam satu menu. CDR dan beberapa format vektor dicoba lewat gambar pratinjau tertanam bila tersedia; file diproses lokal di browser.
 - **Hapus Latar:** hapus latar otomatis atau area warna tersambung; tersedia undo/redo dan unduhan PNG.
 - **Upscaler:** perbesar gambar 2×, 3×, atau 4× dengan interpolasi browser. Fitur ini menghaluskan pembesaran, bukan menghasilkan detail baru seperti upscaler AI.
-- **Lembar Stiker:** susun beberapa desain pada ukuran kertas termasuk A3+, atur ukuran stiker, jarak, margin, bleed, dan garis potong.
+- **Lembar Stiker:** susun beberapa desain pada ukuran kertas termasuk A3+, atur ukuran stiker, jarak, margin, bleed, dan garis potong. Untuk grid, posisi semua bentuk dan ukuran dihitung agar muat sebanyak mungkin; sisa ruang dibagi ke jarak antarstiker tanpa mengurangi jarak minimum, dan stiker yang melampaui area bermargin tidak ditempatkan. Templat CDR potret memakai halaman **32,5 × 48,5 cm**; bingkai magenta **30,5 × 43,5 cm** hanya panduan area print di preview, tidak diekspor sebagai jalur potong. Marka hitamnya berupa siku L terbuka di setiap sudut bingkai dan dua titik bulat di bagian atas kertas. Preset menjaga jarak aman minimal 5 mm dari siku L. Stiker bulat otomatis memakai susunan zigzag khusus CDR dan meratakan sisa ruang agar muatan maksimal tanpa melanggar jarak minimum antarstiker. Kontur potong stiker tetap magenta sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Tambahkan teks kustom di tepi bawah lembar; teks ini tidak dicetak pada masing-masing stiker.
 - Ekspor lembar cetak tersedia sebagai **PDF** dan **PNG**; file potong tersedia sebagai **SVG**, **DXF**, dan **PLT**.
 - **SVG tanpa gambar** berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
 - Nama ekspor lembar cetak dapat mencantumkan pesanan, bahan, laminasi, finishing, potongan, ukuran kertas, bentuk, dan ukuran stiker.
