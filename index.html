@@ -372,7 +372,7 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <div class="card ez" id="easy">
 <h2><span class="stepn">2</span>Pilih bentuk dan ukuran</h2>
 <p class="info" style="margin:0 0 6px">Bentuk stiker</p>
-<div class="chips" id="ez-shape"><button data-v="circle">⚪ Bulat</button><button data-v="square">⬜ Kotak</button><button data-v="rounded">▢ Kotak tumpul</button><button data-v="oval">⬭ Oval</button><button data-v="hex">⬡ Hexagon</button></div>
+<div class="chips" id="ez-shape"><button data-v="design">✂️ Sesuai desain</button><button data-v="circle">⚪ Bulat</button><button data-v="square">⬜ Kotak</button><button data-v="rounded">▢ Kotak tumpul</button><button data-v="oval">⬭ Oval</button><button data-v="hex">⬡ Hexagon</button></div>
 <p class="info" style="margin:14px 0 6px">Ukuran stiker (mm)</p>
 <div class="chips" id="ez-size"><button data-v="10">10</button><button data-v="16">16</button><button data-v="20">20</button><button data-v="25">25</button><button data-v="30">30</button><button data-v="40">40</button><button data-v="50">50</button></div>
 <label class="f" style="margin-top:8px">Atau ketik ukuran sendiri (mm)<input id="ez-d" type="number" min="5" step="0.5" value="16"></label>
@@ -466,7 +466,7 @@ canvas#cv{width:auto;height:auto;max-width:100%;max-height:80vh}
 <div class="card">
 <div class="grid">
 <label class="f">Ukuran kertas<select id="paper"><option value="297x420">A3 (297 × 420 mm)</option><option value="329x483">A3+ (329 × 483 mm)</option><option value="210x297">A4 (210 × 297 mm)</option><option value="325x485">Templat CDR potret (325 × 485 mm)</option><option value="custom">Custom</option></select></label>
-<label class="f">Bentuk stiker<select id="shape"><option value="circle">Bulat</option><option value="square">Kotak</option><option value="rounded">Kotak rounded</option><option value="oval">Oval</option><option value="rect">Persegi panjang</option><option value="hex">Hexagon</option></select></label>
+<label class="f">Bentuk stiker<select id="shape"><option value="design">Sesuai desain/gambar</option><option value="circle">Bulat</option><option value="square">Kotak</option><option value="rounded">Kotak rounded</option><option value="oval">Oval</option><option value="rect">Persegi panjang</option><option value="hex">Hexagon</option></select></label>
 <label class="f">Satuan pembulatan sudut<select id="rr-mode"><option value="mm">Radius (mm)</option><option value="percent">Persentase (%)</option><option value="degree">Derajat (°)</option></select></label>
 <label class="f">Nilai pembulatan<input id="rr-value" type="number" value="3.5" min="0" step="0.5"></label>
 <label class="f">Lebar kertas (mm)<input id="pw" type="number" value="297" min="50" disabled></label>
@@ -1675,9 +1675,9 @@ function fitScale(lg,w,h){
 }
 function drawCell(ctx,lg,cx,cy,w,h,shape,bleed,ppm){
   ctx.save();
-  shapePath(ctx,cx,cy,w,h,shape,bleed);ctx.clip();
+  if(shape!=='design'){shapePath(ctx,cx,cy,w,h,shape,bleed);ctx.clip()}
   if(lg){
-    if(lg.bw>0){ctx.fillStyle=lg.bc;ctx.fillRect(cx-w,cy-h,2*w,2*h);shapePath(ctx,cx,cy,w,h,shape,-lg.bw);ctx.clip()}
+    if(lg.bw>0&&shape!=='design'){ctx.fillStyle=lg.bc;ctx.fillRect(cx-w,cy-h,2*w,2*h);shapePath(ctx,cx,cy,w,h,shape,-lg.bw);ctx.clip()}
     ctx.fillStyle=lg.auto?lg.corner:lg.bgc;
     ctx.fillRect(cx-w,cy-h,2*w,2*h);
     const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height;
@@ -2089,7 +2089,10 @@ $('file').onchange=async e=>{
     st.textContent=`Memuat gambar ${i+1} dari ${files.length}...`;await pause();
     try{
       const lgn=await makeLogo(await readAny(files[i]));
+      lgn.vec=true;
       logos.push(lgn);ok++;sel=logos.length-1;renderThumbs();loadPanel();
+      if(!i){$('shape').value='design';$('shape').dispatchEvent(new Event('change',{bubbles:true}))}
+      ensureTrace(lgn);
     }catch(err){fail++;errors.push(err&&err.message||'Gagal membaca gambar')}
   }
   st.textContent=[`${ok} logo ditambahkan.`,fail?`${fail} gagal: ${[...new Set(errors)].join(' ')}`:''].filter(Boolean).join(' ');
@@ -2142,6 +2145,17 @@ function shPoly(cx,cy,w,h,s,g){w+=2*g;h+=2*g;const x=cx-w/2,y=cy-h/2,P=[];
   else if(s==='rounded'){const r=roundedRadius(w,h);[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;P.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
   else P.push([x,y],[x+w,y],[x+w,y+h],[x,y+h]);
   return P}
+function designSvgContour(lg,cx,cy,w,h,f){
+  if(!lg||!lg.vout)return '';
+  const viewBox=(lg.vout.match(/viewBox=["']([^"']+)["']/i)||[])[1];
+  if(!viewBox)return '';
+  const vb=viewBox.trim().split(/\s+/).map(Number);
+  if(vb.length!==4||vb.some(n=>!Number.isFinite(n)))return '';
+  const paths=[...lg.vout.matchAll(/<path\b[^>]*\bd=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1]);
+  if(!paths.length)return '';
+  const x=cx-w/2,y=cy-h/2;
+  return `<svg x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" viewBox="${vb.map(f).join(' ')}" overflow="hidden">${paths.map(d=>`<path d="${d}" fill="none"/>`).join('')}</svg>`;
+}
 function vecPaths(lg){
   if(lg._pp&&lg._ppv===lg.vv)return lg._pp;
   const out=[],K=0.5523;
@@ -2358,10 +2372,11 @@ $('svg').onclick=async()=>{
   busy(true,'Membuat SVG...');await pause();
   try{
     const L=calc(),s=$('shape').value,f=n=>n.toFixed(3);let g='';
-    forCells(L,(cx,cy)=>{
+    forCells(L,(cx,cy,li)=>{
       cx+=+$('cox').value||0;cy+=+$('coy').value||0;
       const x=cx-L.w/2,y=cy-L.h/2;
-      if(s==='circle'||s==='oval')g+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
+      if(s==='design'){const contour=designSvgContour(logos[li],cx,cy,L.w,L.h,f);g+=contour||`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}"/>`}
+      else if(s==='circle'||s==='oval')g+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
       else if(s==='hex')g+=`<polygon points="${hexPts(cx,cy,L.w,L.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
       else{const r=s==='rounded'?roundedRadius(L.w,L.h):0;g+=`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
     });
@@ -2382,10 +2397,11 @@ $('svg-contour').onclick=async()=>{
   try{
     const L=calc(),shape=$('shape').value,f=n=>n.toFixed(3);
     let contours='';
-    forCells(L,(cx,cy)=>{
+    forCells(L,(cx,cy,li)=>{
       cx+=+$('cox').value||0;cy+=+$('coy').value||0;
       const x=cx-L.w/2,y=cy-L.h/2;
-      if(shape==='circle'||shape==='oval')contours+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
+      if(shape==='design'){const contour=designSvgContour(logos[li],cx,cy,L.w,L.h,f);contours+=contour||`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}"/>`}
+      else if(shape==='circle'||shape==='oval')contours+=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(L.w/2)}" ry="${f(L.h/2)}"/>`;
       else if(shape==='hex')contours+=`<polygon points="${hexPts(cx,cy,L.w,L.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
       else{const r=shape==='rounded'?roundedRadius(L.w,L.h):0;contours+=`<rect x="${f(x)}" y="${f(y)}" width="${f(L.w)}" height="${f(L.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
     });
@@ -2688,6 +2704,20 @@ render();
 /* ============ Mode Mudah (pengguna awam) ============ */
 (function(){
   const fire=(el,t)=>el.dispatchEvent(new Event(t,{bubbles:true}));
+  const CDR_PRESET={paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,mtype:'cdr'};
+  function applyCdrPreset(){
+    $('paper').value=CDR_PRESET.paper;
+    $('mtype').value=CDR_PRESET.mtype;
+    [['mt',CDR_PRESET.mt],['mb',CDR_PRESET.mb],['ml',CDR_PRESET.ml],['mr',CDR_PRESET.mr]].forEach(([id,value])=>{
+      $(id).value=value;$('ez-'+id).value=value;
+      fire($(id),'input');
+    });
+    $('msz').value=CDR_PRESET.msz;$('moff').value=CDR_PRESET.moff;$('mw').value=CDR_PRESET.mw;
+    ['msz','moff','mw'].forEach(id=>fire($(id),'input'));
+    fire($('paper'),'input');
+    fire($('mtype'),'input');
+    sync();
+  }
   const keep=['file','easy','cv','pdf','cost'];
   document.querySelectorAll('main > .card').forEach(c=>{if(c.id!=='easy'&&!keep.some(id=>c.querySelector('#'+id)))c.classList.add('adv')});
   ['dxf','plt'].forEach(id=>{const b=$(id);if(b)b.classList.add('adv')});
@@ -2718,13 +2748,12 @@ render();
   $('rr-value').addEventListener('input',()=>{$('ez-rr-value').value=$('rr-value').value;schedule()});
   document.querySelectorAll('#ez-paper button[data-v]').forEach(b=>b.onclick=()=>{$('paper').value=b.dataset.v;fire($('paper'),'input');fire($('paper'),'change');sync()});
   document.querySelector('#ez-paper [data-print-area="cdr-305x435"]').onclick=()=>{
-    $('paper').value='325x485';fire($('paper'),'input');fire($('paper'),'change');
-    [['mt',32.85],['mb',17.15],['ml',10],['mr',10]].forEach(([id,value])=>{$('ez-'+id).value=value;fire($('ez-'+id),'input')});
-    $('msz').value=5;$('moff').value=10;$('mw').value=0.7;
-    $('mtype').value='cdr';fire($('mtype'),'input');fire($('mtype'),'change');
+    applyCdrPreset();
     if($('shape').value==='circle'){$('layout').value='zigzag';fire($('layout'),'input');fire($('layout'),'change')}
     sync();
   };
+  $('paper').addEventListener('change',()=>{if($('paper').value===CDR_PRESET.paper){applyCdrPreset()}else sync()});
+  $('mtype').addEventListener('change',()=>{if($('mtype').value==='cdr'&&$('paper').value===CDR_PRESET.paper){applyCdrPreset()}else sync()});
   ['mt','mb','ml','mr'].forEach(k=>{
     $('ez-'+k).addEventListener('input',()=>{const v=parseFloat($('ez-'+k).value);if(isFinite(v)&&v>=0){$(k).value=v;fire($(k),'input')}});
     $(k).addEventListener('input',()=>{if(document.activeElement!==$('ez-'+k))$('ez-'+k).value=$(k).value});
