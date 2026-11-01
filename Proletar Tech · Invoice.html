@@ -4,27 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Proletar Tech · Invoice</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<script>if(window.top!==window){document.documentElement.classList.add('invoice-embedded');document.documentElement.dataset.theme='light';}</script>
 <style>
-:root{--bg:#FCF0DA;--panel:#fff9ec;--ink:#4C4541;--mute:#7b716a;--line:#e8d9b8;--gold:#F2C46A;--olive:#AEAC78;--field:#fff;--btn:#4C4541;--btn-ink:#FCF0DA;--lf:none;
+:root{--bg:#F3E9D2;--panel:#fffaf0;--ink:#123A2C;--mute:#526760;--line:#B8C4B2;--gold:#C9A24B;--olive:#0F5E4A;--field:#fffaf0;--btn:#123A2C;--btn-ink:#fffaf0;--lf:none;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#27221f;--panel:#332d29;--ink:#FCF0DA;--mute:#b9ad9c;--line:#4b433d;--field:#27221f;--btn:#F2C46A;--btn-ink:#3a312a;--lf:brightness(0) invert(.94)}}
-:root[data-theme="dark"]{--bg:#27221f;--panel:#332d29;--ink:#FCF0DA;--mute:#b9ad9c;--line:#4b433d;--field:#27221f;--btn:#F2C46A;--btn-ink:#3a312a;--lf:brightness(0) invert(.94)}
+:root[data-theme="dark"]{--bg:#27221f;--panel:#332d29;--ink:#FCF0DA;--mute:#b9ad9c;--line:#4b433d;--field:#27221f;--btn:#d59b3a;--btn-ink:#17201e;--lf:brightness(0) invert(.94)}
 *{box-sizing:border-box}[hidden]{display:none!important}
+.invoice-embedded .bar{display:none}
+.invoice-embedded .app{padding-top:12px}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Figtree,system-ui,sans-serif}
-h1,h2,h3{font-family:"Barlow Condensed",Figtree,sans-serif;margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Text",Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Display",Helvetica,sans-serif;margin:0;letter-spacing:-.02em}
 .bar{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:3px solid var(--gold);background:var(--panel);flex-wrap:wrap}
-.bar img{height:44px;filter:var(--lf)}.bar b{font:700 26px "Barlow Condensed",sans-serif;letter-spacing:1px}
+.bar img{height:44px;filter:var(--lf)}.bar b{font:700 26px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.01em}
 .bar nav{margin-left:auto;display:flex;gap:6px}
 .bar nav button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
-.app{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:20px}
+.app{display:grid;grid-template-columns:minmax(320px,440px) minmax(0,1fr);gap:20px;max-width:1200px;margin:0 auto;padding:20px}
 .form,.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
 .form{align-self:start}
-fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:12px 0 4px}fieldset:first-of-type{border:0;padding-top:0}
-legend{font:700 19px "Barlow Condensed",sans-serif;letter-spacing:.5px;padding:0 8px 0 0}
+fieldset{border:1px solid #c8d4d1!important;border-radius:14px;margin:0 0 14px;padding:14px 14px 4px;background:#f8faf9;box-shadow:0 2px 10px rgba(23,32,30,.035);transition:border-color .2s,box-shadow .2s,transform .2s}
+fieldset:hover{border-color:#8baaa3!important;box-shadow:0 7px 18px rgba(23,32,30,.08);transform:translateY(-1px)}
+fieldset:focus-within{border-color:#1e5a50!important;box-shadow:0 0 0 3px rgba(30,90,80,.12),0 7px 18px rgba(23,32,30,.08)}
+fieldset:first-of-type{padding-top:14px}
+legend{margin-left:-6px;padding:0 10px;font:700 19px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.02em;color:var(--ink);cursor:pointer;border-radius:7px}
+legend:hover{background:var(--field);color:#1e5a50}
+fieldset.collapsed{padding-bottom:14px}
+fieldset.collapsed>*:not(legend){display:none}
 label{display:block;font-size:13px;color:var(--mute);margin-bottom:10px}
-input,textarea,select{width:100%;margin-top:3px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink);font:inherit}
+input,textarea,select{width:100%;max-width:100%;margin-top:3px;padding:9px 10px;border:1px solid color-mix(in srgb,var(--line) 78%,var(--ink));border-radius:9px;background:var(--panel);color:var(--ink);font:inherit;box-shadow:inset 0 1px 2px rgba(23,32,30,.025)}
+input:hover,textarea:hover,select:hover{border-color:var(--gold)}
+input[type="file"]{position:relative;inset:auto;display:block;height:auto;opacity:1;pointer-events:auto;overflow:hidden}
 :is(input,textarea,select,button):focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 textarea{resize:vertical;min-height:58px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -36,28 +45,28 @@ button.g{background:var(--gold);border-color:var(--gold);color:#3a312a;font-weig
 button.armed{background:#b3412f;color:#fff;border-color:#b3412f}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .pv{min-width:0;overflow-x:auto}
-.paper{position:relative;background:#fff;color:#3b3430;max-width:794px;min-height:900px;margin:0 auto;padding:44px 46px;border-radius:6px;box-shadow:0 2px 18px rgba(40,30,20,.2);font-size:13.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:4px solid #F2C46A;padding-bottom:18px}
+.paper{position:relative;background:#fff;color:#17201e;max-width:794px;min-height:900px;margin:0 auto;padding:44px 46px;border-radius:6px;box-shadow:0 2px 18px rgba(23,32,30,.12);font-size:13.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:4px solid #d59b3a;padding-bottom:18px}
 .top img{height:78px;display:block;margin-bottom:8px}
-.paper h2{font-size:42px;color:#4C4541;letter-spacing:2px;text-align:right;line-height:1}
+.paper h2{font-size:42px;color:#1e5a50;letter-spacing:2px;text-align:right;line-height:1}
 .meta{text-align:right;color:#6b625b;margin-top:6px}
 .pre{white-space:pre-line}
 .parties{margin:22px 0}.parties small,.foot small{display:block;color:#7b716a;margin-bottom:2px}
 .paper table{width:100%;border-collapse:collapse}
-.paper th{text-align:left;background:#FCF0DA;color:#4C4541;padding:9px 10px;border-bottom:2px solid #AEAC78}
-.paper td{padding:9px 10px;border-bottom:1px solid #eee5d0;vertical-align:top}
+.paper th{text-align:left;background:#edf3f1;color:#17201e;padding:9px 10px;border-bottom:2px solid #9eb8b1}
+.paper td{padding:9px 10px;border-bottom:1px solid #e8eeec;vertical-align:top}
 .n{text-align:right;white-space:nowrap}
 .tot{margin:16px 0 0 auto;width:min(320px,100%)}.tot div{display:flex;justify-content:space-between;padding:4px 10px;gap:10px}
-.tot .grand{background:#4C4541;color:#FCF0DA;font-weight:700;font-size:16px;border-radius:6px;margin-top:6px;padding:10px;border-left:6px solid #F2C46A}
-.tot .left{font-weight:700;background:#FCF0DA;border-radius:6px;margin-top:4px}
+.tot .grand{background:#1e5a50;color:#fff;font-weight:700;font-size:16px;border-radius:6px;margin-top:6px;padding:10px;border-left:6px solid #d59b3a}
+.tot .left{font-weight:700;background:#edf3f1;border-radius:6px;margin-top:4px}
 .words{margin-top:14px;color:#6b625b;font-style:italic}
 .foot{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .sign{margin-top:46px;text-align:right}.sign span{display:inline-block;min-width:170px;border-top:1px solid #4C4541;padding-top:4px;text-align:center}
-.stamp{position:absolute;right:46px;top:160px;transform:rotate(-12deg);border:4px solid #AEAC78;color:#7d7b4a;padding:2px 18px;font:700 36px "Barlow Condensed",sans-serif;letter-spacing:4px;border-radius:6px;opacity:.85}
+.stamp{position:absolute;right:46px;top:160px;transform:rotate(-12deg);border:4px solid var(--gold);color:var(--deep,#123A2C);padding:2px 18px;font:700 36px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.08em;border-radius:6px;opacity:.85}
 .hint{max-width:794px;margin:10px auto 0;color:var(--mute);font-size:13px}
 .hv{max-width:1000px;margin:0 auto;padding:20px}
 .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.sum .card b{display:block;font:700 24px "Barlow Condensed",sans-serif}.sum .card span{color:var(--mute);font-size:13px}
+.sum .card b{display:block;font:700 24px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif}.sum .card span{color:var(--mute);font-size:13px}
 .tools{display:grid;grid-template-columns:1fr 200px;gap:10px;margin-bottom:12px}.tools label{margin:0}
 .li{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .li:first-child{border-top:0}.li small{color:var(--mute)}
@@ -66,8 +75,33 @@ button.armed{background:#b3412f;color:#fff;border-color:#b3412f}
 .li .a{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.li .a button{padding:5px 10px;font-size:13px}
 #bk{min-height:90px;font:12px monospace}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--btn-ink);padding:9px 16px;border-radius:99px;z-index:9}
-@media (max-width:860px){.app{grid-template-columns:1fr;padding:12px}.paper{padding:26px 18px}.paper h2{font-size:30px}.li{grid-template-columns:1fr}.li .a{justify-content:flex-start}.tools{grid-template-columns:1fr}}
+@media (max-width:860px){.app{grid-template-columns:1fr;padding:12px}.form{align-self:auto}.paper{width:100%;min-height:640px;padding:26px 18px}.paper h2{font-size:30px}.li{grid-template-columns:1fr}.li .a{justify-content:flex-start}.tools{grid-template-columns:1fr}}
+@media (max-width:560px){.bar{padding:10px 12px}.bar nav{width:100%;margin-left:0}.bar nav button{flex:1}.app{padding:8px}.row{grid-template-columns:1fr}.r3{grid-template-columns:1fr 1fr}.r3 button{grid-column:1/-1}.acts button{width:100%}.paper{padding:22px 14px;overflow:hidden}.top{gap:12px}.top>div:last-child{text-align:left;margin-left:0}.meta{text-align:left}.foot{grid-template-columns:1fr;gap:14px}.sum{grid-template-columns:1fr 1fr}}
 @media print{:root{padding:0}body{background:#fff}.bar,.form,.hint,#vh,.toast{display:none!important}.app{display:block;padding:0;max-width:none}.pv{overflow:visible}.paper{box-shadow:none;border-radius:0;max-width:none;padding:0;min-height:0}@page{margin:14mm}}
+
+/* Unified luxury palette for the standalone Invoice page */
+body{background:#123A2C;background-image:linear-gradient(135deg,#123A2C 0%,#123A2C 38%,#0F5E4A 38%,#0F5E4A 100%)}
+.bar{background:#123A2C;color:#F3E9D2;border-bottom-color:#C9A24B}
+.bar nav button{border-color:rgba(243,233,210,.26);background:#0F5E4A;color:#F3E9D2}
+.bar nav button[aria-pressed="true"]{background:#C9A24B;color:#123A2C;border-color:#C9A24B}
+.app{max-width:1360px;background:#F3E9D2;border-radius:24px;margin-top:20px;margin-bottom:20px}
+.form{background:#dbe1d5;border:1px solid rgba(18,58,44,.18);border-radius:22px;padding:16px}
+.pv{background:#cbd4c6;border:1px solid rgba(18,58,44,.16);border-radius:22px;padding:18px}
+fieldset{background:#F3E9D2;border-color:rgba(18,58,44,.24)!important;border-radius:16px;padding:14px 16px 8px;box-shadow:none}
+fieldset:hover{border-color:#C9A24B!important;box-shadow:0 10px 26px rgba(18,58,44,.08)}
+legend{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Display",Helvetica,Arial,sans-serif;font-size:17px;letter-spacing:-.02em;color:#123A2C}
+label{font-size:12px;font-weight:650;color:#526760}
+input,textarea,select{min-height:42px;background:#F8F1DF;border-color:rgba(18,58,44,.24);border-radius:10px;color:#123A2C;font-size:14px}
+input:focus,textarea:focus,select:focus{border-color:#0F5E4A!important;box-shadow:0 0 0 3px rgba(15,94,74,.12)!important;outline:none!important}
+button{border-radius:10px;font-weight:700}
+button.p{background:#123A2C;border-color:#123A2C;color:#F3E9D2}
+button.g{background:#C9A24B;border-color:#C9A24B;color:#123A2C}
+.paper{background:#fff;box-shadow:0 18px 45px rgba(18,58,44,.18)}
+.paper th{background:#B8C4B2!important;color:#123A2C!important;border-bottom-color:#C9A24B!important}
+.paper .grand{background:#123A2C!important;color:#F3E9D2!important;border-left-color:#C9A24B!important}
+.paper .left{background:#B8C4B2!important;color:#123A2C!important}
+.paper table{color:#123A2C!important}
+.hint{color:#526760}
 </style>
 </head>
 <body>
@@ -77,21 +111,21 @@ button.armed{background:#b3412f;color:#fff;border-color:#b3412f}
 <main class="app" id="ve">
 <section class="form" aria-label="Formulir invoice">
 <fieldset><legend>Invoice</legend>
-<div class="row"><label>Nomor<input id="no"></label><label>Status<select id="status"><option value="draft">Draft</option><option value="terkirim">Terkirim</option><option value="lunas">Lunas</option></select></label></div>
-<div class="row"><label>Tanggal<input type="date" id="date"></label><label>Jatuh tempo<input type="date" id="due"></label></div><label>Termin cepat<select id="term"><option value="">Pilih termin</option><option value="0">Bayar langsung</option><option value="7">7 hari</option><option value="14">14 hari</option><option value="30">30 hari</option></select></label>
+<div class="row"><label>Nomor invoice<input id="no" placeholder="Contoh: PT-202611-001"></label><label>Status<select id="status"><option value="draft">Draft</option><option value="terkirim">Terkirim</option><option value="lunas">Lunas</option></select></label></div>
+<div class="row"><label>Tanggal invoice<input type="date" id="date"></label><label>Jatuh tempo pembayaran<input type="date" id="due"></label></div><label>Atur jatuh tempo cepat<select id="term"><option value="">Pilih termin</option><option value="0">Bayar langsung</option><option value="7">7 hari</option><option value="14">14 hari</option><option value="30">30 hari</option></select></label>
 <label>Mata uang<select id="cur"><option value="IDR">Rupiah (Rp)</option><option value="USD">US Dollar ($)</option></select></label></fieldset>
 <fieldset><legend>Pengirim</legend>
 <label>Logo (bawaan: Proletar Tech)<input type="file" id="logo" accept="image/*"></label>
 <button type="button" id="logo0" style="margin:-4px 0 10px">Pakai logo bawaan</button>
 <label>Nama usaha<input id="from"></label><label>Alamat, telepon, email<textarea id="fromInfo"></textarea></label></fieldset>
-<fieldset><legend>Klien</legend><label>Nama klien<input id="to" list="clients" autocomplete="off"></label><datalist id="clients"></datalist><label>Alamat, telepon, email<textarea id="toInfo"></textarea></label><label>WhatsApp klien<input id="toWa" inputmode="tel" placeholder="08xxxxxxxxxx"></label></fieldset>
-<datalist id="units"><option value="pcs"><option value="unit"><option value="jam"><option value="hari"><option value="bulan"><option value="paket"></datalist><fieldset><legend>Item</legend><div id="items"></div><button type="button" id="add">Tambah item</button></fieldset>
+<fieldset><legend>Klien</legend><label>Nama klien atau usaha<input id="to" list="clients" autocomplete="off" placeholder="Contoh: Toko Jaya"></label><datalist id="clients"></datalist><label>Alamat, telepon, atau email<textarea id="toInfo" placeholder="Contoh: Jalan Melati 12 · 0812xxxxxxx"></textarea></label><label>Nomor WhatsApp klien<input id="toWa" inputmode="tel" placeholder="08xxxxxxxxxx"></label></fieldset>
+<datalist id="units"><option value="pcs"><option value="unit"><option value="jam"><option value="hari"><option value="bulan"><option value="paket"></datalist><fieldset><legend>Item / layanan</legend><div id="items"></div><button type="button" id="add">+ Tambah item atau layanan</button></fieldset>
 <fieldset><legend>Biaya</legend>
 <div class="row"><label>Diskon<input type="number" id="disc" min="0" step="any"></label><label>Jenis diskon<select id="dt"><option value="%">Persen (%)</option><option value="n">Nominal</option></select></label></div>
 <div class="row"><label>PPN (%)<input type="number" id="tax" min="0" step="any"></label><label>Biaya lain / ongkir<input type="number" id="fee" min="0" step="any"></label></div>
 <label>Sudah dibayar (DP)<input type="number" id="paid" min="0" step="any"></label></fieldset>
 <fieldset><legend>Penutup</legend><label>Info rekening<textarea id="pay"></textarea></label><label>Catatan<textarea id="note"></textarea></label><label>Nama penandatangan<input id="signer"></label></fieldset>
-<div class="acts"><button type="button" class="p" id="save">Simpan ke riwayat</button><button type="button" class="g" id="print">Cetak / PDF</button><button type="button" id="wal">Kirim via WhatsApp</button><button type="button" id="wa">Salin teks WhatsApp</button><button type="button" id="new">Invoice baru</button></div>
+<div class="acts"><button type="button" class="p" id="save">Simpan ke riwayat</button><button type="button" class="g" id="print" title="Ukuran PDF ditentukan saat dialog cetak dan mengikuti isi invoice">Cetak / Simpan PDF</button><button type="button" id="wal">Kirim via WhatsApp</button><button type="button" id="wa">Salin teks WhatsApp</button><button type="button" id="new">Buat invoice baru</button></div>
 </section>
 <section class="pv"><article class="paper" id="paper"></article><p class="hint">Di dialog cetak, pilih “Simpan sebagai PDF”. Perubahan tersimpan otomatis di browser ini.</p></section>
 </main>
@@ -143,7 +177,7 @@ $("paper").innerHTML=(S.status==="lunas"?'<div class="stamp">LUNAS</div>':"")+
 (S.cur==="IDR"&&c.tot>0?'<div class="words">Terbilang: '+esc(words(c.tot))+" rupiah</div>":"")+
 '<div class="foot"><div>'+(S.pay?"<small>Pembayaran</small><div class=\"pre\">"+esc(S.pay)+"</div>":"")+"</div><div>"+(S.note?"<small>Catatan</small><div class=\"pre\">"+esc(S.note)+"</div>":"")+"</div></div>"+
 (S.signer?'<div class="sign"><span>'+esc(S.signer)+"</span></div>":"");
-document.title=(S.no||"Invoice")+" · Proletar Tech"}
+if(window===window.top)document.title=(S.no||"Invoice")+" · Proletar Tech"}
 
 function items(){$("items").innerHTML=S.items.map(function(it,i){return'<div class="item"><label>Deskripsi<input data-i="'+i+'" data-k="d" value="'+esc(it.d)+'"></label><div class="r3"><label>Jumlah<input type="number" min="0" step="any" data-i="'+i+'" data-k="q" value="'+esc(it.q)+'"></label><label>Satuan<input data-i="'+i+'" data-k="u" list="units" placeholder="pcs" value="'+esc(it.u)+'"></label><label>Harga satuan<input type="number" min="0" step="any" data-i="'+i+'" data-k="p" value="'+esc(it.p)+'"></label><button type="button" data-del="'+i+'" aria-label="Hapus item '+(i+1)+'">Hapus</button></div></div>'}).join("")}
 var F=["no","status","cur","date","due","from","fromInfo","to","toInfo","toWa","dt","disc","tax","fee","paid","pay","note","signer"];
@@ -166,7 +200,7 @@ function copy(t){function fb(){var a=document.createElement("textarea");a.value=
 try{navigator.clipboard.writeText(t).then(function(){toast("Tersalin")},fb)}catch(e){fb()}}
 function waText(){var c=calc(S);return("*Invoice "+S.no+"*\nKepada: "+(S.to||"-")+"\nTotal: "+money(c.tot,S.cur)+(+S.paid?"\nSisa: "+money(c.left,S.cur):"")+"\nJatuh tempo: "+dt(S.due)+(S.pay?"\n\nPembayaran:\n"+S.pay:"")+"\n\nTerima kasih,\n"+S.from)}
 $("wa").onclick=function(){copy(waText())};
-$("wal").onclick=function(){var n=(S.toWa||"").replace(/\D/g,"");if(n[0]==="0")n="62"+n.slice(1);var w=null;try{w=window.open("https://wa.me/"+n+"?text="+encodeURIComponent(waText()),"_blank")}catch(e){}if(w){if(S.status==="draft"){S.status="terkirim";$("status").value="terkirim";sync()}}else{copy(waText());toast("Teks disalin. Tempel di WhatsApp.")}};
+$("wal").onclick=function(){var n=(S.toWa||"").replace(/\D/g,"");if(!n){toast("Isi nomor WhatsApp klien terlebih dahulu.");return}if(n[0]==="0")n="62"+n.slice(1);var w=null;try{w=window.open("https://wa.me/"+n+"?text="+encodeURIComponent(waText()),"_blank")}catch(e){}if(w){if(S.status==="draft"){S.status="terkirim";$("status").value="terkirim";sync()}}else{copy(waText());toast("Popup diblokir. Teks WhatsApp telah disalin.")}};
 
 function tab(t){$("ve").hidden=t!=="e";$("vh").hidden=t!=="h";document.querySelectorAll("[data-tab]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.tab===t)});if(t==="h")hist();window.scrollTo(0,0)}
 document.querySelectorAll("[data-tab]").forEach(function(b){b.onclick=function(){tab(b.dataset.tab)}});
@@ -189,6 +223,7 @@ $("bkrs").onclick=function(){try{var d=JSON.parse($("bk").value);if(!Array.isArr
 
 function clients(){var s={};DB.hist.forEach(function(h){if(h.to)s[h.to]=1});$("clients").innerHTML=Object.keys(s).map(function(n){return'<option value="'+esc(n)+'">'}).join("")}
 $("csv").onclick=function(){var r=[["No","Tanggal","Jatuh tempo","Klien","Mata uang","Total","Dibayar","Sisa","Status"]];DB.hist.forEach(function(h){var c=calc(h),l=h.status==="lunas";r.push([h.no,h.date,h.due,h.to,h.cur,Math.round(c.tot*100)/100,l?c.tot:(+h.paid||0),l?0:c.left,SL[st(h)]])});copy(r.map(function(x){return x.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"'}).join(",")}).join("\n"))};
+document.querySelectorAll("fieldset legend").forEach(function(legend){legend.tabIndex=0;legend.setAttribute("role","button");legend.setAttribute("aria-expanded","true");legend.addEventListener("click",function(){var field=legend.parentElement,collapsed=field.classList.toggle("collapsed");legend.setAttribute("aria-expanded",String(!collapsed))});legend.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();legend.click()}})});
 fill();items();paper();clients();hist();
 })();
 </script>

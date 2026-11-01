@@ -7,7 +7,7 @@ Aplikasi web untuk menyiapkan desain stiker dan lembar cetak, langsung dari brow
 ## Mulai menggunakan
 
 1. Buka aplikasi melalui tautan di atas. Untuk memasang sebagai aplikasi, buka menu browser lalu pilih **Tambahkan ke layar utama** atau **Install app** jika tersedia.
-2. Pilih tab sesuai pekerjaan: **Studio Warna**, **Hapus Latar**, **Upscaler**, **Lembar Stiker**, **Pratinjau File**, atau **Invoice**.
+2. Pilih tab sesuai pekerjaan: **Studio Warna**, **Vektor Trace**, **Hapus Latar**, **Upscaler**, **Lembar Stiker**, **Pratinjau File**, atau **Invoice**.
 3. Unggah gambar, atur hasil, lalu unduh file yang dibutuhkan.
 
 Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser dan perangkat; buka aplikasi sekali saat online agar asetnya dapat tersimpan.
@@ -15,6 +15,9 @@ Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser d
 ## Fitur dan format ekspor
 
 - **Studio Warna:** buat variasi warna logo, simpan PNG satu per satu, atau buat batch hingga 100 desain sebagai ZIP.
+- **Vektor Trace:** jalur khusus untuk mengubah logo atau ilustrasi menjadi SVG vektor, terpisah dari Studio Warna dan Lembar Stiker.
+- Hasil Vektor Trace dikirim ke alat lain lewat tombol **Kirim**, bukan diproses otomatis atau terhubung permanen.
+- Pengaturan bentuk pada setiap logo Lembar Stiker dapat berbeda sehingga satu lembar dapat memuat kombinasi stiker bulat, kotak, oval, heksagon, dan bentuk lainnya.
 - **Pratinjau File:** buka PDF, SVG/SVGZ, PNG, JPG, WebP, GIF, BMP, dan AVIF dalam satu menu. CDR dan beberapa format vektor dicoba lewat gambar pratinjau tertanam bila tersedia; file diproses lokal di browser.
 - **Invoice:** buat, cetak, dan kelola riwayat invoice dari tab baru. Data Invoice disimpan terpisah secara lokal di browser perangkat ini.
 - **Hapus Latar:** hapus latar otomatis atau area warna tersambung; tersedia undo/redo dan unduhan PNG.
