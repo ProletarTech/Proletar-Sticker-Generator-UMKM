@@ -13,10 +13,10 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 .invoice-embedded .bar{display:none}
 .invoice-embedded .app{padding-top:12px}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Text",Helvetica,Arial,sans-serif}
-h1,h2,h3{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Display",Helvetica,sans-serif;margin:0;letter-spacing:-.02em}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+h1,h2,h3{font-family:inherit;margin:0;letter-spacing:-.02em}
 .bar{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:3px solid var(--gold);background:var(--panel);flex-wrap:wrap}
-.bar img{height:44px;filter:var(--lf)}.bar b{font:700 26px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.01em}
+.bar img{height:44px;filter:var(--lf)}.bar b{font:700 26px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.01em}
 .bar nav{margin-left:auto;display:flex;gap:6px}
 .bar nav button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
 .app{display:grid;grid-template-columns:minmax(320px,440px) minmax(0,1fr);gap:20px;max-width:1200px;margin:0 auto;padding:20px}
@@ -26,7 +26,7 @@ fieldset{border:1px solid #c8d4d1!important;border-radius:14px;margin:0 0 14px;p
 fieldset:hover{border-color:#8baaa3!important;box-shadow:0 7px 18px rgba(23,32,30,.08);transform:translateY(-1px)}
 fieldset:focus-within{border-color:#1e5a50!important;box-shadow:0 0 0 3px rgba(30,90,80,.12),0 7px 18px rgba(23,32,30,.08)}
 fieldset:first-of-type{padding-top:14px}
-legend{margin-left:-6px;padding:0 10px;font:700 19px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.02em;color:var(--ink);cursor:pointer;border-radius:7px}
+legend{margin-left:-6px;padding:0 10px;font:700 19px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:-.02em;color:var(--ink);cursor:pointer;border-radius:7px}
 legend:hover{background:var(--field);color:#1e5a50}
 fieldset.collapsed{padding-bottom:14px}
 fieldset.collapsed>*:not(legend){display:none}
@@ -62,11 +62,11 @@ button.armed{background:#b3412f;color:#fff;border-color:#b3412f}
 .words{margin-top:14px;color:#6b625b;font-style:italic}
 .foot{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .sign{margin-top:46px;text-align:right}.sign span{display:inline-block;min-width:170px;border-top:1px solid #4C4541;padding-top:4px;text-align:center}
-.stamp{position:absolute;right:46px;top:160px;transform:rotate(-12deg);border:4px solid var(--gold);color:var(--deep,#123A2C);padding:2px 18px;font:700 36px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.08em;border-radius:6px;opacity:.85}
+.stamp{position:absolute;right:46px;top:160px;transform:rotate(-12deg);border:4px solid var(--gold);color:var(--deep,#123A2C);padding:2px 18px;font:700 36px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.08em;border-radius:6px;opacity:.85}
 .hint{max-width:794px;margin:10px auto 0;color:var(--mute);font-size:13px}
 .hv{max-width:1000px;margin:0 auto;padding:20px}
 .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.sum .card b{display:block;font:700 24px -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif}.sum .card span{color:var(--mute);font-size:13px}
+.sum .card b{display:block;font:700 24px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.sum .card span{color:var(--mute);font-size:13px}
 .tools{display:grid;grid-template-columns:1fr 200px;gap:10px;margin-bottom:12px}.tools label{margin:0}
 .li{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .li:first-child{border-top:0}.li small{color:var(--mute)}
@@ -89,7 +89,7 @@ body{background:#123A2C;background-image:linear-gradient(135deg,#123A2C 0%,#123A
 .pv{background:#cbd4c6;border:1px solid rgba(18,58,44,.16);border-radius:22px;padding:18px}
 fieldset{background:#F3E9D2;border-color:rgba(18,58,44,.24)!important;border-radius:16px;padding:14px 16px 8px;box-shadow:none}
 fieldset:hover{border-color:#C9A24B!important;box-shadow:0 10px 26px rgba(18,58,44,.08)}
-legend{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","SF Pro Display",Helvetica,Arial,sans-serif;font-size:17px;letter-spacing:-.02em;color:#123A2C}
+legend{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;letter-spacing:-.02em;color:#123A2C}
 label{font-size:12px;font-weight:650;color:#526760}
 input,textarea,select{min-height:42px;background:#F8F1DF;border-color:rgba(18,58,44,.24);border-radius:10px;color:#123A2C;font-size:14px}
 input:focus,textarea:focus,select:focus{border-color:#0F5E4A!important;box-shadow:0 0 0 3px rgba(15,94,74,.12)!important;outline:none!important}
@@ -106,35 +106,35 @@ button.g{background:#C9A24B;border-color:#C9A24B;color:#123A2C}
 </head>
 <body>
 <header class="bar"><img id="bl" alt="Logo Proletar Tech"><b>Proletar Tech</b>
-<nav><button type="button" data-tab="e" aria-pressed="true">Editor</button><button type="button" data-tab="h" aria-pressed="false">Riwayat <span id="cnt"></span></button></nav></header>
+<nav><button type="button" data-tab="e" aria-pressed="true">Editor</button><button type="button" data-tab="h" aria-pressed="false">History <span id="cnt"></span></button></nav></header>
 
 <main class="app" id="ve">
-<section class="form" aria-label="Formulir invoice">
+<section class="form" aria-label="Invoice form">
 <fieldset><legend>Invoice</legend>
-<div class="row"><label>Nomor invoice<input id="no" placeholder="Contoh: PT-202611-001"></label><label>Status<select id="status"><option value="draft">Draft</option><option value="terkirim">Terkirim</option><option value="lunas">Lunas</option></select></label></div>
-<div class="row"><label>Tanggal invoice<input type="date" id="date"></label><label>Jatuh tempo pembayaran<input type="date" id="due"></label></div><label>Atur jatuh tempo cepat<select id="term"><option value="">Pilih termin</option><option value="0">Bayar langsung</option><option value="7">7 hari</option><option value="14">14 hari</option><option value="30">30 hari</option></select></label>
-<label>Mata uang<select id="cur"><option value="IDR">Rupiah (Rp)</option><option value="USD">US Dollar ($)</option></select></label></fieldset>
-<fieldset><legend>Pengirim</legend>
-<label>Logo (bawaan: Proletar Tech)<input type="file" id="logo" accept="image/*"></label>
-<button type="button" id="logo0" style="margin:-4px 0 10px">Pakai logo bawaan</button>
-<label>Nama usaha<input id="from"></label><label>Alamat, telepon, email<textarea id="fromInfo"></textarea></label></fieldset>
-<fieldset><legend>Klien</legend><label>Nama klien atau usaha<input id="to" list="clients" autocomplete="off" placeholder="Contoh: Toko Jaya"></label><datalist id="clients"></datalist><label>Alamat, telepon, atau email<textarea id="toInfo" placeholder="Contoh: Jalan Melati 12 · 0812xxxxxxx"></textarea></label><label>Nomor WhatsApp klien<input id="toWa" inputmode="tel" placeholder="08xxxxxxxxxx"></label></fieldset>
-<datalist id="units"><option value="pcs"><option value="unit"><option value="jam"><option value="hari"><option value="bulan"><option value="paket"></datalist><fieldset><legend>Item / layanan</legend><div id="items"></div><button type="button" id="add">+ Tambah item atau layanan</button></fieldset>
-<fieldset><legend>Biaya</legend>
-<div class="row"><label>Diskon<input type="number" id="disc" min="0" step="any"></label><label>Jenis diskon<select id="dt"><option value="%">Persen (%)</option><option value="n">Nominal</option></select></label></div>
-<div class="row"><label>PPN (%)<input type="number" id="tax" min="0" step="any"></label><label>Biaya lain / ongkir<input type="number" id="fee" min="0" step="any"></label></div>
-<label>Sudah dibayar (DP)<input type="number" id="paid" min="0" step="any"></label></fieldset>
-<fieldset><legend>Penutup</legend><label>Info rekening<textarea id="pay"></textarea></label><label>Catatan<textarea id="note"></textarea></label><label>Nama penandatangan<input id="signer"></label></fieldset>
-<div class="acts"><button type="button" class="p" id="save">Simpan ke riwayat</button><button type="button" class="g" id="print" title="Ukuran PDF ditentukan saat dialog cetak dan mengikuti isi invoice">Cetak / Simpan PDF</button><button type="button" id="wal">Kirim via WhatsApp</button><button type="button" id="wa">Salin teks WhatsApp</button><button type="button" id="new">Buat invoice baru</button></div>
+<div class="row"><label>Invoice number<input id="no" placeholder="Example: PT-202611-001"></label><label>Status<select id="status"><option value="draft">Draft</option><option value="terkirim">Sent</option><option value="lunas">Paid</option></select></label></div>
+<div class="row"><label>Invoice date<input type="date" id="date"></label><label>Due date<input type="date" id="due"></label></div><label>Quick payment terms<select id="term"><option value="">Select terms</option><option value="0">Due on receipt</option><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option></select></label>
+<label>Currency<select id="cur"><option value="IDR">Indonesian Rupiah (Rp)</option><option value="USD">US Dollar ($)</option></select></label></fieldset>
+<fieldset><legend>From</legend>
+<label>Logo (default: Proletar Tech)<input type="file" id="logo" accept="image/*"></label>
+<button type="button" id="logo0" style="margin:-4px 0 10px">Use default logo</button>
+<label>Business name<input id="from"></label><label>Address, phone, email<textarea id="fromInfo"></textarea></label></fieldset>
+<fieldset><legend>Bill to</legend><label>Client or business name<input id="to" list="clients" autocomplete="off" placeholder="Example: Jaya Store"></label><datalist id="clients"></datalist><label>Address, phone, or email<textarea id="toInfo" placeholder="Example: 12 Melati Street · +1 555 123 4567"></textarea></label><label>Client WhatsApp number<input id="toWa" inputmode="tel" placeholder="15551234567"></label></fieldset>
+<datalist id="units"><option value="pcs"><option value="unit"><option value="hour"><option value="day"><option value="month"><option value="package"></datalist><fieldset><legend>Items / services</legend><div id="items"></div><button type="button" id="add">+ Add item or service</button></fieldset>
+<fieldset><legend>Charges</legend>
+<div class="row"><label>Discount<input type="number" id="disc" min="0" step="any"></label><label>Discount type<select id="dt"><option value="%">Percent (%)</option><option value="n">Fixed amount</option></select></label></div>
+<div class="row"><label>Tax (%)<input type="number" id="tax" min="0" step="any"></label><label>Other fees / shipping<input type="number" id="fee" min="0" step="any"></label></div>
+<label>Amount paid (deposit)<input type="number" id="paid" min="0" step="any"></label></fieldset>
+<fieldset><legend>Notes &amp; payment</legend><label>Payment details<textarea id="pay"></textarea></label><label>Notes<textarea id="note"></textarea></label><label>Signatory name<input id="signer"></label></fieldset>
+<div class="acts"><button type="button" class="p" id="save">Save to history</button><button type="button" class="g" id="print" title="PDF page size is set in the print dialog and follows the invoice content">Print / Save PDF</button><button type="button" id="wal">Send via WhatsApp</button><button type="button" id="wa">Copy WhatsApp text</button><button type="button" id="new">New invoice</button></div>
 </section>
-<section class="pv"><article class="paper" id="paper"></article><p class="hint">Di dialog cetak, pilih “Simpan sebagai PDF”. Perubahan tersimpan otomatis di browser ini.</p></section>
+<section class="pv"><article class="paper" id="paper"></article><p class="hint">In the print dialog, choose “Save as PDF.” Changes are saved automatically in this browser.</p></section>
 </main>
 
 <main class="hv" id="vh" hidden>
 <div class="sum" id="sum"></div>
-<div class="card"><div class="tools"><label>Cari nomor atau klien<input id="q"></label><label>Status<select id="fs"><option value="">Semua</option><option value="draft">Draft</option><option value="terkirim">Terkirim</option><option value="telat">Lewat jatuh tempo</option><option value="lunas">Lunas</option></select></label></div><div id="list"></div></div>
-<div class="card" style="margin-top:16px"><h3>Cadangan data</h3><p style="color:var(--mute);margin:4px 0 10px">Buat cadangan lalu simpan teksnya, atau tempel cadangan lama untuk memulihkan.</p>
-<textarea id="bk" aria-label="Teks cadangan"></textarea><div class="acts"><button type="button" id="bkmk">Buat cadangan</button><button type="button" id="bkrs">Pulihkan dari teks</button><button type="button" id="csv">Salin rekap CSV</button></div></div>
+<div class="card"><div class="tools"><label>Search by number or client<input id="q"></label><label>Status<select id="fs"><option value="">All</option><option value="draft">Draft</option><option value="terkirim">Sent</option><option value="telat">Overdue</option><option value="lunas">Paid</option></select></label></div><div id="list"></div></div>
+<div class="card" style="margin-top:16px"><h3>Data backup</h3><p style="color:var(--mute);margin:4px 0 10px">Create a backup and save its text, or paste an existing backup to restore it.</p>
+<textarea id="bk" aria-label="Backup text"></textarea><div class="acts"><button type="button" id="bkmk">Create backup</button><button type="button" id="bkrs">Restore from text</button><button type="button" id="csv">Copy CSV summary</button></div></div>
 </main>
 <div class="toast" id="toast" hidden></div>
 
@@ -145,41 +145,42 @@ var DEF="Jalan Plumpang Semper No 40\n14260\nTelp/WA: 089654998183\nproletartech
 var DB={hist:[],cur:null,logo:""};
 try{var r=JSON.parse(localStorage.getItem(K)||"null");if(r&&r.hist)DB=Object.assign(DB,r)}catch(e){}
 var tt;function toast(m){var t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true},2400)}
-function persist(){try{localStorage.setItem(K,JSON.stringify(DB))}catch(e){toast("Penyimpanan browser penuh atau diblokir")}}
+function persist(){try{localStorage.setItem(K,JSON.stringify(DB))}catch(e){toast("Browser storage is full or blocked")}}
 function nextNo(){var m=T.getFullYear()+pad(T.getMonth()+1,2),n=DB.hist.length+1,no;do{no="PT-"+m+"-"+pad(n++,3)}while(DB.hist.some(function(h){return h.no===no}));return no}
 function mk(b){b=b||{};return{id:"i"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),no:nextNo(),status:"draft",cur:b.cur||"IDR",date:iso(T),due:iso(new Date(+T+14*864e5)),from:b.from||"Proletar Tech",fromInfo:b.fromInfo!=null?b.fromInfo:DEF,to:"",toInfo:"",toWa:"",items:[{q:1,d:"",p:0}],dt:"%",disc:0,tax:0,fee:0,paid:0,pay:b.pay||"",note:b.note||"Terima kasih atas kepercayaan Anda.",signer:b.signer||""}}
 var S=DB.cur||mk();if(!S.fromInfo&&S.from==="Proletar Tech")S.fromInfo=DEF;
 var clone=function(o){return JSON.parse(JSON.stringify(o))};
 function calc(v){var s=0;v.items.forEach(function(i){s+=(+i.q||0)*(+i.p||0)});var d=v.dt==="%"?s*(+v.disc||0)/100:(+v.disc||0);d=Math.min(d,s);var b=s-d,x=b*(+v.tax||0)/100,t=b+x+(+v.fee||0);return{sub:s,dv:d,tx:x,tot:t,left:Math.max(0,t-(+v.paid||0))}}
 function money(n,c){try{return new Intl.NumberFormat(c==="IDR"?"id-ID":"en-US",{style:"currency",currency:c,maximumFractionDigits:c==="IDR"?0:2}).format(n)}catch(e){return String(n)}}
-function dt(s){if(!s)return"-";try{return new Date(s+"T00:00:00").toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}catch(e){return s}}
+function dt(s){if(!s)return"-";try{return new Date(s+"T00:00:00").toLocaleDateString("en-US",{day:"numeric",month:"long",year:"numeric"})}catch(e){return s}}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-var U=["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas"];
-function f(n){if(n<12)return U[n];if(n<20)return f(n-10)+" belas";if(n<100)return f(Math.floor(n/10))+" puluh "+f(n%10);if(n<200)return"seratus "+f(n-100);if(n<1e3)return f(Math.floor(n/100))+" ratus "+f(n%100);if(n<2e3)return"seribu "+f(n-1e3);if(n<1e6)return f(Math.floor(n/1e3))+" ribu "+f(n%1e3);if(n<1e9)return f(Math.floor(n/1e6))+" juta "+f(n%1e6);if(n<1e12)return f(Math.floor(n/1e9))+" miliar "+f(n%1e9);return f(Math.floor(n/1e12))+" triliun "+f(n%1e12)}
-function words(n){n=Math.round(n);return n===0?"nol":f(n).replace(/\s+/g," ").trim()}
+var U=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+var TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function f(n){if(n<20)return U[n];if(n<100)return TENS[Math.floor(n/10)]+(n%10?"-"+U[n%10]:"");if(n<1e3)return U[Math.floor(n/100)]+" hundred"+(n%100?" "+f(n%100):"");var units=[[1e12,"trillion"],[1e9,"billion"],[1e6,"million"],[1e3,"thousand"]];for(var i=0;i<units.length;i++){var size=units[i][0];if(n>=size)return f(Math.floor(n/size))+" "+units[i][1]+(n%size?" "+f(n%size):"")}return""}
+function words(n){n=Math.round(n);return n===0?"zero":f(n).replace(/\s+/g," ").trim()}
 function st(v){return v.status==="lunas"?"lunas":(v.due&&v.due<iso(T)?"telat":v.status)}
-var SL={draft:"Draft",terkirim:"Terkirim",lunas:"Lunas",telat:"Lewat jatuh tempo"};
+var SL={draft:"Draft",terkirim:"Sent",lunas:"Paid",telat:"Overdue"};
 var logo=function(){return DB.logo||LOGO};
 
 function paper(){var c=calc(S),m=function(n){return money(n,S.cur)};
 $("bl").src=logo();
 var rows=S.items.map(function(i){return"<tr><td>"+esc(i.d||"-")+'</td><td class="n">'+esc(i.q)+(i.u?' '+esc(i.u):'')+'</td><td class="n">'+m(+i.p||0)+'</td><td class="n">'+m((+i.q||0)*(+i.p||0))+"</td></tr>"}).join("");
-$("paper").innerHTML=(S.status==="lunas"?'<div class="stamp">LUNAS</div>':"")+
-'<div class="top"><div><img alt="Logo" src="'+logo()+'"><b style="font-size:17px">'+esc(S.from||"Nama usaha")+'</b><div class="pre">'+esc(S.fromInfo)+'</div></div><div><h2>INVOICE</h2><div class="meta"><b>'+esc(S.no)+"</b><br>Tanggal: "+dt(S.date)+"<br>Jatuh tempo: "+dt(S.due)+"</div></div></div>"+
-'<div class="parties"><small>Ditagihkan kepada</small><b>'+esc(S.to||"Nama klien")+'</b><div class="pre">'+esc(S.toInfo)+"</div></div>"+
-'<table><thead><tr><th>Deskripsi</th><th class="n">Jumlah</th><th class="n">Harga</th><th class="n">Total</th></tr></thead><tbody>'+rows+"</tbody></table>"+
+$("paper").innerHTML=(S.status==="lunas"?'<div class="stamp">PAID</div>':"")+
+'<div class="top"><div><img alt="Logo" src="'+logo()+'"><b style="font-size:17px">'+esc(S.from||"Business name")+'</b><div class="pre">'+esc(S.fromInfo)+'</div></div><div><h2>INVOICE</h2><div class="meta"><b>'+esc(S.no)+"</b><br>Date: "+dt(S.date)+"<br>Due: "+dt(S.due)+"</div></div></div>"+
+'<div class="parties"><small>Bill to</small><b>'+esc(S.to||"Client name")+'</b><div class="pre">'+esc(S.toInfo)+"</div></div>"+
+'<table><thead><tr><th>Description</th><th class="n">Quantity</th><th class="n">Price</th><th class="n">Amount</th></tr></thead><tbody>'+rows+"</tbody></table>"+
 '<div class="tot"><div><span>Subtotal</span><span>'+m(c.sub)+"</span></div>"+
-(c.dv?"<div><span>Diskon"+(S.dt==="%"?" ("+esc(S.disc)+"%)":"")+"</span><span>-"+m(c.dv)+"</span></div>":"")+
-(+S.tax?"<div><span>PPN ("+esc(S.tax)+"%)</span><span>"+m(c.tx)+"</span></div>":"")+
-(+S.fee?"<div><span>Biaya lain</span><span>"+m(+S.fee)+"</span></div>":"")+
+(c.dv?"<div><span>Discount"+(S.dt==="%"?" ("+esc(S.disc)+"%)":"")+"</span><span>-"+m(c.dv)+"</span></div>":"")+
+(+S.tax?"<div><span>Tax ("+esc(S.tax)+"%)</span><span>"+m(c.tx)+"</span></div>":"")+
+(+S.fee?"<div><span>Other fees</span><span>"+m(+S.fee)+"</span></div>":"")+
 '<div class="grand"><span>Total</span><span>'+m(c.tot)+"</span></div>"+
-(+S.paid?"<div><span>Sudah dibayar</span><span>-"+m(+S.paid)+'</span></div><div class="left"><span>Sisa tagihan</span><span>'+m(c.left)+"</span></div>":"")+"</div>"+
-(S.cur==="IDR"&&c.tot>0?'<div class="words">Terbilang: '+esc(words(c.tot))+" rupiah</div>":"")+
-'<div class="foot"><div>'+(S.pay?"<small>Pembayaran</small><div class=\"pre\">"+esc(S.pay)+"</div>":"")+"</div><div>"+(S.note?"<small>Catatan</small><div class=\"pre\">"+esc(S.note)+"</div>":"")+"</div></div>"+
+(+S.paid?"<div><span>Amount paid</span><span>-"+m(+S.paid)+'</span></div><div class="left"><span>Balance due</span><span>'+m(c.left)+"</span></div>":"")+"</div>"+
+(S.cur==="IDR"&&c.tot>0?'<div class="words">Amount in words: '+esc(words(c.tot))+" Indonesian rupiah</div>":"")+
+'<div class="foot"><div>'+(S.pay?"<small>Payment details</small><div class=\"pre\">"+esc(S.pay)+"</div>":"")+"</div><div>"+(S.note?"<small>Notes</small><div class=\"pre\">"+esc(S.note)+"</div>":"")+"</div></div>"+
 (S.signer?'<div class="sign"><span>'+esc(S.signer)+"</span></div>":"");
 if(window===window.top)document.title=(S.no||"Invoice")+" · Proletar Tech"}
 
-function items(){$("items").innerHTML=S.items.map(function(it,i){return'<div class="item"><label>Deskripsi<input data-i="'+i+'" data-k="d" value="'+esc(it.d)+'"></label><div class="r3"><label>Jumlah<input type="number" min="0" step="any" data-i="'+i+'" data-k="q" value="'+esc(it.q)+'"></label><label>Satuan<input data-i="'+i+'" data-k="u" list="units" placeholder="pcs" value="'+esc(it.u)+'"></label><label>Harga satuan<input type="number" min="0" step="any" data-i="'+i+'" data-k="p" value="'+esc(it.p)+'"></label><button type="button" data-del="'+i+'" aria-label="Hapus item '+(i+1)+'">Hapus</button></div></div>'}).join("")}
+function items(){$("items").innerHTML=S.items.map(function(it,i){return'<div class="item"><label>Description<input data-i="'+i+'" data-k="d" value="'+esc(it.d)+'"></label><div class="r3"><label>Quantity<input type="number" min="0" step="any" data-i="'+i+'" data-k="q" value="'+esc(it.q)+'"></label><label>Unit<input data-i="'+i+'" data-k="u" list="units" placeholder="pcs" value="'+esc(it.u)+'"></label><label>Unit price<input type="number" min="0" step="any" data-i="'+i+'" data-k="p" value="'+esc(it.p)+'"></label><button type="button" data-del="'+i+'" aria-label="Remove item '+(i+1)+'">Remove</button></div></div>'}).join("")}
 var F=["no","status","cur","date","due","from","fromInfo","to","toInfo","toWa","dt","disc","tax","fee","paid","pay","note","signer"];
 function fill(){F.forEach(function(k){$(k).value=S[k]==null?"":S[k]})}
 function sync(){DB.cur=S;var i=DB.hist.findIndex(function(h){return h.id===S.id});if(i>-1)DB.hist[i]=clone(S);persist();paper();clients();$("cnt").textContent=DB.hist.length?"("+DB.hist.length+")":""}
@@ -188,19 +189,19 @@ $("term").onchange=function(){if(this.value==="")return;var d=new Date(S.date+"T
 $("items").addEventListener("input",function(e){var i=e.target.getAttribute("data-i");if(i===null)return;S.items[i][e.target.getAttribute("data-k")]=e.target.value;sync()});
 $("items").addEventListener("click",function(e){var d=e.target.getAttribute("data-del");if(d===null)return;S.items.splice(+d,1);if(!S.items.length)S.items.push({q:1,d:"",p:0});items();sync()});
 $("add").onclick=function(){S.items.push({q:1,d:"",p:0});items();sync()};
-$("logo").onchange=function(){var f=this.files&&this.files[0];if(!f)return;if(f.size>400*1024){toast("Logo maksimal 400 KB");this.value="";return}var r=new FileReader();r.onload=function(){DB.logo=r.result;sync()};r.readAsDataURL(f)};
+$("logo").onchange=function(){var f=this.files&&this.files[0];if(!f)return;if(f.size>400*1024){toast("Logo must be 400 KB or smaller");this.value="";return}var r=new FileReader();r.onload=function(){DB.logo=r.result;sync()};r.readAsDataURL(f)};
 $("logo0").onclick=function(){DB.logo="";$("logo").value="";sync()};
 function has(v){return v.to||v.items.some(function(i){return i.d||+i.p})}
-$("save").onclick=function(){var i=DB.hist.findIndex(function(h){return h.id===S.id});if(i>-1)DB.hist[i]=clone(S);else DB.hist.unshift(clone(S));persist();sync();toast("Tersimpan di riwayat")};
+$("save").onclick=function(){var i=DB.hist.findIndex(function(h){return h.id===S.id});if(i>-1)DB.hist[i]=clone(S);else DB.hist.unshift(clone(S));persist();sync();toast("Saved to history")};
 function open(v){S=clone(v);fill();items();sync();tab("e")}
-function fresh(){if(has(S)&&!DB.hist.some(function(h){return h.id===S.id}))DB.hist.unshift(clone(S));S=mk(S);fill();items();sync();toast("Invoice baru dibuat")}
+function fresh(){if(has(S)&&!DB.hist.some(function(h){return h.id===S.id}))DB.hist.unshift(clone(S));S=mk(S);fill();items();sync();toast("New invoice created")}
 $("new").onclick=fresh;
-$("print").onclick=function(){try{window.print()}catch(e){toast("Cetak diblokir. Buka halaman ini di tab baru.")}};
-function copy(t){function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Tersalin")}catch(e){toast("Gagal menyalin")}a.remove()}
-try{navigator.clipboard.writeText(t).then(function(){toast("Tersalin")},fb)}catch(e){fb()}}
-function waText(){var c=calc(S);return("*Invoice "+S.no+"*\nKepada: "+(S.to||"-")+"\nTotal: "+money(c.tot,S.cur)+(+S.paid?"\nSisa: "+money(c.left,S.cur):"")+"\nJatuh tempo: "+dt(S.due)+(S.pay?"\n\nPembayaran:\n"+S.pay:"")+"\n\nTerima kasih,\n"+S.from)}
+$("print").onclick=function(){try{window.print()}catch(e){toast("Printing was blocked. Open this page in a new tab.")}};
+function copy(t){function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied")}catch(e){toast("Could not copy")}a.remove()}
+try{navigator.clipboard.writeText(t).then(function(){toast("Copied")},fb)}catch(e){fb()}}
+function waText(){var c=calc(S);return("*Invoice "+S.no+"*\nTo: "+(S.to||"-")+"\nTotal: "+money(c.tot,S.cur)+(+S.paid?"\nBalance due: "+money(c.left,S.cur):"")+"\nDue: "+dt(S.due)+(S.pay?"\n\nPayment details:\n"+S.pay:"")+"\n\nThank you,\n"+S.from)}
 $("wa").onclick=function(){copy(waText())};
-$("wal").onclick=function(){var n=(S.toWa||"").replace(/\D/g,"");if(!n){toast("Isi nomor WhatsApp klien terlebih dahulu.");return}if(n[0]==="0")n="62"+n.slice(1);var w=null;try{w=window.open("https://wa.me/"+n+"?text="+encodeURIComponent(waText()),"_blank")}catch(e){}if(w){if(S.status==="draft"){S.status="terkirim";$("status").value="terkirim";sync()}}else{copy(waText());toast("Popup diblokir. Teks WhatsApp telah disalin.")}};
+$("wal").onclick=function(){var n=(S.toWa||"").replace(/\D/g,"");if(!n){toast("Enter the client's WhatsApp number first.");return}if(n[0]==="0")n="62"+n.slice(1);var w=null;try{w=window.open("https://wa.me/"+n+"?text="+encodeURIComponent(waText()),"_blank")}catch(e){}if(w){if(S.status==="draft"){S.status="terkirim";$("status").value="terkirim";sync()}}else{copy(waText());toast("Pop-up blocked. The WhatsApp message was copied.")}};
 
 function tab(t){$("ve").hidden=t!=="e";$("vh").hidden=t!=="h";document.querySelectorAll("[data-tab]").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.tab===t)});if(t==="h")hist();window.scrollTo(0,0)}
 document.querySelectorAll("[data-tab]").forEach(function(b){b.onclick=function(){tab(b.dataset.tab)}});
@@ -208,21 +209,21 @@ function hist(){
 var q=$("q").value.toLowerCase(),fs=$("fs").value,G={};
 DB.hist.forEach(function(h){var c=calc(h),g=G[h.cur]=G[h.cur]||{t:0,p:0,l:0};g.t+=c.tot;g.p+=Math.min(c.tot,h.status==="lunas"?c.tot:(+h.paid||0));g.l+=h.status==="lunas"?0:c.left});
 var j=function(k){var a=Object.keys(G).map(function(c){return money(G[c][k],c)});return a.length?a.join(" + "):money(0,"IDR")};
-$("sum").innerHTML='<div class="card"><span>Jumlah invoice</span><b>'+DB.hist.length+'</b></div><div class="card"><span>Total tagihan</span><b>'+j("t")+'</b></div><div class="card"><span>Sudah masuk</span><b>'+j("p")+'</b></div><div class="card"><span>Belum dibayar</span><b>'+j("l")+"</b></div>"+'<div class="card"><span>Lewat jatuh tempo</span><b>'+DB.hist.filter(function(h){return st(h)==="telat"}).length+"</b></div>";
+$("sum").innerHTML='<div class="card"><span>Invoices</span><b>'+DB.hist.length+'</b></div><div class="card"><span>Total invoiced</span><b>'+j("t")+'</b></div><div class="card"><span>Paid</span><b>'+j("p")+'</b></div><div class="card"><span>Outstanding</span><b>'+j("l")+"</b></div>"+'<div class="card"><span>Overdue</span><b>'+DB.hist.filter(function(h){return st(h)==="telat"}).length+"</b></div>";
 var L=DB.hist.filter(function(h){return(!q||(h.no+" "+h.to).toLowerCase().indexOf(q)>-1)&&(!fs||st(h)===fs)});
-$("list").innerHTML=L.length?L.map(function(h){var s=st(h);return'<div class="li"><div><b>'+esc(h.no)+'</b><span class="bd '+s+'">'+SL[s]+"</span><br>"+esc(h.to||"Tanpa nama klien")+" · "+money(calc(h).tot,h.cur)+"<br><small>Tanggal "+dt(h.date)+" · jatuh tempo "+dt(h.due)+'</small></div><div class="a"><button type="button" data-a="open" data-id="'+h.id+'">Buka</button><button type="button" data-a="dup" data-id="'+h.id+'">Duplikat</button><button type="button" data-a="paid" data-id="'+h.id+'">'+(h.status==="lunas"?"Batal lunas":"Tandai lunas")+'</button><button type="button" data-a="del" data-id="'+h.id+'">Hapus</button></div></div>'}).join(""):'<p style="color:var(--mute)">'+(DB.hist.length?"Tidak ada invoice yang cocok.":"Belum ada invoice. Isi di Editor lalu pilih Simpan ke riwayat.")+"</p>";
+$("list").innerHTML=L.length?L.map(function(h){var s=st(h);return'<div class="li"><div><b>'+esc(h.no)+'</b><span class="bd '+s+'">'+SL[s]+"</span><br>"+esc(h.to||"Unnamed client")+" · "+money(calc(h).tot,h.cur)+"<br><small>Date "+dt(h.date)+" · due "+dt(h.due)+'</small></div><div class="a"><button type="button" data-a="open" data-id="'+h.id+'">Open</button><button type="button" data-a="dup" data-id="'+h.id+'">Duplicate</button><button type="button" data-a="paid" data-id="'+h.id+'">'+(h.status==="lunas"?"Mark unpaid":"Mark paid")+'</button><button type="button" data-a="del" data-id="'+h.id+'">Delete</button></div></div>'}).join(""):'<p style="color:var(--mute)">'+(DB.hist.length?"No matching invoices.":"No invoices yet. Fill in the Editor, then select Save to history.")+"</p>";
 $("cnt").textContent=DB.hist.length?"("+DB.hist.length+")":""}
 $("q").oninput=hist;$("fs").onchange=hist;
 $("list").onclick=function(e){var a=e.target.dataset.a,id=e.target.dataset.id;if(!a)return;var i=DB.hist.findIndex(function(h){return h.id===id}),h=DB.hist[i];if(!h)return;
 if(a==="open")return open(h);
-if(a==="dup"){var n=mk(h);n.to=h.to;n.toInfo=h.toInfo;n.toWa=h.toWa;n.items=clone(h.items);n.dt=h.dt;n.disc=h.disc;n.tax=h.tax;n.fee=h.fee;DB.hist.unshift(n);persist();hist();return toast("Diduplikat sebagai "+n.no)}
+if(a==="dup"){var n=mk(h);n.to=h.to;n.toInfo=h.toInfo;n.toWa=h.toWa;n.items=clone(h.items);n.dt=h.dt;n.disc=h.disc;n.tax=h.tax;n.fee=h.fee;DB.hist.unshift(n);persist();hist();return toast("Duplicated as "+n.no)}
 if(a==="paid"){h.status=h.status==="lunas"?"terkirim":"lunas";if(S.id===h.id){S.status=h.status;fill();paper()}persist();return hist()}
-if(a==="del"){if(!e.target.classList.contains("armed")){e.target.classList.add("armed");e.target.textContent="Yakin hapus?";return}DB.hist.splice(i,1);persist();hist();toast("Invoice dihapus")}};
+if(a==="del"){if(!e.target.classList.contains("armed")){e.target.classList.add("armed");e.target.textContent="Confirm delete?";return}DB.hist.splice(i,1);persist();hist();toast("Invoice deleted")}};
 $("bkmk").onclick=function(){$("bk").value=JSON.stringify({hist:DB.hist,logo:DB.logo});$("bk").select();copy($("bk").value)};
-$("bkrs").onclick=function(){try{var d=JSON.parse($("bk").value);if(!Array.isArray(d.hist))throw 0;var ids={};DB.hist.forEach(function(h){ids[h.id]=1});d.hist.forEach(function(h){if(h&&h.id&&Array.isArray(h.items)&&!ids[h.id])DB.hist.push(h)});if(d.logo&&!DB.logo)DB.logo=d.logo;persist();hist();toast("Cadangan dipulihkan")}catch(e){toast("Teks cadangan tidak valid")}};
+$("bkrs").onclick=function(){try{var d=JSON.parse($("bk").value);if(!Array.isArray(d.hist))throw 0;var ids={};DB.hist.forEach(function(h){ids[h.id]=1});d.hist.forEach(function(h){if(h&&h.id&&Array.isArray(h.items)&&!ids[h.id])DB.hist.push(h)});if(d.logo&&!DB.logo)DB.logo=d.logo;persist();hist();toast("Backup restored")}catch(e){toast("Invalid backup text")}};
 
 function clients(){var s={};DB.hist.forEach(function(h){if(h.to)s[h.to]=1});$("clients").innerHTML=Object.keys(s).map(function(n){return'<option value="'+esc(n)+'">'}).join("")}
-$("csv").onclick=function(){var r=[["No","Tanggal","Jatuh tempo","Klien","Mata uang","Total","Dibayar","Sisa","Status"]];DB.hist.forEach(function(h){var c=calc(h),l=h.status==="lunas";r.push([h.no,h.date,h.due,h.to,h.cur,Math.round(c.tot*100)/100,l?c.tot:(+h.paid||0),l?0:c.left,SL[st(h)]])});copy(r.map(function(x){return x.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"'}).join(",")}).join("\n"))};
+$("csv").onclick=function(){var r=[["No","Date","Due date","Client","Currency","Total","Paid","Balance due","Status"]];DB.hist.forEach(function(h){var c=calc(h),l=h.status==="lunas";r.push([h.no,h.date,h.due,h.to,h.cur,Math.round(c.tot*100)/100,l?c.tot:(+h.paid||0),l?0:c.left,SL[st(h)]])});copy(r.map(function(x){return x.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"'}).join(",")}).join("\n"))};
 document.querySelectorAll("fieldset legend").forEach(function(legend){legend.tabIndex=0;legend.setAttribute("role","button");legend.setAttribute("aria-expanded","true");legend.addEventListener("click",function(){var field=legend.parentElement,collapsed=field.classList.toggle("collapsed");legend.setAttribute("aria-expanded",String(!collapsed))});legend.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();legend.click()}})});
 fill();items();paper();clients();hist();
 })();
