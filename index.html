@@ -24,6 +24,10 @@ p.s{color:var(--mut);margin:0 0 14px}
 .drop b{color:var(--ac)}
 input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet-area{min-width:0;margin:0;padding:8px 10px 10px;border:1px solid var(--bd);border-radius:10px}
+.sheet-area legend{padding:0 5px;font-size:12px;font-weight:750;color:var(--tx)}
+.sheet-area .row{margin:0 0 7px;font-size:12px}
+.sheet-area .grid{gap:8px}
 label.f{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:4px}
 input[type=number],select{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);width:100%}
 input:disabled{opacity:.45}
@@ -41,6 +45,30 @@ button.p.o{background:transparent;color:var(--tx);border:1px solid var(--bd)}
 button.p.o.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .info{font-size:13px;color:var(--mut);margin:0 0 10px}
 .pv{overflow:auto;background:#bbb;border-radius:8px;padding:8px}
+#sheet-preview-sheet{position:relative;width:fit-content;max-width:100%;margin:0 auto}
+#sheet-preview-sheet canvas#cv{display:block}
+#finish-preview-overlay{position:absolute;inset:0;display:none;pointer-events:none}
+#sheet-preview-sheet.finish-glossy #finish-preview-overlay{display:block;background:linear-gradient(112deg,transparent 28%,rgba(255,255,255,.3) 44%,rgba(255,255,255,.06) 54%,transparent 72%);mix-blend-mode:screen}
+#sheet-preview-sheet.finish-hologram #finish-preview-overlay{display:block;background:linear-gradient(125deg,rgba(255,60,180,.14),rgba(70,220,255,.16),rgba(255,230,60,.13),rgba(170,80,255,.15));mix-blend-mode:screen}
+#sheet-preview-sheet.finish-uv #finish-preview-overlay{display:block;background:linear-gradient(135deg,transparent 36%,rgba(255,255,255,.3) 47%,transparent 58%);mix-blend-mode:screen}
+#sheet-preview-sheet.finish-hot-stamping #finish-preview-overlay{display:block;background:linear-gradient(135deg,transparent 34%,rgba(232,190,75,.22) 46%,rgba(255,255,225,.12) 51%,transparent 64%);mix-blend-mode:screen}
+#sheet-preview-sheet.material-clear canvas#cv{opacity:.76}
+#sheet-preview-sheet.material-chrome canvas#cv{filter:saturate(1.2) contrast(1.08)}
+#sheet-preview-sheet.material-kraft canvas#cv{filter:sepia(.32) saturate(.78) contrast(.96)}
+#sheet-preview-sheet.finish-matte canvas#cv{filter:saturate(.88) contrast(.98)}
+#sheet-preview-sheet.material-kraft.finish-matte canvas#cv{filter:sepia(.32) saturate(.7) contrast(.94)}
+#sheet-preview-sheet.material-chrome.finish-matte canvas#cv{filter:saturate(1.05) contrast(1.04)}
+.preflight{border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:12px 0;background:rgba(255,250,240,.72)}
+.preflight h3{margin:0 0 4px;font-size:14px}
+.preflight p{margin:0 0 6px}
+.preflight ul{margin:0;padding-left:20px}
+.preflight .check-ok{color:#17643e}
+.preflight .check-warning{color:#895a00}
+.preflight .check-error{color:#a52a2a}
+.preset-manager{border-top:1px solid var(--bd);margin-top:12px;padding-top:12px}
+.preview-simulation{border-top:1px solid var(--bd);margin-top:10px;padding-top:8px}
+.preview-simulation>summary{cursor:pointer;font-weight:650}
+.preview-simulation .grid{margin-top:8px}
 canvas#cv{display:block;width:100%;height:auto;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .one{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
 canvas#one{width:200px;height:200px;background:repeating-conic-gradient(#ccc 0 25%,#eee 0 50%) 0 0/16px 16px;border-radius:8px;border:1px solid var(--bd)}
@@ -223,6 +251,7 @@ html.full-viewer,body.full-viewer{overflow:hidden!important;width:100%;height:10
 .cut-tools button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .cut-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
 .cut-buttons button{flex:1;min-width:110px}
+.cut-buttons select{flex:1;min-width:140px}
 .cut-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
 .cut-controls .f{margin:8px 0}
 .cut-dimensions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -703,6 +732,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input id="file-viewer-input" type="file" accept="*/*">
 <div class="btns" style="margin:10px 0"><button class="p o" id="file-viewer-clear" type="button" disabled>Clear preview</button><button class="p o" id="file-viewer-full-open" type="button" disabled>View full sheet</button><a class="file-viewer-download" id="file-viewer-open" hidden target="_blank" rel="noopener">Open PDF in new tab</a><a class="file-viewer-download" id="file-viewer-download" hidden download>Download original file</a></div>
 <p class="info" id="file-viewer-status" role="status">No file selected.</p>
+<div class="btns" style="margin:10px 0"><label class="f" style="flex:1;min-width:180px">Send image to<select id="file-viewer-send-target"><option value="sheet">Sticker Sheet</option><option value="studio">Color Studio</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option></select></label><button class="p o" id="file-viewer-send" type="button" disabled>Send image</button></div>
 <div class="file-viewer-stage" id="file-viewer-stage" aria-live="polite"><div class="file-viewer-empty">Your file preview will appear here.</div></div>
 </section>
 <section class="card" id="cut-image-card" role="tabpanel" aria-labelledby="t-cut" tabindex="0">
@@ -731,7 +761,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Brush hardness: <span id="cut-hardness-value">100%</span><input id="cut-brush-hardness" type="range" min="0" max="100" value="100"></label>
 <div class="cut-buttons"><button type="button" class="p o" id="cut-undo" disabled>Undo erase</button><button type="button" class="p o" id="cut-redo" disabled>Redo erase</button><button type="button" class="p o" id="cut-reset" disabled>Reset placement</button></div>
 <p class="info">Tip: drag the artwork to reposition it. In Erase brush mode, paint over areas to make them transparent; lower hardness for softer edges.</p>
-<div class="cut-buttons"><button type="button" class="p" id="cut-download" disabled>Download cut PNG</button><button type="button" class="p o" id="cut-to-sheet" disabled>Send to Sticker Sheet</button></div>
+<div class="cut-buttons"><button type="button" class="p" id="cut-download" disabled>Download cut PNG</button><select id="cut-send-target" aria-label="Send cut image to"><option value="sheet">Sticker Sheet</option><option value="studio">Color Studio</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select><button type="button" class="p o" id="cut-to-sheet" disabled>Send to menu</button></div>
 </div>
 </div>
 </section>
@@ -763,7 +793,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input class="compare-range" id="remove-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original and result">
 </div>
 <p class="info" id="remove-status" role="status" style="margin-top:10px"></p>
-<div class="btns"><button class="p" id="remove-process" disabled>Remove Background</button><button class="p o" id="remove-download" disabled>Download Transparent PNG</button><button class="p o" id="remove-to-studio" disabled>Send to Color Studio</button><button class="p o" id="remove-to-sheet" disabled>Send to Sticker Sheet</button></div>
+<div class="btns"><button class="p" id="remove-process" disabled>Remove Background</button><button class="p o" id="remove-download" disabled>Download Transparent PNG</button><label class="f" style="flex:1;min-width:180px">Send result to<select id="remove-send-target"><option value="studio">Color Studio</option><option value="sheet">Sticker Sheet</option><option value="cut">Cut Image</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="remove-send" disabled>Send result</button></div>
 </section>
 <section class="card" id="upscale-card" role="tabpanel" aria-labelledby="t-upscale" tabindex="0">
 <h2>Upscale Image</h2>
@@ -787,21 +817,27 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 </div>
 <p class="info" id="upscale-status" role="status" style="margin-top:10px"></p>
 <div class="btns"><button class="p" id="upscale-process" disabled>Upscale Image</button><button class="p o" id="upscale-download" disabled>Download PNG</button></div>
-<div class="btns" style="margin-top:8px"><button class="p o" id="upscale-to-studio" disabled>Send to Color Studio</button><button class="p o" id="upscale-to-sheet" disabled>Send to Sticker Sheet</button></div>
+<div class="btns" style="margin-top:8px"><label class="f" style="flex:1;min-width:180px">Send result to<select id="upscale-send-target"><option value="studio">Color Studio</option><option value="sheet">Sticker Sheet</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="upscale-send" disabled>Send result</button></div>
 </section>
 <div id="vec-card" class="vcard" role="tabpanel" aria-labelledby="t-vector" tabindex="0"><h2><span class="stepn">V</span>Convert Image to Vector (SVG)</h2>
-<p class="info" style="margin:0 0 8px">Vector artwork uses paths that stay sharp at any size. This tool traces an image into SVG paths and works best with logos or illustrations with clear colors. Photo details may change. Settings here are separate from other tools.</p>
+<p class="info" style="margin:0 0 8px">Vectorize is an independent workspace: its artwork and settings stay separate from other menus. Send an image here from another menu, or upload it directly; send the finished result out only when you choose a destination. Compatible menus receive the SVG; raster-only menus receive a PNG preview.</p>
 <div class="thumbs" id="vthumbs"></div>
 <input id="vector-input" type="file" accept="image/*,.svg" multiple hidden>
-<div class="btns" style="margin:10px 0"><button class="p o" id="vup">Choose / upload artwork</button><button class="p o" id="vtosheet">Open Sticker Sheet</button></div>
-<div class="btns" style="margin:8px 0"><button class="p o" id="vsend-studio" disabled>Send to Color Studio</button><button class="p o" id="vsend-remove" disabled>Send to Remove Background</button><button class="p o" id="vsend-upscale" disabled>Send to Upscale Image</button><button class="p o" id="vsend-sheet" disabled>Send to Sticker Sheet</button><button class="p o" id="vsend-viewer" disabled>Send to File Preview</button></div>
+<div class="btns" style="margin:10px 0"><button class="p o" id="vup">Choose / upload artwork</button></div>
+<div class="btns" style="margin:8px 0"><button class="p o" id="vsend-studio" disabled>Send to Color Studio</button><button class="p o" id="vsend-remove" disabled>Send to Remove Background</button><button class="p o" id="vsend-upscale" disabled>Send to Upscale Image</button><button class="p o" id="vsend-sheet" disabled>Send to Sticker Sheet</button><button class="p o" id="vsend-cut" disabled>Send to Cut Image</button><button class="p o" id="vsend-viewer" disabled>Send to File Preview</button></div>
 <p class="info" id="vhint" style="margin:0 0 6px"></p>
 <div id="vbody"></div></div>
 <div class="sheet-work" id="sheet-panel" role="tabpanel" aria-labelledby="t-sheet" tabindex="0">
 <div class="sheet-preview">
 <div class="card">
 <p class="info" id="info"></p>
-<div class="pv"><canvas id="cv"></canvas></div>
+<div class="pv"><div id="sheet-preview-sheet" class="material-white finish-none"><canvas id="cv"></canvas><div id="finish-preview-overlay" aria-hidden="true"></div></div></div>
+<details class="preview-simulation">
+<summary>Simulate material &amp; finish in preview</summary>
+<p class="info" style="margin:6px 0 0">Uses the material and finishing choices below. Visual simulation only; exports are unchanged and this is not a color proof.</p>
+<div class="row"><input type="checkbox" id="finish-preview-enabled"><label for="finish-preview-enabled">Show approximate material / finish</label></div>
+<p class="info" id="finish-preview-label" style="margin:4px 0 0">Preview simulation is off.</p>
+</details>
 </div>
 </div>
 <div class="sheet-controls">
@@ -809,14 +845,37 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="modebar" aria-label="Sticker sheet settings"><span>Setup</span><button id="m-easy" type="button" aria-pressed="true" class="on">Quick setup</button><button id="m-adv" type="button" aria-pressed="false">All settings</button></div>
 <p class="info mode-help ez" id="mode-help">Start with artwork, sticker shape and size, then export. All advanced controls remain available in All settings.</p>
 <p class="info adv">All sticker-sheet controls are visible. Switch to Quick setup for the common workflow.</p>
+<details class="card" style="padding:12px 14px">
+<summary style="cursor:pointer;font-weight:700">Bingung dengan istilah Sticker Sheet? Buka penjelasan</summary>
+<div class="info" style="margin-top:10px">
+<p><b>Mulai paling mudah:</b> unggah gambar, pilih bentuk dan ukuran stiker, tentukan ukuran kertas, lalu unduh PDF. Preview di sebelah kiri menunjukkan susunan pada kertas.</p>
+<ul style="padding-left:20px">
+<li><b>Artwork / desain:</b> gambar yang akan dicetak di dalam stiker.</li>
+<li><b>Bentuk stiker:</b> bentuk garis potong, misalnya lingkaran, persegi, atau bentuk asli gambar.</li>
+<li><b>Ukuran stiker (mm):</b> ukuran fisik hasil cetak. Untuk lingkaran, angka ini adalah diameter; untuk bentuk lain, lebar dan tinggi dapat berbeda.</li>
+<li><b>Ukuran kertas:</b> ukuran satu halaman cetak, bukan ukuran satu stiker. A4, A3, dan A3+ adalah ukuran kertas yang berbeda.</li>
+<li><b>Jarak antarstiker:</b> ruang minimum antara satu stiker dan berikutnya.</li>
+<li><b>Margin halaman:</b> jarak aman antara susunan stiker dan tepi kertas. Margin lebih besar berarti ruang untuk stiker lebih sedikit.</li>
+<li><b>Bleed:</b> tambahan area gambar yang melewati garis potong agar tidak muncul pinggiran putih setelah dipotong. Ini bukan jarak antarstiker.</li>
+<li><b>Layout:</b> cara menyusun stiker. <i>Standard</i> membuat baris lurus; <i>Efficient</i> mencoba susunan yang lebih rapat untuk stiker bulat; <i>Zigzag</i> menggeser baris secara selang-seling.</li>
+<li><b>Fit artwork — contain / cover:</b> <i>Show entire image</i> menampilkan seluruh gambar dan mungkin menyisakan ruang; <i>Auto-crop</i> memenuhi bentuk tetapi dapat memotong sebagian gambar. Atur posisi dan zoom di preview.</li>
+<li><b>Kontur potong / cut line:</b> garis vektor magenta yang memberi tahu mesin atau operator di mana stiker dipotong. Ini panduan produksi, bukan bagian dari gambar yang dicetak.</li>
+<li><b>Marka registrasi:</b> tanda hitam di sekitar lembar untuk membantu mesin potong menyelaraskan hasil cetak. Jenis marka bergantung pada template atau pengaturan.</li>
+<li><b>PDF dua halaman print + cut:</b> halaman 1 untuk mencetak artwork dan marka; halaman 2 untuk memotong, berisi marka yang sama dan kontur saja. Jangan ubah ukuran atau posisi halaman saat mengimpor ke aplikasi lain.</li>
+<li><b>RGB / CMYK:</b> mode warna PDF. RGB umum untuk layar; CMYK biasanya dipakai alur cetak. Konversi CMYK aplikasi ini bersifat perkiraan, jadi tanyakan profil warna yang diminta ke percetakan.</li>
+<li><b>DPI:</b> tingkat detail gambar raster saat dicetak. DPI lebih tinggi dapat membuat PDF lebih besar dan membutuhkan lebih banyak memori; bentuk vektor seperti kontur potong tetap tajam.</li>
+<li><b>Kiss cut / die cut:</b> kiss cut memotong lapisan stiker saja; die cut memotong sampai menembus bahan alas. Pengaturan kedalaman pisau dilakukan pada mesin potong.</li>
+</ul>
+<p style="margin-bottom:0"><b>Istilah pesanan</b> seperti bahan, laminasi, finishing, dan jenis potongan hanya menjadi keterangan nama file; pilihan itu tidak mengubah garis potong atau proses finishing secara otomatis.</p>
+</div>
+</details>
 
 <div class="card">
 <label class="drop" id="sheet-upload-label" for="file"><b><span class="stepn">1</span>Choose artwork</b> (multiple files supported)<br><small>PNG / JPG / WebP / GIF / BMP / AVIF / SVG · files are processed on your device</small></label>
 <input id="file" type="file" accept="image/*,.svg,.svgz,.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif,.tif,.tiff" multiple>
 <div class="thumbs" id="thumbs"></div>
 <p class="info" id="status" style="margin:10px 0 0"></p>
-<p class="info" style="margin:12px 0 6px">Artwork aspect ratio (selected image)</p>
-<div class="chips" id="ratio-chips"><button data-r="orig">Original</button><button data-r="1:1">1:1</button><button data-r="4:3">4:3</button><button data-r="3:4">3:4</button><button data-r="16:9">16:9</button><button data-r="9:16">9:16</button></div>
+<div class="btns" style="margin-top:10px"><label class="f" style="flex:1;min-width:180px">Send selected artwork to<select id="sheet-send-target"><option value="studio">Color Studio</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="sheet-send" disabled>Send artwork</button></div>
 <label class="f" style="margin-top:10px">Fit artwork to shape<select id="ez-fit"><option value="contain">Show entire image · no crop</option><option value="cover">Auto-crop · fill the shape</option></select></label>
 </div>
 
@@ -877,9 +936,9 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="row"><input type="checkbox" id="pcmp"><label for="pcmp">Compare original and vector (center)</label></div>
 </div>
 </div>
-<div class="nz"><span>Zoom <b id="pzv">100</b>%</span><button data-n="pzoom" data-d="-2">−</button><input id="pzoom" type="range" min="20" max="400" value="100"><button data-n="pzoom" data-d="2">+</button></div>
-<div class="nz"><span>Horizontal <b id="pxv">0</b>%</span><button data-n="pox" data-d="-0.5">Left</button><input id="pox" type="range" min="-100" max="100" step="0.5" value="0"><button data-n="pox" data-d="0.5">Right</button></div>
-<div class="nz"><span>Vertical <b id="pyv">0</b>%</span><button data-n="poy" data-d="-0.5">Up</button><input id="poy" type="range" min="-100" max="100" step="0.5" value="0"><button data-n="poy" data-d="0.5">Down</button></div>
+<div class="nz"><span>Zoom <b id="pzv">100</b>%</span><button data-n="pzoom" data-d="-2">−</button><input id="pzoom" type="range" min="20" max="400" value="100" aria-label="Artwork zoom"><button data-n="pzoom" data-d="2">+</button></div>
+<div class="nz"><span>Horizontal <b id="pxv">0</b>%</span><button data-n="pox" data-d="-0.5">Left</button><input id="pox" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork horizontal position"><button data-n="pox" data-d="0.5">Right</button></div>
+<div class="nz"><span>Vertical <b id="pyv">0</b>%</span><button data-n="poy" data-d="-0.5">Up</button><input id="poy" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork vertical position"><button data-n="poy" data-d="0.5">Down</button></div>
 <div class="al">
 <button data-a="L">Align left</button><button data-a="CH">Center</button><button data-a="R">Align right</button>
 <button data-a="T">Align top</button><button data-a="CV">Center vertically</button><button data-a="B">Align bottom</button>
@@ -928,6 +987,23 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Corner value<input id="rr-value" type="number" value="3.5" min="0" step="0.5"></label>
 <label class="f">Page width (mm)<input id="pw" type="number" value="297" min="50" disabled></label>
 <label class="f">Page height (mm)<input id="ph" type="number" value="420" min="50" disabled></label>
+<fieldset class="sheet-area">
+<legend>Print area</legend>
+<div class="row"><input type="checkbox" id="print-area-custom"><label for="print-area-custom">Set a custom print area</label></div>
+<div class="grid">
+<label class="f">Width (mm)<input id="print-area-w" type="number" min="1" step="1" disabled></label>
+<label class="f">Height (mm)<input id="print-area-h" type="number" min="1" step="1" disabled></label>
+</div>
+</fieldset>
+<fieldset class="sheet-area">
+<legend>Cutting area</legend>
+<div class="row"><input type="checkbox" id="cut-area-custom"><label for="cut-area-custom">Set a custom cutting area</label></div>
+<div class="grid">
+<label class="f">Width (mm)<input id="cut-area-w" type="number" min="1" step="1" disabled></label>
+<label class="f">Height (mm)<input id="cut-area-h" type="number" min="1" step="1" disabled></label>
+</div>
+</fieldset>
+<p class="info" id="sheet-area-help" style="grid-column:1/-1;margin:0">Custom areas are centered on the paper. Sticker placement stays inside both areas; when custom areas are off, they follow the existing margins. Blue and orange outlines are preview guides only.</p>
 <label class="f">Sticker width / diameter (mm)<input id="d" type="number" value="16" min="5" step="0.5"></label>
 <label class="f">Sticker height (mm)<input id="h" type="number" value="16" min="5" step="0.5" disabled></label>
 <label class="f">Spacing between stickers (mm)<input id="gap" type="number" value="2" min="0.5" step="0.5"></label>
@@ -942,10 +1018,10 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="row" style="margin:0;align-self:end"><input type="checkbox" id="newrow" checked><label for="newrow">Start each image on a new row</label></div>
 </div>
 <div class="grid" style="margin-top:10px">
-<label class="f">Canvas and preview resolution (DPI)<input id="dpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><datalist id="dpi-list"><option value="150"><option value="300"><option value="600"><option value="1200"><option value="2400"></datalist>
+<label class="f">PNG export resolution (DPI)<input id="dpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><datalist id="dpi-list"><option value="150"><option value="300"><option value="600"><option value="1200"><option value="2400"></datalist>
 </div>
-<p class="info" style="margin:8px 0 0">DPI (dots per inch) controls print detail. Higher values can create larger files, and output detail is still limited by the source image.</p>
-<p class="info" style="margin:8px 0 0">When lossless mode is off, raster images in the PDF use the selected PDF DPI. When on, the original images are embedded without resizing.</p>
+<p class="info" style="margin:8px 0 0">This controls raster detail for PNG export, not the physical paper size or how sharp the preview looks on screen. When Pixel mode is on, this follows the pixel-sizing resolution. Higher DPI can create larger files; detail is still limited by the source image.</p>
+<p class="info" style="margin:8px 0 0">PDF has its own raster resolution setting in Preview &amp; Export. Lossless mode can embed source images without resizing.</p>
 <input type="checkbox" id="lossless" hidden>
 <button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Lossless compression: OFF</button>
 <p class="info" id="llinfo" style="margin:8px 0 0"></p>
@@ -955,20 +1031,23 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 </div>
 
 <div class="card">
-<h2>Canvas Size and Cutting Plotter</h2>
-<p class="info">Set the canvas in pixels and configure registration marks for a sticker cutting plotter. DPI links pixel dimensions to print size.</p>
-<div class="row" style="margin:0 0 10px"><input type="checkbox" id="pxm" checked><label for="pxm">Pixel mode: calculate page and sticker sizes from pixels and DPI</label></div>
+<h2>Pixel sizing &amp; cutting plotter (advanced)</h2>
+<p class="info">The settings above define the physical paper and sticker layout in millimeters. Most users can leave Pixel mode off. Turn it on only if you need to enter page or sticker dimensions in pixels.</p>
+<div class="row" style="margin:0 0 10px"><input type="checkbox" id="pxm"><label for="pxm">Use pixel sizing instead of millimeters (advanced)</label></div>
+<div id="pixel-sizing-controls" hidden>
+<p class="info" style="margin:0 0 10px">Pixel sizing resolution converts pixel dimensions to physical size. Changing this DPI recalculates the pixel dimensions to keep the current paper and sticker sizes the same. This does not control PDF resolution or screen preview sharpness.</p>
 <div class="grid">
-<label class="f">Manual resolution (DPI)<input id="mdpi" type="number" value="600" min="72" max="2400"></label>
-<label class="f">Canvas preset<select id="ppx"><option value="7016x9921">A3 · 7016 × 9921 px</option><option value="7772x11409">A3+ · 7772 × 11409 px</option><option value="4961x7016">A4 · 4961 × 7016 px</option><option value="custom">Custom size</option></select></label>
+<label class="f">Pixel sizing resolution (DPI)<input id="mdpi" type="number" value="600" min="72" max="2400"></label>
+<label class="f">Canvas preset (follows Paper size)<select id="ppx" disabled><option value="7016x9921">A3 · 297 × 420 mm</option><option value="7772x11409">A3+ · 329 × 483 mm</option><option value="4961x7016">A4 · 210 × 297 mm</option><option value="7677x11457">CDR template · 325 × 485 mm</option><option value="11409x7677">Die Cut Prima · 483 × 325 mm</option><option value="7677x11409">Kiss Cut Prima · 325 × 483 mm</option><option value="custom">Custom size</option></select></label>
 <label class="f">Canvas width (px)<input id="pxw" type="number" value="7016" min="500"></label>
 <label class="f">Canvas height (px)<input id="pxh" type="number" value="9921" min="500"></label>
 <label class="f">Sticker diameter (px)<input id="pxd" type="number" value="378" min="20"></label>
-<label class="f">Sheet background color<input id="sbg" type="color" value="#ffffff"></label>
 </div>
-<p class="info" style="margin:8px 0 0">Each export button creates a different format: PDF for printing, SVG cut lines for plotters, and an SVG sheet to open the layout in design software. The sheet SVG uses source PNG/JPG images; it does not automatically vectorize them.</p>
+<p class="info" style="margin:8px 0 0">Paper size is the source of truth; Canvas preset only shows its matching preset and cannot change the paper size. For a custom paper size, enter the canvas width and height in pixels. Changing sizing DPI recalculates those pixel dimensions while keeping the physical page size. The export buttons below create different file formats: PDF for printing, SVG cut lines for plotters, and an SVG sheet to open the layout in design software. The sheet SVG uses source PNG/JPG images; it does not automatically vectorize them.</p>
+</div>
+<label class="f" style="margin-top:10px">Sheet background color<input id="sbg" type="color" value="#ffffff"></label>
 <div class="row"><input type="checkbox" id="strans"><label for="strans">Transparent background in preview and sheet SVG</label></div>
-<p class="info" style="margin:8px 0 0">Vectorized artwork stays sharp when enlarged. Raster images use the selected PDF resolution; lossless mode embeds source images without resizing.</p>
+<p class="info" style="margin:8px 0 0">Vectorized artwork stays sharp when enlarged. Raster images in PDF use the separate PDF raster resolution setting; lossless mode embeds eligible source images without resizing.</p>
 <hr class="sep">
 <div class="grid">
 <label class="f">Cutting plotter<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), common</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka (HPGL)</option><option value="custom">Custom</option></select></label>
@@ -1011,13 +1090,30 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" id="k-out" style="margin-top:12px;font-size:14px;color:var(--tx)"></p>
 </div>
 
-<div class="card" id="export-card"><h2 class="ez"><span class="stepn">3</span>Preview &amp; Export</h2><h2 class="adv">Export Files</h2><p class="info adv" style="margin:0 0 10px">PDF Legacy preserves the existing export behavior. PDF Hybrid keeps traced artwork as vector paths, embeds eligible PNG/JPEG sources directly, and rasterizes only objects needing pixel-based edits. For CorelDRAW, the separate PDFs contain (1) sticker artwork + registration marks and (2) the same registration marks + cut contours. SVG exports remain available separately.</p><div class="pdf-color-control"><strong id="pdf-color-label">PDF color mode</strong><div class="pdf-color-toggle" role="group" aria-labelledby="pdf-color-label"><button type="button" data-pdf-color-mode="rgb" aria-pressed="true">RGB</button><button type="button" data-pdf-color-mode="cmyk" aria-pressed="false">CMYK</button></div><p class="info" id="pdf-color-note" style="flex-basis:100%;margin:0">RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.</p></div><label class="f adv" style="margin:0 0 10px">PDF print resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><div class="btns">
+<div class="card" id="export-card"><h2 class="ez"><span class="stepn">3</span>Preview &amp; Export</h2><h2 class="adv">Export Files</h2><p class="info adv" style="margin:0 0 10px">PDF Legacy preserves the existing export behavior. PDF Hybrid keeps traced artwork as vector paths, embeds eligible PNG/JPEG sources directly, and rasterizes only objects needing pixel-based edits. For CorelDRAW, the separate PDFs contain (1) sticker artwork + registration marks and (2) the same registration marks + cut contours. SVG exports remain available separately.</p>
+<section class="preflight" id="print-preflight" aria-live="polite">
+<h3 id="preflight-title">Print preflight</h3><p id="preflight-summary">Checking current sheet settings…</p><ul id="preflight-items"></ul>
+</section>
+<div class="btns"><button class="p o" id="spec-pdf" type="button">Download print specification PDF</button></div>
+<p class="info" id="spec-status" role="status" style="margin:6px 0 0"></p>
+<div class="preset-manager">
+<h3 style="margin:0 0 6px;font-size:14px">Saved print presets</h3>
+<p class="info" style="margin:0 0 8px">Presets are saved in this browser on this device. They store print settings, not artwork or order names.</p>
+<div class="grid">
+<label class="f">Preset name<input id="print-preset-name" type="text" maxlength="40" placeholder="Example: A3 kiss-cut"></label>
+<label class="f">Saved presets<select id="print-preset-list"><option value="">No presets saved</option></select></label>
+</div>
+<div class="btns" style="margin-top:8px"><button class="p o" id="print-preset-save" type="button">Save current settings</button><button class="p o" id="print-preset-load" type="button" disabled>Load selected</button><button class="p o" id="print-preset-delete" type="button" disabled>Delete selected</button></div>
+<p class="info" id="print-preset-status" role="status" style="margin:6px 0 0"></p>
+</div>
+<div class="pdf-color-control"><strong id="pdf-color-label">PDF color mode</strong><div class="pdf-color-toggle" role="group" aria-labelledby="pdf-color-label"><button type="button" data-pdf-color-mode="rgb" aria-pressed="true">RGB</button><button type="button" data-pdf-color-mode="cmyk" aria-pressed="false">CMYK</button></div><p class="info" id="pdf-color-note" style="flex-basis:100%;margin:0">RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.</p></div><label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Controls raster artwork detail in PDF, not the page or sticker size. Vector cut lines and registration marks stay sharp regardless of this value. Eligible original images may be embedded at source resolution in some PDF modes.</p><div class="btns">
 <button class="p" id="pdf">Download print-ready PDF</button><button class="p o" id="pdf-two-page">Download 2-page print + cut PDF</button><button class="p o adv" id="pdf-hybrid">Download PDF Hybrid</button>
 <button class="p o adv" id="svg">Download SVG cut lines + marks</button><button class="p o adv" id="svg-contour">Download SVG without images (contours + marks)</button><button class="p o adv" id="svg-corel">Download SVG for CorelDRAW</button><button class="p o adv" id="svg-sheet">Download SVG sheet (advanced)</button><button class="p o adv" id="svg-hybrid">Download SVG Hybrid</button><button class="p o adv" id="dxf">Download DXF cut lines</button><button class="p o adv" id="plt">Download PLT (HPGL)</button>
 <details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized PDFs for CorelDRAW</summary><p class="info">PDF 1 is for printing: sticker artwork + registration marks, no cut contours. PDF 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download individually, or create one ZIP containing both synchronized PDFs.</p><div class="btns"><button class="p o" id="pdf-corel-art">Download PDF 1 — stickers + marks (print)</button><button class="p o" id="pdf-corel-cut">Download PDF 2 — marks + cut contours</button><button class="p" id="pdf-corel-zip">Download both PDFs as ZIP</button></div></details>
+<details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized SVGs</summary><p class="info">SVG 1 is for printing: sticker artwork + registration marks, no cut contours. SVG 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download SVG 1 before SVG 2; if settings or artwork change, download SVG 1 again. Or create both synchronized SVGs in one ZIP.</p><div class="btns"><button class="p o" id="svg-sticker-marks">Download SVG 1 — stickers + marks</button><button class="p o" id="svg-marks-contours">Download SVG 2 — marks + cut contours</button><button class="p" id="svg-pair-zip">Download both SVGs as ZIP</button></div></details>
 </div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Include cut lines / guides (magenta) in the PDF. Turn this off to print the artwork only.</label></div><p class="info ez quick-export-note">Need SVG, DXF, PLT, hybrid PDF, or separate print/cut files? Choose <b>All settings</b> above. These formats and controls are still available.</p><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
 
-<div class="card btns"><button class="p o" id="psave">Save project</button><button class="p o" id="popen">Open project</button><input id="projfile" type="file" accept=".json,application/json"></div>
+<div class="card btns"><button class="p o" id="psave">Save project</button><button class="p o" id="popen">Open project</button><input id="projfile" type="file" accept=".json,application/json" aria-hidden="true" tabindex="-1" hidden></div>
 <div class="card" style="font-size:13px">
 <b>Cutting guide (kiss cut / die cut)</b>
 <ul style="margin:8px 0 0;padding-left:18px;color:var(--mut)">
@@ -1042,7 +1138,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div id="shv"><div class="bar"><button id="shfit">Fit to screen</button><button id="sh11">1:1</button><span id="shinfo" style="flex:1;font-size:12px"></span><button id="shx">Close</button></div><canvas id="shc"></canvas></div>
 <div id="sbs"><div class="bar"><select id="sl"><option value="raw">Left: Original</option><option value="vec">Left: Vector</option><option value="ras">Left: Raster</option><option value="fin">Left: Final</option></select><select id="sr"><option value="raw">Right: Original</option><option value="vec">Right: Vector</option><option value="ras">Right: Raster</option><option value="fin" selected>Right: Final</option></select><input id="svbg" type="color" value="#ffffff" title="Background color"><button id="sclose" style="margin-left:auto">Close</button></div>
 <div class="sc"><div><canvas id="sc0"></canvas></div><div><canvas id="sc1"></canvas></div></div>
-<div class="bar"><button id="szo">Zoom out</button><input id="szr" type="range" min="100" max="6400" value="100" style="flex:1"><button id="szi">Zoom in</button><label style="white-space:nowrap"><input type="checkbox" id="ssync" checked> Sync</label><label style="white-space:nowrap"><input type="checkbox" id="spx"> Pixels</label><button id="srst">Reset</button></div></div>
+<div class="bar"><button id="szo">Zoom out</button><input id="szr" type="range" min="100" max="6400" value="100" style="flex:1" aria-label="Side-by-side comparison zoom"><button id="szi">Zoom in</button><label style="white-space:nowrap"><input type="checkbox" id="ssync" checked> Sync</label><label style="white-space:nowrap"><input type="checkbox" id="spx"> Pixels</label><button id="srst">Reset</button></div></div>
 <div id="insp"><div class="bar"><button data-im="raw">Original</button><button data-im="vec" class="on">Vector</button><button data-im="out">Trace line</button><button id="iclose">Close</button></div><canvas id="icv"></canvas></div>
 <footer>© <span id="yr"></span> <b>Proletar Project</b> · Supporting small businesses</footer>
 <template id="studio-tpl"><style>
@@ -1208,7 +1304,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   <div class="bar">
    <span class="sw" id="sw"></span>
    <div><strong style="font-size:13px">Logo color</strong><small id="hex" aria-live="polite" aria-atomic="true">-</small><small id="cmyk" role="status" aria-live="polite" aria-atomic="true">-</small></div>
-   <div class="act"><button class="btn" id="copy">Copy color code</button><label class="hid" for="send-target">Send result directly to</label><select id="send-target" aria-label="Send Color Studio result directly to"><option value="sheet" selected>Sticker Sheet</option><option value="vector">Vectorize (SVG)</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="viewer">File Preview</option></select><button class="btn s" id="send">Send directly</button><button class="btn p" id="dl">Download high-resolution PNG</button><button class="btn" id="dltest">Test download</button></div>
+   <div class="act"><button class="btn" id="copy">Copy color code</button><label class="hid" for="send-target">Send result directly to</label><select id="send-target" aria-label="Send Color Studio result directly to"><option value="sheet" selected>Sticker Sheet</option><option value="cut">Cut Image</option><option value="vector">Vectorize (SVG)</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="viewer">File Preview</option></select><button class="btn s" id="send">Send directly</button><button class="btn p" id="dl">Download high-resolution PNG</button><button class="btn" id="dltest">Test download</button></div>
   </div>
   <div class="status" id="stat" role="status">Ready. Choose an image to get started.</div>
   <pre id="dbg" class="hid"></pre>
@@ -2009,7 +2105,7 @@ const $=id=>document.getElementById(id);
 $('yr').textContent=new Date().getFullYear();
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const pause=()=>new Promise(r=>setTimeout(r,30));
-let logos=[],sel=0,sheetLogos=[],sheetSel=0,vectorLogos=[],vectorSel=0,activeLogoContext='sheet';
+let logos=[],sel=0,sheetLogos=[],sheetSel=0,vectorLogos=[],vectorSel=0,activeLogoContext='sheet',applyingPrintPreset=false;
 let W=297,H=420,nextId=1,tileCache=new Map(),pend=false;
 function useLogoContext(name){
   if(activeLogoContext===name)return;
@@ -2047,6 +2143,15 @@ function applyLossless(){
 
 /* ---------- layout ---------- */
 var dpiStash;
+const CANVAS_PRESETS={
+  '7016x9921':{paper:'297x420'},
+  '7772x11409':{paper:'329x483'},
+  '4961x7016':{paper:'210x297'},
+  '7677x11457':{paper:'325x485'},
+  '11409x7677':{paper:'483x325'},
+  '7677x11409':{paper:'325x483'}
+};
+const CANVAS_PRESET_BY_PAPER=Object.fromEntries(Object.entries(CANVAS_PRESETS).map(([pixels,preset])=>[preset.paper,pixels]));
 function readPaper(){
   const px=$('pxm').checked;
   $('paper').disabled=false;$('dpi').disabled=LL();$('pdpi').disabled=LL()&&getPdfColorMode()!=='cmyk';
@@ -2054,14 +2159,63 @@ function readPaper(){
   if(p==='custom'){W=+$('pw').value||297;H=+$('ph').value||420}
   else{const [w,h]=p.split('x').map(Number);W=w;H=h;$('pw').value=w;$('ph').value=h}
   $('pw').disabled=$('ph').disabled=false;
+  $('ppx').value=CANVAS_PRESET_BY_PAPER[p]||'custom';
   if(px){
-    const n=+$('mdpi').value||600,ae=document.activeElement,M={'297x420':'7016x9921','329x483':'7772x11409','210x297':'4961x7016'};
+    const n=+$('mdpi').value||600,ae=document.activeElement;
     if(ae!==$('pxw'))$('pxw').value=Math.round(W/25.4*n);
     if(ae!==$('pxh'))$('pxh').value=Math.round(H/25.4*n);
-    $('ppx').value=M[p]||'custom';
     if(dpiStash==null)dpiStash=$('dpi').value;
     if(ae!==$('dpi'))$('dpi').value=n;
   }else if(dpiStash!=null){$('dpi').value=dpiStash;dpiStash=null}
+  updateSheetAreaInputs();
+}
+function updateSheetAreaInputs(){
+  const cdrInset=$('paper').value==='325x485'&&$('mtype').value==='cdr'?5:0;
+  const fixedTemplate=isFixedPrintTemplate();
+  const marginValue=id=>{const value=Number($(id).value);return Number.isFinite(value)&&value>=0?value:18};
+  [['print-area','print-area-custom'],['cut-area','cut-area-custom']].forEach(([prefix,checkboxId])=>{
+    const enabled=$(checkboxId).checked;
+    const width=$(`${prefix}-w`),height=$(`${prefix}-h`);
+    if(!enabled){
+      width.value=Math.max(1,W-marginValue('ml')-marginValue('mr')-2*cdrInset).toFixed(1);
+      height.value=Math.max(1,H-marginValue('mt')-marginValue('mb')-2*cdrInset).toFixed(1);
+    }
+    width.max=String(W);height.max=String(H);
+    $(checkboxId).disabled=fixedTemplate;
+    width.disabled=height.disabled=fixedTemplate||!enabled;
+  });
+  $('sheet-area-help').textContent=fixedTemplate
+    ?'The selected CDR/Prima template keeps its original print area, cutting area, layout, and marks. Custom areas are not applied to these templates.'
+    :'Custom areas are centered on the paper. Sticker placement stays inside both areas; when custom areas are off, they follow the existing margins. Blue and orange outlines are preview guides only.';
+}
+function isFixedPrintTemplate(){
+  const paper=$('paper').value,marks=$('mtype').value;
+  return paper==='325x485'&&marks==='cdr'
+    ||paper==='483x325'&&marks==='prima-diecut'
+    ||paper==='325x483'&&marks==='prima-kisscut';
+}
+function sheetAreaGeometry(mt,mb,ml,mr){
+  const marginArea={left:ml,top:mt,right:W-mr,bottom:H-mb};
+  if(isFixedPrintTemplate())return {printArea:{...marginArea},cuttingArea:{...marginArea},workArea:{...marginArea}};
+  const customArea=(prefix,checkboxId)=>{
+    if(!$(checkboxId).checked)return {...marginArea};
+    const dimension=(id,fallback,maximum)=>{
+      const value=Number($(id).value);
+      return Number.isFinite(value)&&value>0?Math.min(value,maximum):fallback;
+    };
+    const width=dimension(`${prefix}-w`,Math.max(1,marginArea.right-marginArea.left),W);
+    const height=dimension(`${prefix}-h`,Math.max(1,marginArea.bottom-marginArea.top),H);
+    return {left:(W-width)/2,top:(H-height)/2,right:(W+width)/2,bottom:(H+height)/2};
+  };
+  const printArea=customArea('print-area','print-area-custom');
+  const cuttingArea=customArea('cut-area','cut-area-custom');
+  const workArea={
+    left:Math.max(marginArea.left,printArea.left,cuttingArea.left),
+    top:Math.max(marginArea.top,printArea.top,cuttingArea.top),
+    right:Math.min(marginArea.right,printArea.right,cuttingArea.right),
+    bottom:Math.min(marginArea.bottom,printArea.bottom,cuttingArea.bottom)
+  };
+  return {printArea,cuttingArea,workArea};
 }
 function cellSize(){
   const s=$('shape').value,pm=$('pxm').checked,w=pm?(+$('pxd').value||378)*25.4/(+$('mdpi').value||600):(+$('d').value||16);
@@ -2122,17 +2276,18 @@ function packCircleRows(width,height,diameter,gap,forceStagger){
 function calc(){
   readPaper();
   const base=cellSize(),gap=+$('gap').value||2,mv=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:18},cdrInset=$('paper').value==='325x485'&&$('mtype').value==='cdr'?5:0,mt=mv('mt')+cdrInset,mb=mv('mb')+cdrInset,ml=mv('ml')+cdrInset,mr=mv('mr')+cdrInset;
+  const {printArea,cuttingArea,workArea}=sheetAreaGeometry(mt,mb,ml,mr);
   let w=base.w,h=base.h;
   if(logos.length){
     const physical=logos.map((_,i)=>logoLayout(i,{...base, w:base.w, h:base.h},$('shape').value).L);
     w=Math.max(base.w,...physical.map(v=>v.w));
     h=Math.max(base.h,...physical.map(v=>v.h));
   }
-  const px=w+gap,py=h+gap,aw=W-ml-mr,ah=H-mt-mb,fit=w<=aw&&h<=ah&&aw>0&&ah>0;
+  const px=w+gap,py=h+gap,areaLeft=workArea.left,areaTop=workArea.top,aw=workArea.right-workArea.left,ah=workArea.bottom-workArea.top,fit=w<=aw&&h<=ah&&aw>0&&ah>0;
   const cols=fit?Math.max(1,Math.floor((aw+gap)/px)):0,rows=fit?Math.max(1,Math.floor((ah-h)/py)+1):0;
   const sx=cols>1?(aw-w)/(cols-1):px,sy=rows>1?(ah-h)/(rows-1):py;
   const gw=cols?(cols-1)*sx+w:0,gh=rows?(rows-1)*sy+h:0;
-  const x0=ml+(aw-gw)/2,y0=mt+(ah-gh)/2,cells=[];
+  const x0=areaLeft+(aw-gw)/2,y0=areaTop+(ah-gh)/2,cells=[];
   for(let r=0;r<rows;r++){
     for(let c=0;c<cols;c++)cells.push({x:x0+c*sx+w/2,y:y0+r*sy+h/2,r});
   }
@@ -2155,8 +2310,8 @@ function calc(){
           const along=start+base.w/2+c*(base.w+gap);
           const across=r*pack.step+base.w/2;
           hexCells.push(candidate.rotate
-            ?{x:ml+across,y:mt+along,r}
-            :{x:ml+along,y:mt+across,r});
+            ?{x:areaLeft+across,y:areaTop+along,r}
+            :{x:areaLeft+along,y:areaTop+across,r});
         }
       }
       if(hexCells.length)candidate.cells=hexCells;
@@ -2166,10 +2321,10 @@ function calc(){
       const hexCells=best.cells;
       const minX=Math.min(...hexCells.map(c=>c.x-base.w/2)),maxX=Math.max(...hexCells.map(c=>c.x+base.w/2));
       const minY=Math.min(...hexCells.map(c=>c.y-base.h/2)),maxY=Math.max(...hexCells.map(c=>c.y+base.h/2));
-      const dx=ml+(aw-(maxX-minX))/2-minX,dy=mt+(ah-(maxY-minY))/2-minY;
+      const dx=areaLeft+(aw-(maxX-minX))/2-minX,dy=areaTop+(ah-(maxY-minY))/2-minY;
       hexCells.forEach(c=>{c.x+=dx;c.y+=dy});
       const rowCounts=new Map();hexCells.forEach(c=>rowCounts.set(c.r,(rowCounts.get(c.r)||0)+1));
-      const L={w,h,gap,mt,mb,ml,mr,px,py,cols:Math.max(...rowCounts.values()),rows:rowCounts.size,x0:ml+(aw-(maxX-minX))/2,y0:mt+(ah-(maxY-minY))/2,gw:maxX-minX,gh:maxY-minY,cells:hexCells,hexPacked:true,efficient:layoutMode==='efficient'};
+      const L={w,h,gap,mt,mb,ml,mr,px,py,cols:Math.max(...rowCounts.values()),rows:rowCounts.size,x0:areaLeft+(aw-(maxX-minX))/2,y0:areaTop+(ah-(maxY-minY))/2,gw:maxX-minX,gh:maxY-minY,cells:hexCells,hexPacked:true,efficient:layoutMode==='efficient',printArea,cuttingArea,workArea};
       L.assign=assignLogos(L);return L;
     }
   }
@@ -2233,7 +2388,7 @@ function calc(){
         const minY=Math.min(...placed.map(p=>p.y)),maxY=Math.max(...placed.map(p=>p.y+p.placeH));
         const width=maxX-minX,height=maxY-minY,area=width*height,perimeter=width+height;
         if(area>bestArea+0.001||Math.abs(area-bestArea)<0.001&&perimeter>=bestPerimeter)continue;
-        const dx=ml+(aw-width)/2-minX,dy=mt+(ah-height)/2-minY;
+        const dx=areaLeft+(aw-width)/2-minX,dy=areaTop+(ah-height)/2-minY;
         bestCells=placed.map(p=>({x:p.x+p.placeW/2+dx,y:p.y+p.placeH/2+dy,li:p.item.li,w:p.item.w,h:p.item.h,rot:p.rot}));
         bestArea=area;bestPerimeter=perimeter;
       }
@@ -2351,11 +2506,11 @@ function calc(){
     const rowCounts=new Map();
     list.forEach(c=>rowCounts.set(c.r,(rowCounts.get(c.r)||0)+1));
     const cols=Math.max(0,...rowCounts.values()),rows=rowCounts.size;
-    const L={w,h,gap,mt,mb,ml,mr,px,py,cols,rows,mixed:true,x0:ml+(aw-gw)/2,y0:mt+(ah-gh)/2,gw,gh,cells:list};
+    const L={w,h,gap,mt,mb,ml,mr,px,py,cols,rows,mixed:true,x0:areaLeft+(aw-gw)/2,y0:areaTop+(ah-gh)/2,gw,gh,cells:list,printArea,cuttingArea,workArea};
     L.assign=list.map(c=>c.li);
     return L;
   }
-  const L={w,h,gap,mt,mb,ml,mr,px,py,cols,rows,x0,y0,gw,gh,cells};
+  const L={w,h,gap,mt,mb,ml,mr,px,py,cols,rows,x0,y0,gw,gh,cells,printArea,cuttingArea,workArea};
   L.assign=assignLogos(L);return L;
 }
 function assignLogos(L){
@@ -2484,16 +2639,7 @@ function getRaw0(lg){
   }
   x.putImageData(d,0,0);lg.kc=c;lg.kt=lg.tol;lg.kl=LL();return c;
 }
-const RAT={'1:1':1,'4:3':4/3,'3:4':3/4,'16:9':16/9,'9:16':9/16};
-function getRaw(lg){
-  const b=getRaw0(lg);if(!lg.ratio||lg.ratio==='orig')return b;
-  if(lg.rc&&lg.rb===b&&lg.rr===lg.ratio)return lg.rc;
-  const bw=b.naturalWidth||b.width,bh=b.naturalHeight||b.height,r=RAT[lg.ratio];
-  let cw=bw,ch=bw/r;if(ch>bh){ch=bh;cw=bh*r}
-  const c=document.createElement('canvas');c.width=Math.max(1,Math.round(cw));c.height=Math.max(1,Math.round(ch));
-  c.getContext('2d').drawImage(b,(bw-cw)/2,(bh-ch)/2,cw,ch,0,0,c.width,c.height);
-  lg.rc=c;lg.rb=b;lg.rr=lg.ratio;return c;
-}
+function getRaw(lg){return getRaw0(lg)}
 function getSrc(lg){return getRaw(lg)}
 function reduce(src,tw,th){
   let c=src,w=src.naturalWidth||src.width,h=src.naturalHeight||src.height;
@@ -2541,7 +2687,7 @@ function sharpen(ctx,w,h,amt){
   id.data.set(o);ctx.putImageData(id,0,0);
 }
 function getTile(lg,L,shape,bleed,ppm){
-  const key=[lg?[lg.id,lg.fit,lg.zoom,lg.ox,lg.oy,lg.auto,lg.bgc,lg.key,lg.tol,lg.sharp,lg.bw,lg.bc,lg.vec,lg.vv,lg.ratio].join('|'):'none',L.w,L.h,shape,bleed,ppm.toFixed(3),LL()?1:0].join('#');
+  const key=[lg?[lg.id,lg.fit,lg.zoom,lg.ox,lg.oy,lg.auto,lg.bgc,lg.key,lg.tol,lg.sharp,lg.bw,lg.bc,lg.vec,lg.vv].join('|'):'none',L.w,L.h,shape,bleed,ppm.toFixed(3),LL()?1:0].join('#');
   if(tileCache.has(key))return tileCache.get(key);
   if(tileCache.size>(LL()?6:40))tileCache.clear();
   const tw=L.w+2*bleed,th=L.h+2*bleed,fw=Math.max(1,Math.ceil(tw*ppm)),fh=Math.max(1,Math.ceil(th*ppm));
@@ -2591,6 +2737,7 @@ async function doTrace(lg){
   if(logos[sel]===lg){
     $('psvgdl').disabled=false;$('pinsp').disabled=false;drawPal();
     $('vecst').textContent='Vector ready ('+Math.round(r.svg.length/1024)+' KB, about '+r.nodes+' nodes). Stays sharp at any resolution.';
+    syncLabels();
   }
 }
 function drawPal(){
@@ -2786,6 +2933,15 @@ function draw(ctx,k,guides){
     });
   }
   drawMarks(ctx,L,true);
+  if(!isFixedPrintTemplate()){
+    ctx.save();
+    ctx.setLineDash([3/k,2/k]);ctx.lineWidth=0.45;
+    ctx.strokeStyle='#1677d2';
+    ctx.strokeRect(L.printArea.left,L.printArea.top,L.printArea.right-L.printArea.left,L.printArea.bottom-L.printArea.top);
+    ctx.setLineDash([1/k,2/k]);ctx.lineDashOffset=1/k;ctx.strokeStyle='#e87516';
+    ctx.strokeRect(L.cuttingArea.left,L.cuttingArea.top,L.cuttingArea.right-L.cuttingArea.left,L.cuttingArea.bottom-L.cuttingArea.top);
+    ctx.restore();
+  }
   return L;
 }
 function renderOne(){
@@ -2826,18 +2982,89 @@ function render(){
   const L=calc(),k=Math.min(12,Math.sqrt(16e6/(W*H)),9000/Math.max(W,H));
   cv.width=Math.round(W*k);cv.height=Math.round(H*k);
   draw(cv.getContext('2d'),k,$('guide').checked);
+  updateFinishPreview();
   const cnt={};L.assign.forEach(i=>{if(i>=0)cnt[i]=(cnt[i]||0)+1});
   const used=Object.values(cnt).reduce((a,b)=>a+b,0),dp=pngDpiVal();
   const fixed=logos.reduce((s,l)=>s+(l.qty>0?l.qty:0),0);
   const exportDisabled=L.cells.length===0;
-  ['pdf','svg','svg-contour','svg-sheet','dxf','plt'].forEach(id=>{$(id).disabled=exportDisabled;$(id).title=exportDisabled?'Reduce sticker size or adjust page size/margins to fit.':''});
+  ['pdf','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-sheet','dxf','plt'].forEach(id=>{$(id).disabled=exportDisabled;$(id).title=exportDisabled?'Reduce sticker size or adjust page size/margins to fit.':''});
   const layoutLabel=L.hexPacked?(L.efficient?'Efficient layout':'Zigzag layout'):L.mixed?'Efficient mixed layout':`${L.cols} columns × ${L.rows} rows`;
   $('info').textContent=`${layoutLabel} · stickers per sheet: ${L.cells.length}`+(logos.length?` · filled ${used}`:'')+(L.cells.length?'':' · Sticker size does not fit within the current margins')
     +(logos.length>1?' · '+logos.map((l,i)=>`#${i+1}: ${cnt[i]||0}`).join(', '):'')
     +(fixed>L.cells.length?' · quantity exceeds sheet capacity; some stickers may be clipped':'')
     +` · 1 sticker = ${Math.round(L.w/25.4*dp)}×${Math.round(L.h/25.4*dp)} px at ${dp} DPI`;
+  updatePrintPreflight(L);
   {const n=nativeDpi(),pd=pngDpiVal();$('llinfo').textContent=LL()?('Lossless mode is on. Sharpening and vectorization are disabled; source images are embedded without resizing. '+(n?'Original artwork resolution is about '+Math.round(n)+' DPI. ':'')+'PNG uses '+pd+' DPI'+(!$('pxm').checked&&n&&pd<Math.floor(n)?' (limited by device canvas size; use PDF to preserve original image dimensions)':'')+'.'):''}
   renderOne();effInfo();
+}
+function updatePrintPreflight(L){
+  const checks=[],errors=[],warnings=[];
+  if(!logos.length)errors.push('Add at least one artwork image before exporting a print sheet.');
+  else checks.push(`${logos.length} artwork image${logos.length===1?'':'s'} loaded.`);
+  if(!L.cells.length)errors.push('No stickers fit inside the current page margins. Reduce sticker size or margins, or choose a larger paper size.');
+  else checks.push(`${L.cells.length} sticker position${L.cells.length===1?'':'s'} fit on each sheet (${W.toFixed(1)} × ${H.toFixed(1)} mm).`);
+  const target=Math.max(1,Math.floor(+$('k-target').value||1));
+  if(L.cells.length)checks.push(`For ${target} requested stickers, plan at least ${Math.ceil(target/L.cells.length)} sheet${Math.ceil(target/L.cells.length)===1?'':'s'} at this capacity.`);
+  [['print-area-custom','print-area-w','print-area-h','Print'],['cut-area-custom','cut-area-w','cut-area-h','Cutting']].forEach(([toggleId,widthId,heightId,label])=>{
+    if(isFixedPrintTemplate()||!$(toggleId).checked)return;
+    const width=Number($(widthId).value),height=Number($(heightId).value);
+    if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0||width>W||height>H)errors.push(`${label} area dimensions must be greater than 0 and no larger than the paper size.`);
+  });
+  checks.push(`Print area: ${(L.printArea.right-L.printArea.left).toFixed(1)} × ${(L.printArea.bottom-L.printArea.top).toFixed(1)} mm; cutting area: ${(L.cuttingArea.right-L.cuttingArea.left).toFixed(1)} × ${(L.cuttingArea.bottom-L.cuttingArea.top).toFixed(1)} mm.`);
+  if(logos.length&&L.cells.length){
+    const lowDpi=[],reviewDpi=[];
+    const assigned=new Set(L.assign.filter(index=>index>=0));
+    logos.forEach((logo,index)=>{
+      if(!assigned.has(index)||logo.vec&&logo.vimg)return;
+      const sticker=logoLayout(index,L,$('shape').value).L;
+      const dpi=25.4/fitScale(logo,sticker.w,sticker.h);
+      if(dpi<200)lowDpi.push(`#${index+1}: ${Math.round(dpi)} DPI`);
+      else if(dpi<300)reviewDpi.push(`#${index+1}: ${Math.round(dpi)} DPI`);
+    });
+    if(lowDpi.length)warnings.push(`Low effective image resolution at print size (${lowDpi.join(', ')}). Use higher-resolution artwork or vectorize when suitable.`);
+    if(reviewDpi.length)warnings.push(`Some images are below 300 DPI at print size (${reviewDpi.join(', ')}). Review sharpness at the intended print size.`);
+    if(!lowDpi.length&&!reviewDpi.length)checks.push('Effective artwork resolution is at least 300 DPI for each raster image (vector artwork is resolution-independent).');
+    const missing=logos.map((_,index)=>index+1).filter(index=>!assigned.has(index-1));
+    if(missing.length)warnings.push(`Artwork image${missing.length===1?'':'s'} ${missing.map(index=>`#${index}`).join(', ')} did not receive any positions on this sheet. Adjust quantity or layout before printing.`);
+  }
+  [['job-material','job-material-custom','material'],['job-lamination','job-lamination-custom','lamination'],['job-finish','job-finish-custom','finishing'],['job-cut','job-cut-custom','cut type']].forEach(([selectId,inputId,label])=>{
+    if($(selectId).value==='custom'&&!$(inputId).value.trim())warnings.push(`Enter the custom ${label} or choose a listed option.`);
+  });
+  const markSize=+$('msz').value,markOffset=+$('moff').value,markWidth=+$('mw').value;
+  if(!(markSize>0&&markOffset>=0&&markWidth>0))errors.push('Registration mark size, offset, or line width is invalid.');
+  else{
+    const marks=marksGeom(),points=[];
+    marks.forEach(mark=>{
+      if(mark.c){const radius=mark.radius||mark.c[2]||0;points.push([mark.c[0]-radius,mark.c[1]-radius],[mark.c[0]+radius,mark.c[1]+radius])}
+      if(mark.pts)points.push(...mark.pts);
+    });
+    if(!marks.length||points.some(([x,y])=>!Number.isFinite(x)||!Number.isFinite(y)||x<0||y<0||x>W||y>H))warnings.push('Registration marks are missing or extend beyond the page. Check the mark preset, size, offset, and paper size.');
+    else checks.push('Registration marks are present and within the page.');
+  }
+  if(!window.jspdf?.jsPDF)errors.push('The PDF library is unavailable. Reload the app while online before exporting PDFs.');
+  else checks.push('PDF export is available.');
+  if($('job-cut').value==='kiss-cut'||$('job-cut').value==='die-cut')checks.push('Cut type is recorded for the print shop; blade depth and force still need to be set on the cutting machine.');
+  if(errors.length)warnings.unshift(...errors);
+  const state=errors.length?'error':warnings.length?'warning':'ok';
+  const card=$('print-preflight');card.dataset.state=state;
+  $('preflight-title').textContent=state==='error'?'Print preflight · action needed':state==='warning'?'Print preflight · review recommended':'Print preflight · ready to export';
+  $('preflight-summary').textContent=state==='error'?`${errors.length} issue${errors.length===1?'':'s'} should be fixed before printing.`:state==='warning'?`${warnings.length} item${warnings.length===1?'':'s'} need review before printing.`:'No blocking issues found. Confirm the final files and printer requirements before production.';
+  const list=$('preflight-items');list.replaceChildren();
+  [...warnings.map(text=>({text,kind:errors.includes(text)?'error':'warning'})),...checks.map(text=>({text,kind:'ok'}))].forEach(item=>{
+    const li=document.createElement('li');li.className=`check-${item.kind}`;li.textContent=item.text;list.appendChild(li);
+  });
+  $('spec-pdf').disabled=!logos.length||!L.cells.length||!window.jspdf?.jsPDF;
+}
+function updateFinishPreview(){
+  const sheet=$('sheet-preview-sheet'),enabled=$('finish-preview-enabled').checked;
+  const material=$('job-material').value,lamination=$('job-lamination').value,finish=$('job-finish').value;
+  const materialClass={ 'vinyl-putih':'material-white','vinyl-transparan':'material-clear',cromo:'material-chrome',kraft:'material-kraft',custom:'material-white'}[material]||'material-white';
+  const finishClass=finish==='hologram'?'finish-hologram':finish==='uv-spot'?'finish-uv':finish==='hot-stamping'?'finish-hot-stamping':lamination==='glossy'?'finish-glossy':lamination==='doff'?'finish-matte':'finish-none';
+  sheet.className=`${materialClass} ${enabled?finishClass:'finish-none'}`;
+  sheet.classList.toggle('simulation-on',enabled);
+  const materialName=$('job-material').selectedOptions[0].textContent;
+  const finishName=finish!=='standar'?$('job-finish').selectedOptions[0].textContent:$('job-lamination').selectedOptions[0].textContent;
+  $('finish-preview-label').textContent=enabled?`Approximate preview: ${materialName} · ${finishName}. This appearance is not included in exported files.`:'Preview simulation is off.';
 }
 function effInfo(){
   const lg=logos[sel],el=$('eff');if(!lg){el.textContent='';return}
@@ -2850,6 +3077,7 @@ function effInfo(){
 /* ---------- logo list & panel ---------- */
 function renderThumbs(){
   const t=$('thumbs');t.innerHTML='';
+  $('sheet-send').disabled=!logos.length;
   logos.forEach((lg,i)=>{
     const group=document.createElement('div'),select=document.createElement('button'),image=document.createElement('img'),shape=document.createElement('select'),remove=document.createElement('button');
     group.setAttribute('role','group');group.setAttribute('aria-label',`Image ${i+1}`);
@@ -2866,6 +3094,22 @@ function renderThumbs(){
     group.append(select,shape,remove);t.appendChild(group);
   });
 }
+async function sendSelectedSheetArtwork(){
+  const lg=logos[sel];if(!lg)return;
+  const source=getSrc(lg),canvas=document.createElement('canvas');
+  canvas.width=source.naturalWidth||source.width;canvas.height=source.naturalHeight||source.height;
+  const context=canvas.getContext('2d');if(!context)throw new Error('Could not prepare the selected artwork.');
+  context.drawImage(source,0,0);
+  const blob=await new Promise((resolve,reject)=>canvas.toBlob(result=>result?resolve(result):reject(new Error('Could not create an image for transfer.')),'image/png'));
+  const base=(lg.sourceName||'sticker-artwork').replace(/\.[^.]+$/,'');
+  await sendFileToMenu('Sticker Sheet',$('sheet-send-target').value,blob,`${base}.png`,$('status'));
+}
+$('sheet-send').onclick=async()=>{
+  $('sheet-send').disabled=true;
+  try{await sendSelectedSheetArtwork()}
+  catch(error){$('status').textContent='Could not send artwork: '+((error&&error.message)||error)}
+  finally{$('sheet-send').disabled=!logos.length}
+};
 function loadPanel(){
   const lg=logos[sel];$('lp').style.display=lg?'block':'none';if(!lg)return;
   $('lpn').textContent='#'+(sel+1);
@@ -2926,7 +3170,7 @@ function syncLabels(){
   $('pbg').disabled=false;$('ptol').disabled=!$('pkey').checked;
   ['pcol','pdet','psm','pcor','pmin','pmode','pstack','pnat'].forEach(i=>$(i).disabled=!$('pvec').checked);
   const cl=logos[sel];$('psvgdl').disabled=$('pinsp').disabled=!(cl&&cl.vec&&cl.vimg);
-  ['vsend-studio','vsend-remove','vsend-upscale','vsend-sheet','vsend-viewer'].forEach(id=>{$(id).disabled=!(cl&&cl.sourceVector&&cl.vec&&cl.vimg)});
+  ['vsend-studio','vsend-remove','vsend-upscale','vsend-sheet','vsend-cut','vsend-viewer'].forEach(id=>{$(id).disabled=!(cl&&cl.sourceVector&&cl.vec&&cl.vimg)});
   $('psharp').disabled=LL();
 }
 function panelInput(e){
@@ -3017,7 +3261,7 @@ $('file').onchange=async e=>{
     try{
       const lgn=await makeLogo(await readAny(files[i]));
       lgn.vec=false;lgn.sourceVector=false;lgn.vimg=null;lgn.vsvg='';
-      logos.push(lgn);ok++;sel=logos.length-1;renderThumbs();loadPanel();
+      lgn.sourceName=files[i].name;logos.push(lgn);ok++;sel=logos.length-1;renderThumbs();loadPanel();
       if(!i){
         $('shape').value='design';
         $('shape').dispatchEvent(new Event('change',{bubbles:true}));
@@ -3030,11 +3274,11 @@ $('file').onchange=async e=>{
   await pause();schedule();
   if(!fail)setTimeout(()=>{st.textContent=''},2500);
 };
-['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','vcut','dpi','rr-mode','rr-value'].forEach(id=>$(id).addEventListener('input',schedule));
+['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','vcut','dpi','rr-mode','rr-value'].forEach(id=>$(id).addEventListener('input',schedule));
 ['rr-mode','rr-value'].forEach(id=>$(id).addEventListener('change',schedule));
 
 /* ---------- save / load project ---------- */
-const GIDS=['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','ppx','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw','rr-mode','rr-value'];
+const GIDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw','rr-mode','rr-value'];
 const LKEYS=['shape','fit','zoom','ox','oy','auto','bgc','key','tol','sharp','qty','bw','bc','sheetW','sheetH','sourceSideMm','customSize','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vb'];
 $('psave').onclick=async()=>{
   const g={};GIDS.forEach(id=>g[id]=$(id).type==='checkbox'?$(id).checked:$(id).value);
@@ -3218,7 +3462,7 @@ function vecCell(pdf,lg,L,cx,cy,shape,bleed,transparent=false,colorMode='rgb'){
 function origImg(lg,c){
   if(c[lg.id])return c[lg.id];
   let data;
-  if(lg.key||(lg.ratio&&lg.ratio!=='orig'))data=getRaw(lg).toDataURL('image/png');
+  if(lg.key)data=getRaw(lg).toDataURL('image/png');
   else if(/^data:image\/png/i.test(lg.url))data=lg.url;
   else{const cn=document.createElement('canvas');cn.width=lg.img.naturalWidth;cn.height=lg.img.naturalHeight;cn.getContext('2d').drawImage(lg.img,0,0);data=cn.toDataURL('image/png')}
   return c[lg.id]={data,fmt:'PNG',alias:'o'+lg.id};
@@ -3335,18 +3579,25 @@ function setPdfColor(pdf,hex,mode='rgb',stroke=false){
   const raw=String(hex||'#000000').replace('#',''),r=parseInt(raw.slice(0,2),16)||0,g=parseInt(raw.slice(2,4),16)||0,b=parseInt(raw.slice(4,6),16)||0;
   pdf[stroke?'setDrawColor':'setFillColor'](r,g,b);
 }
-function busy(b,msg){if(b)showLoader(msg||"Processing...");else hideLoader();['pdf','pdf-two-page','pdf-hybrid','pdf-corel-art','pdf-corel-cut','pdf-corel-zip','svg','svg-contour','svg-corel','svg-sheet','svg-hybrid'].forEach(id=>$(id).disabled=b);document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
+function busy(b,msg){if(b)showLoader(msg||"Processing...");else hideLoader();['pdf','pdf-two-page','pdf-hybrid','pdf-corel-art','pdf-corel-cut','pdf-corel-zip','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-corel','svg-sheet','svg-hybrid'].forEach(id=>$(id).disabled=b);document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
 function updateBtns(){readPaper();$('pdf').textContent=getPdfColorMode()==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (lossless)':'Download PDF ('+pdfDpi()+' DPI)'}
-let LASTINFO='',COREL_PAIR_SIGNATURE='';
+let LASTINFO='',COREL_PAIR_SIGNATURE='',SVG_PAIR_SIGNATURE='';
 function corelPairSignature(L,colorMode=getPdfColorMode()){
   const controls=['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','mtype','msz','mw','moff','cox','coy','pdpi'];
-  const logoKeys=['id','shape','fit','zoom','ox','oy','auto','bgc','corner','key','tol','sharp','qty','bw','bc','customSize','sheetW','sheetH','sourceSideMm','ratio','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vv'];
+  const logoKeys=['id','shape','fit','zoom','ox','oy','auto','bgc','corner','key','tol','sharp','qty','bw','bc','customSize','sheetW','sheetH','sourceSideMm','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vv'];
   return JSON.stringify({
     page:[W,H],colorMode,
     controls:controls.map(id=>[id,$(id).type==='checkbox'?$(id).checked:$(id).value]),
     layout:L.cells.map((cell,i)=>[cell.x,cell.y,cell.rot||0,L.assign[i]]),
     logos:logos.map(lg=>logoKeys.map(key=>lg[key]===undefined?null:lg[key]))
   });
+}
+function svgPairSignature(L){
+  return JSON.stringify([
+    corelPairSignature(L,'svg'),
+    ['dpi','pxm','mdpi','pxd','sbg','strans','cname','credit','credit-text'].map(id=>[id,$(id).type==='checkbox'?$(id).checked:$(id).value]),
+    sheetFileName('svg')
+  ]);
 }
 function askExportFallback(message,detail,lower,lowerUnit='dpi'){
   hideLoader();
@@ -3413,7 +3664,7 @@ function saveDirectFile(name,blob,status){
 }
 function needLogo(){if(!logos.length){$('dlstatus').textContent='The SVG sheet contains artwork and needs at least one image. For an empty sheet, use PDF, cut-line SVG, or SVG without images.';return true}return false}
 async function svgOriginalSource(lg){
-  if(!lg||!lg.img||lg.key||lg.vec||(lg.ratio&&lg.ratio!=='orig'))return null;
+  if(!lg||!lg.img||lg.key||lg.vec)return null;
   let dataUrl=lg.url||'';
   if(lg.sourceBlob)dataUrl=await readURL(lg.sourceBlob);
   else if(/^blob:/i.test(dataUrl)||/^https?:/i.test(dataUrl)){
@@ -3474,7 +3725,7 @@ $('pdf').onclick=async()=>{
         return;
       }
       if(!cl.rot&&LL()&&!rasterDpi&&lg){try{imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,origImg(lg,imgs));return}catch(e){}}
-      if(!cl.rot&&!rasterDpi&&!lg.key&&(!lg.ratio||lg.ratio==='orig')&&/^data:image\/(?:png|jpe?g)/i.test(lg.url||'')){
+      if(!cl.rot&&!rasterDpi&&!lg.key&&/^data:image\/(?:png|jpe?g)/i.test(lg.url||'')){
         imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,{data:lg.url,fmt:/png/i.test(lg.url)?'PNG':'JPEG',alias:'src'+lg.id});
         return;
       }
@@ -3556,7 +3807,7 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
         vectors++;return;
       }
       const source=lg.url||'';
-      const direct=!isCmyk&&!lg.key&&(!lg.ratio||lg.ratio==='orig')&&/^data:image\/(?:png|jpe?g)/i.test(source);
+      const direct=!isCmyk&&!lg.key&&/^data:image\/(?:png|jpe?g)/i.test(source);
       if(direct){
         const key='src'+lg.id;
         if(!nativeImages[key])nativeImages[key]={data:source,fmt:/^data:image\/png/i.test(source)?'PNG':'JPEG',alias:key};
@@ -3715,36 +3966,39 @@ $('svg').onclick=async()=>{
   }catch(err){$('dlstatus').textContent='Could not create SVG: '+((err&&err.message)||err)}
   busy(false);
 };
+function createSvgCutContours(){
+  const L=calc(),shape=$('shape').value,f=n=>n.toFixed(3);
+  let contours='';
+  forCells(L,(cx,cy,li,cl)=>{
+    cx+=+$('cox').value||0;cy+=+$('coy').value||0;
+    const cellShape=shapeForLogo(li,shape);
+    const logoL=logoLayout(li,L,shape).L;
+    const x=cx-logoL.w/2,y=cy-logoL.h/2;
+    let contour;
+    if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoL.w,logoL.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}"/>`;
+    else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoL.w/2)}" ry="${f(logoL.h/2)}"/>`;
+    else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoL.w,logoL.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
+    else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+    contours+=svgCellRotation(cl,cx,cy,contour);
+  });
+  let br='';
+  if(!isCdrMarks()&&!isPrimaMarks()){
+    const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
+    br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
+  }
+  const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
+  return new Blob([svg],{type:'image/svg+xml'});
+}
 $('svg-contour').onclick=async()=>{
   busy(true,'Creating contour SVG...');
   await pause();
   try{
-    const L=calc(),shape=$('shape').value,f=n=>n.toFixed(3);
-    let contours='';
-    forCells(L,(cx,cy,li,cl)=>{
-      cx+=+$('cox').value||0;cy+=+$('coy').value||0;
-      const cellShape=shapeForLogo(li,shape);
-      const logoL=logoLayout(li,L,shape).L;
-      const x=cx-logoL.w/2,y=cy-logoL.h/2;
-      let contour;
-      if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoL.w,logoL.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}"/>`;
-      else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoL.w/2)}" ry="${f(logoL.h/2)}"/>`;
-      else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoL.w,logoL.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
-      else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
-      contours+=svgCellRotation(cl,cx,cy,contour);
-    });
-    let br='';
-    if(!isCdrMarks()&&!isPrimaMarks()){
-      const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-      br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
-    }
-    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
     LASTINFO='Vector SVG includes cut contours and registration marks based on your settings, without raster images.';
-    await saveFile(sheetFileName('svg').replace(/\.svg$/,'-tanpa-gambar.svg'),new Blob([svg],{type:'image/svg+xml'}));
+    await saveFile(sheetFileName('svg').replace(/\.svg$/,'-tanpa-gambar.svg'),createSvgCutContours());
   }catch(err){$('dlstatus').textContent='Could not create SVG without images: '+((err&&err.message)||err)}
   busy(false);
 };
-async function exportSvgSheet(hybrid=false){
+async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false,fileSuffix=null){
   if(needLogo())return;
   const requestedDpi=pngDpiVal(),safeDpiForTile=(w,h)=>{
     let dpi=Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(w,h),Math.sqrt(MAX_EXPORT_PIXELS*25.4*25.4/(w*h))));
@@ -3759,7 +4013,7 @@ async function exportSvgSheet(hybrid=false){
   const tileSizeFor=(li)=>{const cellShape=shapeForLogo(li,shape),physicalLayout=logoLayout(li,L,shape).L;return {cellShape,logoLayout:physicalLayout,tileW:physicalLayout.w+2*bleed,tileH:physicalLayout.h+2*bleed}};
   const tileW=L.w+2*bleed,tileH=L.h+2*bleed;
   const safeDpi=safeDpiForTile(tileW,tileH);
-  let dpi=Math.min(requestedDpi,safeDpi),lowerAutomatically=false;
+  let dpi=Math.min(requestedDpi,safeDpi),lowerAutomatically=false,result=null;
   if(dpi<72){$('dlstatus').textContent='Page size is too large for a sheet SVG, even at 72 DPI.';return}
   busy(true,`${hybrid?'Creating SVG Hybrid':'Menyusun SVG lembar'} ${dpi} dpi...`);await pause();
   while(true){
@@ -3802,8 +4056,9 @@ async function exportSvgSheet(hybrid=false){
           const underlay=cellShape==='design'
             ?`<rect x="${cx-logoLayout.w}" y="${cy-logoLayout.h}" width="${2*logoLayout.w}" height="${2*logoLayout.h}" fill="${background}"/>`
             :`<path d="${outer}" fill="${lg.bw>0?lg.bc:background}"/>${lg.bw>0?`<path d="${inner}" fill="${background}"/>`:''}`;
-          const image=`<use href="#${original.id}" xlink:href="#${original.id}" transform="matrix(${sc} 0 0 ${sc} ${imgX} ${imgY})"${cellShape!=='design'?` clip-path="url(#${clipId})"`:''}/>`;
-          images+=svgCellRotation(cl,cx,cy,underlay+image);
+          const image=`<use href="#${original.id}" xlink:href="#${original.id}" transform="matrix(${sc} 0 0 ${sc} ${imgX} ${imgY})"/>`;
+          const artwork=cellShape==='design'?image:`<g clip-path="url(#${clipId})">${image}</g>`;
+          images+=svgCellRotation(cl,cx,cy,underlay+artwork);
           return;
         }
         if(vectorTiles.has(li)){
@@ -3828,7 +4083,7 @@ async function exportSvgSheet(hybrid=false){
       });
       const f=n=>n.toFixed(3),shape=$('shape').value;
       let cuts='';
-      if($('vcut').checked)forCells(L,(cx,cy,li,cl)=>{
+      if(includeCutLines&&$('vcut').checked)forCells(L,(cx,cy,li,cl)=>{
         cx+=+$('cox').value||0;cy+=+$('coy').value||0;
         const {cellShape,logoLayout}=tileSizeFor(li),x=cx-logoLayout.w/2,y=cy-logoLayout.h/2;
         let contour;
@@ -3854,11 +4109,17 @@ async function exportSvgSheet(hybrid=false){
         const escaped=edgeText.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
         credit=`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="${fontSize}" fill="#000">${escaped}</text>`;
       }
-      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileDefinitions.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g>${credit}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g></svg>`;
+      const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileDefinitions.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g>${credit}</g>${cutLayer}</svg>`;
       LASTINFO=hybrid
         ?`SVG Hybrid: ${vectorCount} traced artwork(s) remain vector paths; eligible PNG/JPEG sources keep their original pixels and are embedded once per design, while artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`
-        :`Sheet SVG: eligible PNG/JPEG sources keep their original pixels and are embedded once per design; artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`;
-      await saveFile(sheetFileName('svg').replace(/\.svg$/,hybrid?'-hybrid.svg':'-lembar.svg'),new Blob([svg],{type:'image/svg+xml'}));
+        :includeCutLines
+          ?`Sheet SVG: eligible PNG/JPEG sources keep their original pixels and are embedded once per design; artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`
+          :`SVG stickers + marks: eligible PNG/JPEG sources are embedded once per design and reused for each sticker; edited artwork is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. No cut contours are included.`;
+      const blob=new Blob([svg],{type:'image/svg+xml'});
+      const suffix=fileSuffix||(hybrid?'-hybrid':'-lembar'),name=sheetFileName('svg').replace(/\.svg$/,`${suffix}.svg`);
+      if(returnBlob){result={name,blob};break}
+      await saveFile(name,blob);
       break;
     }catch(err){
       const lower=Math.max(72,Math.min(Math.floor(dpi*0.8),safeDpi));
@@ -3872,10 +4133,11 @@ async function exportSvgSheet(hybrid=false){
     }
   }
   busy(false);
+  return result||null;
 }
 $('svg-sheet').onclick=()=>exportSvgSheet(false);
 $('svg-hybrid').onclick=()=>exportSvgSheet(true);
-async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel'){
+async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEdgeText=true,returnBlob=false){
   if(needLogo())return;
   const requestedDpi=pngDpiVal(),L=calc(),shape=$('shape').value,bleed=+$('bleed').value||0;
   const safeDpi=(w,h)=>{
@@ -3888,7 +4150,7 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel'){
     return 0;
   };
   const maxDpi=safeDpi(W,H);
-  let dpi=Math.min(requestedDpi,maxDpi),lowerAutomatically=false;
+  let dpi=Math.min(requestedDpi,maxDpi),lowerAutomatically=false,result=null;
   if(dpi<72){$('dlstatus').textContent='Page size is too large for a CorelDRAW SVG, even at 72 DPI.';return}
   busy(true,`Preparing CorelDRAW SVG at ${dpi} DPI...`);await pause();
   while(true){
@@ -3942,7 +4204,7 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel'){
         const corners=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]];
         registration=`<g fill="none" stroke="#000" stroke-width="0.3">${corners.map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('')}</g>`;
       }
-      const edgeText=$('credit').checked?$('credit-text').value.trim():'';
+      const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
       let credit='';
       if(edgeText){
         const measure=document.createElement('canvas').getContext('2d');
@@ -3954,8 +4216,11 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel'){
       }
       const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
       const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${background}<image x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" xlink:href="${dataUrl}"/><g id="Registrasi">${marksSvg()}${registration}${credit}</g>${cutLayer}</svg>`;
-      LASTINFO=`CorelDRAW-compatible SVG: artwork is one embedded PNG at ${dpi} DPI; registration marks${includeCutLines&&$('vcut').checked?' and cut paths':''} remain vector${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`;
-      await saveFile(sheetFileName('svg').replace(/\.svg$/,`${fileSuffix}.svg`),new Blob([svg],{type:'image/svg+xml'}));
+      LASTINFO=includeCutLines
+        ?`CorelDRAW-compatible SVG: artwork is one embedded PNG at ${dpi} DPI; registration marks and cut paths remain vector${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`
+        :`SVG stickers + marks: artwork is one embedded PNG at ${dpi} DPI; registration marks remain vector; no cut contours or edge text are included${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`;
+      const blob=new Blob([svg],{type:'image/svg+xml'}),name=sheetFileName('svg').replace(/\.svg$/,`${fileSuffix}.svg`);
+      if(returnBlob)result={name,blob};else await saveFile(name,blob);
       page.width=page.height=1;
       break;
     }catch(err){
@@ -3970,8 +4235,65 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel'){
     }
   }
   busy(false);
+  return result;
 }
 $('svg-corel').onclick=exportSvgCorel;
+function svgPairCutFile(){
+  const blob=createSvgCutContours();
+  const name=sheetFileName('svg').replace(/\.svg$/,'-marks-contours.svg');
+  return {name,blob};
+}
+$('svg-sticker-marks').onclick=async()=>{
+  const signature=svgPairSignature(calc());
+  const artwork=await exportSvgSheet(false,false,true,'-stickers-marks');
+  if(!artwork)return;
+  if(svgPairSignature(calc())!==signature){
+    $('dlstatus').textContent='Settings or sticker artwork changed while preparing SVG 1. Please download it again.';
+    return;
+  }
+  SVG_PAIR_SIGNATURE=signature;
+  LASTINFO='SVG 1 of 2: sticker artwork + registration marks, without cut contours.';
+  await saveFile(artwork.name,artwork.blob);
+};
+$('svg-marks-contours').onclick=async()=>{
+  const signature=svgPairSignature(calc());
+  if(SVG_PAIR_SIGNATURE!==signature){
+    $('dlstatus').textContent=SVG_PAIR_SIGNATURE
+      ?'Settings or sticker artwork changed since SVG 1. Download SVG 1 again, then create SVG 2.'
+      :'Download SVG 1 first so SVG 2 uses the exact same artwork and settings.';
+    return;
+  }
+  busy(true,'Creating synchronized contour SVG...');
+  await pause();
+  try{
+    const cutting=svgPairCutFile();
+    if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG. Please download SVG 1 again.');
+    LASTINFO='SVG 2 of 2: the matching registration marks + cut contours, without sticker artwork.';
+    await saveFile(cutting.name,cutting.blob);
+  }catch(error){$('dlstatus').textContent='Could not create synchronized contour SVG: '+((error&&error.message)||error)}
+  finally{busy(false)}
+};
+$('svg-pair-zip').onclick=async()=>{
+  busy(true,'Creating synchronized SVG pair...');
+  await pause();
+  try{
+    const signature=svgPairSignature(calc());
+    const artwork=await exportSvgSheet(false,false,true,'-stickers-marks');
+    if(!artwork)throw new Error('Could not create the sticker + marks SVG.');
+    if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG files. Please run the ZIP export again.');
+    const cutting=svgPairCutFile();
+    if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG files. Please run the ZIP export again.');
+    busy(true,'Packaging synchronized SVGs into ZIP...');
+    const zip=await createStoredZip([
+      {name:artwork.name,blob:artwork.blob},
+      {name:cutting.name,blob:cutting.blob}
+    ]);
+    LASTINFO='ZIP contains two synchronized SVGs: sticker artwork + registration marks for printing, and the same registration marks + cut contours for cutting.';
+    const zipName=sheetFileName('svg').replace(/\.svg$/,'-sticker-cut-synced.zip');
+    await saveFile(zipName,zip);
+  }catch(error){$('dlstatus').textContent='Could not create synchronized SVG ZIP: '+((error&&error.message)||error)}
+  finally{busy(false)}
+};
 
 /* ---------- mesin cutting, marka registrasi, piksel ---------- */
 const clampDpi=(v,d)=>Math.min(2400,Math.max(72,Math.round(+v)||d));
@@ -4026,11 +4348,170 @@ function updateJobFilenamePreview(){
   $(id).addEventListener('input',updateJobFilenamePreview);
   $(id).addEventListener('change',updateJobFilenamePreview);
 });
-['paper','shape','pw','ph','d','h','pxw','pxh','pxd','mdpi','ppx','pxm'].forEach(id=>{
+['paper','shape','pw','ph','d','h','pxw','pxh','pxd','mdpi','pxm'].forEach(id=>{
   $(id).addEventListener('input',updateJobFilenamePreview);
   $(id).addEventListener('change',updateJobFilenamePreview);
 });
 updateJobFilenamePreview();
+const PRINT_PRESET_IDS=[
+  'paper','shape','rr-mode','rr-value','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow',
+  'dpi','pdpi','lossless','guide','vcut','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy',
+  'credit','credit-text','ez-bord','ez-bw','job-material','job-material-custom','job-lamination','job-lamination-custom','job-finish','job-finish-custom','job-cut','job-cut-custom'
+];
+const PRINT_PRESET_STORAGE_KEY='proletar-print-presets-v1';
+function readPrintPresets(){
+  const raw=localStorage.getItem(PRINT_PRESET_STORAGE_KEY);
+  if(!raw)return {};
+  const data=JSON.parse(raw);
+  if(!data||typeof data!=='object'||Array.isArray(data))throw new Error('Saved preset data is invalid.');
+  return data;
+}
+function refreshPrintPresetList(selected=''){
+  const list=$('print-preset-list'),presets=readPrintPresets();
+  list.replaceChildren();
+  Object.keys(presets).sort((a,b)=>a.localeCompare(b)).forEach(name=>list.add(new Option(name,name)));
+  if(!list.options.length)list.add(new Option('No presets saved',''));
+  list.value=selected&&presets[selected]?selected:'';
+  const hasSelection=!!list.value;
+  $('print-preset-load').disabled=$('print-preset-delete').disabled=!hasSelection;
+}
+function setPrintPresetStatus(message,isError=false){
+  const status=$('print-preset-status');
+  status.textContent=message;
+  status.style.color=isError?'#a52a2a':'';
+}
+function capturePrintPreset(){
+  return Object.fromEntries(PRINT_PRESET_IDS.map(id=>{
+    const control=$(id);
+    return [id,control.type==='checkbox'?control.checked:control.value];
+  }));
+}
+function applyPrintPreset(preset){
+  if(!preset||typeof preset!=='object'||Array.isArray(preset))throw new Error('The selected preset is invalid.');
+  PRINT_PRESET_IDS.forEach(id=>{
+    if(!Object.prototype.hasOwnProperty.call(preset,id))return;
+    const control=$(id),value=preset[id];
+    if(control.type==='checkbox'&&typeof value!=='boolean')throw new Error(`Invalid setting: ${id}.`);
+    if(control.type!=='checkbox'&&typeof value!=='string'&&typeof value!=='number')throw new Error(`Invalid setting: ${id}.`);
+    if(control instanceof HTMLSelectElement&&![...control.options].some(option=>option.value===String(value)))throw new Error(`Unsupported saved option for ${id}.`);
+  });
+  applyingPrintPreset=true;
+  try{
+    PRINT_PRESET_IDS.forEach(id=>{
+      if(!Object.prototype.hasOwnProperty.call(preset,id))return;
+      const control=$(id),value=preset[id];
+      if(control.type==='checkbox'){
+        control.checked=value;
+      }else{
+        const next=String(value);
+        control.value=next;
+      }
+    });
+    PRINT_PRESET_IDS.forEach(id=>{
+      const control=$(id);
+      control.dispatchEvent(new Event('input',{bubbles:true}));
+      control.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+  }finally{applyingPrintPreset=false}
+  readPaper();applyLossless();updateBtns();renderThumbs();loadPanel();schedule();updateJobFilenamePreview();updateFinishPreview();
+}
+$('print-preset-list').addEventListener('change',()=>{
+  const hasSelection=!!$('print-preset-list').value;
+  $('print-preset-load').disabled=$('print-preset-delete').disabled=!hasSelection;
+});
+$('print-preset-save').addEventListener('click',()=>{
+  const name=$('print-preset-name').value.trim();
+  if(!name){setPrintPresetStatus('Enter a name for this preset first.',true);$('print-preset-name').focus();return}
+  try{
+    const presets=readPrintPresets();presets[name]=capturePrintPreset();
+    localStorage.setItem(PRINT_PRESET_STORAGE_KEY,JSON.stringify(presets));
+    refreshPrintPresetList(name);setPrintPresetStatus(`Saved "${name}" on this device.`);
+  }catch(error){setPrintPresetStatus(`Could not save preset: ${(error&&error.message)||error}`,true)}
+});
+$('print-preset-load').addEventListener('click',()=>{
+  const name=$('print-preset-list').value;if(!name)return;
+  try{
+    const presets=readPrintPresets();
+    if(!Object.prototype.hasOwnProperty.call(presets,name))throw new Error('The selected preset was not found.');
+    applyPrintPreset(presets[name]);$('print-preset-name').value=name;setPrintPresetStatus(`Loaded "${name}". Artwork is unchanged.`);
+  }catch(error){setPrintPresetStatus(`Could not load preset: ${(error&&error.message)||error}`,true)}
+});
+$('print-preset-delete').addEventListener('click',()=>{
+  const name=$('print-preset-list').value;if(!name)return;
+  try{
+    const presets=readPrintPresets();
+    if(!Object.prototype.hasOwnProperty.call(presets,name))throw new Error('The selected preset was not found.');
+    delete presets[name];localStorage.setItem(PRINT_PRESET_STORAGE_KEY,JSON.stringify(presets));
+    refreshPrintPresetList();setPrintPresetStatus(`Deleted "${name}" from this device.`);
+  }catch(error){setPrintPresetStatus(`Could not delete preset: ${(error&&error.message)||error}`,true)}
+});
+try{refreshPrintPresetList()}catch(error){setPrintPresetStatus(`Could not read saved presets: ${(error&&error.message)||error}`,true)}
+['job-material','job-lamination','job-finish','job-material-custom','job-lamination-custom','job-finish-custom','finish-preview-enabled'].forEach(id=>{
+  $(id).addEventListener('input',updateFinishPreview);
+  $(id).addEventListener('change',updateFinishPreview);
+});
+const PREFLIGHT_UPDATE_IDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','dpi','pdpi','lossless','vcut','mtype','msz','moff','mw','k-target'];
+PREFLIGHT_UPDATE_IDS.forEach(id=>{
+  $(id).addEventListener('input',schedule);
+  $(id).addEventListener('change',schedule);
+});
+function printSpecLabel(selectId,inputId){
+  const select=$(selectId);
+  return select.value==='custom'?$(inputId).value.trim()||'Custom (not specified)':select.selectedOptions[0]?.textContent.trim()||select.value;
+}
+function createPrintSpecificationPdf(){
+  const Pdf=window.jspdf?.jsPDF;
+  if(!Pdf)throw new Error('The PDF library has not loaded. Reload the app while online and try again.');
+  const layout=calc(),size=cellSize(),requested=Math.max(1,Math.floor(+$('k-target').value||1));
+  const text=value=>String(value??'—').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^\x20-\x7e]/g,'');
+  const lines=[
+    `Order: ${$('job-name').value.trim()||'Not specified'}`,
+    `Material: ${printSpecLabel('job-material','job-material-custom')}`,
+    `Lamination: ${printSpecLabel('job-lamination','job-lamination-custom')}`,
+    `Additional finish: ${printSpecLabel('job-finish','job-finish-custom')}`,
+    `Cut type: ${printSpecLabel('job-cut','job-cut-custom')}`,
+    `Page: ${W.toFixed(1)} x ${H.toFixed(1)} mm (${$('paper').selectedOptions[0]?.textContent||'Custom'})`,
+    `Sticker shape: ${$('shape').selectedOptions[0]?.textContent||$('shape').value}`,
+    `Sticker size: ${size.w.toFixed(1)} x ${size.h.toFixed(1)} mm`,
+    `Layout: ${$('layout').selectedOptions[0]?.textContent||$('layout').value}`,
+    `Margins (top / bottom / left / right): ${$('mt').value} / ${$('mb').value} / ${$('ml').value} / ${$('mr').value} mm`,
+    `Print area: ${(layout.printArea.right-layout.printArea.left).toFixed(1)} x ${(layout.printArea.bottom-layout.printArea.top).toFixed(1)} mm${isFixedPrintTemplate()?' (fixed template)':$('print-area-custom').checked?' (custom)':' (follows margins)'}`,
+    `Cutting area: ${(layout.cuttingArea.right-layout.cuttingArea.left).toFixed(1)} x ${(layout.cuttingArea.bottom-layout.cuttingArea.top).toFixed(1)} mm${isFixedPrintTemplate()?' (fixed template)':$('cut-area-custom').checked?' (custom)':' (follows margins)'}`,
+    `Sticker gap / bleed: ${$('gap').value} / ${$('bleed').value} mm`,
+    `Stickers per sheet: ${layout.cells.length}`,
+    `Requested quantity / estimated sheets: ${requested} / ${layout.cells.length?Math.ceil(requested/layout.cells.length):'Not available'}`,
+    `Registration marks: ${$('mtype').selectedOptions[0]?.textContent||$('mtype').value}; size ${$('msz').value} mm; offset ${$('moff').value} mm`,
+    `Artwork count: ${logos.length}`,
+    `PDF color / raster resolution: ${getPdfColorMode().toUpperCase()} / ${pdfDpi()} DPI`,
+    `Cut lines in PDF: ${$('vcut').checked?'Included':'Not included'}`,
+    'Notes: Visual finishing and material simulation is for preview only. Confirm color profile, material, marks, and finishing with the print shop.',
+    'Machine blade depth, force, registration calibration, and test cuts are set separately on the production equipment.'
+  ];
+  const pdf=new Pdf({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+  pdf.setProperties({title:'Print Specification',subject:'Sticker print job specification'});
+  pdf.setFont('helvetica','bold');pdf.setFontSize(18);pdf.text('PRINT SPECIFICATION',14,18);
+  pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(90);pdf.text(`Created ${new Date().toLocaleDateString('en-CA')}`,14,24);
+  pdf.setDrawColor(190);pdf.line(14,28,196,28);
+  let y=36;
+  lines.forEach(line=>{
+    const wrapped=pdf.splitTextToSize(text(line),180);
+    if(y+wrapped.length*5>278){pdf.addPage();y=18}
+    pdf.setTextColor(35);pdf.text(wrapped,14,y);y+=wrapped.length*5+2;
+  });
+  pdf.setTextColor(110);pdf.setFontSize(8);pdf.text('Generated locally by Proletar Sticker Studio',14,287);
+  return pdf.output('blob');
+}
+$('spec-pdf').addEventListener('click',async()=>{
+  const button=$('spec-pdf');button.disabled=true;$('spec-status').textContent='Preparing print specification...';
+  try{
+    calc();
+    const blob=createPrintSpecificationPdf();
+    const base=filenamePart($('job-name').value,'')||'print-specification';
+    await saveFile(`${base}-print-specification.pdf`,blob);
+    $('spec-status').textContent='Print specification PDF is ready to download.';
+  }catch(error){$('spec-status').textContent=`Could not create print specification: ${(error&&error.message)||error}`}
+  finally{button.disabled=!logos.length||!calc().cells.length||!window.jspdf?.jsPDF}
+});
 const MACH={
  roland:{t:'L',s:5,w:.3,o:8,c:'CutContour',h:'Roland: import PDF/SVG into CorelDRAW or Illustrator, assign the CutContour spot color, then use Print & Cut in CutStudio/VersaWorks.'},
  graphtec:{t:'dot',s:3,w:.3,o:10,c:'CutContour',h:'Graphtec ARMS: use DXF or SVG in Graphtec Studio / Cutting Master with 4 registration points.'},
@@ -4102,23 +4583,43 @@ function drawSheetMarksPdf(pdf,L,colorMode='rgb'){
   }
 }
 function drawCutContoursPdf(pdf,L,colorMode='rgb'){
-  const shape=$('shape').value,polys=cutPolys(L),ox=+$('cox').value||0,oy=+$('coy').value||0;
+  const shape=$('shape').value,ox=+$('cox').value||0,oy=+$('coy').value||0;
   setPdfColor(pdf,'#ec008c',colorMode,true);pdf.setLineWidth(0.1);
-  let polyIndex=0;
   forCells(L,(cx,cy,li,cl)=>{
     cx+=ox;cy+=oy;
     const cellShape=shapeForLogo(li,shape),physical=logoLayout(li,L,shape).L;
     const designDrawn=cellShape==='design'&&drawDesignContourPdf(pdf,logos[li],cx,cy,physical.w,physical.h,cl&&cl.rot||0);
-    if(!designDrawn){
-      const points=polys[polyIndex];
+    if(designDrawn)return;
+    const rotated=cl&&Math.abs(cl.rot||0)%180===90;
+    if(cellShape==='circle'){
+      pdf.circle(cx,cy,physical.w/2,'S');
+    }else if(cellShape==='oval'){
+      pdf.ellipse(cx,cy,rotated?physical.h/2:physical.w/2,rotated?physical.w/2:physical.h/2,'S');
+    }else if(cellShape==='rounded'){
+      const radius=roundedRadius(physical.w,physical.h);
+      const width=rotated?physical.h:physical.w,height=rotated?physical.w:physical.h;
+      pdf.roundedRect(cx-width/2,cy-height/2,width,height,radius,radius,'S');
+    }else{
+      const points=shPoly(cx,cy,physical.w,physical.h,cellShape,0);
+      if(rotated){
+        const rad=cl.rot*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);
+        points.forEach(point=>{const dx=point[0]-cx,dy=point[1]-cy;point[0]=cx+dx*cos-dy*sin;point[1]=cy+dx*sin+dy*cos});
+      }
       pdf.lines(points.slice(1).map((point,i)=>[point[0]-points[i][0],point[1]-points[i][1]]),points[0][0],points[0][1],[1,1],'S',true);
     }
-    polyIndex++;
   });
 }
 function isCdrMarks(){return $('mtype').value==='cdr'}
 function isPrimaMarks(){return $('mtype').value==='prima-diecut'||$('mtype').value==='prima-kisscut'}
-function cdrFrame(){const x=+$('ml').value||0,y=+$('mt').value||0;return{x,y,w:W-x-(+$('mr').value||0),h:H-y-(+$('mb').value||0)}}
+function cdrFrame(){
+  const mv=id=>{const value=Number($(id).value);return Number.isFinite(value)&&value>=0?value:18};
+  if($('paper').value==='325x485'&&$('mtype').value==='cdr'){
+    const x=mv('ml'),y=mv('mt');
+    return{x,y,w:W-x-mv('mr'),h:H-y-mv('mb')};
+  }
+  const {cuttingArea}=sheetAreaGeometry(mv('mt'),mv('mb'),mv('ml'),mv('mr'));
+  return{x:cuttingArea.left,y:cuttingArea.top,w:cuttingArea.right-cuttingArea.left,h:cuttingArea.bottom-cuttingArea.top};
+}
 function marksSvg(){const f=n=>n.toFixed(3),w=+$('mw').value||0.3;
   return marksGeom().map(p=>p.c?`<circle cx="${f(p.c[0])}" cy="${f(p.c[1])}" r="${f(p.radius||p.c[2])}" fill="${p.color||'#000'}"/>`:`<${p.z?'polygon':'polyline'} points="${p.pts.map(q=>f(q[0])+','+f(q[1])).join(' ')}" fill="${p.f?(p.color||'#000'):'none'}" stroke="${p.stroke||'#000'}" stroke-width="${p.width||w}"/>`).join('')}
 function cutPolys(L){
@@ -4143,27 +4644,30 @@ function exportPLT(L){const q=p=>Math.round(p[0]*40)+','+Math.round((H-p[1])*40)
   cutPolys(L).forEach(p=>{s+='PU'+q(p[0])+';PD'+p.concat([p[0]]).map(q).join(',')+';'});return s+'PU0,0;SP0;\n'}
 $('dxf').onclick=async()=>{await saveFile(sheetFileName('dxf'),new Blob([exportDXF(calc())],{type:'application/dxf'}))};
 $('plt').onclick=async()=>{await saveFile(sheetFileName('plt'),new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
-$('mach').onchange=applyMach;
-['pxw','pxh'].forEach(id=>{$(id).addEventListener('input',()=>{const k=25.4/(+$('mdpi').value||600),w=+$('pxw').value,h=+$('pxh').value;if(w>0&&h>0){$('paper').value='custom';$('pw').value=(w*k).toFixed(2);$('ph').value=(h*k).toFixed(2)}updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
+$('mach').onchange=()=>{if(!applyingPrintPreset)applyMach()};
+['pxw','pxh'].forEach(id=>{$(id).addEventListener('input',()=>{if(!applyingPrintPreset){const k=25.4/(+$('mdpi').value||600),w=+$('pxw').value,h=+$('pxh').value;if(w>0&&h>0){$('paper').value='custom';$('pw').value=(w*k).toFixed(2);$('ph').value=(h*k).toFixed(2)}}updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 let syncingShapeDimensions=false;
-$('h').addEventListener('input',()=>{if(syncingShapeDimensions)return;const v=$('shape').value;if(v==='circle'||v==='square'){$('shape').value=v==='circle'?'oval':'rect';$('shape').dispatchEvent(new Event('change',{bubbles:true}))}updateBtns();schedule()});
+$('h').addEventListener('input',()=>{if(syncingShapeDimensions)return;if(!applyingPrintPreset){const v=$('shape').value;if(v==='circle'||v==='square'){$('shape').value=v==='circle'?'oval':'rect';$('shape').dispatchEvent(new Event('change',{bubbles:true}))}}updateBtns();schedule()});
 $('shape').addEventListener('change',()=>{
-  syncingShapeDimensions=true;
-  if(['circle','square','rounded','hex'].includes($('shape').value))$('d').value=Math.max(+$('d').value||16,+$('h').value||16).toFixed(2);
-  if(['circle','square','rounded','hex'].includes($('shape').value))$('h').value=$('d').value;
-  syncingShapeDimensions=false;
+  if(!applyingPrintPreset){
+    syncingShapeDimensions=true;
+    if(['circle','square','rounded','hex'].includes($('shape').value))$('d').value=Math.max(+$('d').value||16,+$('h').value||16).toFixed(2);
+    if(['circle','square','rounded','hex'].includes($('shape').value))$('h').value=$('d').value;
+    syncingShapeDimensions=false;
+  }
   updateBtns();schedule();
 });
-$('shape').addEventListener('change',()=>{const lg=logos[sel];if(lg&&$('shape').value!==lg.shape){lg.shape=$('shape').value==='design'?'auto':$('shape').value;renderThumbs();}});
-['pw','ph'].forEach(id=>$(id).addEventListener('input',()=>{$('paper').value='custom';updateBtns();schedule()}));
+$('shape').addEventListener('change',()=>{if(applyingPrintPreset)return;const lg=logos[sel];if(lg&&$('shape').value!==lg.shape){lg.shape=$('shape').value==='design'?'auto':$('shape').value;renderThumbs();}});
+['pw','ph'].forEach(id=>$(id).addEventListener('input',()=>{if(!applyingPrintPreset)$('paper').value='custom';updateBtns();schedule()}));
 $('d').addEventListener('input',()=>{
-  if(!syncingShapeDimensions)markSelectedSizeCustom();
-  if(['circle','square','rounded','hex'].includes($('shape').value)){$('h').value=$('d').value}
-  if($('pxm').checked){const v=+$('d').value;if(v>0)$('pxd').value=Math.round(v/25.4*(+$('mdpi').value||600))}
+  if(!applyingPrintPreset){
+    if(!syncingShapeDimensions)markSelectedSizeCustom();
+    if(['circle','square','rounded','hex'].includes($('shape').value))$('h').value=$('d').value;
+    if($('pxm').checked){const v=+$('d').value;if(v>0)$('pxd').value=Math.round(v/25.4*(+$('mdpi').value||600))}
+  }
   updateBtns();schedule();
 });
-$('h').addEventListener('input',()=>{if(!syncingShapeDimensions)markSelectedSizeCustom()});
-$('ppx').onchange=()=>{const v=$('ppx').value,M={'7016x9921':'297x420','7772x11409':'329x483','4961x7016':'210x297'};$('paper').value=M[v]||'custom';updateBtns();schedule()};
+$('h').addEventListener('input',()=>{if(!applyingPrintPreset&&!syncingShapeDimensions)markSelectedSizeCustom()});
 ['pxm','mdpi','pxd','sbg','strans','mtype','msz','mw','moff','cox','coy','cname'].forEach(id=>{$(id).addEventListener('input',()=>{updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 
 /* ---------- side-by-side sinkron ---------- */
@@ -4246,11 +4750,20 @@ $('shfit').onclick=()=>{shFit();shDraw()};
 $('sh11').onclick=()=>{const c=$('shc');shZoom((outDpi()/25.4/(devicePixelRatio||1))/shv.z,c.clientWidth/2,c.clientHeight/2)};
 addEventListener('resize',shDraw);
 let lastDpi=+$('mdpi').value||600;
+$('pxm').addEventListener('change',()=>{
+  const enabled=$('pxm').checked;
+  $('pixel-sizing-controls').hidden=!enabled;
+  if(enabled&&!applyingPrintPreset){
+    const dpi=+$('mdpi').value||600,diameter=+$('d').value;
+    if(diameter>0)$('pxd').value=Math.round(diameter/25.4*dpi);
+  }
+  readPaper();updateBtns();schedule();
+});
 $('mdpi').addEventListener('change',()=>{const n=Math.min(2400,Math.max(72,+$('mdpi').value||600)),f=n/lastDpi;$('mdpi').value=n;
-  $('pxd').value=Math.round($('pxd').value*f);lastDpi=n;updateBtns();schedule()});
+  if(!applyingPrintPreset)$('pxd').value=Math.round($('pxd').value*f);lastDpi=n;updateBtns();schedule()});
 applyMach();
 
-$('dpi').addEventListener('change',()=>{if($('pxm').checked){$('mdpi').value=clampDpi($('dpi').value,600);$('mdpi').dispatchEvent(new Event('change',{bubbles:true}));$('dpi').value=$('mdpi').value}});
+$('dpi').addEventListener('change',()=>{if(!applyingPrintPreset&&$('pxm').checked){$('mdpi').value=clampDpi($('dpi').value,600);$('mdpi').dispatchEvent(new Event('change',{bubbles:true}));$('dpi').value=$('mdpi').value}});
 $('dpi').addEventListener('input',updateBtns);$('pdpi').addEventListener('input',updateBtns);
 $('llbtn').onclick=()=>{$('lossless').checked=!$('lossless').checked;applyLossless()};
 applyLossless();
@@ -4376,7 +4889,7 @@ render();
     button.onclick=()=>applyPrintTemplate(PRINT_TEMPLATES.find(template=>template.id===button.dataset.printArea));
   });
   const syncTemplateAdvanced=event=>{
-    if(applyingTemplate)return;
+    if(applyingTemplate||applyingPrintPreset)return;
     const paperChanged=event&&event.currentTarget===$('paper');
     const template=PRINT_TEMPLATES.find(item=>item.paper===$('paper').value&&(paperChanged||item.mtype===$('mtype').value));
     if(template)applyPrintTemplate(template);
@@ -4521,14 +5034,6 @@ function reportAppError(message){
   };
   updateInstallState();
   updateConnectionState();
-  function syncR(){const lg=logos[sel],r=lg?(lg.ratio||'orig'):'';document.querySelectorAll('#ratio-chips button').forEach(b=>b.classList.toggle('on',b.dataset.r===r))}
-  document.querySelectorAll('#ratio-chips button').forEach(b=>b.onclick=()=>{
-    const lg=logos[sel];if(!lg)return;
-    lg.ratio=b.dataset.r;lg.vk='';lg.rc=null;
-    if(lg.vec)ensureTrace(lg);
-    syncR();schedule();
-  });
-  new MutationObserver(syncR).observe($('info'),{childList:true,characterData:true,subtree:true});syncR();
 })();
 
 /* ============ Teks tepi lembar, outline otomatis, SVG, kalkulator ============ */
@@ -4655,7 +5160,7 @@ function loadFile(f){
 }
 $('file').onchange=e=>{loadFile(e.target.files[0]);e.target.value=''};
 window.addEventListener('background-image',e=>{
-  const file=new File([e.detail.blob],e.detail.name,{type:'image/png'});
+  const file=new File([e.detail.blob],e.detail.name,{type:e.detail.type||e.detail.blob.type||'image/png'});
   loadFile(file);
 });
 const dz=$('drop');dz.tabIndex=0;dz.setAttribute('role','button');dz.setAttribute('aria-label','Pilih atau jatuhkan gambar logo');$('file').tabIndex=-1;$('file').setAttribute('aria-hidden','true');dz.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();$('file').click()}});
@@ -4973,10 +5478,10 @@ async function extractCdrPreview(file){
 
 /* ============ Gabungan: tab Studio Warna + Lembar Stiker ============ */
 function initFileViewer(){
-  const input=$('file-viewer-input'),drop=$('file-viewer-drop'),stage=$('file-viewer-stage'),status=$('file-viewer-status'),clear=$('file-viewer-clear'),download=$('file-viewer-download'),open=$('file-viewer-open'),fullOpen=$('file-viewer-full-open');
+  const input=$('file-viewer-input'),drop=$('file-viewer-drop'),stage=$('file-viewer-stage'),status=$('file-viewer-status'),clear=$('file-viewer-clear'),download=$('file-viewer-download'),open=$('file-viewer-open'),fullOpen=$('file-viewer-full-open'),send=$('file-viewer-send'),sendTarget=$('file-viewer-send-target');
   const full=$('file-viewer-full'),fullCanvas=$('file-viewer-full-canvas'),fullFrame=$('file-viewer-full-frame');
   const syncFullBar=()=>full.style.setProperty('--full-bar-height',`${full.querySelector('.bar').getBoundingClientRect().height}px`);
-  let urls=[],job=0;
+  let urls=[],job=0,currentFile=null;
   let fullImage=null,fullPdfUrl='',fullName='',fullView={z:1,x:0,y:0},pointers=new Map(),lastPinch=0;
   const release=()=>{urls.forEach(url=>URL.revokeObjectURL(url));urls=[]};
   const showError=message=>{status.textContent=message;stage.replaceChildren(Object.assign(document.createElement('div'),{className:'file-viewer-empty',textContent:message}))};
@@ -4991,6 +5496,7 @@ function initFileViewer(){
   };
   async function openFile(file){
     const current=++job;release();stage.replaceChildren();download.hidden=true;download.removeAttribute('href');open.hidden=true;open.removeAttribute('href');clear.disabled=false;
+    currentFile=file||null;send.disabled=!canSendImage(currentFile);updateSendTargets(currentFile);
     fullImage=null;fullPdfUrl='';fullName='';fullOpen.disabled=true;
     if(!file){showError('Choose a file to preview.');clear.disabled=true;return}
     if(file.size>150*1024*1024){showError('File is too large for browser preview (150 MB limit).');return}
@@ -5079,9 +5585,21 @@ function initFileViewer(){
   fullCanvas.addEventListener('pointerup',e=>pointers.delete(e.pointerId));
   fullCanvas.addEventListener('pointercancel',e=>pointers.delete(e.pointerId));
   fullCanvas.addEventListener('wheel',e=>{e.preventDefault();const rect=fullCanvas.getBoundingClientRect();fullZoom(e.deltaY<0?1.25:.8,e.clientX-rect.left,e.clientY-rect.top)});
+  function canSendImage(file){
+    return !!file&&(/^image\/(png|jpeg|jpg|webp|gif|bmp|avif|svg\+xml)$/.test(file.type)||/\.(png|jpe?g|webp|gif|bmp|avif|svg)$/i.test(file.name||''));
+  }
+  function updateSendTargets(file){
+    const isSvg=!!file&&(/svg\+xml/i.test(file.type)||/\.svg$/i.test(file.name||''));
+    for(const option of sendTarget.options)option.disabled=isSvg&&['cut','remove','upscale'].includes(option.value);
+    if(sendTarget.selectedOptions[0]?.disabled)sendTarget.value='sheet';
+  }
+  send.onclick=()=>{
+    if(!canSendImage(currentFile)){status.textContent='This file is not an image format accepted by the other tools.';return}
+    sendFileToMenu('File Preview',sendTarget.value,currentFile,currentFile.name,status);
+  };
   window.addEventListener('studio-send-viewer',event=>openFile(event.detail.file));
   input.addEventListener('change',()=>openFile(input.files&&input.files[0]));
-  clear.addEventListener('click',()=>{job++;release();input.value='';download.hidden=true;download.removeAttribute('href');open.hidden=true;open.removeAttribute('href');fullImage=null;fullPdfUrl='';fullName='';fullOpen.disabled=true;closeFull();stage.replaceChildren(Object.assign(document.createElement('div'),{className:'file-viewer-empty',textContent:'Your file preview will appear here.'}));status.textContent='No file selected.';clear.disabled=true});
+  clear.addEventListener('click',()=>{job++;release();input.value='';currentFile=null;send.disabled=true;updateSendTargets(null);download.hidden=true;download.removeAttribute('href');open.hidden=true;open.removeAttribute('href');fullImage=null;fullPdfUrl='';fullName='';fullOpen.disabled=true;closeFull();stage.replaceChildren(Object.assign(document.createElement('div'),{className:'file-viewer-empty',textContent:'Your file preview will appear here.'}));status.textContent='No file selected.';clear.disabled=true});
   drop.setAttribute('role','button');drop.tabIndex=0;
   drop.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();input.click()}});
   drop.addEventListener('dragover',event=>{event.preventDefault();drop.classList.add('dragover')});
@@ -5117,6 +5635,32 @@ function setTab(t){
       behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
       block:'nearest',inline:'nearest'
     }));
+  }
+}
+const IMAGE_TRANSFER_TARGETS=new Set(['sheet','studio','cut','remove','upscale','vector']);
+async function sendFileToMenu(source,target,blob,name,status){
+  if(!(blob instanceof Blob)){if(status)status.textContent='No finished image is available to send.';return}
+  const fileName=name||'image.png',type=blob.type||'application/octet-stream';
+  const raster=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif)$/.test(type)||/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(fileName);
+  const image=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif|svg\+xml)$/.test(type)||/\.(png|jpe?g|webp|gif|bmp|avif|svg)$/i.test(fileName);
+  if(target!=='viewer'&&(!IMAGE_TRANSFER_TARGETS.has(target)||!image||['cut','remove','upscale'].includes(target)&&!raster)){
+    if(status)status.textContent=target==='viewer'?'Unsupported destination.':'This file format is not supported by the selected tool.';
+    return;
+  }
+  const file=new File([blob],fileName,{type});
+  try{
+    if(target==='studio'){
+      setTab('studio');window.dispatchEvent(new CustomEvent('background-image',{detail:{blob,name:fileName,type}}));
+    }else if(target==='viewer'){
+      setTab('viewer');window.dispatchEvent(new CustomEvent('studio-send-viewer',{detail:{file}}));
+    }else if(target==='cut'){
+      setTab('cut');window.dispatchEvent(new CustomEvent('studio-send-cut',{detail:{file}}));
+    }else{
+      window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:fileName,source}}));
+    }
+    if(status)status.textContent=`Sent ${fileName} to ${$(target==='viewer'?'t-viewer':`t-${target}`).textContent}.`;
+  }catch(error){
+    if(status)status.textContent=`Could not send file: ${(error&&error.message)||error}`;
   }
 }
 (function(){
@@ -5240,12 +5784,12 @@ function setTab(t){
   }));
   window.addEventListener('studio-send-target',async e=>{
     const {target,blob,name,source='Color Studio'}=e.detail||{};
-    if(!['sheet','vector','remove','upscale','viewer'].includes(target)||!(blob instanceof Blob)){
+    if(!['sheet','vector','remove','upscale','viewer','cut'].includes(target)||!(blob instanceof Blob)){
       $('status').textContent='Invalid destination or image for direct transfer.';
       return;
     }
     const file=new File([blob],name||'studio-warna.png',{type:blob.type||'image/png'});
-    if(target==='remove'||target==='upscale'||target==='viewer'){
+    if(target==='remove'||target==='upscale'||target==='viewer'||target==='cut'){
       setTab(target);
       window.dispatchEvent(new CustomEvent(`studio-send-${target}`,{detail:{file}}));
       return;
@@ -5253,12 +5797,12 @@ function setTab(t){
     showLoader(target==='vector'?'Sending Color Studio result to Vectorize (SVG)...':'Sending Color Studio result to Sticker Sheet...');await pause();
     try{
       setTab(target);
-      const l=await makeLogo(await readURL(file));
+      const l=await makeLogo(await readURL(file));l.sourceName=file.name;
       if(target==='vector')l.sourceVector=true;
       else{l.sourceBlob=file;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg=''}
       logos.push(l);sel=logos.length-1;renderThumbs();loadPanel();schedule();
       if(target==='vector'){
-        $('vhint').textContent='Image from Color Studio added to Vectorize (SVG) ('+l.img.naturalWidth+' × '+l.img.naturalHeight+' px).';
+        $('vhint').textContent=`Image from ${source} added to Vectorize (SVG) (${l.img.naturalWidth} × ${l.img.naturalHeight} px).`;
         $('vec-card').scrollIntoView({behavior:'smooth',block:'start'});
       }else $('status').textContent=`${source} result added to Sticker Sheet.`;
     }catch(err){$('status').textContent='Could not transfer from Color Studio: '+((err&&err.message)||err)}
@@ -5272,7 +5816,7 @@ function setTab(t){
     showLoader('Sending transparent PNG to Sticker Sheet...');await pause();
     try{
       setTab('sheet');
-      const dataUrl=await readURL(e.detail.blob),l=await makeLogo(dataUrl);l.sourceBlob=e.detail.blob;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg='';
+      const dataUrl=await readURL(e.detail.blob),l=await makeLogo(dataUrl);l.sourceName=e.detail.name||'transparent.png';l.sourceBlob=e.detail.blob;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg='';
       logos.push(l);sel=logos.length-1;renderThumbs();loadPanel();schedule();
       $('status').textContent='Transparent PNG added to Sticker Sheet.';
     }catch(err){$('status').textContent='Could not send transparent PNG to Sticker Sheet: '+((err&&err.message)||err)}
@@ -5454,6 +5998,11 @@ function setTab(t){
     return setPngResolution(png,geometry.dpi);
   }
   input.addEventListener('change',()=>{const file=input.files&&input.files[0];input.value='';loadImage(file)});
+  window.addEventListener('studio-send-cut',event=>{
+    const transfer=new DataTransfer();
+    transfer.items.add(event.detail.file);input.files=transfer.files;
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+  });
   enableImageDrop('cut-image-upload','cut-image-input');
   $('cut-move-mode').onclick=()=>setMode('move');$('cut-erase-mode').onclick=()=>setMode('erase');
   $('cut-shape').addEventListener('change',()=>{
@@ -5507,8 +6056,8 @@ function setTab(t){
     finally{render();if(downloadStatus)status.textContent=downloadStatus}
   };
   $('cut-to-sheet').onclick=async()=>{
-    $('cut-download').disabled=$('cut-to-sheet').disabled=true;status.textContent='Preparing image for Sticker Sheet...';
-    try{const blob=await createOutput();window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target:'sheet',blob,name:`${imageName}-cut.png`,source:'Cut Image'}}))}
+    $('cut-download').disabled=$('cut-to-sheet').disabled=true;status.textContent='Preparing cut image for transfer...';
+    try{const blob=await createOutput();await sendFileToMenu('Cut Image',$('cut-send-target').value,blob,`${imageName}-cut.png`,status)}
     catch(error){status.textContent='Could not send cut image: '+((error&&error.message)||error)}
     finally{render()}
   };
@@ -5602,7 +6151,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   let image=null,imageUrl='',imageName='gambar',resultBlob=null,resultCanvas=null,currentBlob=null,job=0,magicMode=false,magicBusy=false;
   const undoHistory=[],redoHistory=[],MAX_HISTORY_STEPS=8,MAX_HISTORY_BYTES=128*1024*1024;
   const input=$('remove-input'),source=$('remove-original'),output=$('remove-result');
-  const process=$('remove-process'),download=$('remove-download'),toStudio=$('remove-to-studio'),toSheet=$('remove-to-sheet');
+  const process=$('remove-process'),download=$('remove-download'),toStudio=$('remove-send'),toSheet=$('remove-send');
   const undoButton=$('remove-undo'),redoButton=$('remove-redo');
   const autoMode=$('remove-auto-mode'),magicModeButton=$('remove-magic-mode'),toolHint=$('remove-tool-hint');
   const comparison=setupImageComparison('remove',source,output);
@@ -5748,7 +6297,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         if(tail===queue.length){const grown=new Uint32Array(Math.min(total,queue.length*2));grown.set(queue);queue=grown}
         queue[tail++]=p;
       }
-      enqueue(y*w+x);
+      enqueue(py*w+px);
       while(head<tail){
         if(token!==job)return;
         const p=queue[head++],i=p*4;
@@ -5853,21 +6402,14 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     try{await saveDirectFile(`${customExportBase(imageName)}-transparan.png`,resultBlob,$('remove-status'))}
     catch(err){$('remove-status').textContent='Could not prepare download: '+((err&&err.message)||err)}
   };
-  toStudio.onclick=()=>{
-    if(!resultBlob)return;
-    window.dispatchEvent(new CustomEvent('background-send-studio',{detail:{blob:resultBlob,name:`${imageName}-transparan.png`}}));
-  };
-  toSheet.onclick=()=>{
-    if(!resultBlob)return;
-    window.dispatchEvent(new CustomEvent('background-send-sheet',{detail:{blob:resultBlob,name:`${imageName}-transparan.png`}}));
-  };
+  toStudio.onclick=()=>sendFileToMenu('Remove Background',$('remove-send-target').value,resultBlob,`${imageName}-transparan.png`,$('remove-status'));
 })();
 
 /* ============ Upscaler offline ============ */
 (function(){
   const input=$('upscale-input'),scaleSelect=$('upscale-scale'),qualitySelect=$('upscale-quality');
   const source=$('upscale-original'),output=$('upscale-result'),process=$('upscale-process'),download=$('upscale-download');
-  const toStudio=$('upscale-to-studio'),toSheet=$('upscale-to-sheet');
+  const toStudio=$('upscale-send'),toSheet=$('upscale-send');
   const comparison=setupImageComparison('upscale',source,output);
   enableImageDrop('upscale-upload-label','upscale-input');
   let image=null,imageName='gambar',resultBlob=null,resultScale=1,job=0,busy=false;
@@ -6053,13 +6595,12 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       await saveDirectFile(`${customExportBase(imageName)}-upscale-${resultScale.toFixed(2)}x.png`,resultBlob,$('upscale-status'));
     }catch(err){$('upscale-status').textContent='Could not prepare download: '+((err&&err.message)||err)}
   };
-  function sendResult(eventName){
+  function sendResult(){
     if(!resultBlob)return;
     const filename=`${imageName}-upscale-${resultScale.toFixed(2)}x.png`;
-    window.dispatchEvent(new CustomEvent(eventName,{detail:{blob:resultBlob,name:filename}}));
+    sendFileToMenu('Upscale Image',$('upscale-send-target').value,resultBlob,filename,$('upscale-status'));
   }
-  toStudio.onclick=()=>sendResult('background-send-studio');
-  toSheet.onclick=()=>sendResult('background-send-sheet');
+  toStudio.onclick=sendResult;
 })();
 
 /* ============ Menu vektor dipindah ke tab Studio ============ */
@@ -6069,17 +6610,14 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   const prev=start.previousElementSibling;if(prev&&prev.tagName==='HR')prev.remove();
   nodes.forEach(x=>body.appendChild(x));
   $('vup').onclick=()=>$('vector-input').click();
-  $('vtosheet').onclick=()=>setTab('sheet');
   $('vector-input').addEventListener('change',async ()=>{
     const files=[...($('vector-input').files||[])]; if(!files.length)return;
     showLoader('Preparing images for Vectorize (SVG)...');await pause();
     let added=0;
     for(const file of files){
-      const url=URL.createObjectURL(file);
       try{
-        const l=await makeLogo(url);l.sourceName=file.name;l.sourceVector=true;logos.push(l);added++;
+        const l=await makeLogo(await readURL(file));l.sourceName=file.name;l.sourceVector=true;logos.push(l);added++;
       }catch(error){showError(`Could not open ${file.name}: ${error&&error.message?error.message:error}`)}
-      finally{URL.revokeObjectURL(url)}
     }
     if(added){sel=logos.length-added;renderThumbs();loadPanel();schedule();drawVT();$('vhint').textContent=`${added} image(s) added to Vectorize (SVG).`}
     $('vector-input').value='';
@@ -6100,30 +6638,28 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     if(!vectorIndexes.includes(sel)&&vectorIndexes.length)sel=vectorIndexes[0];
     $('vbody').style.display=vectorIndexes.length?'':'none';
     if(!vectorIndexes.length)$('vhint').textContent='No images in Vectorize (SVG) yet.';
+    else if($('vhint').textContent==='No images in Vectorize (SVG) yet.')$('vhint').textContent=`${vectorIndexes.length} image(s) ready in Vectorize (SVG).`;
     const ready=!!(logos[sel]&&logos[sel].vec&&logos[sel].vimg);
-    ['vsend-studio','vsend-remove','vsend-upscale','vsend-sheet','vsend-viewer'].forEach(id=>$(id).disabled=!ready);
+    ['vsend-studio','vsend-remove','vsend-upscale','vsend-sheet','vsend-cut','vsend-viewer'].forEach(id=>$(id).disabled=!ready);
   }
   const rt=renderThumbs;renderThumbs=function(){rt();drawVT()};
   drawVT();
   async function sendVector(target){
-    const lg=logos[sel];if(!lg||!lg.vimg)return;
-    const canvas=document.createElement('canvas');
-    canvas.width=lg.vimg.naturalWidth||lg.vimg.width;canvas.height=lg.vimg.naturalHeight||lg.vimg.height;
-    canvas.getContext('2d').drawImage(lg.vimg,0,0);
-    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
-    if(!blob)return;
-    const name=(lg.sourceName||'vektor-trace').replace(/\.[^.]+$/,'')+'-vektor.png';
-    if(target==='studio'){setTab('studio');window.dispatchEvent(new CustomEvent('background-send-studio',{detail:{blob,name}}));}
-    if(target==='remove'||target==='upscale'||target==='viewer'){
-      setTab(target==='viewer'?'viewer':target);
-      const input=$(target==='remove'?'remove-input':target==='upscale'?'upscale-input':'file-viewer-input');
-      const transfer=new DataTransfer();transfer.items.add(new File([blob],name,{type:'image/png'}));input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));
-    }
-    if(target==='sheet'){
-      setTab('sheet');window.dispatchEvent(new CustomEvent('background-send-sheet',{detail:{blob,name}}));
-    }
+    const lg=logos[sel];if(!lg||!lg.vimg||!lg.vsvg)return;
+    const rasterOnly=['cut','remove','upscale'].includes(target);
+    let blob;
+    if(rasterOnly){
+      const canvas=document.createElement('canvas');
+      canvas.width=lg.vimg.naturalWidth||lg.vimg.width;canvas.height=lg.vimg.naturalHeight||lg.vimg.height;
+      const context=canvas.getContext('2d');
+      if(!context)throw new Error('Could not prepare a raster preview for this destination.');
+      context.drawImage(lg.vimg,0,0);
+      blob=await new Promise((resolve,reject)=>canvas.toBlob(result=>result?resolve(result):reject(new Error('Could not create a raster preview for this destination.')),'image/png'));
+    }else blob=new Blob([lg.vsvg],{type:'image/svg+xml'});
+    const name=(lg.sourceName||'vektor-trace').replace(/\.[^.]+$/,'')+`-vektor.${rasterOnly?'png':'svg'}`;
+    await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'));
   }
-  [['vsend-studio','studio'],['vsend-remove','remove'],['vsend-upscale','upscale'],['vsend-sheet','sheet'],['vsend-viewer','viewer']].forEach(([id,target])=>$(id).onclick=()=>sendVector(target));
+  [['vsend-studio','studio'],['vsend-remove','remove'],['vsend-upscale','upscale'],['vsend-sheet','sheet'],['vsend-cut','cut'],['vsend-viewer','viewer']].forEach(([id,target])=>$(id).onclick=()=>sendVector(target));
 })();
 
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(error=>{reportAppError('Could not enable offline storage: '+((error&&error.message)||error))})})}
