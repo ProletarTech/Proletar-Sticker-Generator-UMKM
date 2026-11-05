@@ -891,15 +891,16 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" style="margin:14px 0 6px">Sticker layout</p>
 <div class="chips" id="ez-layout"><button data-v="standard">Standard · straight rows</button><button data-v="efficient">Efficient · maximize count</button><button data-v="zigzag">Zigzag · staggered rows</button></div>
 <p class="info" style="margin:6px 0 0">Efficient compares straight and compact staggered packing for round stickers. Zigzag always uses staggered rows.</p>
-<div class="grid" style="margin-top:10px">
-<label class="f">Corner rounding<select id="ez-rr-mode"><option value="mm">Radius (mm)</option><option value="percent">Percent (%)</option><option value="degree">Degrees (°)</option></select></label>
-<label class="f">Corner value<input id="ez-rr-value" type="number" value="3.5" min="0" step="0.5"></label>
+<p class="info" style="margin:14px 0 6px">Paper size</p>
+<div class="chips" id="ez-paper" aria-label="Paper size"><button type="button" data-v="210x297">A4 · 210 × 297 mm</button><button type="button" data-v="297x420">A3 · 297 × 420 mm</button><button type="button" data-v="329x483">A3+ · 329 × 483 mm</button></div>
+<p class="info" style="margin:14px 0 6px">Print preset (optional)</p>
+<p class="info" style="margin:0 0 6px">Presets are not paper sizes. Choose one to apply a print-shop page size, working area, margins, and registration marks together.</p>
+<div class="chips" id="ez-print-presets" aria-label="Print presets">
+<button type="button" data-print-area="cdr-305x435">CDR · portrait · 325 × 485 mm page</button>
+<button type="button" data-print-area="prima-diecut">Die Cut Prima · 483 × 325 mm page · 420 × 280 mm area</button>
+<button type="button" data-print-area="prima-kisscut">Kiss Cut Prima · 325 × 483 mm page · 290 × 430 mm area</button>
 </div>
-<p class="info" style="margin:6px 0 0">This setting only applies to rounded rectangles.</p>
-<p class="info" style="margin:14px 0 6px">Sticker sheet size</p>
-<div class="chips" id="ez-paper"><button data-v="210x297">A4</button><button data-v="297x420">A3</button><button data-v="329x483">A3+</button><button type="button" data-print-area="cdr-305x435">CorelDRAW (CDR) template · 30.5 × 43.5 cm</button><button type="button" data-print-area="prima-diecut">Die Cut Prima · 42 × 28 cm</button><button type="button" data-print-area="prima-kisscut">Kiss Cut Prima · 29 × 43 cm</button></div>
-<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print template details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">Prima templates set the page, printable area, and registration marks; they do not create a CDR file. Die Cut Prima uses a 48.3 × 32.5 cm page with a 42 × 28 cm area. Kiss Cut Prima uses a 32.5 × 48.3 cm page with a 29 × 43 cm area. Sticker placement is calculated inside the selected print area. The magenta frame marks that area in preview only; it is not exported as a cut line.</p></details>
-<p class="info ez" style="margin:6px 0 0">Print-shop templates automatically set the sheet size and print guides.</p>
+<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print preset details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">CDR and Prima are print presets, not paper sizes. Selecting a preset sets its page dimensions, working area, margins, and registration marks. CDR uses a 325 × 485 mm portrait page; Die Cut Prima uses a 483 × 325 mm landscape page with a 420 × 280 mm area; Kiss Cut Prima uses a 325 × 483 mm portrait page with a 290 × 430 mm area. The magenta frame marks the working area in preview only and is not exported as a cut line.</p></details>
 <p class="info advanced-only" style="margin:14px 0 6px">Page margins (distance from the edge, mm)</p>
 <div class="grid advanced-only">
 <label class="f">Top<input id="ez-mt" type="number" min="0" step="1" value="18"></label>
@@ -932,6 +933,11 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info">Drag the artwork in the preview. Pinch or scroll to zoom.</p>
 <label class="f">Position guides<select id="pgrid"><option value="0">Off</option><option value="1" selected>Center cross</option><option value="4">4×4 grid</option><option value="8">8×8 grid</option></select></label>
 <label class="f">Sticker shape for this image<select id="pshape"><option value="auto">Use sheet shape</option><option value="design">Original shape</option><option value="circle">Circle</option><option value="square">Square</option><option value="rounded">Rounded rectangle</option><option value="oval">Oval</option><option value="rect">Rectangle</option><option value="hex">Hexagon</option></select></label>
+<div class="grid">
+<label class="f">Corner rounding<select id="pcorner-mode"><option value="mm">Radius (mm)</option><option value="percent">Percent (%)</option><option value="degree">Degrees (°)</option></select></label>
+<label class="f">Corner value<input id="pcorner-value" type="number" value="3.5" min="0" max="8" step="0.1"></label>
+</div>
+<p class="info" style="margin:0">Only applies when this artwork uses a rounded rectangle. Radius is capped at half the shorter sticker side.</p>
 <div class="row"><input type="checkbox" id="psafe"><label for="psafe">Show safe area (10% inset)</label></div>
 <div class="row"><input type="checkbox" id="pcmp"><label for="pcmp">Compare original and vector (center)</label></div>
 </div>
@@ -981,10 +987,9 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 
 <div class="card">
 <div class="grid">
-<label class="f">Paper size<select id="paper"><option value="297x420">A3 (297 × 420 mm)</option><option value="329x483">A3+ (329 × 483 mm)</option><option value="210x297">A4 (210 × 297 mm)</option><option value="325x485">CorelDRAW (CDR) template · 32.5 × 48.5 cm</option><option value="483x325">Die Cut Prima · 48.3 × 32.5 cm</option><option value="325x483">Kiss Cut Prima · 32.5 × 48.3 cm</option><option value="custom">Custom size</option></select></label>
+<label class="f">Paper size<select id="paper"><option value="297x420">A3 · 297 × 420 mm</option><option value="329x483">A3+ · 329 × 483 mm</option><option value="210x297">A4 · 210 × 297 mm</option><option value="custom">Custom size (mm)</option></select></label>
 <label class="f">Sticker shape<select id="shape"><option value="design">Original artwork shape</option><option value="circle">Circle</option><option value="square">Square</option><option value="rounded">Rounded rectangle</option><option value="oval">Oval</option><option value="rect">Rectangle</option><option value="hex">Hexagon</option></select></label>
-<label class="f">Corner rounding<select id="rr-mode"><option value="mm">Radius (mm)</option><option value="percent">Percent (%)</option><option value="degree">Degrees (°)</option></select></label>
-<label class="f">Corner value<input id="rr-value" type="number" value="3.5" min="0" step="0.5"></label>
+
 <label class="f">Page width (mm)<input id="pw" type="number" value="297" min="50" disabled></label>
 <label class="f">Page height (mm)<input id="ph" type="number" value="420" min="50" disabled></label>
 <fieldset class="sheet-area">
@@ -1038,7 +1043,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" style="margin:0 0 10px">Pixel sizing resolution converts pixel dimensions to physical size. Changing this DPI recalculates the pixel dimensions to keep the current paper and sticker sizes the same. This does not control PDF resolution or screen preview sharpness.</p>
 <div class="grid">
 <label class="f">Pixel sizing resolution (DPI)<input id="mdpi" type="number" value="600" min="72" max="2400"></label>
-<label class="f">Canvas preset (follows Paper size)<select id="ppx" disabled><option value="7016x9921">A3 · 297 × 420 mm</option><option value="7772x11409">A3+ · 329 × 483 mm</option><option value="4961x7016">A4 · 210 × 297 mm</option><option value="7677x11457">CDR template · 325 × 485 mm</option><option value="11409x7677">Die Cut Prima · 483 × 325 mm</option><option value="7677x11409">Kiss Cut Prima · 325 × 483 mm</option><option value="custom">Custom size</option></select></label>
+<label class="f">Canvas preset (follows Paper size)<select id="ppx" disabled><option value="7016x9921">A3 · 297 × 420 mm</option><option value="7772x11409">A3+ · 329 × 483 mm</option><option value="4961x7016">A4 · 210 × 297 mm</option><option value="7677x11457">Custom portrait · 325 × 485 mm</option><option value="11409x7677">Custom landscape · 483 × 325 mm</option><option value="7677x11409">Custom portrait · 325 × 483 mm</option><option value="custom">Custom size</option></select></label>
 <label class="f">Canvas width (px)<input id="pxw" type="number" value="7016" min="500"></label>
 <label class="f">Canvas height (px)<input id="pxh" type="number" value="9921" min="500"></label>
 <label class="f">Sticker diameter (px)<input id="pxd" type="number" value="378" min="20"></label>
@@ -1051,7 +1056,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <hr class="sep">
 <div class="grid">
 <label class="f">Cutting plotter<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), common</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka (HPGL)</option><option value="custom">Custom</option></select></label>
-<label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR template (4 L corners + 2 top dots)</option><option value="prima-diecut">Die Cut Prima (PDF template marks)</option><option value="prima-kisscut">Kiss Cut Prima (PDF template marks)</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
+<label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR preset marks (4 L corners + 2 top dots)</option><option value="prima-diecut">Die Cut Prima preset marks</option><option value="prima-kisscut">Kiss Cut Prima preset marks</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
 <label class="f">Mark size (mm)<input id="msz" type="number" value="5" min="1" step="0.5"></label>
 <label class="f">Distance from edge (mm)<input id="moff" type="number" value="8" min="2" step="0.5"></label>
 <label class="f">Mark line width (mm)<input id="mw" type="number" value="0.3" min="0.1" step="0.1"></label>
@@ -2102,6 +2107,7 @@ return {trace,analyze};
 })();
 
 const $=id=>document.getElementById(id);
+function fire(element,type){element.dispatchEvent(new Event(type,{bubbles:true}))}
 $('yr').textContent=new Date().getFullYear();
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const pause=()=>new Promise(r=>setTimeout(r,30));
@@ -2189,10 +2195,10 @@ function updateSheetAreaInputs(){
     :'Custom areas are centered on the paper. Sticker placement stays inside both areas; when custom areas are off, they follow the existing margins. Blue and orange outlines are preview guides only.';
 }
 function isFixedPrintTemplate(){
-  const paper=$('paper').value,marks=$('mtype').value;
-  return paper==='325x485'&&marks==='cdr'
-    ||paper==='483x325'&&marks==='prima-diecut'
-    ||paper==='325x483'&&marks==='prima-kisscut';
+  const width=Number(W),height=Number(H),marks=$('mtype').value;
+  return Math.abs(width-325)<0.001&&Math.abs(height-485)<0.001&&marks==='cdr'
+    ||Math.abs(width-483)<0.001&&Math.abs(height-325)<0.001&&marks==='prima-diecut'
+    ||Math.abs(width-325)<0.001&&Math.abs(height-483)<0.001&&marks==='prima-kisscut';
 }
 function sheetAreaGeometry(mt,mb,ml,mr){
   const marginArea={left:ml,top:mt,right:W-mr,bottom:H-mb};
@@ -2275,7 +2281,7 @@ function packCircleRows(width,height,diameter,gap,forceStagger){
 }
 function calc(){
   readPaper();
-  const base=cellSize(),gap=+$('gap').value||2,mv=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:18},cdrInset=$('paper').value==='325x485'&&$('mtype').value==='cdr'?5:0,mt=mv('mt')+cdrInset,mb=mv('mb')+cdrInset,ml=mv('ml')+cdrInset,mr=mv('mr')+cdrInset;
+  const base=cellSize(),gap=+$('gap').value||2,mv=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:18},cdrInset=Math.abs(W-325)<0.001&&Math.abs(H-485)<0.001&&$('mtype').value==='cdr'?5:0,mt=mv('mt')+cdrInset,mb=mv('mb')+cdrInset,ml=mv('ml')+cdrInset,mr=mv('mr')+cdrInset;
   const {printArea,cuttingArea,workArea}=sheetAreaGeometry(mt,mb,ml,mr);
   let w=base.w,h=base.h;
   if(logos.length){
@@ -2576,9 +2582,9 @@ function designSize(lg,L){
 function hexPts(cx,cy,w,h){const p=[];for(let i=0;i<6;i++){const a=Math.PI/3*i-Math.PI/2;p.push([cx+w/2*Math.cos(a),cy+h/2*Math.sin(a)])}return p}
 
 /* ---------- shapes & images ---------- */
-function roundedRadius(w,h){
-  const mode=$('rr-mode')?.value||'mm';
-  const raw=+$('rr-value')?.value;
+function roundedRadius(w,h,lg){
+  const mode=lg&&lg.cornerMode||'mm';
+  const raw=lg&&lg.cornerValue!==undefined?+lg.cornerValue:3.5;
   const value=Number.isFinite(raw)?raw:3.5;
   const limit=Math.min(w,h)/2;
   if(mode==='percent')return Math.min(limit,Math.max(0,limit*value/100));
@@ -2586,23 +2592,20 @@ function roundedRadius(w,h){
   return Math.min(limit,Math.max(0,value));
 }
 function updateRoundInputLimits(){
-  const mode=$('rr-mode')?.value||'mm';
-  const max=mode==='mm'?Math.max(0,+(($('d')?.value)||16)/2):mode==='percent'?100:90;
-  const step=mode==='mm'?0.1:mode==='percent'?1:1;
-  ['rr-value','ez-rr-value'].forEach(id=>{
-    const input=$(id);if(!input)return;
-    input.min='0';input.max=String(max);input.step=String(step);
-  });
-  const value=mode==='mm'?3.5:mode==='percent'?44:mode==='degree'?90:0;
-  if(mode==='degree' && !$('rr-value').dataset.touched)$('rr-value').value=value;
+  const lg=logos[sel],input=$('pcorner-value'),mode=$('pcorner-mode').value;
+  if(!input)return;
+  const layout=lg?logoLayout(sel,{w:0,h:0},$('shape').value).L:{w:+$('d').value||16,h:+$('h').value||16};
+  const max=mode==='mm'?Math.max(0,Math.min(layout.w,layout.h)/2):mode==='percent'?100:90;
+  input.min='0';input.max=String(mode==='mm'?Math.ceil(max*10)/10:max);
+  input.step=mode==='mm'?'0.1':'1';
 }
-function shapePath(ctx,cx,cy,w,h,shape,grow){
+function shapePath(ctx,cx,cy,w,h,shape,grow,lg){
   const W2=Math.max(0.1,w+2*grow),H2=Math.max(0.1,h+2*grow),x=cx-W2/2,y=cy-H2/2;
   ctx.beginPath();
   if(shape==='circle'||shape==='oval'){ctx.ellipse(cx,cy,W2/2,H2/2,0,0,Math.PI*2)}
   else if(shape==='hex'){hexPts(cx,cy,W2,H2).forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath()}
   else if(shape==='rounded'){
-    const r=roundedRadius(W2,H2);
+    const r=roundedRadius(W2,H2,lg);
     ctx.moveTo(x+r,y);ctx.arcTo(x+W2,y,x+W2,y+H2,r);ctx.arcTo(x+W2,y+H2,x,y+H2,r);
     ctx.arcTo(x,y+H2,x,y,r);ctx.arcTo(x,y,x+W2,y,r);ctx.closePath();
   }else{ctx.rect(x,y,W2,H2)}
@@ -2660,9 +2663,9 @@ function fitScale(lg,w,h){
 }
 function drawCell(ctx,lg,cx,cy,w,h,shape,bleed,ppm){
   ctx.save();
-  if(shape!=='design'){shapePath(ctx,cx,cy,w,h,shape,bleed);ctx.clip()}
+  if(shape!=='design'){shapePath(ctx,cx,cy,w,h,shape,bleed,lg);ctx.clip()}
   if(lg){
-    if(lg.bw>0&&shape!=='design'){ctx.fillStyle=lg.bc;ctx.fillRect(cx-w,cy-h,2*w,2*h);shapePath(ctx,cx,cy,w,h,shape,-lg.bw);ctx.clip()}
+    if(lg.bw>0&&shape!=='design'){ctx.fillStyle=lg.bc;ctx.fillRect(cx-w,cy-h,2*w,2*h);shapePath(ctx,cx,cy,w,h,shape,-lg.bw,lg);ctx.clip()}
     ctx.fillStyle=lg.auto?lg.corner:lg.bgc;
     ctx.fillRect(cx-w,cy-h,2*w,2*h);
     const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height;
@@ -2687,7 +2690,7 @@ function sharpen(ctx,w,h,amt){
   id.data.set(o);ctx.putImageData(id,0,0);
 }
 function getTile(lg,L,shape,bleed,ppm){
-  const key=[lg?[lg.id,lg.fit,lg.zoom,lg.ox,lg.oy,lg.auto,lg.bgc,lg.key,lg.tol,lg.sharp,lg.bw,lg.bc,lg.vec,lg.vv].join('|'):'none',L.w,L.h,shape,bleed,ppm.toFixed(3),LL()?1:0].join('#');
+  const key=[lg?[lg.id,lg.fit,lg.zoom,lg.ox,lg.oy,lg.auto,lg.bgc,lg.key,lg.tol,lg.sharp,lg.bw,lg.bc,lg.cornerMode,lg.cornerValue,lg.vec,lg.vv].join('|'):'none',L.w,L.h,shape,bleed,ppm.toFixed(3),LL()?1:0].join('#');
   if(tileCache.has(key))return tileCache.get(key);
   if(tileCache.size>(LL()?6:40))tileCache.clear();
   const tw=L.w+2*bleed,th=L.h+2*bleed,fw=Math.max(1,Math.ceil(tw*ppm)),fh=Math.max(1,Math.ceil(th*ppm));
@@ -2927,8 +2930,8 @@ function draw(ctx,k,guides){
       const li=L.assign[i],cellShape=shapeForLogo(li,shape),lg=li>=0?logos[li]:null;
       const logoL=logoLayout(li,L,shape).L;
       ctx.save();
-      if(cl.rot){ctx.translate(cl.x+(+$('cox').value||0),cl.y+(+$('coy').value||0));ctx.rotate(cl.rot*Math.PI/180);shapePath(ctx,0,0,logoL.w,logoL.h,cellShape,0)}
-      else shapePath(ctx,cl.x+(+$('cox').value||0),cl.y+(+$('coy').value||0),logoL.w,logoL.h,cellShape,0);
+      if(cl.rot){ctx.translate(cl.x+(+$('cox').value||0),cl.y+(+$('coy').value||0));ctx.rotate(cl.rot*Math.PI/180);shapePath(ctx,0,0,logoL.w,logoL.h,cellShape,0,lg)}
+      else shapePath(ctx,cl.x+(+$('cox').value||0),cl.y+(+$('coy').value||0),logoL.w,logoL.h,cellShape,0,lg);
       ctx.stroke();ctx.restore();
     });
   }
@@ -2960,7 +2963,7 @@ function renderOne(){
     x.save();x.beginPath();x.rect(cx,0,cx,ch);x.clip();d1(lg);x.restore();
     x.strokeStyle='#ffd400';x.lineWidth=1.5/k;x.beginPath();x.moveTo(cx,0);x.lineTo(cx,ch);x.stroke();
   }else d1(lg);
-  x.lineWidth=1/k;x.strokeStyle='rgba(224,16,122,.9)';shapePath(x,cx,cy,previewL.w,previewL.h,sh,0);x.stroke();
+  x.lineWidth=1/k;x.strokeStyle='rgba(224,16,122,.9)';shapePath(x,cx,cy,previewL.w,previewL.h,sh,0,lg);x.stroke();
   const g=+$('pgrid').value;
   if(g>0){
     x.strokeStyle='rgba(0,190,255,.85)';x.beginPath();
@@ -2975,7 +2978,7 @@ function renderOne(){
   }
   if($('psafe').checked){
     x.setLineDash([3/k,3/k]);x.strokeStyle='rgba(60,200,90,.95)';
-    shapePath(x,cx,cy,previewL.w,previewL.h,sh,-Math.min(previewL.w,previewL.h)*0.1);x.stroke();x.setLineDash([]);
+    shapePath(x,cx,cy,previewL.w,previewL.h,sh,-Math.min(previewL.w,previewL.h)*0.1,lg);x.stroke();x.setLineDash([]);
   }
 }
 function render(){
@@ -3113,10 +3116,10 @@ $('sheet-send').onclick=async()=>{
 function loadPanel(){
   const lg=logos[sel];$('lp').style.display=lg?'block':'none';if(!lg)return;
   $('lpn').textContent='#'+(sel+1);
-  const m={pfit:lg.fit,pzoom:lg.zoom,pox:lg.ox,poy:lg.oy,pbg:lg.bgc,ptol:lg.tol,psharp:lg.sharp,pqty:lg.qty,pbw:lg.bw,pbc:lg.bc,pshape:lg.shape||'auto',pcol:lg.vcol,pdet:lg.vdet,psm:lg.vsm,pcor:lg.vcor,pmin:lg.vmin,pmode:lg.vmode,pstack:lg.vstack};
+  const m={pfit:lg.fit,pzoom:lg.zoom,pox:lg.ox,poy:lg.oy,pbg:lg.bgc,ptol:lg.tol,psharp:lg.sharp,pqty:lg.qty,pbw:lg.bw,pbc:lg.bc,pshape:lg.shape||'auto','pcorner-mode':lg.cornerMode||'mm','pcorner-value':lg.cornerValue===undefined?3.5:lg.cornerValue,pcol:lg.vcol,pdet:lg.vdet,psm:lg.vsm,pcor:lg.vcor,pmin:lg.vmin,pmode:lg.vmode,pstack:lg.vstack};
   Object.keys(m).forEach(k=>$(k).value=m[k]);
   $('pauto').checked=lg.auto;$('pkey').checked=lg.key;$('pvec').checked=lg.vec;$('pnat').checked=lg.vnat;
-  syncLabels();drawPal();
+  updateRoundInputLimits();syncLabels();drawPal();
 }
 
 function sourceStickerSize(lg,maxSide=16){
@@ -3181,6 +3184,15 @@ function panelInput(e){
   lg.fit=$('pfit').value;lg.zoom=+$('pzoom').value;lg.ox=+$('pox').value;lg.oy=+$('poy').value;
   lg.auto=$('pauto').checked;lg.bgc=$('pbg').value;lg.key=$('pkey').checked;lg.tol=+$('ptol').value;lg.sharp=+$('psharp').value;
   lg.qty=Math.max(0,Math.floor(+$('pqty').value||0));lg.bw=Math.max(0,+$('pbw').value||0);lg.bc=$('pbc').value;lg.shape=$('pshape').value;
+  if(id==='pcorner-mode'){
+    const mode=$('pcorner-mode').value;
+    lg.cornerMode=mode;
+    lg.cornerValue=mode==='mm'?3.5:mode==='percent'?44:45;
+    $('pcorner-value').value=lg.cornerValue;
+  }else if(id==='pcorner-value'){
+    const value=+$('pcorner-value').value;
+    lg.cornerValue=Number.isFinite(value)?Math.max(0,value):0;
+  }
   if(id==='pshape'&&lg.shape!=='auto'){
     $('shape').value=lg.shape;
     fire($('shape'),'change');
@@ -3189,9 +3201,10 @@ function panelInput(e){
   lg.vcol=+$('pcol').value;lg.vdet=+$('pdet').value;lg.vsm=+$('psm').value;
   lg.vcor=+$('pcor').value;lg.vmin=+$('pmin').value;lg.vmode=$('pmode').value;lg.vstack=$('pstack').value;lg.vnat=$('pnat').checked;
   if(id==='pvec'){lg.vec=$('pvec').checked;if(lg.vec)ensureTrace(lg);else $('vecst').textContent=''}
-  syncLabels();schedule();
+  updateRoundInputLimits();syncLabels();schedule();
 }
-['pfit','pzoom','pox','poy','pauto','pbg','pkey','ptol','psharp','pqty','pbw','pbc','pshape','pvec','pcol','pdet','psm','pcor','pmin','pmode','pstack','pnat'].forEach(id=>$(id).addEventListener('input',panelInput));
+['pfit','pzoom','pox','poy','pauto','pbg','pkey','ptol','psharp','pqty','pbw','pbc','pshape','pcorner-value','pvec','pcol','pdet','psm','pcor','pmin','pmode','pstack','pnat'].forEach(id=>$(id).addEventListener('input',panelInput));
+$('pcorner-mode').addEventListener('change',panelInput);
 ['pkey','ptol','pcol','pdet','psm','pcor','pmin','pmode','pstack','pnat'].forEach(id=>$(id).addEventListener('change',()=>{const lg=logos[sel];if(lg)ensureTrace(lg)}));
 ['pcmp','pgrid','psafe'].forEach(id=>$(id).addEventListener('input',schedule));
 document.querySelectorAll('[data-n]').forEach(b=>{
@@ -3249,7 +3262,7 @@ async function makeLogo0(url){
   await new Promise((ok,no)=>{img.onload=ok;img.onerror=()=>no(new Error('Image could not be loaded.'));img.src=url});
   if(!img.naturalWidth)throw new Error('Image is empty.');
   const corner=cornerColor(img);
-  return {id:nextId++,img,url,corner,fit:'contain',zoom:100,ox:0,oy:0,auto:true,bgc:corner,key:false,tol:40,sharp:30,qty:0,bw:0,bc:'#ffffff',shape:'auto',sheetW:16,sheetH:16,customSize:false,sourceSideMm:16,vec:false,vcol:8,vdet:85,vsm:30,vcor:40,vmin:20,vmode:'cubic',vnat:true,vstack:'stacked',vdrop:[],vpal:[],vout:'',vcut:'',vimg:null,vsvg:'',vv:0,vk:''};
+  return {id:nextId++,img,url,corner,fit:'contain',zoom:100,ox:0,oy:0,auto:true,bgc:corner,key:false,tol:40,sharp:30,qty:0,bw:0,bc:'#ffffff',shape:'auto',cornerMode:'mm',cornerValue:3.5,sheetW:16,sheetH:16,customSize:false,sourceSideMm:16,vec:false,vcol:8,vdet:85,vsm:30,vcor:40,vmin:20,vmode:'cubic',vnat:true,vstack:'stacked',vdrop:[],vpal:[],vout:'',vcut:'',vimg:null,vsvg:'',vv:0,vk:''};
 }
 $('file').onchange=async e=>{
   useLogoContext('sheet');
@@ -3274,12 +3287,11 @@ $('file').onchange=async e=>{
   await pause();schedule();
   if(!fail)setTimeout(()=>{st.textContent=''},2500);
 };
-['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','vcut','dpi','rr-mode','rr-value'].forEach(id=>$(id).addEventListener('input',schedule));
-['rr-mode','rr-value'].forEach(id=>$(id).addEventListener('change',schedule));
+['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','vcut','dpi'].forEach(id=>$(id).addEventListener('input',schedule));
 
 /* ---------- save / load project ---------- */
-const GIDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw','rr-mode','rr-value'];
-const LKEYS=['shape','fit','zoom','ox','oy','auto','bgc','key','tol','sharp','qty','bw','bc','sheetW','sheetH','sourceSideMm','customSize','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vb'];
+const GIDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw'];
+const LKEYS=['shape','fit','zoom','ox','oy','auto','bgc','key','tol','sharp','qty','bw','bc','cornerMode','cornerValue','sheetW','sheetH','sourceSideMm','customSize','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vb'];
 $('psave').onclick=async()=>{
   const g={};GIDS.forEach(id=>g[id]=$(id).type==='checkbox'?$(id).checked:$(id).value);
   try{
@@ -3301,7 +3313,10 @@ $('projfile').onchange=async e=>{
     const loaded=[];
     for(const o of d.logos){
       if(!o||typeof o!=='object'||typeof o.dataUrl!=='string'||!o.dataUrl)throw new Error('logo');
-      const l=await makeLogo(o.dataUrl);LKEYS.forEach(k=>{if(k in o)l[k]=o[k]});loaded.push(l);
+      const l=await makeLogo(o.dataUrl);LKEYS.forEach(k=>{if(k in o)l[k]=o[k]});
+      if(!('cornerMode' in o)&&d.g['rr-mode'])l.cornerMode=d.g['rr-mode'];
+      if(!('cornerValue' in o)&&d.g['rr-value']!==undefined)l.cornerValue=Number(d.g['rr-value'])||0;
+      loaded.push(l);
     }
     if(d.g&&'mar' in d.g&&!('mt' in d.g))['mt','mb','ml','mr'].forEach(id=>{d.g[id]=d.g.mar});
     GIDS.forEach(id=>{if(d.g&&id in d.g){if($(id).type==='checkbox')$(id).checked=d.g[id];else $(id).value=d.g[id]}});
@@ -3314,10 +3329,10 @@ $('projfile').onchange=async e=>{
 };
 
 /* ---------- PDF vektor murni ---------- */
-function shPoly(cx,cy,w,h,s,g){w+=2*g;h+=2*g;const x=cx-w/2,y=cy-h/2,P=[];
+function shPoly(cx,cy,w,h,s,g,lg){w+=2*g;h+=2*g;const x=cx-w/2,y=cy-h/2,P=[];
   if(s==='circle'||s==='oval'){for(let i=0;i<180;i++){const a=i/180*6.2831853;P.push([cx+w/2*Math.cos(a),cy+h/2*Math.sin(a)])}}
   else if(s==='hex')return hexPts(cx,cy,w,h);
-  else if(s==='rounded'){const r=roundedRadius(w,h);[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;P.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
+  else if(s==='rounded'){const r=roundedRadius(w,h,lg);[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;P.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
   else P.push([x,y],[x+w,y],[x+w,y+h],[x,y+h]);
   return P}
 function designSvgContour(lg,cx,cy,w,h,f){
@@ -3447,8 +3462,8 @@ function vecCell(pdf,lg,L,cx,cy,shape,bleed,transparent=false,colorMode='rgb'){
   const sc=fitScale(lg,L.w,L.h),m=sc*wa/(+vb[1]),X0=cx-wa*sc/2+lg.ox/100*L.w,Y0=cy-ha*sc/2+lg.oy/100*L.h;
   const P=p=>f((X0+p[0]*m)*k)+' '+f(Y(Y0+p[1]*m));
   w('q');
-  if(lg.bw>0){w(col(lg.bc)+'\n');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed))+'f')}
-  w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed))+'W n');
+  if(lg.bw>0){w(col(lg.bc)+'\n');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
+  w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
   if(!transparent){w(col(lg.auto?lg.corner:lg.bgc)+'\n');w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f')}
   for(const p of vecPaths(lg)){
     let o='';
@@ -3474,8 +3489,8 @@ function imgCell(pdf,lg,L,cx,cy,shape,bleed,im){
   const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height,sc=fitScale(lg,L.w,L.h);
   w('q');
   try{
-    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed))+'f')}
-    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed))+'W n');
+    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
+    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
     w(col(lg.auto?lg.corner:lg.bgc)+' rg');w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f');
     pdf.addImage(im.data,im.fmt,cx-iw*sc/2+lg.ox/100*L.w,cy-ih*sc/2+lg.oy/100*L.h,iw*sc,ih*sc,im.alias,'SLOW');
   }catch(e){w('Q');throw e}
@@ -3497,8 +3512,8 @@ function hybridImageCell(pdf,lg,L,cx,cy,shape,bleed,im){
   const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height,sc=fitScale(lg,L.w,L.h);
   w('q');
   try{
-    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed))+'f')}
-    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed))+'W n');
+    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
+    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
     w(col(lg.auto?lg.corner:lg.bgc)+' rg');
     w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f');
     pdf.addImage(im.data,im.fmt,cx-iw*sc/2+lg.ox/100*L.w,cy-ih*sc/2+lg.oy/100*L.h,iw*sc,ih*sc,im.alias,'SLOW');
@@ -3512,8 +3527,8 @@ function hybridRasterTile(lg,L,shape,bleed,dpi){
   canvas.width=Math.max(1,Math.ceil(tw*ppm));canvas.height=Math.max(1,Math.ceil(th*ppm));
   const ctx=canvas.getContext('2d');
   ctx.setTransform(ppm,0,0,ppm,0,0);
-  if(lg.bw>0){shapePath(ctx,tw/2,th/2,L.w,L.h,shape,bleed);ctx.fillStyle=lg.bc;ctx.fill()}
-  if(shape!=='design'){shapePath(ctx,tw/2,th/2,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed);ctx.clip()}
+  if(lg.bw>0){shapePath(ctx,tw/2,th/2,L.w,L.h,shape,bleed,lg);ctx.fillStyle=lg.bc;ctx.fill()}
+  if(shape!=='design'){shapePath(ctx,tw/2,th/2,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg);ctx.clip()}
   ctx.fillStyle=lg.auto?lg.corner:lg.bgc;ctx.fillRect(0,0,tw,th);
   const sc=fitScale(lg,L.w,L.h);
   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
@@ -3688,8 +3703,8 @@ function svgVectorSource(lg){
   if(!iw||!ih)return null;
   return {paths:paths.join(''),iw,ih,viewBox:vb};
 }
-function svgShapePath(cx,cy,w,h,shape,grow){
-  return shPoly(cx,cy,w,h,shape,grow)
+function svgShapePath(cx,cy,w,h,shape,grow,lg){
+  return shPoly(cx,cy,w,h,shape,grow,lg)
     .map((p,i)=>`${i?'L':'M'}${p[0].toFixed(4)} ${p[1].toFixed(4)}`).join(' ')+' Z';
 }
 $('pdf').onclick=async()=>{
@@ -3952,7 +3967,7 @@ $('svg').onclick=async()=>{
       if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,physicalLayout.w,physicalLayout.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}"/>`;
       else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physicalLayout.w/2)}" ry="${f(physicalLayout.h/2)}"/>`;
       else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,physicalLayout.w,physicalLayout.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
-      else{const r=cellShape==='rounded'?roundedRadius(physicalLayout.w,physicalLayout.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+      else{const r=cellShape==='rounded'?roundedRadius(physicalLayout.w,physicalLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
       g+=svgCellRotation(cl,cx,cy,contour);
     });
     let br='';
@@ -3978,7 +3993,7 @@ function createSvgCutContours(){
     if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoL.w,logoL.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}"/>`;
     else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoL.w/2)}" ry="${f(logoL.h/2)}"/>`;
     else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoL.w,logoL.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
-    else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+    else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
     contours+=svgCellRotation(cl,cx,cy,contour);
   });
   let br='';
@@ -4047,8 +4062,8 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         const {cellShape,logoLayout}=tileSizeFor(li);
         if(originalTiles.has(li)){
           const lg=logos[li],original=originalTiles.get(li),sc=fitScale(lg,logoLayout.w,logoLayout.h);
-          const outer=svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,bleed);
-          const inner=lg.bw>0?svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,-lg.bw):outer;
+          const outer=svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,bleed,lg);
+          const inner=lg.bw>0?svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,-lg.bw,lg):outer;
           const clipId=`original-clip-${copyIndex++}`;
           if(cellShape!=='design')nativeClips.push(`<clipPath id="${clipId}" clipPathUnits="userSpaceOnUse"><path d="${lg.bw>0?inner:outer}"/></clipPath>`);
           const imgX=cx-original.iw*sc/2+lg.ox/100*logoLayout.w,imgY=cy-original.ih*sc/2+lg.oy/100*logoLayout.h;
@@ -4063,8 +4078,8 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         }
         if(vectorTiles.has(li)){
           const lg=logos[li],vector=vectorTiles.get(li),sc=fitScale(lg,logoLayout.w,logoLayout.h);
-          const outer=svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,bleed);
-          const inner=lg.bw>0?svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,-lg.bw):outer;
+          const outer=svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,bleed,lg);
+          const inner=lg.bw>0?svgShapePath(cx,cy,logoLayout.w,logoLayout.h,cellShape,-lg.bw,lg):outer;
           const outerId=`vector-outer-${copyIndex}`,innerId=`vector-inner-${copyIndex++}`;
           if(cellShape!=='design')nativeClips.push(`<clipPath id="${outerId}" clipPathUnits="userSpaceOnUse"><path d="${outer}"/></clipPath>`);
           if(lg.bw>0&&cellShape!=='design')nativeClips.push(`<clipPath id="${innerId}" clipPathUnits="userSpaceOnUse"><path d="${inner}"/></clipPath>`);
@@ -4090,7 +4105,7 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoLayout.w,logoLayout.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}"/>`;
         else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoLayout.w/2)}" ry="${f(logoLayout.h/2)}"/>`;
         else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoLayout.w,logoLayout.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
-        else{const r=cellShape==='rounded'?roundedRadius(logoLayout.w,logoLayout.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+        else{const r=cellShape==='rounded'?roundedRadius(logoLayout.w,logoLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
         cuts+=svgCellRotation(cl,cx,cy,contour);
       });
       let br='';
@@ -4193,7 +4208,7 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
         if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,physical.w,physical.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(physical.w)}" height="${f(physical.h)}"/>`;
         else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physical.w/2)}" ry="${f(physical.h/2)}"/>`;
         else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,physical.w,physical.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
-        else{const r=cellShape==='rounded'?roundedRadius(physical.w,physical.h):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physical.w)}" height="${f(physical.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
+        else{const r=cellShape==='rounded'?roundedRadius(physical.w,physical.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physical.w)}" height="${f(physical.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
         cuts+=svgCellRotation(cl,cx,cy,contour);
       });
       let background='';
@@ -4354,7 +4369,7 @@ function updateJobFilenamePreview(){
 });
 updateJobFilenamePreview();
 const PRINT_PRESET_IDS=[
-  'paper','shape','rr-mode','rr-value','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow',
+  'paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow',
   'dpi','pdpi','lossless','guide','vcut','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy',
   'credit','credit-text','ez-bord','ez-bw','job-material','job-material-custom','job-lamination','job-lamination-custom','job-finish','job-finish-custom','job-cut','job-cut-custom'
 ];
@@ -4596,11 +4611,11 @@ function drawCutContoursPdf(pdf,L,colorMode='rgb'){
     }else if(cellShape==='oval'){
       pdf.ellipse(cx,cy,rotated?physical.h/2:physical.w/2,rotated?physical.w/2:physical.h/2,'S');
     }else if(cellShape==='rounded'){
-      const radius=roundedRadius(physical.w,physical.h);
+      const radius=roundedRadius(physical.w,physical.h,logos[li]);
       const width=rotated?physical.h:physical.w,height=rotated?physical.w:physical.h;
       pdf.roundedRect(cx-width/2,cy-height/2,width,height,radius,radius,'S');
     }else{
-      const points=shPoly(cx,cy,physical.w,physical.h,cellShape,0);
+      const points=shPoly(cx,cy,physical.w,physical.h,cellShape,0,logos[li]);
       if(rotated){
         const rad=cl.rot*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);
         points.forEach(point=>{const dx=point[0]-cx,dy=point[1]-cy;point[0]=cx+dx*cos-dy*sin;point[1]=cy+dx*sin+dy*cos});
@@ -4613,7 +4628,7 @@ function isCdrMarks(){return $('mtype').value==='cdr'}
 function isPrimaMarks(){return $('mtype').value==='prima-diecut'||$('mtype').value==='prima-kisscut'}
 function cdrFrame(){
   const mv=id=>{const value=Number($(id).value);return Number.isFinite(value)&&value>=0?value:18};
-  if($('paper').value==='325x485'&&$('mtype').value==='cdr'){
+  if(Math.abs(W-325)<0.001&&Math.abs(H-485)<0.001&&$('mtype').value==='cdr'){
     const x=mv('ml'),y=mv('mt');
     return{x,y,w:W-x-mv('mr'),h:H-y-mv('mb')};
   }
@@ -4628,7 +4643,7 @@ function cutPolys(L){
   forCells(L,(cx,cy,li,cl)=>{cx+=ox;cy+=oy;const cellShape=shapeForLogo(li,s),physicalLayout=logoLayout(li,L,s).L;const w=physicalLayout.w,h=physicalLayout.h,x=cx-w/2,y=cy-h/2;let p;
     if(cellShape==='circle'||cellShape==='oval')p=arc(cx,cy,w/2,h/2);
     else if(cellShape==='hex')p=hexPts(cx,cy,w,h);
-    else if(cellShape==='rounded'){const r=roundedRadius(w,h);p=[];[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;p.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
+    else if(cellShape==='rounded'){const r=roundedRadius(w,h,li>=0?logos[li]:null);p=[];[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;p.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
     else p=[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
     if(cl&&cl.rot){const rad=cl.rot*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);p=p.map(([px,py])=>{const dx=px-cx,dy=py-cy;return[cx+dx*cos-dy*sin,cy+dx*sin+dy*cos]})}
     out.push(p)});
@@ -4686,7 +4701,7 @@ function sbsDraw(){
     x.setTransform(1,0,0,1,0,0);x.fillStyle=$('svbg').value;x.fillRect(0,0,c.width,c.height);
     x.imageSmoothingEnabled=!$('spx').checked;x.imageSmoothingQuality='high';
     x.drawImage(t,c.width/2+(-v.x-logoL.w/2)*s,c.height/2+(-v.y-logoL.h/2)*s,logoL.w*s,logoL.h*s);
-    x.save();x.translate(c.width/2-v.x*s,c.height/2-v.y*s);x.scale(s,s);x.lineWidth=dp/s;x.strokeStyle='rgba(224,16,122,.9)';shapePath(x,0,0,logoL.w,logoL.h,sh,0);x.stroke();x.restore();
+    x.save();x.translate(c.width/2-v.x*s,c.height/2-v.y*s);x.scale(s,s);x.lineWidth=dp/s;x.strokeStyle='rgba(224,16,122,.9)';shapePath(x,0,0,logoL.w,logoL.h,sh,0,lg);x.stroke();x.restore();
     {const m=$(i?'sr':'sl').value,lg=logos[sel],nm={raw:'Asli (raster)',ras:'Raster',vec:'Vektor',fin:(lg.vec&&lg.vimg?'Vektor':'Raster')}[m];x.setTransform(1,0,0,1,0,0);x.font='bold '+(13*dp)+'px system-ui';x.fillStyle='#e0107a';x.fillText(nm+' · '+outDpi()+' dpi',8*dp,18*dp)}
   });
   $('szr').value=Math.round(sbs.v[0].z*100);
@@ -4732,7 +4747,7 @@ function shDraw(){
     if(cl.x+logoL.w/2+bleed<vx0||cl.x-logoL.w/2-bleed>vx1||cl.y+logoL.h/2+bleed<vy0||cl.y-logoL.h/2-bleed>vy1)return;
     const tileKey=li+':'+cellShape,tl=t[tileKey]||(t[tileKey]=getTile(lg,logoL,cellShape,bleed,pp));
     x.drawImage(tl,cl.x-logoL.w/2-bleed,cl.y-logoL.h/2-bleed,logoL.w+2*bleed,logoL.h+2*bleed);
-    if($('guide').checked){x.strokeStyle='#e0107a';x.lineWidth=1/s;shapePath(x,cl.x,cl.y,logoL.w,logoL.h,cellShape,0);x.stroke()}
+    if($('guide').checked){x.strokeStyle='#e0107a';x.lineWidth=1/s;shapePath(x,cl.x,cl.y,logoL.w,logoL.h,cellShape,0,logo);x.stroke()}
   });
   drawMarks(x,L,true);
   $('shinfo').textContent=Math.round(s/pp*100)+'% of print pixels ('+outDpi()+' DPI)';
@@ -4771,9 +4786,8 @@ render();
 
 /* ============ Mode Mudah (pengguna awam) ============ */
 (function(){
-  const fire=(el,t)=>el.dispatchEvent(new Event(t,{bubbles:true}));
   const PRINT_TEMPLATES=[
-    {id:'cdr-305x435',paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,mtype:'cdr'},
+    {id:'cdr-305x435',paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,mtype:'cdr',credit:true},
     {id:'prima-diecut',paper:'483x325',areaW:420,areaH:280,msz:5,moff:10,mw:0.3,mtype:'prima-diecut',credit:false},
     {id:'prima-kisscut',paper:'325x483',areaW:290,areaH:430,msz:5,moff:10,mw:0.3,mtype:'prima-kisscut',credit:false}
   ];
@@ -4785,7 +4799,7 @@ render();
   }
   function applyPrintTemplate(template){
     applyingTemplate=true;
-    $('paper').value=template.paper;$('mtype').value=template.mtype;
+    $('paper').value='custom';$('mtype').value=template.mtype;
     const [pageWidth,pageHeight]=template.paper.split('x');
     $('pw').value=pageWidth;$('ph').value=pageHeight;
     const margins=template.areaW?templateMargins(template):template;
@@ -4795,7 +4809,7 @@ render();
     });
     $('msz').value=template.msz;$('moff').value=template.moff;$('mw').value=template.mw;
     ['msz','moff','mw'].forEach(id=>fire($(id),'input'));
-    if(template.credit===false){$('credit').checked=false;fire($('credit'),'input')}
+    if(typeof template.credit==='boolean'){$('credit').checked=template.credit;fire($('credit'),'input')}
     fire($('paper'),'input');
     fire($('mtype'),'input');
     applyingTemplate=false;
@@ -4804,7 +4818,10 @@ render();
   }
   function isPrintTemplateSelected(template){
     const expected=template.areaW?{...template,...templateMargins(template)}:template;
-    return $('paper').value===template.paper&&$('mtype').value===template.mtype&&
+    const [pageWidth,pageHeight]=template.paper.split('x').map(Number);
+    const actualWidth=$('paper').value==='custom'?Number($('pw').value):Number($('paper').value.split('x')[0]);
+    const actualHeight=$('paper').value==='custom'?Number($('ph').value):Number($('paper').value.split('x')[1]);
+    return Math.abs(actualWidth-pageWidth)<0.001&&Math.abs(actualHeight-pageHeight)<0.001&&$('mtype').value===template.mtype&&
       ['mt','mb','ml','mr','msz','moff','mw'].every(id=>Math.abs((parseFloat($(id).value)||0)-expected[id])<0.001);
   }
   const keep=['file','easy','cv','pdf','cost'];
@@ -4820,17 +4837,17 @@ render();
     document.querySelectorAll('#ez-layout button').forEach(b=>b.classList.toggle('on',b.dataset.v===$('layout').value));
     document.querySelectorAll('#ez-paper button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===pp));
     PRINT_TEMPLATES.forEach(template=>{
-      document.querySelector(`#ez-paper [data-print-area="${template.id}"]`).classList.toggle('on',isPrintTemplateSelected(template));
+      document.querySelector(`#ez-print-presets [data-print-area="${template.id}"]`).classList.toggle('on',isPrintTemplateSelected(template));
     });
-    const selectedTemplate=PRINT_TEMPLATES.find(template=>template.areaW&&isPrintTemplateSelected(template));
+    const selectedTemplate=PRINT_TEMPLATES.find(isPrintTemplateSelected);
     if(selectedTemplate){
-      $('ez-template-info').textContent=`${selectedTemplate.id==='prima-diecut'?'Die Cut':'Kiss Cut'} Prima print area: ${selectedTemplate.areaW} × ${selectedTemplate.areaH} mm. Sticker layout is constrained to this area; margins are calculated from the page size. Registration marks follow the supplied PDF. The magenta frame is preview-only and is not exported as a cut line.`;
+      $('ez-template-info').textContent=selectedTemplate.areaW
+        ?`${selectedTemplate.id==='prima-diecut'?'Die Cut':'Kiss Cut'} Prima preset selected: ${selectedTemplate.paper.replace('x',' × ')} mm page with a ${selectedTemplate.areaW} × ${selectedTemplate.areaH} mm working area. Sticker placement is constrained to this area; margins and registration marks follow the preset. The magenta frame is preview-only.`
+        :`CDR preset selected: 325 × 485 mm page with the 305 × 435 mm reference print frame and matching registration marks. The frame is preview-only.`;
     }else{
-      $('ez-template-info').textContent='Prima templates set the page, printable area, and registration marks; they do not create a CDR file. Die Cut Prima uses a 48.3 × 32.5 cm page with a 42 × 28 cm area. Kiss Cut Prima uses a 32.5 × 48.3 cm page with a 29 × 43 cm area. Sticker placement is calculated inside the selected print area. The magenta frame marks that area in preview only; it is not exported as a cut line.';
+      $('ez-template-info').textContent='CDR and Prima are print presets, not paper sizes. Selecting one sets its page dimensions, working area, margins, and registration marks. The magenta working-area frame is preview-only and is not exported as a cut line.';
     }
     if(document.activeElement!==$('ez-d'))$('ez-d').value=d;
-    if(document.activeElement!==$('ez-rr-mode'))$('ez-rr-mode').value=$('rr-mode').value;
-    if(document.activeElement!==$('ez-rr-value'))$('ez-rr-value').value=$('rr-value').value;
     if(document.activeElement!==$('ez-fit'))$('ez-fit').value=$('pfit').value;
     if(document.activeElement!==$('ez-h'))$('ez-h').value=$('h').value;
     const customHeight=['design','rect','oval'].includes(sh);
@@ -4872,10 +4889,6 @@ render();
   $('ez-fit').addEventListener('change',()=>{$('pfit').value=$('ez-fit').value;$('pfit').dispatchEvent(new Event('input',{bubbles:true}));schedule()});
   $('pfit').addEventListener('input',syncFitToEasy);
   $('pfit').addEventListener('change',syncFitToEasy);
-  $('ez-rr-mode').addEventListener('change',()=>{$('rr-mode').value=$('ez-rr-mode').value;$('ez-rr-value').value=$('ez-rr-mode').value==='mm'?3.5:$('ez-rr-mode').value==='percent'?44:45;$('rr-value').value=$('ez-rr-value').value;updateRoundInputLimits();fire($('rr-value'),'input');schedule()});
-  $('ez-rr-value').addEventListener('input',()=>{$('rr-value').value=$('ez-rr-value').value;fire($('rr-value'),'input');schedule();sync()});
-  $('rr-mode').addEventListener('change',()=>{$('ez-rr-mode').value=$('rr-mode').value;$('rr-value').value=$('rr-mode').value==='mm'?3.5:$('rr-mode').value==='percent'?44:45;fire($('rr-value'),'input');updateRoundInputLimits();sync()});
-  $('rr-value').addEventListener('input',()=>{$('ez-rr-value').value=$('rr-value').value;schedule()});
   document.querySelectorAll('#ez-paper button[data-v]').forEach(b=>b.onclick=()=>{$('paper').value=b.dataset.v;fire($('paper'),'input');fire($('paper'),'change');sync()});
   function syncPaperInputs(){
     readPaper();
@@ -4885,28 +4898,22 @@ render();
     schedule();
   }
   $('paper').addEventListener('change',syncPaperInputs);
-  document.querySelectorAll('#ez-paper [data-print-area]').forEach(button=>{
+  document.querySelectorAll('#ez-print-presets [data-print-area]').forEach(button=>{
     button.onclick=()=>applyPrintTemplate(PRINT_TEMPLATES.find(template=>template.id===button.dataset.printArea));
   });
-  const syncTemplateAdvanced=event=>{
+  $('paper').addEventListener('change',()=>{
     if(applyingTemplate||applyingPrintPreset)return;
-    const paperChanged=event&&event.currentTarget===$('paper');
-    const template=PRINT_TEMPLATES.find(item=>item.paper===$('paper').value&&(paperChanged||item.mtype===$('mtype').value));
-    if(template)applyPrintTemplate(template);
-    else{
-      if(paperChanged&&isPrimaMarks())$('mtype').value='L';
-      sync();
-    }
-  };
-  $('paper').addEventListener('input',syncTemplateAdvanced);
-  $('paper').addEventListener('change',syncTemplateAdvanced);
-  $('mtype').addEventListener('input',syncTemplateAdvanced);
-  $('mtype').addEventListener('change',syncTemplateAdvanced);
+    readPaper();
+    if(isPrimaMarks())$('mtype').value='L';
+    sync();
+  });
+  $('mtype').addEventListener('input',sync);
+  $('mtype').addEventListener('change',sync);
   ['mt','mb','ml','mr'].forEach(k=>{
     $('ez-'+k).addEventListener('input',()=>{const v=parseFloat($('ez-'+k).value);if(isFinite(v)&&v>=0){$(k).value=v;fire($(k),'input')}});
     $(k).addEventListener('input',()=>{if(document.activeElement!==$('ez-'+k))$('ez-'+k).value=$(k).value});
   });
-  ['shape','d','h','paper','gap','bleed','layout','rr-mode','rr-value'].forEach(id=>{
+  ['shape','d','h','paper','gap','bleed','layout'].forEach(id=>{
     $(id).addEventListener('input',sync);
     $(id).addEventListener('change',sync);
   });
@@ -4919,7 +4926,6 @@ render();
     if(e){if(!one._home){one._home=one.parentNode;one._next=one.nextSibling}$('ez-one').appendChild(one);$('pgrid').value='0';fire($('pgrid'),'input')}
     else if(one._home){one._home.insertBefore(one,one._next&&one._next.parentNode===one._home?one._next:null)}
     if(e){$('pxm').checked=false;fire($('pxm'),'input');fire($('pxm'),'change')}
-    else if(PRINT_TEMPLATES.some(template=>template.paper===$('paper').value&&template.mtype===$('mtype').value))syncTemplateAdvanced();
     try{localStorage.setItem('mode',e?'easy':'adv')}catch(_){}
     sync();
   }
