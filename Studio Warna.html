@@ -55,18 +55,38 @@ h1{font-family:inherit;font-weight:800;letter-spacing:-.04em}.sub{line-height:1.
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:900px){.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
 @media(max-width:600px){
-  .app{width:calc(100% - 16px);margin:8px auto;padding:clamp(12px,4vw,16px);border-radius:20px}
-  header{gap:10px;align-items:flex-start;margin-bottom:14px}
-  .mark{width:min(86px,24vw)}
+  body{background:#e7ecde}
+  .app{width:calc(100% - 12px);margin:6px auto;padding:12px;border-radius:18px;box-shadow:0 12px 30px rgba(18,58,44,.12)}
+  header{gap:10px;align-items:flex-start;margin-bottom:12px}
+  .mark{width:min(64px,18vw)}
   h1{font-size:clamp(20px,6vw,26px)}
-  .sub{font-size:13px;line-height:1.4}
-  .work{gap:12px}
-  .card{padding:14px;border-radius:16px}
-  .panel{gap:12px}
-  .stage{min-height:260px;padding:10px}
-  #cv{max-width:100%;max-height:52vh}
-  .bar{gap:8px}
-  .bar .btn{min-height:42px}
+  .sub{font-size:12px;line-height:1.45}
+  .work{gap:10px}
+  .card{min-width:0;padding:12px;border-radius:15px}
+  .panel{gap:10px}
+  h2{font-size:14px}
+  .up{min-height:96px;padding:12px}
+  .tabs{grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:5px}
+  .tab{min-height:40px;padding:7px 4px;font-size:11px}
+  select,input[type=number]{min-height:44px;font-size:16px}
+  input[type=range]{min-height:28px;touch-action:pan-y}
+  .btn{min-height:44px;padding:10px 12px}
+  .stage{min-height:220px;height:min(48svh,420px);padding:8px}
+  #cv{max-width:100%;max-height:44svh}
+  .bar{gap:7px}
+  .bar .btn{min-height:44px}
+  .bar .act{width:100%;margin-left:0}
+  .bar .act .btn{flex:1}
+  .cr{flex-wrap:wrap}
+  .pal{min-width:100%;padding:4px 0}
+  .pal button{width:28px;height:28px}
+  footer{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:380px){
+  .app{width:calc(100% - 8px);padding:9px}
+  .mark{width:54px}
+  .card{padding:10px}
+  .bar .act{display:grid;grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -84,7 +104,7 @@ h1{font-family:inherit;font-weight:800;letter-spacing:-.04em}.sub{line-height:1.
 
  <section class="card">
   <h2><span class="n">2</span>Set logo colors</h2>
-  <div class="tabs" data-g="logoMode" role="group" aria-label="Logo color mode"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Original</button></div>
+  <div class="tabs" data-g="logoMode" role="group" aria-label="Logo color mode" aria-describedby="studio-key-help"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Original</button></div>
   <div id="lgrp">
    <div class="cr"><b>Color A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
    <div class="cr lg2"><b>Color B</b><input type="color" id="lb" value="#DE74C8"><div class="pal" data-t="lb"></div></div>
@@ -96,7 +116,8 @@ h1{font-family:inherit;font-weight:800;letter-spacing:-.04em}.sub{line-height:1.
 
  <section class="card">
   <h2><span class="n">3</span>Set the background</h2>
-  <div class="tabs" data-g="bgMode" role="group" aria-label="Background type"><button type="button" class="tab on" data-v="transparent" aria-pressed="true">Transparent</button><button type="button" class="tab" data-v="solid" aria-pressed="false">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="radial" aria-pressed="false">Radial</button><button type="button" class="tab" data-v="mesh" aria-pressed="false">Mesh</button></div>
+  <div class="tabs" data-g="bgMode" role="group" aria-label="Background type" aria-describedby="studio-key-help"><button type="button" class="tab on" data-v="transparent" aria-pressed="true">Transparent</button><button type="button" class="tab" data-v="solid" aria-pressed="false">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="radial" aria-pressed="false">Radial</button><button type="button" class="tab" data-v="mesh" aria-pressed="false">Mesh</button></div>
+  <p class="note" id="studio-key-help">Use Tab to reach a color mode, then ← / → to change it; Home and End select the first or last option.</p>
   <p class="note">A gradient blends colors smoothly. Radial starts from a central point, while mesh creates a more organic blend.</p>
   <div id="bgrp" class="hid">
    <div class="cr"><b>Color A</b><input type="color" id="ba" value="#FFCFE7"><div class="pal" data-t="ba"></div></div>
@@ -152,7 +173,7 @@ h1{font-family:inherit;font-weight:800;letter-spacing:-.04em}.sub{line-height:1.
   <div class="stage" id="stage"><div class="empty" id="empty"><div class="big">▧</div><strong>Your logo will appear here</strong><p>Choose an image to start adjusting its colors and background.</p></div><canvas id="cv" class="hid"></canvas></div>
   <div class="bar">
    <span class="sw" id="sw"></span>
-   <div><strong style="font-size:13px">Logo color</strong><small id="hex">-</small><small id="cmyk">-</small></div>
+   <div><strong style="font-size:13px">Logo color</strong><small id="hex" aria-live="polite" aria-atomic="true">-</small><small id="cmyk" role="status" aria-live="polite" aria-atomic="true">-</small></div>
    <div class="act"><button class="btn" id="copy">Copy color code</button><button class="btn p" id="dl">Download high-resolution PNG</button><button class="btn" id="dltest">Test download</button></div>
   </div>
   <div class="status" id="stat" role="status">Ready. Choose an image to get started.</div>
@@ -179,10 +200,22 @@ function setColor(id,h){$(id).value=h.toLowerCase()}
 
 /* palette chips */
 document.querySelectorAll('.pal').forEach(p=>{PAL.forEach(h=>{const b=document.createElement('button');b.style.background=h;b.title=h;b.setAttribute('aria-label',h);b.onclick=()=>{setColor(p.dataset.t,h);sched()};p.appendChild(b)})});
-/* tabs */
-document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{M[t.dataset.g]=b.dataset.v;sync();sched()}));
+/* mode controls support both Tab/Enter and arrow-key navigation */
+document.querySelectorAll('.tabs').forEach(t=>{
+  const buttons=[...t.querySelectorAll('.tab')];
+  buttons.forEach(b=>{
+    b.onclick=()=>{M[t.dataset.g]=b.dataset.v;sync();sched()};
+    b.addEventListener('keydown',e=>{
+      if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+      e.preventDefault();
+      const current=buttons.indexOf(e.currentTarget);
+      const next=e.key==='Home'?0:e.key==='End'?buttons.length-1:(current+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;
+      buttons[next].focus();buttons[next].click();
+    });
+  });
+});
 function sync(){
-  document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>{const selected=M[t.dataset.g]===b.dataset.v;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}));
+  document.querySelectorAll('.tabs').forEach(t=>t.querySelectorAll('.tab').forEach(b=>{const selected=M[t.dataset.g]===b.dataset.v;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected));b.tabIndex=selected?0:-1}));
   $('lgrp').classList.toggle('hid',M.logoMode==='orig');
   document.querySelectorAll('.lg2').forEach(e=>e.classList.toggle('hid',M.logoMode!=='gradient'));
   $('bgrp').classList.toggle('hid',M.bgMode==='transparent');
@@ -259,7 +292,12 @@ function frame(){
   const s=+v('scale');$('size').textContent=`Canvas size: ${W*s} × ${H*s} px (preview ${o.w} × ${o.h})`;
   const h=v('la');$('sw').style.background=M.logoMode==='gradient'?`linear-gradient(135deg,${v('la')},${v('lb')})`:(M.logoMode==='orig'?'conic-gradient(#EB683C,#F9DB48,#479D53,#4D84F5,#DE74C8,#EB683C)':h);
   if(M.logoMode==='orig'){$('hex').textContent='Original logo colors';$('cmyk').textContent='Unchanged'}
-  else{$('hex').textContent=M.logoMode==='gradient'?`${v('la').toUpperCase()} to ${v('lb').toUpperCase()}`:v('la').toUpperCase();const c=cmyk(h);$('cmyk').textContent=`C ${c[0]} · M ${c[1]} · Y ${c[2]} · K ${c[3]} (simulation)`}
+  else{
+    $('hex').textContent=M.logoMode==='gradient'?`${v('la').toUpperCase()} to ${v('lb').toUpperCase()}`:v('la').toUpperCase();
+    const format=c=>`C ${c[0]} · M ${c[1]} · Y ${c[2]} · K ${c[3]}`;
+    const first=format(cmyk(v('la')));
+    $('cmyk').textContent=M.logoMode==='gradient'?`${first} → ${format(cmyk(v('lb')))} (simulation)`:`${first} (simulation)`;
+  }
 }
 function sched(){if(pend)return;pend=true;requestAnimationFrame(frame)}
 

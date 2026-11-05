@@ -16,12 +16,16 @@ Mau jadi file APK untuk dibagikan atau Play Store?
 
 Catatan: file index.html di dalam folder ini tidak bisa diinstal bila hanya dibuka langsung dari penyimpanan HP (file://). Harus lewat hosting HTTPS.
 
+Navigasi aplikasi menampilkan alat utama; Vektor Trace, Pratinjau File, dan Invoice ada di menu "More tools". Pada tab Sticker Sheet, "Quick setup" menampilkan alur dasar dan ekspor PDF. Pilih "All settings" untuk membuka semua pengaturan dan format ekspor lanjutan. Fitur tetap tersedia; mode ini hanya mengatur tampilan.
+Gunakan Tab lalu tombol panah kiri/kanan, Home, atau End untuk navigasi tab dengan keyboard. Buka More tools dengan Enter atau Space, tekan Esc untuk menutupnya. Langkah Quick setup dapat dipilih untuk lompat ke upload, pilihan bentuk, atau ekspor.
+
 Batas gambar dan ekspor:
 - Tidak ada batas ukuran file atau megapiksel untuk unggahan gambar.
 - PNG dibatasi maksimal 25 megapiksel dan sisi terpanjang 12.000 piksel. Jika batas perangkat tercapai saat membuat PNG atau PDF, pilih coba lagi, turunkan resolusi otomatis, atau batalkan.
 - Saat resolusi diturunkan, aplikasi mencoba bertahap dan menampilkan ukuran serta DPI hasil akhirnya. PDF lossless dapat beralih ke raster beresolusi lebih rendah hanya jika pengguna memilih menurunkan resolusi.
-- SVG lembar menyematkan gambar sumber PNG/JPEG satu kali dan memakai ulang untuk duplikat tanpa menurunkan resolusi; logo dengan efek yang perlu diproses piksel tetap dirender sesuai DPI ekspor.
-- Gambar PNG pada PDF lembar stiker dikompresi secara lossless; kompresi ini tidak mengubah piksel atau menurunkan resolusi. PDF Invoice memakai dialog cetak browser.
+- SVG lembar menyematkan gambar PNG/JPEG sumber sekali per desain dan memakainya ulang pada stiker duplikat, sehingga file tetap ringkas dan resolusi tidak ditentukan oleh DPI ekspor. Artwork yang perlu efek berbasis piksel mengikuti DPI ekspor; garis potong tetap berupa vektor. SVG Hybrid juga mempertahankan artwork hasil trace sebagai vektor.
+- Switch warna PDF **RGB / CMYK** ada di bagian ekspor Sticker Sheet dan berlaku untuk ekspor PDF. CMYK menghasilkan warna DeviceCMYK melalui konversi generik dari RGB, tanpa profil ICC; pada PDF Hybrid, artwork yang sudah ditrace tetap berupa vektor. Hasil bisa berbeda menurut mesin dan bahan, jadi tanyakan profil yang diminta ke percetakan. SVG tidak dipengaruhi switch ini.
+- Dalam mode RGB, gambar PNG pada PDF lembar stiker dikompresi secara lossless; kompresi ini tidak mengubah piksel atau menurunkan resolusi. Mode CMYK merasterkan artwork raster sesuai DPI PDF yang dipilih, sementara artwork vektor pada PDF Hybrid tetap vektor; opsi lossless hanya berlaku untuk RGB. PDF Invoice memakai dialog cetak browser.
 
 Penghapus latar:
 - "Hapus latar otomatis" mendeteksi warna dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut terhapus.
@@ -30,6 +34,12 @@ Penghapus latar:
 - Perbandingan asli dan hasil tersedia lewat slider geser setelah penghapusan selesai.
 - Kedua alat berjalan sepenuhnya di perangkat. Hasilnya dapat diunduh atau dikirim ke Studio Warna dan Lembar Stiker.
 
+Cut Image:
+- Pilih ukuran potong fisik (mm), bentuk persegi panjang, lingkaran, oval, persegi panjang membulat, atau heksagon.
+- Seret artwork untuk mengatur posisi; atur skala artwork dan resolusi ekspor 150, 300, atau 600 dpi.
+- Gunakan Erase brush untuk menghapus bagian gambar secara manual. Ukuran dan hardness kuas dapat diatur; Undo/Redo (Ctrl+Z, Ctrl+Y; di Mac Cmd+Z, Cmd+Shift+Z) mendukung hingga 40 sapuan terakhir.
+- Unduh hasil sebagai PNG transparan (metadata resolusi cetak ikut disimpan) atau kirim langsung ke Sticker Sheet. Batas ekspor 25 megapiksel dan sisi 12.000 piksel.
+
 Upscaler:
 - Tab Upscaler memperbesar gambar 2×, 3×, atau 4× sepenuhnya offline menggunakan interpolasi browser berkualitas tinggi atau seimbang.
 - Interpolasi memperhalus hasil pembesaran, tetapi tidak menciptakan detail baru seperti upscaler AI. Ukuran hasil dibatasi maksimal 25 megapiksel dan sisi 12.000 piksel; bila perangkat gagal memproses, tersedia opsi coba lagi, turunkan resolusi, atau batalkan.
@@ -37,7 +47,11 @@ Upscaler:
 
 Studio Warna:
 - Buat variasi logo secara batch hingga 100 desain; hasil dapat diunduh sebagai ZIP atau PNG satu per satu.
+- Pilihan mode warna mendukung tombol panah kiri/kanan, Home, dan End. Perkiraan CMYK menampilkan kedua ujung gradient; hasilnya simulasi RGB, bukan profil warna khusus percetakan.
 - SVG tanpa gambar berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
+- Untuk impor ke CorelDRAW, gunakan tombol **Download SVG for CorelDRAW**: artwork satu lembar disematkan sebagai satu PNG sesuai DPI cetak, sementara garis potong dan marka tetap vektor.
+- Untuk memisahkan produksi, gunakan menu **Two synchronized PDFs for CorelDRAW**: PDF 1 berisi artwork stiker + marka untuk dicetak tanpa kontur potong; PDF 2 berisi marka yang sama + kontur potong magenta tanpa artwork. Unduh PDF 1 dahulu, lalu PDF 2. Jika unggahan atau pengaturan berubah, unduh ulang keduanya; impor pada ukuran dan posisi halaman asli agar tetap sinkron.
+- Untuk menerima keduanya sekaligus, klik **Download both PDFs as ZIP**. Arsip ZIP berisi PDF artwork/marka dan PDF marka/kontur cutting yang sinkron.
 - Ekspor mengikuti batas 25 megapiksel dan sisi 12.000 piksel. Ukuran total PNG dalam batch dibatasi 64 MB agar penggunaan memori tetap terkendali.
 - Tidak ada batas ukuran file atau megapiksel untuk unggahan.
 - Kontrol tab dan unggah gambar mendukung keyboard; preferensi reduced-motion dan indikator fokus keyboard turut dihormati.
@@ -49,7 +63,9 @@ Invoice:
 - Tab **Invoice** menyediakan editor, cetak/PDF, pengiriman WhatsApp, dan riwayat invoice. Data tersimpan secara lokal dan terpisah dari data alat stiker di browser perangkat ini.
 
 Nama file lembar cetak:
-- Templat CDR potret tersedia pada pilihan cepat: halaman 325 × 485 mm dengan bingkai magenta 305 × 435 mm sebagai panduan area print di preview saja, sesuai posisi file referensi (margin sekitar 10 mm kiri/kanan, 32,85 mm atas, dan 17,15 mm bawah). Bingkai tidak diekspor sebagai jalur potong. Marka hitam berupa siku L terbuka di empat sudut bingkai serta dua titik bulat di atas kertas. Preset menjaga jarak aman minimal 5 mm antara stiker dan siku L. Untuk grid, posisi semua bentuk dan ukuran stiker dihitung agar muat sebanyak mungkin; sisa ruang dibagi pada jarak antarstiker tanpa mengurangi jarak minimum dan stiker yang lebih besar dari area bermargin tidak ditempatkan. Stiker bulat memakai zigzag khusus CDR dan sisa ruang dibagi rata, dengan jarak minimum antarstiker tetap terjaga. Kontur magenta pada setiap stiker adalah jalur potong sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Siku L dan titik registrasi tidak dimasukkan ke jalur potong stiker. Preset ini terpisah dari A3+ standar.
+- Pilih layout **Standard** untuk baris lurus non-zigzag, **Efficient** untuk membandingkan grid lurus dengan susunan rapat stiker bulat dan memilih jumlah lebih banyak, atau **Zigzag** untuk memaksa susunan baris selang-seling stiker bulat. Bentuk lain tetap memakai grid atau pengemasan berdasarkan ukuran.
+- Preset **Die Cut Prima** memakai halaman lanskap 483 × 325 mm dengan area kerja tepat 420 × 280 mm; margin dihitung otomatis dan layout stiker disesuaikan ke area tersebut. Marka titik sudut, silang tengah sisi, dan panahnya mengikuti PDF. **Kiss Cut Prima** memakai halaman potret 325 × 483 mm dengan area kerja tepat 290 × 430 mm; margin dan layout stiker dihitung otomatis. Marka siku sudut dan titik registrasinya mengikuti PDF. Marka ikut pada ekspor PDF, SVG, dan DXF. Bingkai magenta menunjukkan area kerja di preview saja; bingkai ini bukan jalur potong stiker dan tidak diekspor.
+- Templat CDR potret tersedia pada pilihan cepat: halaman 325 × 485 mm dengan bingkai magenta 305 × 435 mm sebagai panduan area print di preview saja, sesuai posisi file referensi (margin sekitar 10 mm kiri/kanan, 32,85 mm atas, dan 17,15 mm bawah). Bingkai tidak diekspor sebagai jalur potong. Marka hitam berupa siku L terbuka di empat sudut bingkai serta dua titik bulat di atas kertas. Stiker ditempatkan dengan jarak aman minimal 5 mm dari batas bingkai/marka; bingkai tetap pada posisi referensi. Untuk grid, posisi semua bentuk dan ukuran stiker dihitung agar muat sebanyak mungkin; sisa ruang dibagi pada jarak antarstiker tanpa mengurangi jarak minimum dan stiker yang lebih besar dari area bermargin tidak ditempatkan. Kontur magenta pada setiap stiker adalah jalur potong sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Siku L dan titik registrasi tidak dimasukkan ke jalur potong stiker. Preset ini terpisah dari A3+ standar.
 - Atur nama pesanan, bahan stiker, laminasi, finishing, dan jenis potongan pada Lembar Stiker.
 - PDF, PNG, SVG, DXF, dan PLT memakai nama yang mencantumkan spesifikasi tersebut, ukuran kertas, bentuk, dan ukuran stiker.
 - Teks tepi lembar dapat diaktifkan, diubah, atau dikosongkan di Lembar Stiker. Teks dicetak di tengah tepi bawah lembar, bukan pada setiap stiker.
