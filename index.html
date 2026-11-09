@@ -1266,8 +1266,8 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 </div>
 <div class="card adv">
 <h2>Sheet edge &amp; sticker border</h2>
-<div class="row" style="margin-top:0"><input type="checkbox" id="credit" checked><label for="credit">Print text along the sheet edge</label></div>
-<label class="f" style="margin-top:8px">Sheet edge text<input id="credit-text" type="text" maxlength="100" value="Proletar Project · Supporting small businesses"></label>
+<div class="row" style="margin-top:0"><input type="checkbox" id="credit"><label for="credit">Print text along the sheet edge</label></div>
+<label class="f" style="margin-top:8px">Sheet edge text<input id="credit-text" type="text" maxlength="100" value=""></label>
 <p class="info" style="margin:6px 0 0">Text is printed at the center of the bottom edge, not on each sticker.</p>
 <hr class="sep">
 <div class="row"><input type="checkbox" id="ez-bord"><label for="ez-bord"><b>Automatic white border</b> (white outline around each sticker / die-cut line)</label></div>
@@ -3829,6 +3829,30 @@ function addCmykCanvas(pdf,canvas,x,y,w,h,alias,rotation=0){
   const image=ctx.getImageData(0,0,canvas.width,canvas.height);
   pdf.addImage({data:image.data,width:canvas.width,height:canvas.height},'RGBA',x,y,w,h,alias,'SLOW',rotation);
 }
+function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
+  const label=String(text||'').trim();
+  if(!label)return;
+  const pxPerMm=96/25.4,scale=4,maxWidth=Math.max(1,(W-12)*pxPerMm);
+  let fontSize=7.4*96/72;
+  const measureCanvas=document.createElement('canvas'),measureCtx=measureCanvas.getContext('2d');
+  if(!measureCtx)throw new Error('Could not prepare sheet edge text for PDF export.');
+  const font=()=>`${fontSize}px Arial, Helvetica, sans-serif`;
+  measureCtx.font=font();
+  let measured=measureCtx.measureText(label).width;
+  if(measured>maxWidth)fontSize*=maxWidth/measured;
+  measureCtx.font=font();
+  measured=measureCtx.measureText(label).width;
+  const textWidth=Math.min(maxWidth,measured)+2,textHeight=Math.max(4,fontSize*1.6);
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.ceil(textWidth*scale);canvas.height=Math.ceil(textHeight*scale);
+  const ctx=canvas.getContext('2d');
+  if(!ctx)throw new Error('Could not render sheet edge text for PDF export.');
+  ctx.scale(scale,scale);ctx.font=font();ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(label,textWidth/2,textHeight/2);
+  const width=textWidth/pxPerMm,height=textHeight/pxPerMm,x=W/2-width/2,y=H-6-height/2;
+  if(colorMode==='cmyk')addCmykCanvas(pdf,canvas,x,y,width,height,'sheet-edge-text');
+  else pdf.addImage(canvas.toDataURL('image/png'),'PNG',x,y,width,height,'sheet-edge-text','SLOW');
+}
 function setPdfColor(pdf,hex,mode='rgb',stroke=false){
   if(mode==='cmyk'){pdf.internal.write(pdfColorOperator(hex,mode,stroke));return}
   const raw=String(hex||'#000000').replace('#',''),r=parseInt(raw.slice(0,2),16)||0,g=parseInt(raw.slice(2,4),16)||0,b=parseInt(raw.slice(4,6),16)||0;
@@ -3958,13 +3982,7 @@ $('pdf').onclick=async()=>{
     const pdf=new jspdf.jsPDF({unit:'mm',format:[W,H],orientation:W>H?'landscape':'portrait',compress:true});
     if(isCmyk)enableCmykImages(pdf);
     const edgeText=$('credit').checked?$('credit-text').value.trim():'';
-    if(edgeText){
-      const maxWidth=Math.max(1,W-12);pdf.setFontSize(7.4);
-      const textWidth=pdf.getTextWidth(edgeText);
-      if(textWidth>maxWidth)pdf.setFontSize(7.4*maxWidth/textWidth);
-      if(isCmyk)pdf.internal.write('0 0 0 1 k');else pdf.setTextColor(0,0,0);
-      pdf.text(edgeText,W/2,H-6,{align:'center',baseline:'middle'});
-    }
+    if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
     const urls={},imgs={};
     forCells(L,(cx,cy,li,cl)=>{
       const lg=logos[li],id=lg?lg.id:0;
@@ -4038,13 +4056,7 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
     const pdf=new jspdf.jsPDF({unit:'mm',format:[W,H],orientation:W>H?'landscape':'portrait',compress:true});
     if(isCmyk)enableCmykImages(pdf);
     const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
-    if(edgeText){
-      const maxWidth=Math.max(1,W-12);pdf.setFontSize(7.4);
-      const textWidth=pdf.getTextWidth(edgeText);
-      if(textWidth>maxWidth)pdf.setFontSize(7.4*maxWidth/textWidth);
-      if(isCmyk)pdf.internal.write('0 0 0 1 k');else pdf.setTextColor(0,0,0);
-      pdf.text(edgeText,W/2,H-6,{align:'center',baseline:'middle'});
-    }
+    if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
     const nativeImages={},rasterTiles=new Map();
     let vectors=0,native=0,rasterized=0;
     forCells(L,(cx,cy,li,cl)=>{
