@@ -98,6 +98,134 @@ hr.sep{border:0;border-top:1px solid var(--bd);margin:14px 0}
 .pdf-color-control>strong{font-size:14px}
 .pdf-color-toggle{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--bd);border-radius:12px;background:var(--bg)}
 .pdf-color-toggle button{min-width:76px;padding:8px 14px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--tx);font:700 14px system-ui;cursor:pointer;touch-action:manipulation}
+.layout-editor-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,340px);gap:12px;align-items:start}
+.layout-editor-grid>.card,.layout-editor-panel>.card{margin:0}
+.layout-editor-panel{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 110px);overflow-y:auto;overscroll-behavior:contain}
+.layout-editor-stage{height:min(72vh,900px);min-height:420px;overflow:hidden;border:1px solid rgba(18,58,44,.16);border-radius:16px;background:linear-gradient(145deg,#e1e6e3,#ccd4d0);box-shadow:inset 0 1px 5px rgba(18,58,44,.08);touch-action:none}
+#layout-editor-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#layout-editor-canvas.dragging{cursor:grabbing}
+#layout-editor-canvas.space-pan{cursor:grab!important}
+#layout-editor-canvas.tool-select{cursor:move}
+#layout-editor-canvas.tool-transform{cursor:default}
+#layout-editor-canvas.tool-marquee,#layout-editor-canvas.tool-crop,#layout-editor-canvas.tool-magic-eraser,#layout-editor-canvas.tool-bucket,#layout-editor-canvas.tool-brush,#layout-editor-canvas.tool-shape{cursor:crosshair}
+#layout-editor-canvas.tool-text{cursor:text}
+#layout-editor-canvas.pan-ready{cursor:grab}
+.layout-layers{display:grid;gap:6px;max-height:210px;overflow:auto}
+.layout-layer{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);text-align:left}
+.layout-layer.on{border-color:#1687f8;background:#252e38;box-shadow:inset 2px 0 #1687f8}
+.layout-layer span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layout-layer-row{display:flex;align-items:center;gap:6px;min-width:0}
+.layout-layer-row>.layout-layer{flex:1;min-width:0}
+.layout-layer-row>.layout-layer{cursor:grab;touch-action:none}
+.layout-layer-row>.layout-layer:active{cursor:grabbing}
+.layout-layer-row.dragging{opacity:.45}
+.layout-layer-row.drop-before{box-shadow:0 -2px #1687f8}
+.layout-layer-row.drop-after{box-shadow:0 2px #1687f8}
+.layout-layer-visibility,.layout-layer-lock{display:grid;place-items:center;flex:none;width:32px;height:32px;padding:6px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+.layout-layer-visibility svg,.layout-layer-lock svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.layout-tool-options[hidden],.layout-option-group[hidden],.layout-tool-options [hidden],.layout-editor-panel [hidden]{display:none!important}
+.layout-tool-options .layout-option-group{display:grid;gap:8px}
+.layout-tool-options .row{margin-top:0}
+.layout-editor-panel .grid{gap:8px}
+.layout-tools{display:flex;gap:7px;flex-wrap:wrap}
+.layout-tools button{flex:1 1 100px;min-width:0}
+.layout-tools[hidden]{display:none!important}
+.layout-tool-modes{padding:5px;border:1px solid var(--bd);border-radius:12px;background:var(--bg)}
+.layout-tool-modes button{min-height:40px;padding:8px;font-size:12px}
+.layout-tool-modes button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.layout-tool-modes button span{font-size:10px;line-height:1.1}
+.layout-tool-modes button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.layout-status{min-height:1.5em;margin:8px 0 0}
+@media(min-width:901px){
+  body.tab-layout{background:var(--bg);color:var(--tx)}
+  body.tab-layout main{width:100%;max-width:none;min-height:100vh;margin:0;padding:10px 16px 16px;border:0;border-radius:0;background:var(--bg);box-shadow:none;backdrop-filter:none}
+  body.tab-layout .brand-head{display:none}
+  body.tab-layout .toolnav{top:0;margin-bottom:12px;padding:4px;border-color:var(--bd);border-radius:8px;background:var(--card);box-shadow:0 6px 20px rgba(18,58,44,.12)}
+  body.tab-layout .maintabs{gap:4px;padding:3px;border:0;background:transparent}
+  body.tab-layout .maintabs button{min-height:44px;padding:8px 10px;border-radius:7px}
+  body.tab-layout .maintabs button.on{border-color:var(--ac);background:var(--ac);color:#fff}
+  body.tab-layout .more-tools>summary{min-height:48px;border-color:var(--bd);border-radius:7px;background:var(--surface);color:var(--tx)}
+  body.tab-layout #layout-editor-panel{padding:0;border:0;background:transparent;box-shadow:none}
+  body.tab-layout #layout-editor-panel>h2,body.tab-layout #layout-editor-panel>.info{display:none}
+  body.tab-layout .layout-editor-grid{grid-template-columns:minmax(0,1fr) minmax(300px,340px);gap:12px}
+  body.tab-layout .layout-editor-panel{max-height:calc(100vh - 160px);gap:10px}
+  body.tab-layout .layout-editor-panel>.card{padding:12px;border-color:var(--bd);border-radius:8px;background:var(--card);color:var(--tx);box-shadow:0 4px 14px rgba(18,58,44,.06)}
+  body.tab-layout #layout-editor-status{margin:8px 0 0;padding:9px 10px;border:1px solid var(--bd);border-radius:7px;background:var(--bg);color:var(--mut)}
+  body.tab-layout .layout-editor-panel input[type=range],body.tab-layout .layout-editor-panel input[type=checkbox]{accent-color:var(--ac)}
+  body.tab-layout .layout-editor-panel .layout-layer{border-color:var(--bd);background:var(--bg);color:var(--tx)}
+  body.tab-layout .layout-editor-panel .layout-layer.on{border-color:var(--ac);background:rgba(15,94,74,.08);color:var(--deep);box-shadow:inset 3px 0 var(--gold)}
+  body.tab-layout .layout-layer-visibility,body.tab-layout .layout-layer-lock{border-color:var(--bd);background:var(--bg);color:var(--tx)}
+  body.tab-layout .layout-layer-lock[aria-pressed=true]{color:var(--ac)}
+  body.tab-layout .layout-editor-grid>.card:last-child{grid-column:1;grid-row:1;position:sticky;top:80px;height:calc(100vh - 180px);max-height:calc(100vh - 180px);min-height:480px;display:grid;grid-template-columns:54px minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;gap:8px;overflow:hidden;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);box-shadow:0 8px 26px rgba(18,58,44,.12);z-index:5}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tool-modes{grid-column:1;grid-row:1/5;display:flex;flex-direction:column;align-self:start;gap:4px;padding:5px;border-color:var(--bd);border-radius:7px;background:var(--bg)}
+  body.tab-layout .layout-tool-modes button{flex:0 0 48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;min-width:0;min-height:48px;padding:3px 1px;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--mut);font-size:8px;font-weight:600;line-height:1;white-space:normal}
+  body.tab-layout .layout-tool-modes button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+  body.tab-layout .layout-tool-modes button span{font-size:8px}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tool-modes button.on{border-color:var(--gold);background:var(--ac);color:#fff;box-shadow:0 0 0 1px rgba(201,162,75,.55),0 0 12px rgba(201,162,75,.22)}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tools:not(.layout-tool-modes){grid-column:2;grid-row:1;margin:0!important}
+  body.tab-layout #layout-crop-controls{grid-row:2;align-items:center}
+  body.tab-layout .layout-editor-grid>.card:last-child>#layout-tool-help{grid-column:2;grid-row:4;margin:0;font-size:11px;line-height:1.35}
+  body.tab-layout .layout-editor-stage{grid-column:2;grid-row:3;height:auto;min-height:0;border-color:var(--bd);border-radius:4px;background:linear-gradient(145deg,#e1e6e3,var(--surface));box-shadow:inset 0 0 32px rgba(18,58,44,.12)}
+  body.tab-layout #layout-editor-canvas{cursor:grab}
+  body.tab-layout #layout-editor-canvas.tool-select{cursor:move}
+  body.tab-layout #layout-editor-canvas.tool-transform{cursor:default}
+  body.tab-layout #layout-editor-canvas.tool-marquee,body.tab-layout #layout-editor-canvas.tool-crop,body.tab-layout #layout-editor-canvas.tool-magic-eraser,body.tab-layout #layout-editor-canvas.tool-bucket,body.tab-layout #layout-editor-canvas.tool-brush,body.tab-layout #layout-editor-canvas.tool-shape{cursor:crosshair}
+  body.tab-layout #layout-editor-canvas.tool-text{cursor:text}
+  body.tab-layout #layout-editor-canvas.dragging{cursor:grabbing!important}
+  body.tab-layout #layout-editor-canvas.space-pan:not(.dragging){cursor:grab!important}
+  body.tab-layout .layout-editor-panel .layout-tools button:disabled{opacity:.45}
+  body.tab-layout .layout-editor-panel #layout-zoom-out,body.tab-layout .layout-editor-panel #layout-fit,body.tab-layout .layout-editor-panel #layout-zoom-in{flex:1 1 0;min-width:0;padding:8px 5px}
+  body.tab-layout .layout-editor-panel #layout-undo,body.tab-layout .layout-editor-panel #layout-redo{flex:1 1 0;min-width:0}
+  body.tab-layout .layout-editor-panel .layout-option-group label.f{margin:0}
+}
+@media(max-width:900px){
+  .layout-editor-grid{grid-template-columns:1fr}
+  .layout-editor-panel{grid-column:1;grid-row:1;max-height:none;overflow:visible}
+  .layout-editor-stage{height:60svh;min-height:360px}
+  .layout-editor-grid>.card:last-child{grid-column:1;grid-row:2}
+  .layout-editor-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .layout-editor-panel>.card{margin:0}
+  .layout-editor-panel>.card:first-child{grid-column:1/-1}
+  .layout-tool-modes{display:flex;justify-content:center;gap:4px}
+  .layout-tool-modes button{flex:1 1 64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;padding:5px}
+  body.tab-layout{background:var(--bg);color:var(--tx)}
+  body.tab-layout main{background:var(--bg);color:var(--tx)}
+  body.tab-layout .toolnav{padding:4px;border-color:var(--bd);border-radius:8px;background:var(--card);box-shadow:0 6px 20px rgba(18,58,44,.12)}
+  body.tab-layout .maintabs button{border-color:var(--bd);background:var(--card);color:var(--tx)}
+  body.tab-layout .maintabs button.on{border-color:var(--ac);background:var(--ac);color:#fff}
+  body.tab-layout .more-tools>summary{border-color:var(--bd);background:var(--surface);color:var(--tx)}
+  body.tab-layout #layout-editor-panel{border-color:var(--bd);background:transparent;color:var(--tx)}
+  body.tab-layout .layout-editor-panel>.card{border-color:var(--bd);background:var(--card);color:var(--tx);box-shadow:0 4px 14px rgba(18,58,44,.06)}
+  body.tab-layout #layout-editor-status{border-color:var(--bd);background:var(--bg);color:var(--mut)}
+  body.tab-layout .layout-editor-panel input[type=range],body.tab-layout .layout-editor-panel input[type=checkbox]{accent-color:var(--ac)}
+  body.tab-layout .layout-editor-panel .layout-layer{border-color:var(--bd);background:var(--bg);color:var(--tx)}
+  body.tab-layout .layout-editor-panel .layout-layer.on{border-color:var(--ac);background:rgba(15,94,74,.08);color:var(--deep);box-shadow:inset 3px 0 var(--gold)}
+  body.tab-layout .layout-layer-visibility,body.tab-layout .layout-layer-lock{border-color:var(--bd);background:var(--bg);color:var(--tx)}
+  body.tab-layout .layout-layer-lock[aria-pressed=true]{color:var(--ac)}
+  body.tab-layout .layout-editor-grid>.card:last-child{display:grid;grid-template-columns:54px minmax(0,1fr);grid-template-rows:auto auto minmax(300px,1fr) auto;gap:8px;overflow:hidden;padding:10px;border-color:var(--bd);border-radius:8px;background:var(--card);color:var(--tx)}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tool-modes{grid-column:1;grid-row:1/5;padding:5px;border-color:var(--bd);border-radius:7px;background:var(--bg)}
+  body.tab-layout .layout-tool-modes button{border-color:transparent;background:transparent;color:var(--mut)}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tool-modes button.on{border-color:var(--gold);background:var(--ac);color:#fff;box-shadow:0 0 0 1px rgba(201,162,75,.55),0 0 12px rgba(201,162,75,.22)}
+  body.tab-layout .layout-editor-grid>.card:last-child>.layout-tools:not(.layout-tool-modes){grid-column:2;grid-row:1;margin:0!important}
+  body.tab-layout #layout-crop-controls{grid-row:2;align-items:center}
+  body.tab-layout .layout-editor-grid>.card:last-child>#layout-tool-help{grid-column:2;grid-row:4;margin:0;font-size:11px;line-height:1.35}
+  body.tab-layout .layout-editor-stage{grid-column:2;grid-row:3;height:60svh;min-height:300px;border-color:var(--bd);background:linear-gradient(145deg,#e1e6e3,var(--surface))}
+  body.tab-layout .layout-editor-panel .layout-tools button:disabled{opacity:.45}
+  body.tab-layout .layout-editor-panel #layout-zoom-out,body.tab-layout .layout-editor-panel #layout-fit,body.tab-layout .layout-editor-panel #layout-zoom-in{flex:1 1 0;min-width:0;padding:8px 5px}
+  body.tab-layout .layout-editor-panel #layout-undo,body.tab-layout .layout-editor-panel #layout-redo{flex:1 1 0;min-width:0}
+  body.tab-layout .layout-editor-panel .layout-option-group label.f{margin:0}
+}
+@media(max-width:560px){
+  .layout-editor-panel{grid-template-columns:1fr}
+  .layout-editor-panel>.card:first-child{grid-column:auto}
+  .layout-editor-stage{height:56svh;min-height:300px}
+}
+body.tab-layout #layout-editor-canvas.tool-select{cursor:move}
+body.tab-layout #layout-editor-canvas.tool-transform{cursor:default}
+body.tab-layout #layout-editor-canvas.tool-marquee,body.tab-layout #layout-editor-canvas.tool-crop,body.tab-layout #layout-editor-canvas.tool-magic-eraser,body.tab-layout #layout-editor-canvas.tool-bucket,body.tab-layout #layout-editor-canvas.tool-brush,body.tab-layout #layout-editor-canvas.tool-shape{cursor:crosshair}
+body.tab-layout #layout-editor-canvas.tool-text{cursor:text}
+body.tab-layout #layout-editor-canvas.dragging{cursor:grabbing!important}
+body.tab-layout #layout-editor-canvas.space-pan:not(.dragging){cursor:grab!important}
 .pdf-color-toggle button[aria-pressed="true"]{border-color:var(--ac);background:var(--ac);color:#fff}
 #splash{position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 50% 35%,#2a0f0b,#0d0d0d 70%);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .6s,visibility .6s}
 #splash.hide{opacity:0;visibility:hidden}
@@ -156,6 +284,9 @@ body.tab-viewer #file-viewer-card{display:block!important}
 #invoice-card{display:none}
 body.tab-invoice main > .card:not(#invoice-card),body.tab-invoice .modebar,body.tab-invoice .vcard{display:none!important}
 body.tab-invoice #invoice-card{display:block!important}
+body.tab-layout main > *:not(.brand-head):not(.toolnav):not(#keyboard-tab-help):not(#layout-editor-panel):not(footer){display:none!important}
+#layout-editor-panel{display:none}
+body.tab-layout #layout-editor-panel{display:block!important}
 #invoice-card{margin:0;padding:0;border:0;background:transparent}
 #invoice-card>.invoice-title,#invoice-card>.info{display:none}
 .invoice-host{min-height:640px}
@@ -277,21 +408,11 @@ footer b{color:var(--tx)}
 .thumbs .thumb-delete{position:static;width:auto;min-width:74px;height:auto;min-height:32px;padding:5px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit;white-space:nowrap;cursor:pointer}
 .thumbs>button{position:static;width:auto;height:auto;padding:4px;border:2px solid transparent;border-radius:12px;background:transparent;color:var(--tx);cursor:pointer}
 .thumbs>button[aria-pressed=true]{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--card))}
-#sbs{display:none;position:fixed;inset:0;z-index:60;background:#111;flex-direction:column}
-#sbs.on{display:flex}
-#sbs .bar{display:flex;gap:6px;padding:8px;align-items:center;color:#eee;font-size:13px}
-#sbs .bar:first-child{padding-top:calc(8px + env(safe-area-inset-top,0px))}
-#sbs .bar:last-child{padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
-#sbs .bar button,#sbs .bar select{padding:9px 8px;border:1px solid #444;border-radius:8px;background:#222;color:#eee;font:inherit;min-width:0}
-#sbs .bar input[type=color]{width:42px;height:38px;padding:2px;border:1px solid #444;border-radius:8px;background:#222}
-#sbs .sc{flex:1;display:flex;gap:3px;min-height:0;touch-action:none}
-#sbs .sc>div{flex:1;min-width:0;position:relative}
-#sbs canvas{position:absolute;inset:0;width:100%;height:100%}
-#shv{display:none;position:fixed;inset:0;z-index:70;background:#111;flex-direction:column}
+#shv{display:none;position:fixed;inset:0;z-index:70;width:100vw;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;overscroll-behavior:none;background:#111;flex-direction:column}
 #shv.on{display:flex}
 #shv .bar{display:flex;gap:6px;padding:8px;padding-top:calc(8px + env(safe-area-inset-top,0px));align-items:center;color:#eee}
 #shv .bar button{padding:9px 8px;border:1px solid #444;border-radius:8px;background:#222;color:#eee;font:inherit}
-#shc{flex:1 1 0;width:100%;height:0;min-height:0;touch-action:none}
+#shc{display:block;flex:1 1 0;width:100%;height:0;min-height:0;max-height:100%;touch-action:none}
 .brand-head{display:flex;align-items:center;gap:clamp(16px,2vw,28px);margin-bottom:20px}
 .brand-logo{display:block;width:clamp(110px,12vw,170px);height:auto;flex:none}
 .brand-copy{min-width:0}
@@ -715,11 +836,120 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 </div>
 </div>
 <div class="toolnav">
-<div class="maintabs" role="tablist" aria-label="Main tools" aria-describedby="keyboard-tab-help"><button id="t-sheet" class="on" role="tab" aria-selected="true" aria-controls="sheet-panel" tabindex="0">Sticker Sheet</button><button id="t-studio" role="tab" aria-selected="false" aria-controls="studio-host" tabindex="-1">Color Studio</button><button id="t-cut" role="tab" aria-selected="false" aria-controls="cut-image-card" tabindex="-1">Cut Image</button><button id="t-remove" role="tab" aria-selected="false" aria-controls="remove-card" tabindex="-1">Remove Background</button><button id="t-upscale" role="tab" aria-selected="false" aria-controls="upscale-card" tabindex="-1">Upscale Image</button></div>
+<div class="maintabs" role="tablist" aria-label="Main tools" aria-describedby="keyboard-tab-help"><button id="t-sheet" class="on" role="tab" aria-selected="true" aria-controls="sheet-panel" tabindex="0">Sticker Sheet</button><button id="t-layout" role="tab" aria-selected="false" aria-controls="layout-editor-panel" tabindex="-1">Layout Bebas</button><button id="t-studio" role="tab" aria-selected="false" aria-controls="studio-host" tabindex="-1">Color Studio</button><button id="t-cut" role="tab" aria-selected="false" aria-controls="cut-image-card" tabindex="-1">Cut Image</button><button id="t-remove" role="tab" aria-selected="false" aria-controls="remove-card" tabindex="-1">Remove Background</button><button id="t-upscale" role="tab" aria-selected="false" aria-controls="upscale-card" tabindex="-1">Upscale Image</button></div>
 <details class="more-tools"><summary><span id="more-tools-label">More tools</span></summary><div class="more-tools-menu" role="tablist" aria-label="More tools" aria-describedby="keyboard-tab-help"><button id="t-vector" role="tab" aria-selected="false" aria-controls="vec-card" tabindex="0">Vectorize (SVG)</button><button id="t-viewer" role="tab" aria-selected="false" aria-controls="file-viewer-card" tabindex="-1">File Preview</button><button id="t-invoice" role="tab" aria-selected="false" aria-controls="invoice-card" tabindex="-1">Invoice</button></div></details>
 </div>
 <p class="sr-only" id="keyboard-tab-help">Use Tab to reach a tool. Use Left and Right Arrow keys, Home, or End to move between tools. Press Enter or Space to open More tools; press Escape to close it.</p>
 <div id="studio-host" role="tabpanel" aria-labelledby="t-studio" tabindex="0"></div>
+<section class="card" id="layout-editor-panel" role="tabpanel" aria-labelledby="t-layout" tabindex="0">
+<h2>Layout Bebas · Editor Kertas</h2>
+<p class="info">Susun foto seperti editor desain: tambahkan beberapa gambar, pilih lapisan, lalu geser atau ubah ukurannya di atas kertas. Marka dan batas area tetap terkunci. Zoom editor tidak mengubah ukuran cetak.</p>
+<div class="layout-editor-grid">
+<div class="layout-editor-panel">
+<section class="card">
+<h3 style="margin:0 0 8px">Kanvas &amp; tampilan</h3>
+<label class="remove-upload" for="layout-editor-input"><b>Tambah foto ke kertas</b><br><small>Pilih satu atau beberapa gambar</small></label>
+<input id="layout-editor-input" type="file" accept="image/*" multiple>
+<div class="layout-tools" style="margin-top:8px">
+<button type="button" class="p o" id="layout-zoom-out">Zoom −</button><button type="button" class="p o" id="layout-fit">Pas ke layar</button><button type="button" class="p o" id="layout-zoom-in">Zoom +</button>
+</div>
+<p class="info" id="layout-zoom-label" style="margin:6px 0 0;text-align:center">Zoom editor 100%</p>
+<div class="layout-tools" style="margin-top:8px"><button type="button" class="p o" id="layout-undo" disabled>Undo</button><button type="button" class="p o" id="layout-redo" disabled>Redo</button><button type="button" class="p o" id="layout-selection-clear" disabled>Hapus seleksi</button></div>
+<p class="info" id="layout-editor-status" role="status" aria-live="polite">Belum ada foto. Pilih preset kertas lalu tambahkan gambar.</p>
+</section>
+<section class="card layout-tool-options" id="layout-tool-options">
+<h3 style="margin:0 0 8px">Opsi alat</h3>
+<div class="layout-option-group" data-for="marquee">
+<p class="info" style="margin:0">Tarik pada kertas untuk membatasi area yang bisa diubah oleh Brush, Magic Eraser, dan Paint Bucket.</p>
+</div>
+<div class="layout-option-group" data-for="magic-eraser bucket">
+<label class="f">Toleransi warna <span id="layout-tolerance-value">24</span><input id="layout-tolerance" type="range" min="0" max="100" value="24"></label>
+<label class="row"><input id="layout-contiguous" type="checkbox" checked><span>Area tersambung saja</span></label>
+<label class="f" data-for-tool="bucket">Warna isi<input id="layout-fill-color" type="color" value="#c9a24b"></label>
+</div>
+<div class="layout-option-group" data-for="brush">
+<label class="f">Warna kuas<input id="layout-brush-color" type="color" value="#123a2c"></label>
+<label class="f">Ukuran kuas (mm)<input id="layout-brush-size" type="number" min="0.1" max="50" step="0.1" value="2"></label>
+</div>
+<div class="layout-option-group" data-for="shape">
+<label class="f">Bentuk<select id="layout-shape-kind"><option value="rect">Persegi panjang</option><option value="ellipse">Elips</option><option value="triangle">Segitiga</option><option value="line">Garis</option></select></label>
+<label class="f">Warna bentuk<input id="layout-shape-color" type="color" value="#c9a24b"></label>
+<label class="f">Ketebalan garis (mm)<input id="layout-shape-stroke" type="number" min="0.1" max="30" step="0.1" value="1"></label>
+</div>
+<div class="layout-option-group" data-for="text">
+<label class="f">Teks<input id="layout-text-value" type="text" value="Teks baru"></label>
+<label class="f">Ukuran teks (mm)<input id="layout-text-size" type="number" min="1" max="300" step="1" value="12"></label>
+<label class="f">Font<select id="layout-text-font"><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Courier New">Courier New</option></select></label>
+<label class="f">Warna teks<input id="layout-text-color" type="color" value="#123a2c"></label>
+<button type="button" class="p o" id="layout-add-text">Tambah teks di tengah kertas</button>
+</div>
+</section>
+<section class="card">
+<h3 style="margin:0 0 8px">Kertas, batas &amp; marka</h3>
+<label class="f">Latar kanvas<select id="layout-background-mode"><option value="transparent">Transparan · PNG tanpa latar</option><option value="color">Warna solid</option></select></label>
+<label class="f" id="layout-background-color-field" hidden>Warna latar<input id="layout-background-color" type="color" value="#ffffff"></label>
+<label class="f">Templat kertas<select id="layout-template"><option value="a4">A4 · 210 × 297 mm</option><option value="a3">A3 · 297 × 420 mm</option><option value="a3plus">A3+ · 329 × 483 mm</option><option value="cdr">CDR portrait · 325 × 485 mm</option><option value="prima-diecut">Prima die cut · 483 × 325 mm</option><option value="prima-kisscut">Prima kiss cut · 325 × 483 mm</option><option value="custom">Custom</option></select></label>
+<div class="grid">
+<label class="f">Lebar kertas (mm)<input id="layout-page-width" type="number" min="50" max="1200" value="210"></label>
+<label class="f">Tinggi kertas (mm)<input id="layout-page-height" type="number" min="50" max="1200" value="297"></label>
+</div>
+<div class="grid">
+<label class="f">Area kerja lebar (mm)<input id="layout-area-width" type="number" min="1" value="174"></label>
+<label class="f">Area kerja tinggi (mm)<input id="layout-area-height" type="number" min="1" value="261"></label>
+</div>
+<p class="info" style="margin:4px 0">Area kerja mengikuti templat; pada ukuran custom area dipusatkan di kertas. Garis biru adalah panduan preview dan tidak ikut dicetak.</p>
+<label class="f">Jenis marka<select id="layout-mark-type"><option value="L">L · sudut</option><option value="dot">Titik bulat</option><option value="cross">Tanda silang</option><option value="cdr">CDR · L + titik atas</option><option value="prima-diecut">Prima die cut</option><option value="prima-kisscut">Prima kiss cut</option><option value="none">Tanpa marka</option></select></label>
+<div class="grid">
+<label class="f">Ukuran marka (mm)<input id="layout-mark-size" type="number" min="1" max="30" step="0.5" value="5"></label>
+<label class="f">Jarak marka dari tepi (mm)<input id="layout-mark-offset" type="number" min="1" max="50" step="0.5" value="10"></label>
+</div>
+<label class="row"><input id="layout-marks-export" type="checkbox" checked><span>Sertakan marka pada hasil ekspor</span></label>
+<label class="f">Resolusi ekspor<select id="layout-export-dpi"><option value="72">72 DPI</option><option value="150">150 DPI</option><option value="300" selected>300 DPI</option><option value="600">600 DPI</option></select></label>
+</section>
+<section class="card">
+<h3 style="margin:0 0 8px">Lapisan</h3>
+<div id="layout-layers" class="layout-layers" aria-label="Lapisan"></div>
+<div class="layout-tools" style="margin-top:8px"><button type="button" class="p o" id="layout-layer-add">Layer baru</button><button type="button" class="p o" id="layout-layer-duplicate" disabled>Duplikat</button><button type="button" class="p o" id="layout-layer-up" disabled>Naik</button><button type="button" class="p o" id="layout-layer-down" disabled>Turun</button><button type="button" class="p o" id="layout-delete" disabled>Hapus</button></div>
+<div id="layout-object-fields" hidden>
+<hr class="sep">
+<label class="f">Opasitas layer <span id="layout-object-opacity-value">100%</span><input id="layout-object-opacity" type="range" min="0" max="100" value="100"></label>
+<div class="grid"><label class="f">Posisi X (mm)<input id="layout-object-x" type="number" step="0.1"></label><label class="f">Posisi Y (mm)<input id="layout-object-y" type="number" step="0.1"></label></div>
+<div class="grid"><label class="f">Lebar (mm)<input id="layout-object-width" type="number" min="1" step="0.1"></label><label class="f">Tinggi (mm)<input id="layout-object-height" type="number" min="1" step="0.1"></label></div>
+<div class="grid">
+<label class="f">Bentuk foto<select id="layout-object-shape"><option value="rect">Persegi panjang</option><option value="rounded">Sudut membulat</option><option value="circle">Lingkaran</option><option value="oval">Oval</option><option value="hex">Heksagon</option></select></label>
+<label class="f">Cara isi bentuk<select id="layout-object-fit"><option value="contain">Tampilkan seluruh foto</option><option value="cover">Penuhi bentuk (potong foto)</option></select></label>
+</div>
+<div class="layout-tools"><button type="button" class="p o" id="layout-fit-area">Penuhi area kerja</button><button type="button" class="p o" id="layout-fit-page">Penuhi kertas</button></div>
+<div class="layout-tools" id="layout-align-controls" hidden aria-label="Ratakan objek ke kertas">
+<button type="button" class="p o" data-align="left" title="Rata kiri">← Kiri</button><button type="button" class="p o" data-align="center-x" title="Rata tengah horizontal">↔ Tengah</button><button type="button" class="p o" data-align="right" title="Rata kanan">Kanan →</button><button type="button" class="p o" data-align="center" title="Tengah horizontal dan vertikal">Pusat</button>
+<button type="button" class="p o" data-align="top" title="Rata atas">↑ Atas</button><button type="button" class="p o" data-align="center-y" title="Rata tengah vertikal">↕ Tengah</button><button type="button" class="p o" data-align="bottom" title="Rata bawah">Bawah ↓</button>
+</div>
+<label class="f">Rotasi (derajat)<input id="layout-object-rotation" type="number" step="1"></label>
+</div>
+</section>
+</div>
+<div class="card">
+<div class="layout-tools layout-tool-modes" role="toolbar" aria-label="Alat kanvas">
+<button type="button" class="p o on" id="layout-tool-select" aria-pressed="true" aria-label="Pilih dan pindahkan" title="Pilih / pindahkan (V)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5 18.5 14l-6 .8-3.2 5.2L4 3.5Z"/><path d="m14 15 3.2 5.2M19 3v4M17 5h4"/></svg><span>Pindah</span></button>
+<button type="button" class="p o" id="layout-tool-marquee" aria-pressed="false" aria-label="Seleksi persegi" title="Seleksi persegi (M)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v3M5 9v3M5 15v3M5 21v-1M9 3h3M15 3h3M21 5v3M21 11v3M21 17v3M17 21h-3M11 21H8"/></svg><span>Seleksi</span></button>
+<button type="button" class="p o" id="layout-tool-transform" aria-pressed="false" aria-label="Transform bebas" title="Transform bebas (Ctrl+T)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="1"/><path d="M5 9V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4"/><circle cx="5" cy="5" r="1" fill="currentColor"/><circle cx="19" cy="19" r="1" fill="currentColor"/></svg><span>Transform</span></button>
+<button type="button" class="p o" id="layout-tool-crop" aria-pressed="false" aria-label="Crop" title="Potong / geser isi foto (C)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v13a2 2 0 0 0 2 2h12M3 7h13a2 2 0 0 1 2 2v12"/></svg><span>Crop</span></button>
+<button type="button" class="p o" id="layout-tool-magic-eraser" aria-pressed="false" aria-label="Magic Eraser" title="Magic Eraser (E)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 9-9 5 5-9 9-5-5Z"/><path d="m12 8 5 5M3 4v3M1.5 5.5h3M20 3v4m-2-2h4M20 17v3m-1.5-1.5h3"/></svg><span>Hapus</span></button>
+<button type="button" class="p o" id="layout-tool-bucket" aria-pressed="false" aria-label="Paint Bucket" title="Paint Bucket (G)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 7-7 8 8-7 7-8-8Z"/><path d="m9 6 8 8M14 19h5a2 2 0 0 0 2-2v-2"/><path d="M19 20c0-1.3 1-2.1 1-3"/></svg><span>Isi</span></button>
+<button type="button" class="p o" id="layout-tool-brush" aria-pressed="false" aria-label="Brush" title="Brush (B)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 4 6 6M4 20c2.5 0 4-1.5 4-4l10-10a2.1 2.1 0 0 0-3-3L5 13c-2.5 0-4 1.5-4 4 0 1.7 1.3 3 3 3Z"/></svg><span>Kuas</span></button>
+<button type="button" class="p o" id="layout-tool-shape" aria-pressed="false" aria-label="Shape" title="Shape (U)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="9" height="9" rx="1"/><circle cx="17.5" cy="16.5" r="4.5"/><path d="M13 21 17 14l4 7h-8Z"/></svg><span>Bentuk</span></button>
+<button type="button" class="p o" id="layout-tool-text" aria-pressed="false" aria-label="Text" title="Text (T)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6V4h16v2M12 4v16M8 20h8"/></svg><span>Teks</span></button>
+</div>
+<div class="layout-tools" id="layout-crop-controls" hidden style="margin-top:8px;align-items:center">
+<label class="f" style="flex:1;margin:0">Zoom crop <span id="layout-crop-zoom-value">100%</span><input id="layout-crop-zoom" type="range" min="100" max="400" value="100" aria-label="Zoom crop foto"></label>
+<button type="button" class="p o" id="layout-crop-reset" disabled>Reset crop</button>
+</div>
+<div class="layout-tools" style="margin-bottom:8px"><button type="button" class="p" id="layout-export-png">Unduh PNG</button><button type="button" class="p" id="layout-export-pdf">Unduh PDF</button></div>
+<p class="info" id="layout-tool-help">Pilih foto untuk memindahkannya. Transform menampilkan pegangan seperti Ctrl+T: tarik sudut/sisi untuk mengubah ukuran dan pegangan atas untuk memutar. Crop menggeser isi foto di dalam bingkai tanpa mengubah ukuran cetak.</p>
+<div class="layout-editor-stage"><canvas id="layout-editor-canvas" aria-label="Kanvas kertas. Seret foto untuk memindahkannya; seret ruang kosong untuk menggeser tampilan."></canvas></div>
+</div>
+</div>
+</section>
 <section class="card" id="invoice-card" role="tabpanel" aria-labelledby="t-invoice" tabindex="0">
 <h2 class="invoice-title">Proletar Tech Invoice</h2>
 <p class="info">Create and manage invoices. Your data is saved in this browser on this device.</p>
@@ -843,7 +1073,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="sheet-controls">
 <div class="workflow ez" aria-label="Quick setup steps"><button type="button" data-workflow-step="upload" aria-controls="sheet-upload-label"><b>1</b> Upload artwork</button><i aria-hidden="true"></i><button type="button" data-workflow-step="shape" aria-controls="ez-shape"><b>2</b> Shape &amp; size</button><i aria-hidden="true"></i><button type="button" data-workflow-step="export" aria-controls="export-card"><b>3</b> Preview &amp; export</button></div>
 <div class="modebar" aria-label="Sticker sheet settings"><span>Setup</span><button id="m-easy" type="button" aria-pressed="true" class="on">Quick setup</button><button id="m-adv" type="button" aria-pressed="false">All settings</button></div>
-<p class="info mode-help ez" id="mode-help">Start with artwork, sticker shape and size, then export. All advanced controls remain available in All settings.</p>
+<p class="info mode-help ez" id="mode-help">Upload artwork, set each sticker’s shape, size and position, choose paper or a print preset, then review and export. Fine controls stay in All settings.</p>
 <p class="info adv">All sticker-sheet controls are visible. Switch to Quick setup for the common workflow.</p>
 <details class="card" style="padding:12px 14px">
 <summary style="cursor:pointer;font-weight:700">Bingung dengan istilah Sticker Sheet? Buka penjelasan</summary>
@@ -875,8 +1105,8 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input id="file" type="file" accept="image/*,.svg,.svgz,.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif,.tif,.tiff" multiple>
 <div class="thumbs" id="thumbs"></div>
 <p class="info" id="status" style="margin:10px 0 0"></p>
-<div class="btns" style="margin-top:10px"><label class="f" style="flex:1;min-width:180px">Send selected artwork to<select id="sheet-send-target"><option value="studio">Color Studio</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="sheet-send" disabled>Send artwork</button></div>
-<label class="f" style="margin-top:10px">Fit artwork to shape<select id="ez-fit"><option value="contain">Show entire image · no crop</option><option value="cover">Auto-crop · fill the shape</option></select></label>
+<div class="btns adv" style="margin-top:10px"><label class="f" style="flex:1;min-width:180px">Send selected artwork to<select id="sheet-send-target"><option value="studio">Color Studio</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="sheet-send" disabled>Send artwork</button></div>
+<label class="f adv" style="margin-top:10px">Fit artwork to shape<select id="ez-fit"><option value="contain">Show entire image · no crop</option><option value="cover">Auto-crop · fill the shape</option></select></label>
 </div>
 
 <div class="card ez" id="easy">
@@ -888,9 +1118,20 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="chips" id="ez-size"><button data-v="10">10</button><button data-v="16">16</button><button data-v="20">20</button><button data-v="25">25</button><button data-v="30">30</button><button data-v="40">40</button><button data-v="50">50</button></div>
 <label class="f" style="margin-top:8px">Or enter a custom size (mm)<input id="ez-d" type="number" min="5" step="0.5" value="16"></label>
 <label class="f" id="ez-height-wrap" style="margin-top:8px;display:none">Sticker height (mm)<input id="ez-h" type="number" min="5" step="0.5" value="16"></label>
-<p class="info" style="margin:14px 0 6px">Sticker layout</p>
-<div class="chips" id="ez-layout"><button data-v="standard">Standard · straight rows</button><button data-v="efficient">Efficient · maximize count</button><button data-v="zigzag">Zigzag · staggered rows</button></div>
-<p class="info" style="margin:6px 0 0">Efficient compares straight and compact staggered packing for round stickers. Zigzag always uses staggered rows.</p>
+<hr class="sep">
+<p class="info" style="margin:0 0 6px">Position selected artwork inside the sticker</p>
+<div id="ez-one" style="display:flex;justify-content:center;margin:4px 0 10px"></div>
+<p class="info" style="margin:0 0 8px;text-align:center">Drag the image in the preview or use the arrow buttons. Hold a button to keep moving.</p>
+<div class="dpad"><span></span><button data-n="poy" data-d="-1" aria-label="Up">Up</button><span></span><button data-n="pox" data-d="-1" aria-label="Left">Left</button><button data-a="C" aria-label="Center">Center</button><button data-n="pox" data-d="1" aria-label="Right">Right</button><span></span><button data-n="poy" data-d="1" aria-label="Down">Down</button><span></span></div>
+<div class="chips" style="margin-top:10px;justify-content:center"><button data-n="pzoom" data-d="-3">Zoom out</button><button data-n="pzoom" data-d="3">Zoom in</button><button data-a="F">Fit</button></div>
+<p class="info" id="ez-info" style="margin:12px 0 0"></p>
+<div id="quick-artwork-options" hidden>
+<hr class="sep">
+<h3 style="margin:10px 0 6px;font-size:14px">Per-sticker settings</h3>
+<p class="info" style="margin:0 0 8px">Choose an artwork above to set its safe area and quantity.</p>
+<div id="quick-safe-area"></div>
+<div id="quick-sticker-quantity"></div>
+</div>
 <p class="info" style="margin:14px 0 6px">Paper size</p>
 <div class="chips" id="ez-paper" aria-label="Paper size"><button type="button" data-v="210x297">A4 · 210 × 297 mm</button><button type="button" data-v="297x420">A3 · 297 × 420 mm</button><button type="button" data-v="329x483">A3+ · 329 × 483 mm</button></div>
 <p class="info" style="margin:14px 0 6px">Print preset (optional)</p>
@@ -900,7 +1141,11 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <button type="button" data-print-area="prima-diecut">Die Cut Prima · 483 × 325 mm page · 420 × 280 mm area</button>
 <button type="button" data-print-area="prima-kisscut">Kiss Cut Prima · 325 × 483 mm page · 290 × 430 mm area</button>
 </div>
-<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print preset details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">CDR and Prima are print presets, not paper sizes. Selecting a preset sets its page dimensions, working area, margins, and registration marks. CDR uses a 325 × 485 mm portrait page; Die Cut Prima uses a 483 × 325 mm landscape page with a 420 × 280 mm area; Kiss Cut Prima uses a 325 × 483 mm portrait page with a 290 × 430 mm area. The magenta frame marks the working area in preview only and is not exported as a cut line.</p></details>
+<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print preset details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">CDR and Prima are print presets, not paper sizes. Selecting a preset sets its page dimensions, working area, margins, and registration marks. CDR uses a 325 × 485 mm portrait page; Die Cut Prima uses a 483 × 325 mm landscape page with a 420 × 280 mm area; Kiss Cut Prima uses a 325 × 483 mm portrait page with a 290 × 430 mm area. Sticker placement also keeps a 5 mm clearance inside the work-area boundary. The magenta frame marks the working area in preview only and is not exported as a cut line.</p></details>
+<p class="info ez" style="margin:6px 0 0">Custom paper dimensions and detailed print-area limits are in All settings.</p>
+<h3 style="margin:14px 0 6px;font-size:14px">Registration marks</h3>
+<div id="quick-registration-mark"></div>
+<div id="quick-mark-clearance"></div>
 <p class="info advanced-only" style="margin:14px 0 6px">Page margins (distance from the edge, mm)</p>
 <div class="grid advanced-only">
 <label class="f">Top<input id="ez-mt" type="number" min="0" step="1" value="18"></label>
@@ -909,27 +1154,13 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Right<input id="ez-mr" type="number" min="0" step="1" value="18"></label>
 </div>
 <p class="info ez" style="margin:6px 0 0">Page margins and production-specific settings are available in All settings.</p>
-<hr class="sep">
-<div class="row" style="margin-top:0"><input type="checkbox" id="credit" checked><label for="credit">Print text along the sheet edge</label></div>
-<label class="f" style="margin-top:8px">Sheet edge text<input id="credit-text" type="text" maxlength="100" value="Proletar Project · Supporting small businesses"></label>
-<p class="info" style="margin:6px 0 0">Text is printed at the center of the bottom edge, not on each sticker.</p>
-<hr class="sep">
-<div class="row" style="margin-top:0"><input type="checkbox" id="ez-bord"><label for="ez-bord"><b>Automatic white border</b> (white outline around each sticker / die-cut line)</label></div>
-<label class="f" style="margin-top:6px">Border width (mm)<input id="ez-bw" type="number" min="0.3" max="4" step="0.1" value="1"></label>
-<hr class="sep">
-<p class="info" style="margin:0 0 6px">Position selected artwork inside the sticker</p>
-<div id="ez-one" style="display:flex;justify-content:center;margin:4px 0 10px"></div>
-<p class="info" style="margin:0 0 8px;text-align:center">Drag the image in the preview or use the arrow buttons. Hold a button to keep moving.</p>
-<div class="dpad"><span></span><button data-n="poy" data-d="-1" aria-label="Up">Up</button><span></span><button data-n="pox" data-d="-1" aria-label="Left">Left</button><button data-a="C" aria-label="Center">Center</button><button data-n="pox" data-d="1" aria-label="Right">Right</button><span></span><button data-n="poy" data-d="1" aria-label="Down">Down</button><span></span></div>
-<div class="chips" style="margin-top:10px;justify-content:center"><button data-n="pzoom" data-d="-3">Zoom out</button><button data-n="pzoom" data-d="3">Zoom in</button><button data-a="F">Fit</button></div>
-<p class="info" id="ez-info" style="margin:12px 0 0"></p>
 </div>
 
-<div class="card" id="lp" style="display:none">
+<div class="card adv" id="lp" style="display:none">
 <h2>Artwork settings <span id="lpn"></span> <small style="color:var(--mut);font-weight:400">(select another image above to switch)</small></h2>
 <div class="one">
 <canvas id="one" width="400" height="400"></canvas>
-<div class="ctl">
+<div class="ctl adv">
 <p class="info">Drag the artwork in the preview. Pinch or scroll to zoom.</p>
 <label class="f">Position guides<select id="pgrid"><option value="0">Off</option><option value="1" selected>Center cross</option><option value="4">4×4 grid</option><option value="8">8×8 grid</option></select></label>
 <label class="f">Sticker shape for this image<select id="pshape"><option value="auto">Use sheet shape</option><option value="design">Original shape</option><option value="circle">Circle</option><option value="square">Square</option><option value="rounded">Rounded rectangle</option><option value="oval">Oval</option><option value="rect">Rectangle</option><option value="hex">Hexagon</option></select></label>
@@ -938,27 +1169,28 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Corner value<input id="pcorner-value" type="number" value="3.5" min="0" max="8" step="0.1"></label>
 </div>
 <p class="info" style="margin:0">Only applies when this artwork uses a rounded rectangle. Radius is capped at half the shorter sticker side.</p>
-<div class="row"><input type="checkbox" id="psafe"><label for="psafe">Show safe area (10% inset)</label></div>
+<span id="psafe-home"></span><div class="row"><input type="checkbox" id="psafe"><label for="psafe">Show safe area (10% inset)</label></div>
 <div class="row"><input type="checkbox" id="pcmp"><label for="pcmp">Compare original and vector (center)</label></div>
 </div>
 </div>
-<div class="nz"><span>Zoom <b id="pzv">100</b>%</span><button data-n="pzoom" data-d="-2">−</button><input id="pzoom" type="range" min="20" max="400" value="100" aria-label="Artwork zoom"><button data-n="pzoom" data-d="2">+</button></div>
-<div class="nz"><span>Horizontal <b id="pxv">0</b>%</span><button data-n="pox" data-d="-0.5">Left</button><input id="pox" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork horizontal position"><button data-n="pox" data-d="0.5">Right</button></div>
-<div class="nz"><span>Vertical <b id="pyv">0</b>%</span><button data-n="poy" data-d="-0.5">Up</button><input id="poy" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork vertical position"><button data-n="poy" data-d="0.5">Down</button></div>
-<div class="al">
+<div class="nz adv"><span>Zoom <b id="pzv">100</b>%</span><button data-n="pzoom" data-d="-2">−</button><input id="pzoom" type="range" min="20" max="400" value="100" aria-label="Artwork zoom"><button data-n="pzoom" data-d="2">+</button></div>
+<div class="nz adv"><span>Horizontal <b id="pxv">0</b>%</span><button data-n="pox" data-d="-0.5">Left</button><input id="pox" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork horizontal position"><button data-n="pox" data-d="0.5">Right</button></div>
+<div class="nz adv"><span>Vertical <b id="pyv">0</b>%</span><button data-n="poy" data-d="-0.5">Up</button><input id="poy" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Artwork vertical position"><button data-n="poy" data-d="0.5">Down</button></div>
+<div class="al adv">
 <button data-a="L">Align left</button><button data-a="CH">Center</button><button data-a="R">Align right</button>
 <button data-a="T">Align top</button><button data-a="CV">Center vertically</button><button data-a="B">Align bottom</button>
 <button data-a="C">Reset position</button><button data-a="K">Center artwork</button><button data-a="F">Fit</button>
 </div>
 <hr class="sep">
-<div class="grid">
+<div class="grid adv">
 <label class="f">Artwork fit<select id="pfit"><option value="contain">Show entire image</option><option value="cover">Fill shape (may crop image)</option></select></label>
-<label class="f">Sticker quantity for this image<input id="pqty" type="number" min="0" value="0"><small>0 = automatic; balanced by image size and available space</small></label>
+<span id="pqty-home"></span><label class="f">Sticker quantity for this image<input id="pqty" type="number" min="0" value="0"><small>0 = automatic; balanced by image size and available space</small></label>
 <label class="f">Sticker background color<input id="pbg" type="color" value="#000000"><small>Choosing a color turns off corner sampling for this sticker.</small></label>
 <div class="row" style="margin:0;align-self:end"><input type="checkbox" id="pauto" checked><label for="pauto">Sample background from corners</label></div>
 <label class="f">Outline width (mm)<input id="pbw" type="number" min="0" max="5" step="0.1" value="0"></label>
 <label class="f">Outline color<input id="pbc" type="color" value="#ffffff"></label>
 </div>
+<div class="adv">
 <div class="row"><input type="checkbox" id="pkey"><label for="pkey">Remove background color sampled from corners</label></div>
 <label class="f" style="margin-top:8px">Background removal strength: <span id="ptv">40</span><input id="ptol" type="range" min="5" max="100" value="40"></label>
 <label class="f" style="margin-top:12px">Detail sharpness: <span id="psv">30</span>%<input id="psharp" type="range" min="0" max="100" value="30"></label>
@@ -984,8 +1216,10 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" id="eff" style="margin-top:4px"></p>
 <div class="btns" style="margin-top:4px"><button class="p o" id="applyall">Apply position, background, and sharpness to all images</button></div>
 </div>
+</div>
 
-<div class="card">
+<div class="card adv">
+<h2>Paper, area &amp; layout details</h2>
 <div class="grid">
 <label class="f">Paper size<select id="paper"><option value="297x420">A3 · 297 × 420 mm</option><option value="329x483">A3+ · 329 × 483 mm</option><option value="210x297">A4 · 210 × 297 mm</option><option value="custom">Custom size (mm)</option></select></label>
 <label class="f">Sticker shape<select id="shape"><option value="design">Original artwork shape</option><option value="circle">Circle</option><option value="square">Square</option><option value="rounded">Rounded rectangle</option><option value="oval">Oval</option><option value="rect">Rectangle</option><option value="hex">Hexagon</option></select></label>
@@ -1026,16 +1260,20 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">PNG export resolution (DPI)<input id="dpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><datalist id="dpi-list"><option value="150"><option value="300"><option value="600"><option value="1200"><option value="2400"></datalist>
 </div>
 <p class="info" style="margin:8px 0 0">This controls raster detail for PNG export, not the physical paper size or how sharp the preview looks on screen. When Pixel mode is on, this follows the pixel-sizing resolution. Higher DPI can create larger files; detail is still limited by the source image.</p>
-<p class="info" style="margin:8px 0 0">PDF has its own raster resolution setting in Preview &amp; Export. Lossless mode can embed source images without resizing.</p>
-<input type="checkbox" id="lossless" hidden>
-<button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Lossless compression: OFF</button>
-<p class="info" id="llinfo" style="margin:8px 0 0"></p>
 <div class="row"><input type="checkbox" id="guide" checked><label for="guide">Show cut lines in preview only</label></div>
 
 <div class="row"><input type="checkbox" id="vcut" checked><label for="vcut">Include vector cut lines (magenta) in the PDF</label></div>
 </div>
-
-<div class="card">
+<div class="card adv">
+<h2>Sheet edge &amp; sticker border</h2>
+<div class="row" style="margin-top:0"><input type="checkbox" id="credit" checked><label for="credit">Print text along the sheet edge</label></div>
+<label class="f" style="margin-top:8px">Sheet edge text<input id="credit-text" type="text" maxlength="100" value="Proletar Project · Supporting small businesses"></label>
+<p class="info" style="margin:6px 0 0">Text is printed at the center of the bottom edge, not on each sticker.</p>
+<hr class="sep">
+<div class="row"><input type="checkbox" id="ez-bord"><label for="ez-bord"><b>Automatic white border</b> (white outline around each sticker / die-cut line)</label></div>
+<label class="f">Border width (mm)<input id="ez-bw" type="number" min="0.3" max="4" step="0.1" value="1"></label>
+</div>
+<div class="card adv">
 <h2>Pixel sizing &amp; cutting plotter (advanced)</h2>
 <p class="info">The settings above define the physical paper and sticker layout in millimeters. Most users can leave Pixel mode off. Turn it on only if you need to enter page or sticker dimensions in pixels.</p>
 <div class="row" style="margin:0 0 10px"><input type="checkbox" id="pxm"><label for="pxm">Use pixel sizing instead of millimeters (advanced)</label></div>
@@ -1056,16 +1294,18 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <hr class="sep">
 <div class="grid">
 <label class="f">Cutting plotter<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), common</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka (HPGL)</option><option value="custom">Custom</option></select></label>
-<label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR preset marks (4 L corners + 2 top dots)</option><option value="prima-diecut">Die Cut Prima preset marks</option><option value="prima-kisscut">Kiss Cut Prima preset marks</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
+<span id="mtype-home"></span><label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR preset marks (4 L corners + 2 top dots)</option><option value="prima-diecut">Die Cut Prima preset marks</option><option value="prima-kisscut">Kiss Cut Prima preset marks</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
 <label class="f">Mark size (mm)<input id="msz" type="number" value="5" min="1" step="0.5"></label>
 <label class="f">Distance from edge (mm)<input id="moff" type="number" value="8" min="2" step="0.5"></label>
 <label class="f">Mark line width (mm)<input id="mw" type="number" value="0.3" min="0.1" step="0.1"></label>
+<span id="mark-clearance-home"></span><label class="f">Sticker-to-mark clearance (mm)<input id="mark-clearance" type="number" value="5" min="0" max="50" step="0.5"></label>
 <label class="f">Cut layer name<input id="cname" type="text" value="CutContour" style="font:inherit;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);width:100%"></label>
 <label class="f">Cut offset calibration X (mm)<input id="cox" type="number" value="0" step="0.05"></label>
 <label class="f">Cut offset calibration Y (mm)<input id="coy" type="number" value="0" step="0.05"></label>
 </div>
+<p class="info" id="mark-preset-hint" hidden>Prima registration marks use fixed preset dimensions. Mark size, distance, and line width are unavailable for this preset.</p>
+<p class="info">Outside fixed presets, sticker layout follows the inner edges of the selected registration marks with this clearance. Page margins and custom print/cut areas remain additional limits; the tighter boundary applies. Marks and cut contours are not moved.</p>
 <p class="info" id="mhint" style="margin:8px 0 0"></p>
-<button class="p o" id="sbsbtn" style="margin-top:10px;width:100%">Compare side by side (synced zoom &amp; pan)</button>
 <button class="p o" id="shbtn" style="margin-top:8px;width:100%">Inspect full sheet (actual print pixels)</button>
 </div>
 
@@ -1084,7 +1324,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" id="job-filename-preview" role="status" aria-live="polite" style="margin:10px 0 0"></p>
 </div>
 
-<div class="card cost-estimator" id="cost">
+<div class="card adv cost-estimator" id="cost">
 <h2>Material and Cost Estimator</h2>
 <div class="grid">
 <label class="f">Number of stickers needed<input id="k-target" type="number" min="1" value="500"></label>
@@ -1111,15 +1351,17 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="btns" style="margin-top:8px"><button class="p o" id="print-preset-save" type="button">Save current settings</button><button class="p o" id="print-preset-load" type="button" disabled>Load selected</button><button class="p o" id="print-preset-delete" type="button" disabled>Delete selected</button></div>
 <p class="info" id="print-preset-status" role="status" style="margin:6px 0 0"></p>
 </div>
-<div class="pdf-color-control"><strong id="pdf-color-label">PDF color mode</strong><div class="pdf-color-toggle" role="group" aria-labelledby="pdf-color-label"><button type="button" data-pdf-color-mode="rgb" aria-pressed="true">RGB</button><button type="button" data-pdf-color-mode="cmyk" aria-pressed="false">CMYK</button></div><p class="info" id="pdf-color-note" style="flex-basis:100%;margin:0">RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.</p></div><label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Controls raster artwork detail in PDF, not the page or sticker size. Vector cut lines and registration marks stay sharp regardless of this value. Eligible original images may be embedded at source resolution in some PDF modes.</p><div class="btns">
+<div class="pdf-color-control"><strong id="pdf-color-label">PDF color mode</strong><div class="pdf-color-toggle" role="group" aria-labelledby="pdf-color-label"><button type="button" data-pdf-color-mode="rgb" aria-pressed="true">RGB</button><button type="button" data-pdf-color-mode="cmyk" aria-pressed="false">CMYK</button></div><p class="info" id="pdf-color-note" style="flex-basis:100%;margin:0">RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.</p></div>
+<input type="checkbox" id="lossless" hidden><button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Lossless compression: OFF</button><p class="info" id="llinfo" style="margin:8px 0 0"></p>
+<label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Controls raster artwork detail in PDF, not the page or sticker size. Vector cut lines and registration marks stay sharp regardless of this value. Eligible original images may be embedded at source resolution in some PDF modes.</p><div class="btns">
 <button class="p" id="pdf">Download print-ready PDF</button><button class="p o" id="pdf-two-page">Download 2-page print + cut PDF</button><button class="p o adv" id="pdf-hybrid">Download PDF Hybrid</button>
 <button class="p o adv" id="svg">Download SVG cut lines + marks</button><button class="p o adv" id="svg-contour">Download SVG without images (contours + marks)</button><button class="p o adv" id="svg-corel">Download SVG for CorelDRAW</button><button class="p o adv" id="svg-sheet">Download SVG sheet (advanced)</button><button class="p o adv" id="svg-hybrid">Download SVG Hybrid</button><button class="p o adv" id="dxf">Download DXF cut lines</button><button class="p o adv" id="plt">Download PLT (HPGL)</button>
-<details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized PDFs for CorelDRAW</summary><p class="info">PDF 1 is for printing: sticker artwork + registration marks, no cut contours. PDF 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download individually, or create one ZIP containing both synchronized PDFs.</p><div class="btns"><button class="p o" id="pdf-corel-art">Download PDF 1 — stickers + marks (print)</button><button class="p o" id="pdf-corel-cut">Download PDF 2 — marks + cut contours</button><button class="p" id="pdf-corel-zip">Download both PDFs as ZIP</button></div></details>
+<details style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">PDF 1 / PDF 2 / both for CorelDRAW</summary><p class="info">PDF 1 is for printing: sticker artwork + registration marks, no cut contours. PDF 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download individually, or create one ZIP containing both synchronized PDFs.</p><div class="btns"><button class="p o" id="pdf-corel-art">Download PDF 1 — stickers + marks (print)</button><button class="p o" id="pdf-corel-cut">Download PDF 2 — marks + cut contours</button><button class="p" id="pdf-corel-zip">Download both PDFs as ZIP</button></div></details>
 <details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized SVGs</summary><p class="info">SVG 1 is for printing: sticker artwork + registration marks, no cut contours. SVG 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download SVG 1 before SVG 2; if settings or artwork change, download SVG 1 again. Or create both synchronized SVGs in one ZIP.</p><div class="btns"><button class="p o" id="svg-sticker-marks">Download SVG 1 — stickers + marks</button><button class="p o" id="svg-marks-contours">Download SVG 2 — marks + cut contours</button><button class="p" id="svg-pair-zip">Download both SVGs as ZIP</button></div></details>
-</div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Include cut lines / guides (magenta) in the PDF. Turn this off to print the artwork only.</label></div><p class="info ez quick-export-note">Need SVG, DXF, PLT, hybrid PDF, or separate print/cut files? Choose <b>All settings</b> above. These formats and controls are still available.</p><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
+</div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Include cut lines / guides (magenta) in the PDF. Turn this off to print the artwork only.</label></div><p class="info ez quick-export-note">SVG, DXF, PLT, and PDF Hybrid are in <b>All settings</b>. PDF 1 / PDF 2 and the ZIP option are available here.</p><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
 
 <div class="card btns"><button class="p o" id="psave">Save project</button><button class="p o" id="popen">Open project</button><input id="projfile" type="file" accept=".json,application/json" aria-hidden="true" tabindex="-1" hidden></div>
-<div class="card" style="font-size:13px">
+<div class="card adv" style="font-size:13px">
 <b>Cutting guide (kiss cut / die cut)</b>
 <ul style="margin:8px 0 0;padding-left:18px;color:var(--mut)">
 <li><b>PDF Legacy / PDF Hybrid</b>: print artwork with magenta vector cut lines (0.1 mm) overlaid. Turn off the checkbox to export artwork only.</li>
@@ -1141,9 +1383,6 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <iframe id="file-viewer-full-frame" hidden title="Full sheet preview"></iframe>
 </div>
 <div id="shv"><div class="bar"><button id="shfit">Fit to screen</button><button id="sh11">1:1</button><span id="shinfo" style="flex:1;font-size:12px"></span><button id="shx">Close</button></div><canvas id="shc"></canvas></div>
-<div id="sbs"><div class="bar"><select id="sl"><option value="raw">Left: Original</option><option value="vec">Left: Vector</option><option value="ras">Left: Raster</option><option value="fin">Left: Final</option></select><select id="sr"><option value="raw">Right: Original</option><option value="vec">Right: Vector</option><option value="ras">Right: Raster</option><option value="fin" selected>Right: Final</option></select><input id="svbg" type="color" value="#ffffff" title="Background color"><button id="sclose" style="margin-left:auto">Close</button></div>
-<div class="sc"><div><canvas id="sc0"></canvas></div><div><canvas id="sc1"></canvas></div></div>
-<div class="bar"><button id="szo">Zoom out</button><input id="szr" type="range" min="100" max="6400" value="100" style="flex:1" aria-label="Side-by-side comparison zoom"><button id="szi">Zoom in</button><label style="white-space:nowrap"><input type="checkbox" id="ssync" checked> Sync</label><label style="white-space:nowrap"><input type="checkbox" id="spx"> Pixels</label><button id="srst">Reset</button></div></div>
 <div id="insp"><div class="bar"><button data-im="raw">Original</button><button data-im="vec" class="on">Vector</button><button data-im="out">Trace line</button><button id="iclose">Close</button></div><canvas id="icv"></canvas></div>
 <footer>© <span id="yr"></span> <b>Proletar Project</b> · Supporting small businesses</footer>
 <template id="studio-tpl"><style>
@@ -2176,15 +2415,14 @@ function readPaper(){
   updateSheetAreaInputs();
 }
 function updateSheetAreaInputs(){
-  const cdrInset=$('paper').value==='325x485'&&$('mtype').value==='cdr'?5:0;
   const fixedTemplate=isFixedPrintTemplate();
   const marginValue=id=>{const value=Number($(id).value);return Number.isFinite(value)&&value>=0?value:18};
   [['print-area','print-area-custom'],['cut-area','cut-area-custom']].forEach(([prefix,checkboxId])=>{
     const enabled=$(checkboxId).checked;
     const width=$(`${prefix}-w`),height=$(`${prefix}-h`);
     if(!enabled){
-      width.value=Math.max(1,W-marginValue('ml')-marginValue('mr')-2*cdrInset).toFixed(1);
-      height.value=Math.max(1,H-marginValue('mt')-marginValue('mb')-2*cdrInset).toFixed(1);
+      width.value=Math.max(1,W-marginValue('ml')-marginValue('mr')).toFixed(1);
+      height.value=Math.max(1,H-marginValue('mt')-marginValue('mb')).toFixed(1);
     }
     width.max=String(W);height.max=String(H);
     $(checkboxId).disabled=fixedTemplate;
@@ -2281,8 +2519,13 @@ function packCircleRows(width,height,diameter,gap,forceStagger){
 }
 function calc(){
   readPaper();
-  const base=cellSize(),gap=+$('gap').value||2,mv=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:18},cdrInset=Math.abs(W-325)<0.001&&Math.abs(H-485)<0.001&&$('mtype').value==='cdr'?5:0,mt=mv('mt')+cdrInset,mb=mv('mb')+cdrInset,ml=mv('ml')+cdrInset,mr=mv('mr')+cdrInset;
-  const {printArea,cuttingArea,workArea}=sheetAreaGeometry(mt,mb,ml,mr);
+  const base=cellSize(),gap=+$('gap').value||2,mv=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>=0?v:18},mt=mv('mt'),mb=mv('mb'),ml=mv('ml'),mr=mv('mr');
+  const {printArea,cuttingArea,workArea:baseWorkArea}=sheetAreaGeometry(mt,mb,ml,mr);
+  const clearance=Number.isFinite(+$('mark-clearance').value)?Math.min(50,Math.max(0,+$('mark-clearance').value)):0;
+  const markArea=registrationMarkSafeArea(clearance);
+  const workArea=isFixedPrintTemplate()
+    ?{left:baseWorkArea.left+clearance,top:baseWorkArea.top+clearance,right:baseWorkArea.right-clearance,bottom:baseWorkArea.bottom-clearance}
+    :{left:Math.max(baseWorkArea.left,markArea.left),top:Math.max(baseWorkArea.top,markArea.top),right:Math.min(baseWorkArea.right,markArea.right),bottom:Math.min(baseWorkArea.bottom,markArea.bottom)};
   let w=base.w,h=base.h;
   if(logos.length){
     const physical=logos.map((_,i)=>logoLayout(i,{...base, w:base.w, h:base.h},$('shape').value).L);
@@ -2894,12 +3137,6 @@ function drawMarks(ctx,L,withCredit){
   });
   if(isCdrMarks()||isPrimaMarks()){
     const a=cdrFrame();ctx.strokeStyle='#E30079';ctx.lineWidth=0.25;ctx.strokeRect(a.x,a.y,a.w,a.h);
-  }else if(!isPrimaMarks()){
-    ctx.strokeStyle='#000';ctx.lineWidth=0.3;
-    const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-    [[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].forEach(([x,y,sx,sy])=>{
-      ctx.beginPath();ctx.moveTo(x+sx*l,y);ctx.lineTo(x,y);ctx.lineTo(x,y+sy*l);ctx.stroke();
-    });
   }
   const text=withCredit&&$('credit').checked?$('credit-text').value.trim():'';
   if(text){
@@ -2982,6 +3219,7 @@ function renderOne(){
   }
 }
 function render(){
+  updateRegistrationMarkControls();
   const L=calc(),k=Math.min(12,Math.sqrt(16e6/(W*H)),9000/Math.max(W,H));
   cv.width=Math.round(W*k);cv.height=Math.round(H*k);
   draw(cv.getContext('2d'),k,$('guide').checked);
@@ -2999,6 +3237,7 @@ function render(){
   updatePrintPreflight(L);
   {const n=nativeDpi(),pd=pngDpiVal();$('llinfo').textContent=LL()?('Lossless mode is on. Sharpening and vectorization are disabled; source images are embedded without resizing. '+(n?'Original artwork resolution is about '+Math.round(n)+' DPI. ':'')+'PNG uses '+pd+' DPI'+(!$('pxm').checked&&n&&pd<Math.floor(n)?' (limited by device canvas size; use PDF to preserve original image dimensions)':'')+'.'):''}
   renderOne();effInfo();
+  if($('shv').classList.contains('on'))shDraw();
 }
 function updatePrintPreflight(L){
   const checks=[],errors=[],warnings=[];
@@ -3081,6 +3320,7 @@ function effInfo(){
 function renderThumbs(){
   const t=$('thumbs');t.innerHTML='';
   $('sheet-send').disabled=!logos.length;
+  $('quick-artwork-options').hidden=!logos.length;
   logos.forEach((lg,i)=>{
     const group=document.createElement('div'),select=document.createElement('button'),image=document.createElement('img'),shape=document.createElement('select'),remove=document.createElement('button');
     group.setAttribute('role','group');group.setAttribute('aria-label',`Image ${i+1}`);
@@ -3290,7 +3530,7 @@ $('file').onchange=async e=>{
 ['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','vcut','dpi'].forEach(id=>$(id).addEventListener('input',schedule));
 
 /* ---------- save / load project ---------- */
-const GIDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw'];
+const GIDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','guide','credit','credit-text','vcut','dpi','pdpi','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','mark-clearance','cname','cox','coy','lossless','k-target','k-bahan','k-cetak','k-margin','ez-bord','ez-bw'];
 const LKEYS=['shape','fit','zoom','ox','oy','auto','bgc','key','tol','sharp','qty','bw','bc','cornerMode','cornerValue','sheetW','sheetH','sourceSideMm','customSize','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vb'];
 $('psave').onclick=async()=>{
   const g={};GIDS.forEach(id=>g[id]=$(id).type==='checkbox'?$(id).checked:$(id).value);
@@ -3598,7 +3838,7 @@ function busy(b,msg){if(b)showLoader(msg||"Processing...");else hideLoader();['p
 function updateBtns(){readPaper();$('pdf').textContent=getPdfColorMode()==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (lossless)':'Download PDF ('+pdfDpi()+' DPI)'}
 let LASTINFO='',COREL_PAIR_SIGNATURE='',SVG_PAIR_SIGNATURE='';
 function corelPairSignature(L,colorMode=getPdfColorMode()){
-  const controls=['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','mtype','msz','mw','moff','cox','coy','pdpi'];
+  const controls=['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','mtype','msz','mw','moff','mark-clearance','cox','coy','pdpi'];
   const logoKeys=['id','shape','fit','zoom','ox','oy','auto','bgc','corner','key','tol','sharp','qty','bw','bc','customSize','sheetW','sheetH','sourceSideMm','vec','vcol','vdet','vsm','vcor','vmin','vmode','vnat','vstack','vdrop','vv'];
   return JSON.stringify({
     page:[W,H],colorMode,
@@ -3824,9 +4064,9 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
       const source=lg.url||'';
       const direct=!isCmyk&&!lg.key&&/^data:image\/(?:png|jpe?g)/i.test(source);
       if(direct){
-        const key='src'+lg.id;
-        if(!nativeImages[key])nativeImages[key]={data:source,fmt:/^data:image\/png/i.test(source)?'PNG':'JPEG',alias:key};
-        hybridRotation(pdf,cl,cx,cy,()=>hybridImageCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,nativeImages[key]));
+        const imageKey='src'+lg.id;
+        if(!nativeImages[imageKey])nativeImages[imageKey]={data:source,fmt:/^data:image\/png/i.test(source)?'PNG':'JPEG',alias:imageKey};
+        hybridRotation(pdf,cl,cx,cy,()=>hybridImageCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,nativeImages[imageKey]));
         native++;return;
       }
       const tileKey=[lg.id,cellShape,physicalLayout.w,physicalLayout.h,bleed,dpi].join(':');
@@ -3834,7 +4074,7 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
       if(!tile){tile=hybridRasterTile(lg,physicalLayout,cellShape,bleed,dpi);rasterTiles.set(tileKey,tile)}
       hybridRotation(pdf,cl,cx,cy,()=>isCmyk
         ?addCmykCanvas(pdf,tile.canvas,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias)
-        :pdf.addImage(tile.data,'PNG',cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias,'SLOW'));
+        :pdf.addImage(tile.data,tile.fmt,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias,'SLOW'));
       rasterized++;
     });
     drawSheetMarksPdf(pdf,L,colorMode);
@@ -3846,7 +4086,7 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
     }
     LASTINFO=`PDF Hybrid: ${vectors} vector sticker(s), ${native} directly embedded PNG/JPEG placement(s), ${rasterized} selectively rasterized placement(s) at up to ${dpi} DPI${includeCutPage?'; page 1 has artwork and registration marks, page 2 has matching registration marks and vector cut contours':includeCutLines&&$('vcut').checked?'; vector cut contours included':'; no cut contours'}${isCmyk?'; PDF artwork and marks use generic DeviceCMYK, with no embedded ICC profile':''}.`;
     const name=sheetFileName('pdf').replace(/\.pdf$/,`${fileSuffix}${isCmyk?'-cmyk':''}.pdf`),blob=pdf.output('blob');
-    if(fileSuffix==='-artwork-registration'&&!includeCutLines&&!includeEdgeText)COREL_PAIR_SIGNATURE=corelPairSignature(L,colorMode);
+    if(fileSuffix.startsWith('-artwork-registration')&&!includeCutLines&&!includeEdgeText)COREL_PAIR_SIGNATURE=corelPairSignature(L,colorMode);
     if(returnBlob){busy(false);return {name,blob}}
     await saveFile(name,blob);
   }catch(err){
@@ -3970,13 +4210,7 @@ $('svg').onclick=async()=>{
       else{const r=cellShape==='rounded'?roundedRadius(physicalLayout.w,physicalLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
       g+=svgCellRotation(cl,cx,cy,contour);
     });
-    let br='';
-    if(!isCdrMarks()&&!isPrimaMarks()){
-      const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-      br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
-    }
-    const dots=marksSvg();
-    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${dots}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${g}</g></svg>`;
+    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${g}</g></svg>`;
     await saveFile(sheetFileName('svg'),new Blob([svg],{type:'image/svg+xml'}));
   }catch(err){$('dlstatus').textContent='Could not create SVG: '+((err&&err.message)||err)}
   busy(false);
@@ -3996,12 +4230,7 @@ function createSvgCutContours(){
     else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
     contours+=svgCellRotation(cl,cx,cy,contour);
   });
-  let br='';
-  if(!isCdrMarks()&&!isPrimaMarks()){
-    const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-    br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
-  }
-  const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g></g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
+  const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
   return new Blob([svg],{type:'image/svg+xml'});
 }
 $('svg-contour').onclick=async()=>{
@@ -4108,11 +4337,6 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         else{const r=cellShape==='rounded'?roundedRadius(logoLayout.w,logoLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
         cuts+=svgCellRotation(cl,cx,cy,contour);
       });
-      let br='';
-      if(!isCdrMarks()&&!isPrimaMarks()){
-        const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-        br=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('');
-      }
       const bg=$('strans').checked?'':`<rect width="${W}" height="${H}" fill="${$('sbg').value}"/>`;
       const edgeText=$('credit').checked?$('credit-text').value.trim():'';
       let credit='';
@@ -4125,7 +4349,7 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         credit=`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="${fontSize}" fill="#000">${escaped}</text>`;
       }
       const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
-      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileDefinitions.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}<g fill="none" stroke="#000" stroke-width="0.3">${br}</g>${credit}</g>${cutLayer}</svg>`;
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileDefinitions.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
       LASTINFO=hybrid
         ?`SVG Hybrid: ${vectorCount} traced artwork(s) remain vector paths; eligible PNG/JPEG sources keep their original pixels and are embedded once per design, while artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`
         :includeCutLines
@@ -4213,12 +4437,6 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
       });
       let background='';
       if(!$('strans').checked)background=`<rect width="${W}" height="${H}" fill="${$('sbg').value}"/>`;
-      let registration='';
-      if(!isCdrMarks()&&!isPrimaMarks()){
-        const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-        const corners=[[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]];
-        registration=`<g fill="none" stroke="#000" stroke-width="0.3">${corners.map(([x,y,sx,sy])=>`<path d="M${f(x+sx*l)},${f(y)} L${f(x)},${f(y)} L${f(x)},${f(y+sy*l)}"/>`).join('')}</g>`;
-      }
       const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
       let credit='';
       if(edgeText){
@@ -4230,7 +4448,7 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
         credit=`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="${fontSize}" fill="#000">${escaped}</text>`;
       }
       const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
-      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${background}<image x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" xlink:href="${dataUrl}"/><g id="Registrasi">${marksSvg()}${registration}${credit}</g>${cutLayer}</svg>`;
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${background}<image x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" xlink:href="${dataUrl}"/><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
       LASTINFO=includeCutLines
         ?`CorelDRAW-compatible SVG: artwork is one embedded PNG at ${dpi} DPI; registration marks and cut paths remain vector${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`
         :`SVG stickers + marks: artwork is one embedded PNG at ${dpi} DPI; registration marks remain vector; no cut contours or edge text are included${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`;
@@ -4370,7 +4588,7 @@ function updateJobFilenamePreview(){
 updateJobFilenamePreview();
 const PRINT_PRESET_IDS=[
   'paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow',
-  'dpi','pdpi','lossless','guide','vcut','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','cname','cox','coy',
+  'dpi','pdpi','lossless','guide','vcut','pxm','mdpi','pxw','pxh','pxd','sbg','strans','mach','mtype','msz','moff','mw','mark-clearance','cname','cox','coy',
   'credit','credit-text','ez-bord','ez-bw','job-material','job-material-custom','job-lamination','job-lamination-custom','job-finish','job-finish-custom','job-cut','job-cut-custom'
 ];
 const PRINT_PRESET_STORAGE_KEY='proletar-print-presets-v1';
@@ -4465,7 +4683,7 @@ try{refreshPrintPresetList()}catch(error){setPrintPresetStatus(`Could not read s
   $(id).addEventListener('input',updateFinishPreview);
   $(id).addEventListener('change',updateFinishPreview);
 });
-const PREFLIGHT_UPDATE_IDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','dpi','pdpi','lossless','vcut','mtype','msz','moff','mw','k-target'];
+const PREFLIGHT_UPDATE_IDS=['paper','shape','pw','ph','print-area-custom','print-area-w','print-area-h','cut-area-custom','cut-area-w','cut-area-h','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','dpi','pdpi','lossless','vcut','mtype','msz','moff','mw','mark-clearance','k-target'];
 PREFLIGHT_UPDATE_IDS.forEach(id=>{
   $(id).addEventListener('input',schedule);
   $(id).addEventListener('change',schedule);
@@ -4492,6 +4710,7 @@ function createPrintSpecificationPdf(){
     `Margins (top / bottom / left / right): ${$('mt').value} / ${$('mb').value} / ${$('ml').value} / ${$('mr').value} mm`,
     `Print area: ${(layout.printArea.right-layout.printArea.left).toFixed(1)} x ${(layout.printArea.bottom-layout.printArea.top).toFixed(1)} mm${isFixedPrintTemplate()?' (fixed template)':$('print-area-custom').checked?' (custom)':' (follows margins)'}`,
     `Cutting area: ${(layout.cuttingArea.right-layout.cuttingArea.left).toFixed(1)} x ${(layout.cuttingArea.bottom-layout.cuttingArea.top).toFixed(1)} mm${isFixedPrintTemplate()?' (fixed template)':$('cut-area-custom').checked?' (custom)':' (follows margins)'}`,
+    `Sticker-to-mark clearance: ${$('mark-clearance').value} mm`,
     `Sticker gap / bleed: ${$('gap').value} / ${$('bleed').value} mm`,
     `Stickers per sheet: ${layout.cells.length}`,
     `Requested quantity / estimated sheets: ${requested} / ${layout.cells.length?Math.ceil(requested/layout.cells.length):'Not available'}`,
@@ -4538,15 +4757,14 @@ function applyMach(){const m=MACH[$('mach').value];if(m.t){$('mtype').value=m.t;
 function marksGeom(){
   const t=$('mtype').value,s=+$('msz').value||5,o=+$('moff').value||8,r=[];
   if(t==='prima-diecut'){
-    // The Die Cut PDF uses point coordinates; convert them to the sheet's mm space.
-    const mm=25.4/72,point=(x,y)=>[x*mm,H-y*mm];
+    const mm=25.4/72,sx=W/483,sy=H/325,markScale=Math.min(sx,sy),point=(x,y)=>[x*mm*sx,H-y*mm*sy];
     [[32.3867,885.6434],[1336.3237,885.6434],[32.3867,35.2497],[1336.3237,35.2497]]
-      .forEach(([x,y])=>r.push({c:point(x,y),radius:2.5,f:1,color:'#000000'}));
+      .forEach(([x,y])=>r.push({c:point(x,y),radius:2.5*markScale,f:1,color:'#000000'}));
     [[684.5669,892.9134],[684.5669,28.3465],[25.5118,460.6299],[1343.622,460.6299]]
       .forEach(([x,y])=>{
-        const [cx,cy]=point(x,y),half=2.5;
-        r.push({pts:[[cx-half,cy],[cx+half,cy]],stroke:'#000000',width:0.1764});
-        r.push({pts:[[cx,cy-half],[cx,cy+half]],stroke:'#000000',width:0.1764});
+        const [cx,cy]=point(x,y),halfX=2.5*sx,halfY=2.5*sy;
+        r.push({pts:[[cx-halfX,cy],[cx+halfX,cy]],stroke:'#000000',width:0.1764*markScale});
+        r.push({pts:[[cx,cy-halfY],[cx,cy+halfY]],stroke:'#000000',width:0.1764*markScale});
       });
     r.push({
       pts:[[63.419,44.7231],[52.179,44.7231],[52.179,40.6644],[40.9388,48.7823],
@@ -4556,17 +4774,17 @@ function marksGeom(){
     return r;
   }
   if(t==='prima-kisscut'){
-    const inset=40.3047*25.4/72,cornerY=36.8368*25.4/72,arm=14;
+    const sx=W/325,sy=H/483,markScale=Math.min(sx,sy),inset=40.3047*25.4/72*sx,cornerY=36.8368*25.4/72*sy,armX=14*sx,armY=14*sy;
     const right=W-inset,bottom=H-cornerY;
     const topLeft=[inset,cornerY],topRight=[right,cornerY],bottomLeft=[inset,bottom],bottomRight=[right,bottom];
     r.push(
-      {pts:[[topLeft[0]+arm,topLeft[1]],[topLeft[0],topLeft[1]],[topLeft[0],topLeft[1]+arm]],stroke:'#060809',width:0.5},
-      {pts:[[topRight[0]-arm,topRight[1]],[topRight[0],topRight[1]],[topRight[0],topRight[1]+arm]],stroke:'#060809',width:0.5},
-      {pts:[[bottomLeft[0],bottomLeft[1]-arm],[bottomLeft[0],bottomLeft[1]],[bottomLeft[0]+arm,bottomLeft[1]]],stroke:'#060809',width:0.5},
-      {pts:[[bottomRight[0]-arm,bottomRight[1]],[bottomRight[0],bottomRight[1]],[bottomRight[0],bottomRight[1]-arm]],stroke:'#060809',width:0.5}
+      {pts:[[topLeft[0]+armX,topLeft[1]],[topLeft[0],topLeft[1]],[topLeft[0],topLeft[1]+armY]],stroke:'#060809',width:0.5*markScale},
+      {pts:[[topRight[0]-armX,topRight[1]],[topRight[0],topRight[1]],[topRight[0],topRight[1]+armY]],stroke:'#060809',width:0.5*markScale},
+      {pts:[[bottomLeft[0],bottomLeft[1]-armY],[bottomLeft[0],bottomLeft[1]],[bottomLeft[0]+armX,bottomLeft[1]]],stroke:'#060809',width:0.5*markScale},
+      {pts:[[bottomRight[0]-armX,bottomRight[1]],[bottomRight[0],bottomRight[1]],[bottomRight[0],bottomRight[1]-armY]],stroke:'#060809',width:0.5*markScale}
     );
     [[35.6165,1336.3237],[886.0102,1336.3237],[35.6165,32.3867],[886.0102,32.3867]]
-      .forEach(([x,y])=>r.push({c:[x*25.4/72,H-y*25.4/72],radius:2.5,f:1,color:'#000000'}));
+      .forEach(([x,y])=>r.push({c:[x*25.4/72*sx,H-y*25.4/72*sy],radius:2.5*markScale,f:1,color:'#000000'}));
     return r;
   }
   if(t==='cdr'){
@@ -4582,6 +4800,41 @@ function marksGeom(){
     else r.push({pts:[[x-s/2,y-s/2],[x+s/2,y-s/2],[x+s/2,y+s/2],[x-s/2,y+s/2]],z:1,f:1});
   });return r;
 }
+function registrationMarkSafeArea(clearance){
+  if($('mtype').value==='cdr'){
+    const frame=cdrFrame();
+    const inwardMarkLength=2*(+$('msz').value||5),strokePad=(+$('mw').value||0.3)/2,inset=inwardMarkLength+strokePad+clearance;
+    return{left:frame.x+inset,top:frame.y+inset,right:frame.x+frame.w-inset,bottom:frame.y+frame.h-inset};
+  }
+  const corners=[null,null,null,null];
+  marksGeom().forEach(mark=>{
+    if(mark.color==='#4c4c4c')return;
+    const linePad=(mark.width||+$('mw').value||0.3)/2;
+    const points=mark.c
+      ?[[mark.c[0]-(mark.radius||mark.c[2]),mark.c[1]-(mark.radius||mark.c[2])],[mark.c[0]+(mark.radius||mark.c[2]),mark.c[1]+(mark.radius||mark.c[2])]]
+      :mark.pts;
+    if(!points?.length)return;
+    const bounds={
+      left:Math.min(...points.map(point=>point[0]))-(mark.c?0:linePad),
+      right:Math.max(...points.map(point=>point[0]))+(mark.c?0:linePad),
+      top:Math.min(...points.map(point=>point[1]))-(mark.c?0:linePad),
+      bottom:Math.max(...points.map(point=>point[1]))+(mark.c?0:linePad)
+    };
+    const cx=(bounds.left+bounds.right)/2,cy=(bounds.top+bounds.bottom)/2;
+    if(Math.abs(cx-W/2)<0.001||Math.abs(cy-H/2)<0.001)return;
+    const index=(cy>H/2?2:0)+(cx>W/2?1:0);
+    const corner=corners[index]||(corners[index]={left:Infinity,right:-Infinity,top:Infinity,bottom:-Infinity});
+    corner.left=Math.min(corner.left,bounds.left);corner.right=Math.max(corner.right,bounds.right);
+    corner.top=Math.min(corner.top,bounds.top);corner.bottom=Math.max(corner.bottom,bounds.bottom);
+  });
+  if(corners.some(corner=>!corner))return{left:0,top:0,right:W,bottom:H};
+  return{
+    left:Math.max(corners[0].right,corners[2].right)+clearance,
+    top:Math.max(corners[0].bottom,corners[1].bottom)+clearance,
+    right:Math.min(corners[1].left,corners[3].left)-clearance,
+    bottom:Math.min(corners[2].top,corners[3].top)-clearance
+  };
+}
 function drawSheetMarksPdf(pdf,L,colorMode='rgb'){
   const setColor=(method,color)=>{
     setPdfColor(pdf,color||'#000000',colorMode,method==='setDrawColor');
@@ -4592,10 +4845,6 @@ function drawSheetMarksPdf(pdf,L,colorMode='rgb'){
     if(p.c)pdf.circle(p.c[0],p.c[1],p.radius||p.c[2],'F');
     else{const q=p.pts;pdf.lines(q.slice(1).map((v,i)=>[v[0]-q[i][0],v[1]-q[i][1]]),q[0][0],q[0][1],[1,1],p.f?'F':'S',!!p.z)}
   });
-  if(!isCdrMarks()&&!isPrimaMarks()){
-    const o=3,l=6,ax=L.x0-o,bx=L.x0+L.gw+o,ay=L.y0-o,by=L.y0+L.gh+o;
-    [[ax,ay,1,1],[bx,ay,-1,1],[ax,by,1,-1],[bx,by,-1,-1]].forEach(([x,y,sx,sy])=>{pdf.line(x+sx*l,y,x,y);pdf.line(x,y,x,y+sy*l)});
-  }
 }
 function drawCutContoursPdf(pdf,L,colorMode='rgb'){
   const shape=$('shape').value,ox=+$('cox').value||0,oy=+$('coy').value||0;
@@ -4626,12 +4875,13 @@ function drawCutContoursPdf(pdf,L,colorMode='rgb'){
 }
 function isCdrMarks(){return $('mtype').value==='cdr'}
 function isPrimaMarks(){return $('mtype').value==='prima-diecut'||$('mtype').value==='prima-kisscut'}
+function updateRegistrationMarkControls(){
+  const preset=isPrimaMarks();
+  ['msz','moff','mw'].forEach(id=>$(id).disabled=preset);
+  $('mark-preset-hint').hidden=!preset;
+}
 function cdrFrame(){
   const mv=id=>{const value=Number($(id).value);return Number.isFinite(value)&&value>=0?value:18};
-  if(Math.abs(W-325)<0.001&&Math.abs(H-485)<0.001&&$('mtype').value==='cdr'){
-    const x=mv('ml'),y=mv('mt');
-    return{x,y,w:W-x-mv('mr'),h:H-y-mv('mb')};
-  }
   const {cuttingArea}=sheetAreaGeometry(mv('mt'),mv('mb'),mv('ml'),mv('mr'));
   return{x:cuttingArea.left,y:cuttingArea.top,w:cuttingArea.right-cuttingArea.left,h:cuttingArea.bottom-cuttingArea.top};
 }
@@ -4683,57 +4933,16 @@ $('d').addEventListener('input',()=>{
   updateBtns();schedule();
 });
 $('h').addEventListener('input',()=>{if(!applyingPrintPreset&&!syncingShapeDimensions)markSelectedSizeCustom()});
-['pxm','mdpi','pxd','sbg','strans','mtype','msz','mw','moff','cox','coy','cname'].forEach(id=>{$(id).addEventListener('input',()=>{updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
+['pxm','mdpi','pxd','sbg','strans','mtype','msz','mw','moff','mark-clearance','cox','coy','cname'].forEach(id=>{$(id).addEventListener('input',()=>{updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 
-/* ---------- side-by-side sinkron ---------- */
-const sbs={v:[{z:1,x:0,y:0},{z:1,x:0,y:0}],t:[]};
-function sbsLogoLayout(lg,L,shape){return logoLayout(logos.indexOf(lg),L,shape).L}
-function sbsTiles(){const lg=logos[sel],L=calc(),pp=outDpi()/25.4,sh=shapeForLogo(sel,$('shape').value),logoL=sbsLogoLayout(lg,L,sh);
-  return ['sl','sr'].map(id=>{const m=$(id).value,l=m==='raw'?{...lg,vec:false,sharp:0,id:lg.id+'r'}:m==='ras'?{...lg,vec:false,id:lg.id+'s'}:(m==='vec'&&lg.vimg)?{...lg,vec:true,id:lg.id+'v'}:lg;return getTile(l,logoL,sh,0,pp)})}
-const sbsEach=(i,fn)=>($('ssync').checked?[0,1]:[i]).forEach(k=>fn(sbs.v[k]));
-const sbsS=i=>{const c=$('sc'+i),L=calc(),lg=logos[sel],sh=shapeForLogo(sel,$('shape').value),logoL=sbsLogoLayout(lg,L,sh);return Math.min(c.width,c.height)/Math.max(logoL.w,logoL.h)/1.05*sbs.v[i].z};
-function sbsDraw(){
-  const L=calc(),dp=devicePixelRatio||1,sh=shapeForLogo(sel,$('shape').value);
-  [0,1].forEach(i=>{const c=$('sc'+i),r=c.parentNode.getBoundingClientRect(),cw=Math.round(r.width*dp),ch=Math.round(r.height*dp);
-    if(c.width!==cw||c.height!==ch){c.width=cw;c.height=ch}
-    const x=c.getContext('2d'),v=sbs.v[i],s=sbsS(i),t=sbs.t[i];
-    const lg=logos[sel],logoL=sbsLogoLayout(lg,L,sh);
-    x.setTransform(1,0,0,1,0,0);x.fillStyle=$('svbg').value;x.fillRect(0,0,c.width,c.height);
-    x.imageSmoothingEnabled=!$('spx').checked;x.imageSmoothingQuality='high';
-    x.drawImage(t,c.width/2+(-v.x-logoL.w/2)*s,c.height/2+(-v.y-logoL.h/2)*s,logoL.w*s,logoL.h*s);
-    x.save();x.translate(c.width/2-v.x*s,c.height/2-v.y*s);x.scale(s,s);x.lineWidth=dp/s;x.strokeStyle='rgba(224,16,122,.9)';shapePath(x,0,0,logoL.w,logoL.h,sh,0,lg);x.stroke();x.restore();
-    {const m=$(i?'sr':'sl').value,lg=logos[sel],nm={raw:'Asli (raster)',ras:'Raster',vec:'Vektor',fin:(lg.vec&&lg.vimg?'Vektor':'Raster')}[m];x.setTransform(1,0,0,1,0,0);x.font='bold '+(13*dp)+'px system-ui';x.fillStyle='#e0107a';x.fillText(nm+' · '+outDpi()+' dpi',8*dp,18*dp)}
-  });
-  $('szr').value=Math.round(sbs.v[0].z*100);
-}
-{const sc=document.querySelector('#sbs .sc'),ptr=new Map();let pd=0;
- const side=e=>e.clientX<sc.getBoundingClientRect().left+sc.clientWidth/2?0:1;
- sc.onpointerdown=e=>{sc.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY,side(e)]);pd=0};
- sc.onpointermove=e=>{const o=ptr.get(e.pointerId);if(!o)return;const n=[e.clientX,e.clientY,o[2]];
-  if(ptr.size===2){ptr.set(e.pointerId,n);const [a,b]=[...ptr.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pd)sbsEach(a[2],v=>v.z=clamp(v.z*d/pd,1,64));pd=d}
-  else{const s=sbsS(o[2])/(devicePixelRatio||1);sbsEach(o[2],v=>{v.x-=(n[0]-o[0])/s;v.y-=(n[1]-o[1])/s});ptr.set(e.pointerId,n)}
-  sbsDraw()};
- sc.onpointerup=sc.onpointercancel=e=>{ptr.delete(e.pointerId);pd=0};
- sc.onwheel=e=>{e.preventDefault();sbsEach(side(e),v=>v.z=clamp(v.z*(e.deltaY<0?1.2:1/1.2),1,64));sbsDraw()};
-}
-$('sbsbtn').onclick=()=>{if(!logos.length){$('dlstatus').textContent='Add at least one image first.';return}
-  sbs.t=sbsTiles();sbs.v=[{z:1,x:0,y:0},{z:1,x:0,y:0}];$('sbs').classList.add('on');requestAnimationFrame(sbsDraw)};
-$('sclose').onclick=()=>$('sbs').classList.remove('on');
-['sl','sr'].forEach(id=>$(id).onchange=()=>{sbs.t=sbsTiles();sbsDraw()});
-$('svbg').oninput=$('spx').onchange=sbsDraw;
-$('szr').oninput=()=>{const z=$('szr').value/100;sbs.v.forEach(v=>v.z=z);sbsDraw()};
-$('szi').onclick=()=>{sbsEach(0,v=>v.z=clamp(v.z*1.5,1,64));sbsDraw()};
-$('szo').onclick=()=>{sbsEach(0,v=>v.z=clamp(v.z/1.5,1,64));sbsDraw()};
-$('srst').onclick=()=>{sbs.v=[{z:1,x:0,y:0},{z:1,x:0,y:0}];sbsDraw()};
-$('ssync').onchange=()=>{if($('ssync').checked)sbs.v[1]={...sbs.v[0]};sbsDraw()};
-addEventListener('resize',()=>{if($('sbs').classList.contains('on'))sbsDraw()});
 /* ---------- lembar penuh pada piksel cetak nyata ---------- */
+document.body.appendChild($('shv'));
 const shv={z:1,x:0,y:0},shp=new Map();let shd=0;
-function shFit(){const c=$('shc');shv.z=Math.min(c.clientWidth/W,c.clientHeight/H)*0.96;shv.x=(c.clientWidth-W*shv.z)/2;shv.y=12}
-function shZoom(f,px,py){const nz=clamp(shv.z*f,0.2,80),k=nz/shv.z;shv.x=px-(px-shv.x)*k;shv.y=py-(py-shv.y)*k;shv.z=nz;shDraw()}
+function shFit(){const c=$('shc'),cw=Math.max(1,c.clientWidth),ch=Math.max(1,c.clientHeight);shv.z=Math.min(cw/W,ch/H)*0.96;shv.x=(cw-W*shv.z)/2;shv.y=(ch-H*shv.z)/2}
+function shZoom(f,px,py){const maxZoom=Math.max(80,outDpi()/25.4/(devicePixelRatio||1)),nz=clamp(shv.z*f,0.2,maxZoom),k=nz/shv.z;shv.x=px-(px-shv.x)*k;shv.y=py-(py-shv.y)*k;shv.z=nz;shDraw()}
 function shDraw(){
   if(!$('shv').classList.contains('on'))return;
-  const c=$('shc'),dp=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;
+  const c=$('shc'),dp=window.devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;
   if(c.width!==Math.round(w*dp)||c.height!==Math.round(h*dp)){c.width=Math.round(w*dp);c.height=Math.round(h*dp)}
   const L=calc(),x=c.getContext('2d'),s=shv.z*dp,shape=$('shape').value,bleed=+$('bleed').value||0,pp=outDpi()/25.4,t={};
   x.setTransform(1,0,0,1,0,0);x.fillStyle='#777';x.fillRect(0,0,c.width,c.height);
@@ -4744,12 +4953,24 @@ function shDraw(){
   L.cells.forEach((cl,i)=>{
     const li=L.assign[i];if(logos.length&&li<0)return;
     const lg=li>=0?logos[li]:null,cellShape=shapeForLogo(li,shape),logoL=logoLayout(li,L,shape).L;
-    if(cl.x+logoL.w/2+bleed<vx0||cl.x-logoL.w/2-bleed>vx1||cl.y+logoL.h/2+bleed<vy0||cl.y-logoL.h/2-bleed>vy1)return;
+    const tileW=logoL.w+2*bleed,tileH=logoL.h+2*bleed,angle=(cl.rot||0)*Math.PI/180;
+    const boundsW=Math.abs(Math.cos(angle))*tileW+Math.abs(Math.sin(angle))*tileH;
+    const boundsH=Math.abs(Math.sin(angle))*tileW+Math.abs(Math.cos(angle))*tileH;
+    if(cl.x+boundsW/2<vx0||cl.x-boundsW/2>vx1||cl.y+boundsH/2<vy0||cl.y-boundsH/2>vy1)return;
     const tileKey=li+':'+cellShape,tl=t[tileKey]||(t[tileKey]=getTile(lg,logoL,cellShape,bleed,pp));
-    x.drawImage(tl,cl.x-logoL.w/2-bleed,cl.y-logoL.h/2-bleed,logoL.w+2*bleed,logoL.h+2*bleed);
-    if($('guide').checked){x.strokeStyle='#e0107a';x.lineWidth=1/s;shapePath(x,cl.x,cl.y,logoL.w,logoL.h,cellShape,0,logo);x.stroke()}
+    x.save();x.translate(cl.x,cl.y);if(cl.rot)x.rotate(angle);x.drawImage(tl,-tileW/2,-tileH/2,tileW,tileH);x.restore();
+    if($('guide').checked){
+      x.save();x.translate(cl.x+(+$('cox').value||0),cl.y+(+$('coy').value||0));if(cl.rot)x.rotate(angle);
+      x.strokeStyle='#e0107a';x.lineWidth=1/s;shapePath(x,0,0,logoL.w,logoL.h,cellShape,0,lg);x.stroke();x.restore();
+    }
   });
   drawMarks(x,L,true);
+  if(!isFixedPrintTemplate()){
+    x.save();x.setLineDash([3/s,2/s]);x.lineWidth=0.45/s;x.strokeStyle='#1677d2';
+    x.strokeRect(L.printArea.left,L.printArea.top,L.printArea.right-L.printArea.left,L.printArea.bottom-L.printArea.top);
+    x.setLineDash([1/s,2/s]);x.lineDashOffset=1/s;x.strokeStyle='#e87516';
+    x.strokeRect(L.cuttingArea.left,L.cuttingArea.top,L.cuttingArea.right-L.cuttingArea.left,L.cuttingArea.bottom-L.cuttingArea.top);x.restore();
+  }
   $('shinfo').textContent=Math.round(s/pp*100)+'% of print pixels ('+outDpi()+' DPI)';
 }
 {const c=$('shc'),pos=e=>{const r=c.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
@@ -4762,7 +4983,7 @@ function shDraw(){
 $('shbtn').onclick=()=>{$('shv').classList.add('on');document.documentElement.classList.add('full-viewer');document.body.classList.add('full-viewer');requestAnimationFrame(()=>requestAnimationFrame(()=>{shFit();shDraw()}))};
 $('shx').onclick=()=>{$('shv').classList.remove('on');document.documentElement.classList.remove('full-viewer');document.body.classList.remove('full-viewer')};
 $('shfit').onclick=()=>{shFit();shDraw()};
-$('sh11').onclick=()=>{const c=$('shc');shZoom((outDpi()/25.4/(devicePixelRatio||1))/shv.z,c.clientWidth/2,c.clientHeight/2)};
+$('sh11').onclick=()=>{const c=$('shc'),target=outDpi()/25.4/(window.devicePixelRatio||1);shZoom(target/shv.z,c.clientWidth/2,c.clientHeight/2)};
 addEventListener('resize',shDraw);
 let lastDpi=+$('mdpi').value||600;
 $('pxm').addEventListener('change',()=>{
@@ -4787,9 +5008,9 @@ render();
 /* ============ Mode Mudah (pengguna awam) ============ */
 (function(){
   const PRINT_TEMPLATES=[
-    {id:'cdr-305x435',paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,mtype:'cdr',credit:true},
-    {id:'prima-diecut',paper:'483x325',areaW:420,areaH:280,msz:5,moff:10,mw:0.3,mtype:'prima-diecut',credit:false},
-    {id:'prima-kisscut',paper:'325x483',areaW:290,areaH:430,msz:5,moff:10,mw:0.3,mtype:'prima-kisscut',credit:false}
+    {id:'cdr-305x435',paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,clearance:5,mtype:'cdr',credit:true},
+    {id:'prima-diecut',paper:'483x325',areaW:420,areaH:280,msz:5,moff:10,mw:0.3,clearance:5,mtype:'prima-diecut',credit:false},
+    {id:'prima-kisscut',paper:'325x483',areaW:290,areaH:430,msz:5,moff:10,mw:0.3,clearance:5,mtype:'prima-kisscut',credit:false}
   ];
   let applyingTemplate=false;
   function templateMargins(template){
@@ -4807,7 +5028,7 @@ render();
       $(id).value=value;$('ez-'+id).value=value;
       fire($(id),'input');
     });
-    $('msz').value=template.msz;$('moff').value=template.moff;$('mw').value=template.mw;
+    $('msz').value=template.msz;$('moff').value=template.moff;$('mw').value=template.mw;$('mark-clearance').value=template.clearance;
     ['msz','moff','mw'].forEach(id=>fire($(id),'input'));
     if(typeof template.credit==='boolean'){$('credit').checked=template.credit;fire($('credit'),'input')}
     fire($('paper'),'input');
@@ -4822,7 +5043,8 @@ render();
     const actualWidth=$('paper').value==='custom'?Number($('pw').value):Number($('paper').value.split('x')[0]);
     const actualHeight=$('paper').value==='custom'?Number($('ph').value):Number($('paper').value.split('x')[1]);
     return Math.abs(actualWidth-pageWidth)<0.001&&Math.abs(actualHeight-pageHeight)<0.001&&$('mtype').value===template.mtype&&
-      ['mt','mb','ml','mr','msz','moff','mw'].every(id=>Math.abs((parseFloat($(id).value)||0)-expected[id])<0.001);
+      ['mt','mb','ml','mr','msz','moff','mw'].every(id=>Math.abs((parseFloat($(id).value)||0)-expected[id])<0.001)&&
+      Math.abs((parseFloat($('mark-clearance').value)||0)-template.clearance)<0.001;
   }
   const keep=['file','easy','cv','pdf','cost'];
   document.querySelectorAll('main > .card').forEach(c=>{if(c.id!=='easy'&&!keep.some(id=>c.querySelector('#'+id)))c.classList.add('adv')});
@@ -4831,10 +5053,10 @@ render();
   function applyH(){if($('shape').value==='oval'){$('h').value=hOf(+$('d').value||16);fire($('h'),'input')}}
   function sync(){
     const sh=$('shape').value,d=+$('d').value,h=+$('h').value||d,pp=$('paper').value;
+    $('quick-artwork-options').hidden=!logos.length;
     updateRoundInputLimits();
     document.querySelectorAll('#ez-shape button').forEach(b=>b.classList.toggle('on',b.dataset.v===sh));
     document.querySelectorAll('#ez-size button').forEach(b=>b.classList.toggle('on',+b.dataset.v===d));
-    document.querySelectorAll('#ez-layout button').forEach(b=>b.classList.toggle('on',b.dataset.v===$('layout').value));
     document.querySelectorAll('#ez-paper button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===pp));
     PRINT_TEMPLATES.forEach(template=>{
       document.querySelector(`#ez-print-presets [data-print-area="${template.id}"]`).classList.toggle('on',isPrintTemplateSelected(template));
@@ -4842,10 +5064,10 @@ render();
     const selectedTemplate=PRINT_TEMPLATES.find(isPrintTemplateSelected);
     if(selectedTemplate){
       $('ez-template-info').textContent=selectedTemplate.areaW
-        ?`${selectedTemplate.id==='prima-diecut'?'Die Cut':'Kiss Cut'} Prima preset selected: ${selectedTemplate.paper.replace('x',' × ')} mm page with a ${selectedTemplate.areaW} × ${selectedTemplate.areaH} mm working area. Sticker placement is constrained to this area; margins and registration marks follow the preset. The magenta frame is preview-only.`
-        :`CDR preset selected: 325 × 485 mm page with the 305 × 435 mm reference print frame and matching registration marks. The frame is preview-only.`;
+        ?`${selectedTemplate.id==='prima-diecut'?'Die Cut':'Kiss Cut'} Prima preset selected: ${selectedTemplate.paper.replace('x',' × ')} mm page with a ${selectedTemplate.areaW} × ${selectedTemplate.areaH} mm working area. Sticker placement keeps a ${selectedTemplate.clearance} mm clearance inside the work-area boundary; margins and registration marks follow the preset. The magenta frame is preview-only.`
+        :`CDR preset selected: 325 × 485 mm page with the 305 × 435 mm reference print frame and matching registration marks. Sticker placement keeps a ${selectedTemplate.clearance} mm clearance inside the frame. The frame is preview-only.`;
     }else{
-      $('ez-template-info').textContent='CDR and Prima are print presets, not paper sizes. Selecting one sets its page dimensions, working area, margins, and registration marks. The magenta working-area frame is preview-only and is not exported as a cut line.';
+      $('ez-template-info').textContent='CDR and Prima are print presets, not paper sizes. Selecting one sets its page dimensions, working area, margins, and registration marks. Sticker placement keeps a 5 mm clearance inside the work-area boundary by default; change this in All settings. The magenta working-area frame is preview-only and is not exported as a cut line.';
     }
     if(document.activeElement!==$('ez-d'))$('ez-d').value=d;
     if(document.activeElement!==$('ez-fit'))$('ez-fit').value=$('pfit').value;
@@ -4875,9 +5097,6 @@ render();
     fire($('shape'),'change');applyH();renderThumbs();loadPanel();sync();schedule();
   });
   document.querySelectorAll('#ez-size button').forEach(b=>b.onclick=()=>{$('d').value=b.dataset.v;fire($('d'),'input');applyH();sync()});
-  document.querySelectorAll('#ez-layout button').forEach(b=>b.onclick=()=>{
-    $('layout').value=b.dataset.v;fire($('layout'),'input');fire($('layout'),'change');sync();
-  });
   $('layout').addEventListener('change',()=>sync());
   $('ez-d').addEventListener('input',()=>{
     const v=+$('ez-d').value;if(v>=5){$('d').value=v;fire($('d'),'input');applyH();sync();markSelectedSizeCustom();if(logos[sel])logos[sel].sourceSideMm=v;}
@@ -4901,6 +5120,18 @@ render();
   document.querySelectorAll('#ez-print-presets [data-print-area]').forEach(button=>{
     button.onclick=()=>applyPrintTemplate(PRINT_TEMPLATES.find(template=>template.id===button.dataset.printArea));
   });
+  const quickPortals=[
+    {node:$('mtype').closest('label'),target:'quick-registration-mark',home:$('mtype-home')},
+    {node:$('mark-clearance').closest('label'),target:'quick-mark-clearance',home:$('mark-clearance-home')},
+    {node:$('psafe').closest('.row'),target:'quick-safe-area',home:$('psafe-home')},
+    {node:$('pqty').closest('label'),target:'quick-sticker-quantity',home:$('pqty-home')}
+  ];
+  function setQuickPortals(enabled){
+    quickPortals.forEach(({node,target,home})=>{
+      if(enabled)$(target).appendChild(node);
+      else if(node.parentNode!==home.parentNode)home.parentNode.insertBefore(node,home.nextSibling);
+    });
+  }
   $('paper').addEventListener('change',()=>{
     if(applyingTemplate||applyingPrintPreset)return;
     readPaper();
@@ -4922,6 +5153,7 @@ render();
   function setMode(e){
     document.body.classList.toggle('easy',e);$('m-easy').classList.toggle('on',e);$('m-adv').classList.toggle('on',!e);
     $('m-easy').setAttribute('aria-pressed',String(e));$('m-adv').setAttribute('aria-pressed',String(!e));
+    setQuickPortals(e);
     const one=$('one');
     if(e){if(!one._home){one._home=one.parentNode;one._next=one.nextSibling}$('ez-one').appendChild(one);$('pgrid').value='0';fire($('pgrid'),'input')}
     else if(one._home){one._home.insertBefore(one,one._next&&one._next.parentNode===one._home?one._next:null)}
@@ -5616,14 +5848,15 @@ function setTab(t){
   if(t==='invoice')window.loadInvoiceNative?.();
   useLogoContext(t==='vector'?'vector':'sheet');
   document.body.classList.toggle('tab-studio',t==='studio');
+  document.body.classList.toggle('tab-layout',t==='layout');
   document.body.classList.toggle('tab-vector',t==='vector');
   document.body.classList.toggle('tab-remove',t==='remove');
   document.body.classList.toggle('tab-cut',t==='cut');
   document.body.classList.toggle('tab-upscale',t==='upscale');
   document.body.classList.toggle('tab-viewer',t==='viewer');
   document.body.classList.toggle('tab-invoice',t==='invoice');
-  const tabs={studio:'t-studio',vector:'t-vector',remove:'t-remove',cut:'t-cut',upscale:'t-upscale',sheet:'t-sheet',viewer:'t-viewer',invoice:'t-invoice'};
-  const moreTools=['vector','viewer','invoice'].includes(t),mainTool=['sheet','studio','remove','cut','upscale'].includes(t);
+  const tabs={studio:'t-studio',layout:'t-layout',vector:'t-vector',remove:'t-remove',cut:'t-cut',upscale:'t-upscale',sheet:'t-sheet',viewer:'t-viewer',invoice:'t-invoice'};
+  const moreTools=['vector','viewer','invoice'].includes(t),mainTool=['sheet','layout','studio','remove','cut','upscale'].includes(t);
   Object.entries(tabs).forEach(([key,id])=>{const selected=key===t,button=$(id);button.classList.toggle('on',selected);button.setAttribute('aria-selected',String(selected));button.tabIndex=selected||key==='vector'&&!moreTools||key==='sheet'&&!mainTool?0:-1});
   $('more-tools-label').textContent=moreTools?'More tools · '+$(tabs[t]).textContent:'More tools';
   document.querySelector('.more-tools').classList.toggle('has-selection',moreTools);
@@ -5776,7 +6009,7 @@ async function sendFileToMenu(source,target,blob,name,status){
       invoiceLoading=false;
     }
   };
-  $('t-studio').onclick=()=>setTab('studio');$('t-vector').onclick=()=>setTab('vector');$('t-remove').onclick=()=>setTab('remove');$('t-cut').onclick=()=>setTab('cut');$('t-upscale').onclick=()=>setTab('upscale');$('t-sheet').onclick=()=>setTab('sheet');$('t-viewer').onclick=()=>setTab('viewer');$('t-invoice').onclick=()=>setTab('invoice');
+  $('t-studio').onclick=()=>setTab('studio');$('t-layout').onclick=()=>setTab('layout');$('t-vector').onclick=()=>setTab('vector');$('t-remove').onclick=()=>setTab('remove');$('t-cut').onclick=()=>setTab('cut');$('t-upscale').onclick=()=>setTab('upscale');$('t-sheet').onclick=()=>setTab('sheet');$('t-viewer').onclick=()=>setTab('viewer');$('t-invoice').onclick=()=>setTab('invoice');
   document.querySelectorAll('.toolnav [role=tablist]').forEach(tablist=>tablist.addEventListener('keydown',event=>{
     if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
     const tabButtons=[...tablist.querySelectorAll('[role=tab]')];
@@ -6666,6 +6899,1186 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'));
   }
   [['vsend-studio','studio'],['vsend-remove','remove'],['vsend-upscale','upscale'],['vsend-sheet','sheet'],['vsend-cut','cut'],['vsend-viewer','viewer']].forEach(([id,target])=>$(id).onclick=()=>sendVector(target));
+})();
+
+/* ============ Layout Bebas: independent print-canvas editor ============ */
+(function(){
+  const $=id=>document.getElementById(id);
+  const canvas=$('layout-editor-canvas'),ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  const stage=canvas.parentElement;
+  const state={pageW:210,pageH:297,areaW:174,areaH:261,template:'a4',mark:'L',markSize:5,markOffset:10,dpi:300,background:null,objects:[],selected:-1,selection:null,cursorPage:null,tool:'select',zoom:1,panX:0,panY:0,baseScale:1,originX:0,originY:0};
+  const undoStack=[],redoStack=[],pointers=new Map();
+  let interaction=null,fieldSnapshot=null,sequence=0,renderQueued=false,spacePan=false;
+  const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
+  const cloneObjects=()=>{
+    const objects=state.objects.map(item=>({...item,strokes:item.strokes?.map(stroke=>({...stroke,points:stroke.points.map(point=>({...point})),selection:stroke.selection?.map(point=>({...point}))}))}));
+    objects.background=state.background;
+    return objects;
+  };
+  function updateHistoryButtons(){
+    $('layout-undo').disabled=!undoStack.length;
+    $('layout-redo').disabled=!redoStack.length;
+    $('layout-delete').disabled=state.selected<0;
+    $('layout-layer-duplicate').disabled=state.selected<0;
+    $('layout-layer-up').disabled=state.selected<0||state.selected===state.objects.length-1;
+    $('layout-layer-down').disabled=state.selected<=0;
+    $('layout-fit-area').disabled=state.selected<0;
+    $('layout-fit-page').disabled=state.selected<0;
+    $('layout-crop-reset').disabled=state.selected<0||state.objects[state.selected]?.type!=='image';
+    $('layout-selection-clear').disabled=!state.selection;
+    $('layout-align-controls').hidden=state.selected<0||state.objects[state.selected]?.locked;
+  }
+  function saveHistory(snapshot=cloneObjects()){
+    undoStack.push(snapshot);
+    if(undoStack.length>50)undoStack.shift();
+    redoStack.length=0;
+    updateHistoryButtons();
+  }
+  function restoreObjects(objects){
+    state.objects=objects.map(item=>({...item}));
+    state.background=objects.background??null;
+    $('layout-background-mode').value=state.background?'color':'transparent';
+    $('layout-background-color-field').hidden=!state.background;
+    if(state.background)$('layout-background-color').value=state.background;
+    state.selected=state.objects.length?clamp(state.selected,0,state.objects.length-1):-1;
+    renderLayers();renderObjectFields();scheduleDraw();updateHistoryButtons();
+  }
+  function undo(){
+    if(!undoStack.length)return;
+    redoStack.push(cloneObjects());
+    restoreObjects(undoStack.pop());
+  }
+  function redo(){
+    if(!redoStack.length)return;
+    undoStack.push(cloneObjects());
+    restoreObjects(redoStack.pop());
+  }
+  function pageOrigin(){
+    const rect=canvas.getBoundingClientRect(),scale=state.baseScale*state.zoom;
+    state.originX=(rect.width-state.pageW*scale)/2+state.panX;
+    state.originY=(rect.height-state.pageH*scale)/2+state.panY;
+    return {scale,x:state.originX,y:state.originY};
+  }
+  function screenPoint(clientX,clientY){
+    const rect=canvas.getBoundingClientRect(),view=pageOrigin();
+    return {x:(clientX-rect.left-view.x)/view.scale,y:(clientY-rect.top-view.y)/view.scale};
+  }
+  function setZoom(value,anchorX,anchorY){
+    const rect=canvas.getBoundingClientRect(),old=pageOrigin();
+    const ax=Number.isFinite(anchorX)?anchorX:rect.width/2,ay=Number.isFinite(anchorY)?anchorY:rect.height/2;
+    const pageX=(ax-old.x)/old.scale,pageY=(ay-old.y)/old.scale;
+    state.zoom=clamp(value,.15,5);
+    const nextScale=state.baseScale*state.zoom;
+    state.panX=ax-(rect.width-state.pageW*nextScale)/2-pageX*nextScale;
+    state.panY=ay-(rect.height-state.pageH*nextScale)/2-pageY*nextScale;
+    $('layout-zoom-label').textContent=`Zoom editor ${Math.round(state.zoom*100)}%`;
+    scheduleDraw();
+  }
+  function templateDefaults(value){
+    const presets={
+      a4:{w:210,h:297,aw:174,ah:261,mark:'L',size:5,offset:10},
+      a3:{w:297,h:420,aw:261,ah:384,mark:'L',size:5,offset:10},
+      a3plus:{w:329,h:483,aw:293,ah:447,mark:'L',size:5,offset:10},
+      cdr:{w:325,h:485,aw:305,ah:435,mark:'cdr',size:5,offset:10},
+      'prima-diecut':{w:483,h:325,aw:420,ah:280,mark:'prima-diecut',size:5,offset:10},
+      'prima-kisscut':{w:325,h:483,aw:290,ah:430,mark:'prima-kisscut',size:5,offset:10}
+    };
+    const preset=presets[value];
+    if(!preset)return;
+    state.template=value;
+    state.pageW=preset.w;state.pageH=preset.h;state.areaW=preset.aw;state.areaH=preset.ah;
+    state.mark=preset.mark;state.markSize=preset.size;state.markOffset=preset.offset;
+    $('layout-page-width').value=preset.w;$('layout-page-height').value=preset.h;
+    $('layout-area-width').value=preset.aw;$('layout-area-height').value=preset.ah;
+    $('layout-mark-type').value=preset.mark;$('layout-mark-size').value=preset.size;$('layout-mark-offset').value=preset.offset;
+    updateDpiOptions();
+    scheduleDraw();
+  }
+  function updateDpiOptions(){
+    const dpiSelect=$('layout-export-dpi'),maxDpi=Math.sqrt(30000000*25.4*25.4/(state.pageW*state.pageH));
+    [...dpiSelect.options].forEach(option=>{option.disabled=Number(option.value)>maxDpi});
+    if(dpiSelect.selectedOptions[0]?.disabled){
+      const available=[...dpiSelect.options].filter(option=>!option.disabled).pop();
+      if(!available)throw new Error('Tidak ada resolusi ekspor yang sesuai untuk ukuran kertas ini.');
+      dpiSelect.value=available.value;
+      $('layout-editor-status').textContent=`DPI diturunkan ke ${available.value}; resolusi yang lebih tinggi melebihi batas memori ekspor.`;
+    }
+    state.dpi=Number(dpiSelect.value)||300;
+  }
+  function validDimensions(){
+    state.pageW=clamp(Number($('layout-page-width').value)||210,50,1200);
+    state.pageH=clamp(Number($('layout-page-height').value)||297,50,1200);
+    state.areaW=clamp(Number($('layout-area-width').value)||state.pageW,1,state.pageW);
+    state.areaH=clamp(Number($('layout-area-height').value)||state.pageH,1,state.pageH);
+    state.markSize=clamp(Number($('layout-mark-size').value)||5,1,30);
+    state.markOffset=clamp(Number($('layout-mark-offset').value)||10,1,50);
+    $('layout-page-width').value=state.pageW;$('layout-page-height').value=state.pageH;
+    $('layout-area-width').value=state.areaW;$('layout-area-height').value=state.areaH;
+    $('layout-mark-size').value=state.markSize;$('layout-mark-offset').value=state.markOffset;
+    state.mark=$('layout-mark-type').value;
+    updateDpiOptions();
+    scheduleDraw();
+  }
+  function drawCornerMark(context,x,y,dx,dy,size,color='#111'){
+    context.strokeStyle=color;context.lineWidth=Math.max(.25,size*.07);context.lineCap='square';
+    context.beginPath();context.moveTo(x+dx*size,y);context.lineTo(x,y);context.lineTo(x,y+dy*size);context.stroke();
+  }
+  function drawCross(context,x,y,size,color='#111'){
+    context.strokeStyle=color;context.lineWidth=Math.max(.2,size*.045);
+    context.beginPath();context.moveTo(x-size/2,y);context.lineTo(x+size/2,y);context.moveTo(x,y-size/2);context.lineTo(x,y+size/2);context.stroke();
+  }
+  function drawMarks(context){
+    const type=state.mark;if(type==='none')return;
+    const w=state.pageW,h=state.pageH,s=state.markSize,o=state.markOffset;
+    const drawL=(x,y,dx,dy)=>drawCornerMark(context,x,y,dx,dy,s*2);
+    if(type==='prima-diecut'){
+      const mx=w*32.3867/1368.71,my=h*35.2497/918.425,markSize=5*Math.min(w/483,h/325);
+      [[mx,my],[w-mx,my],[mx,h-my],[w-mx,h-my]].forEach(([x,y])=>{context.fillStyle='#111';context.beginPath();context.arc(x,y,2.5*Math.min(w/483,h/325),0,Math.PI*2);context.fill()});
+      [[w/2,h*28.3465/918.425],[w/2,h-h*28.3465/918.425],[w*25.5118/1368.71,h/2],[w-w*25.5118/1368.71,h/2]].forEach(([x,y])=>drawCross(context,x,y,markSize));
+      const arrow=[[63.419,44.7231],[52.179,44.7231],[52.179,40.6644],[40.9388,48.7823],[52.179,56.9001],[52.179,52.8412],[63.419,52.8412]];
+      context.fillStyle='#4c4c4c';context.beginPath();
+      arrow.forEach(([x,y],index)=>{const px=x*25.4/72*w/483,py=h-y*25.4/72*h/325;if(index===0)context.moveTo(px,py);else context.lineTo(px,py)});
+      context.closePath();context.fill();
+      return;
+    }
+    if(type==='prima-kisscut'){
+      const left=w*40.3047/917.287,right=w-left,top=h*36.8368/1368.71,bottom=h-top,armX=w*14/325,armY=h*14/483,ratio=Math.min(w/325,h/483);
+      context.lineWidth=.5*ratio;context.strokeStyle='#060809';
+      [[left+armX,top,left,top,left,top+armY],[right-armX,top,right,top,right,top+armY],[left,bottom-armY,left,bottom,left+armX,bottom],[right-armX,bottom,right,bottom,right,bottom-armY]].forEach(points=>{context.beginPath();context.moveTo(points[0],points[1]);context.lineTo(points[2],points[3]);context.lineTo(points[4],points[5]);context.stroke()});
+      [[w*35.6165/917.287,h*32.3867/1368.71],[w-w*35.6165/917.287,h*32.3867/1368.71],[w*35.6165/917.287,h-h*32.3867/1368.71],[w-w*35.6165/917.287,h-h*32.3867/1368.71]].forEach(([x,y])=>{context.fillStyle='#111';context.beginPath();context.arc(x,y,2.5*ratio,0,Math.PI*2);context.fill()});
+      return;
+    }
+    if(type==='cdr'){
+      const isCdr=state.template==='cdr',left=isCdr?10:(w-state.areaW)/2,right=isCdr?w-10:(w+state.areaW)/2,top=isCdr?32.85:(h-state.areaH)/2,bottom=isCdr?h-17.15:(h+state.areaH)/2;
+      context.fillStyle='#111';context.beginPath();context.arc(o,o,s/2,0,Math.PI*2);context.arc(w-o,o,s/2,0,Math.PI*2);context.fill();
+      [[left,top,1,1],[right,top,-1,1],[left,bottom,1,-1],[right,bottom,-1,-1]].forEach(([x,y,dx,dy])=>drawL(x,y,dx,dy));
+      return;
+    }
+    const inset=type==='dot'?o+s:o;
+    if(type==='dot'){
+      context.fillStyle='#111';
+      [[inset,inset],[w-inset,inset],[inset,h-inset],[w-inset,h-inset]].forEach(([x,y])=>{context.beginPath();context.arc(x,y,s/2,0,Math.PI*2);context.fill()});
+    }else if(type==='cross'){
+      [[inset,inset],[w-inset,inset],[inset,h-inset],[w-inset,h-inset]].forEach(([x,y])=>drawCross(context,x,y,s));
+    }else{
+      [[o,o,1,1],[w-o,o,-1,1],[o,h-o,1,-1],[w-o,h-o,-1,-1]].forEach(([x,y,dx,dy])=>drawL(x,y,dx,dy));
+      if(type==='cdr'){context.fillStyle='#111';context.beginPath();context.arc(o,o,s/2,0,Math.PI*2);context.arc(w-o,o,s/2,0,Math.PI*2);context.fill()}
+    }
+  }
+  function objectShapePath(context,item){
+    const w=item.w,h=item.h,left=-w/2,right=w/2,top=-h/2,bottom=h/2;
+    context.beginPath();
+    if(item.shape==='circle'||item.shape==='oval'){
+      const diameter=Math.min(w,h),rx=item.shape==='circle'?diameter/2:w/2,ry=item.shape==='circle'?diameter/2:h/2;
+      context.ellipse(0,0,rx,ry,0,0,Math.PI*2);return;
+    }
+    if(item.shape==='hex'){
+      context.moveTo(left+w*.25,top);context.lineTo(right-w*.25,top);context.lineTo(right,0);
+      context.lineTo(right-w*.25,bottom);context.lineTo(left+w*.25,bottom);context.lineTo(left,0);context.closePath();return;
+    }
+    if(item.shape==='rounded'){
+      const radius=Math.min(w,h)*.14;
+      context.moveTo(left+radius,top);context.lineTo(right-radius,top);context.quadraticCurveTo(right,top,right,top+radius);
+      context.lineTo(right,bottom-radius);context.quadraticCurveTo(right,bottom,right-radius,bottom);
+      context.lineTo(left+radius,bottom);context.quadraticCurveTo(left,bottom,left,bottom-radius);
+      context.lineTo(left,top+radius);context.quadraticCurveTo(left,top,left+radius,top);context.closePath();return;
+    }
+    context.rect(left,top,w,h);
+  }
+  function drawShapeLayer(context,item){
+    context.beginPath();
+    if(item.shapeKind==='ellipse'){context.ellipse(0,0,item.w/2,item.h/2,0,0,Math.PI*2)}
+    else if(item.shapeKind==='triangle'){
+      context.moveTo(0,-item.h/2);context.lineTo(item.w/2,item.h/2);context.lineTo(-item.w/2,item.h/2);context.closePath();
+    }else if(item.shapeKind==='line'){
+      const start=item.lineStart||{x:-item.w/2,y:-item.h/2},end=item.lineEnd||{x:item.w/2,y:item.h/2};
+      context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);
+      context.strokeStyle=item.fillColor;context.lineWidth=Math.max(.1,item.brushSize||1);context.lineCap='round';context.stroke();return;
+    }else context.rect(-item.w/2,-item.h/2,item.w,item.h);
+    context.fillStyle=item.fillColor||'#c9a24b';context.fill();
+  }
+  function drawPaintLayer(context,item){
+    context.lineCap='round';context.lineJoin='round';
+    for(const stroke of item.strokes||[]){
+      if(!stroke.points.length)continue;
+      context.save();
+      if(stroke.selection?.length){
+        context.beginPath();context.moveTo(stroke.selection[0].x,stroke.selection[0].y);
+        stroke.selection.slice(1).forEach(point=>context.lineTo(point.x,point.y));
+        context.closePath();context.clip();
+      }
+      context.beginPath();context.moveTo(stroke.points[0].x,stroke.points[0].y);
+      for(let i=1;i<stroke.points.length;i++)context.lineTo(stroke.points[i].x,stroke.points[i].y);
+      if(stroke.points.length===1){const p=stroke.points[0];context.lineTo(p.x+.01,p.y+.01)}
+      context.strokeStyle=stroke.color;context.lineWidth=stroke.width;context.stroke();context.restore();
+    }
+  }
+  function objectImageRect(item){
+    const imageW=item.image.naturalWidth||item.image.width,imageH=item.image.naturalHeight||item.image.height;
+    const ratio=(item.fit==='cover'?Math.max(item.w/imageW,item.h/imageH):Math.min(item.w/imageW,item.h/imageH))*(item.cropZoom||1);
+    const width=imageW*ratio,height=imageH*ratio;
+    return {x:-width/2+(item.cropX||0),y:-height/2+(item.cropY||0),width,height};
+  }
+  function transformHandles(item,viewScale){
+    const offset=22/viewScale;
+    return [
+      {name:'nw',x:-item.w/2,y:-item.h/2,sx:-1,sy:-1,xAxis:true,yAxis:true},
+      {name:'n',x:0,y:-item.h/2,sx:0,sy:-1,yAxis:true},
+      {name:'ne',x:item.w/2,y:-item.h/2,sx:1,sy:-1,xAxis:true,yAxis:true},
+      {name:'e',x:item.w/2,y:0,sx:1,sy:0,xAxis:true},
+      {name:'se',x:item.w/2,y:item.h/2,sx:1,sy:1,xAxis:true,yAxis:true},
+      {name:'s',x:0,y:item.h/2,sx:0,sy:1,yAxis:true},
+      {name:'sw',x:-item.w/2,y:item.h/2,sx:-1,sy:1,xAxis:true,yAxis:true},
+      {name:'w',x:-item.w/2,y:0,sx:-1,sy:0,xAxis:true},
+      {name:'rotate',x:0,y:-item.h/2-offset,sx:0,sy:-1}
+    ];
+  }
+  function areaBounds(){
+    return {x:state.template==='cdr'?10:(state.pageW-state.areaW)/2,y:state.template==='cdr'?32.85:(state.pageH-state.areaH)/2,w:state.areaW,h:state.areaH};
+  }
+  function drawScene(context,scale,preview,displayScale=scale){
+    const w=state.pageW,h=state.pageH;
+    context.save();context.scale(scale,scale);
+    if(state.background){
+      context.fillStyle=state.background;context.fillRect(0,0,w,h);
+    }else if(preview){
+      const tile=8;
+      context.fillStyle='#dedede';context.fillRect(0,0,w,h);
+      context.fillStyle='#f7f7f7';
+      for(let y=0;y<h;y+=tile)for(let x=0;x<w;x+=tile)if((Math.floor(x/tile)+Math.floor(y/tile))%2===0)context.fillRect(x,y,Math.min(tile,w-x),Math.min(tile,h-y));
+    }
+    for(let i=0;i<state.objects.length;i++){
+      const item=state.objects[i];if(item.visible===false)continue;
+      context.save();context.translate(item.x,item.y);context.rotate(item.rotation*Math.PI/180);
+      context.globalAlpha*=item.opacity??1;
+      if(item.type==='shape')drawShapeLayer(context,item);
+      else if(item.type==='text'){
+        const fontSize=(item.fontSize||12)*Math.min(item.w/(item.baseW||item.w),item.h/(item.baseH||item.h));
+        const fontFamily=String(item.fontFamily||'Arial').replace(/["\\\\]/g,'');
+        context.fillStyle=item.fillColor||'#123a2c';context.font=`${fontSize}px "${fontFamily}"`;
+        context.textAlign='center';context.textBaseline='middle';
+        String(item.text||'').split('\n').forEach((line,index,lines)=>context.fillText(line,0,(index-(lines.length-1)/2)*fontSize*1.2));
+      }else if(item.type==='paint')drawPaintLayer(context,item);
+      else{
+        objectShapePath(context,item);context.clip();
+        const imageRect=objectImageRect(item);
+        context.drawImage(item.image,imageRect.x,imageRect.y,imageRect.width,imageRect.height);
+      }
+      context.restore();
+    }
+    if(preview&&state.selection){
+      context.save();context.beginPath();context.rect(state.selection.x,state.selection.y,state.selection.w,state.selection.h);context.clip();
+      context.strokeStyle='#fff';context.lineWidth=Math.max(.7,1/displayScale);context.setLineDash([4/displayScale,3/displayScale]);context.lineDashOffset=0;
+      context.strokeRect(state.selection.x,state.selection.y,state.selection.w,state.selection.h);
+      context.strokeStyle='#17191b';context.lineDashOffset=3/displayScale;context.strokeRect(state.selection.x,state.selection.y,state.selection.w,state.selection.h);
+      context.restore();
+    }
+    if(preview&&state.tool==='brush'&&state.cursorPage&&state.cursorPage.x>=0&&state.cursorPage.y>=0&&state.cursorPage.x<=w&&state.cursorPage.y<=h){
+      context.save();context.beginPath();context.arc(state.cursorPage.x,state.cursorPage.y,Math.max(.05,Number($('layout-brush-size').value)||2)/2,0,Math.PI*2);
+      context.strokeStyle='#fff';context.lineWidth=Math.max(.35,1/displayScale);context.stroke();
+      context.strokeStyle='#17191b';context.lineWidth=Math.max(.2,.6/displayScale);context.setLineDash([2/displayScale,2/displayScale]);context.stroke();context.restore();
+    }
+    if(preview||$('layout-marks-export').checked)drawMarks(context);
+    if(preview){
+      const area=areaBounds(),areaX=area.x,areaY=area.y;
+      context.save();context.strokeStyle='#1873a8';context.lineWidth=Math.max(.25,0.35/scale);context.setLineDash([3/scale,2/scale]);
+      context.strokeRect(areaX,areaY,state.areaW,state.areaH);context.restore();
+      context.save();context.strokeStyle='#89918e';context.lineWidth=Math.max(.3,.5/scale);context.setLineDash([]);
+      context.strokeRect(.25,.25,w-.5,h-.5);context.restore();
+      if(state.selected>=0&&state.objects[state.selected]?.visible!==false){
+        const item=state.objects[state.selected];
+        context.save();context.translate(item.x,item.y);context.rotate(item.rotation*Math.PI/180);
+        context.strokeStyle='#1687f8';context.lineWidth=Math.max(.35,0.8/scale);context.setLineDash([3/scale,1.5/scale]);
+        objectShapePath(context,item);context.stroke();context.setLineDash([]);
+        if(state.tool==='crop'&&item.type==='image'){
+          const imageRect=objectImageRect(item);
+          context.save();context.strokeStyle='rgba(15,94,74,.65)';context.lineWidth=1/scale;context.setLineDash([3/scale,3/scale]);
+          context.strokeRect(imageRect.x,imageRect.y,imageRect.width,imageRect.height);context.restore();
+          context.strokeStyle='#fff';context.lineWidth=Math.max(.5,1.5/scale);context.setLineDash([4/scale,3/scale]);objectShapePath(context,item);context.stroke();context.setLineDash([]);
+        }else if(state.tool==='transform'){
+          const handleSize=8/displayScale,rotateOffset=22/displayScale;
+          context.beginPath();context.moveTo(0,-item.h/2);context.lineTo(0,-item.h/2-rotateOffset);context.strokeStyle='#1687f8';context.lineWidth=1/displayScale;context.stroke();
+          for(const handle of transformHandles(item,displayScale)){
+            context.beginPath();
+            if(handle.name==='rotate')context.arc(handle.x,handle.y,5/displayScale,0,Math.PI*2);
+            else context.rect(handle.x-handleSize/2,handle.y-handleSize/2,handleSize,handleSize);
+            context.fillStyle='#fff';context.fill();context.strokeStyle=handle.name==='rotate'?'#1687f8':'#1687f8';context.lineWidth=1.2/displayScale;context.stroke();
+          }
+        }else{
+          const r=Math.max(2/scale,3.5);context.fillStyle='#c9a24b';context.strokeStyle='#fff';context.lineWidth=.5/scale;
+          context.beginPath();context.arc(item.w/2,item.h/2,r,0,Math.PI*2);context.fill();context.stroke();
+        }
+        context.restore();
+      }
+    }
+    context.restore();
+  }
+  function draw(){
+    renderQueued=false;
+    const rect=stage.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+    if(!rect.width||!rect.height)return;
+    const width=Math.round(rect.width*dpr),height=Math.round(rect.height*dpr);
+    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height}
+    const scale=Math.min((rect.width-36)/state.pageW,(rect.height-36)/state.pageH);
+    state.baseScale=Math.max(.01,scale);
+    const view=pageOrigin();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.save();ctx.setTransform(dpr*view.scale,0,0,dpr*view.scale,dpr*view.x,dpr*view.y);
+    drawScene(ctx,1,true,view.scale);ctx.restore();
+    $('layout-zoom-label').textContent=`Zoom editor ${Math.round(state.zoom*100)}%`;
+  }
+  function scheduleDraw(){
+    if(renderQueued)return;
+    renderQueued=true;requestAnimationFrame(draw);
+  }
+  function renderLayers(){
+    const host=$('layout-layers');host.replaceChildren();
+    for(let index=state.objects.length-1;index>=0;index--){
+      const item=state.objects[index];
+      const row=document.createElement('div');row.className='layout-layer-row';row.dataset.layerIndex=String(index);row.draggable=true;
+      const button=document.createElement('button');button.type='button';button.className='layout-layer'+(index===state.selected?' on':'');
+      button.setAttribute('aria-pressed',String(index===state.selected));
+      const label=document.createElement('span');label.textContent=item.name;
+      button.append(label);button.addEventListener('click',event=>{
+        if(ignoreLayerClick){ignoreLayerClick=false;event.preventDefault();event.stopPropagation();return}
+        selectObject(index);
+      });
+      row.addEventListener('dragstart',event=>{
+        draggedLayerIndex=index;event.dataTransfer?.setData('text/plain',String(index));
+        if(event.dataTransfer)event.dataTransfer.effectAllowed='move';
+        row.classList.add('dragging');
+      });
+      row.addEventListener('dragover',event=>{
+        event.preventDefault();
+        if(draggedLayerIndex<0||draggedLayerIndex===index)return;
+        const beforeVisual=event.clientY<row.getBoundingClientRect().top+row.getBoundingClientRect().height/2;
+        host.querySelectorAll('.drop-before,.drop-after').forEach(target=>target.classList.remove('drop-before','drop-after'));
+        row.classList.add(beforeVisual?'drop-before':'drop-after');
+      });
+      row.addEventListener('drop',event=>{
+        event.preventDefault();
+        const source=draggedLayerIndex>=0?draggedLayerIndex:Number(event.dataTransfer?.getData('text/plain'));
+        const rect=row.getBoundingClientRect(),beforeVisual=event.clientY<rect.top+rect.height/2;
+        moveLayerByDrop(source,index,beforeVisual);
+        clearLayerDragState();
+      });
+      row.addEventListener('dragend',clearLayerDragState);
+      row.addEventListener('pointerdown',event=>{
+        if(event.pointerType!=='touch'||event.button!==0||event.target.closest('.layout-layer-visibility,.layout-layer-lock'))return;
+        touchLayerDrag={pointerId:event.pointerId,source:index,startY:event.clientY,moved:false,target:index,beforeVisual:true};
+      });
+      const visibility=document.createElement('button');visibility.type='button';visibility.className='layout-layer-visibility';
+      visibility.setAttribute('aria-label',`${item.visible===false?'Tampilkan':'Sembunyikan'} ${item.name}`);
+      visibility.setAttribute('aria-pressed',String(item.visible!==false));visibility.innerHTML=item.visible===false
+        ?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3 21 21M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c5.2 0 8.7 4.5 9.5 7-.3 1-1 2.1-2 3.1M6.2 6.2C3.9 7.7 2.7 10 2.5 12c.5 1.7 2.7 5 7.3 6.7a9.7 9.7 0 0 0 5.2 0"/></svg>'
+        :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+      visibility.addEventListener('click',()=>{saveHistory();item.visible=item.visible===false;renderLayers();scheduleDraw()});
+      const lock=document.createElement('button');lock.type='button';lock.className='layout-layer-lock';
+      lock.setAttribute('aria-label',`${item.locked?'Buka kunci':'Kunci'} ${item.name}`);lock.setAttribute('aria-pressed',String(!!item.locked));
+      lock.innerHTML=item.locked
+        ?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>'
+        :'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7-2.6M12 14v3"/></svg>';
+      lock.addEventListener('click',()=>{saveHistory();item.locked=!item.locked;renderLayers();if(index===state.selected)renderObjectFields();scheduleDraw()});
+      row.append(button,visibility,lock);host.append(row);
+    }
+    updateHistoryButtons();
+  }
+  let draggedLayerIndex=-1,touchLayerDrag=null,ignoreLayerClick=false;
+  function clearLayerDragState(){
+    draggedLayerIndex=-1;
+    $('layout-layers').querySelectorAll('.dragging,.drop-before,.drop-after').forEach(row=>row.classList.remove('dragging','drop-before','drop-after'));
+  }
+  function moveLayerByDrop(sourceIndex,targetIndex,beforeVisual){
+    if(!Number.isInteger(sourceIndex)||!Number.isInteger(targetIndex)||sourceIndex===targetIndex||sourceIndex<0||targetIndex<0||sourceIndex>=state.objects.length||targetIndex>=state.objects.length)return;
+    const before=cloneObjects(),selected=state.objects[state.selected];
+    const visual=state.objects.slice().reverse(),sourceVisual=visual.findIndex(item=>item===state.objects[sourceIndex]);
+    const targetVisual=visual.findIndex(item=>item===state.objects[targetIndex]);
+    if(sourceVisual<0||targetVisual<0)return;
+    const [item]=visual.splice(sourceVisual,1);
+    const adjustedTarget=targetVisual-(sourceVisual<targetVisual?1:0);
+    const insertAt=clamp(adjustedTarget+(beforeVisual?0:1),0,visual.length);
+    visual.splice(insertAt,0,item);
+    state.objects=visual.reverse();state.selected=state.objects.indexOf(selected);
+    saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
+    $('layout-editor-status').textContent=`Layer ${item.name} dipindahkan.`;
+  }
+  function updateCanvasHoverCursor(event){
+    if(spacePan){canvas.style.cursor='grab';return}
+    const point=screenPoint(event.clientX,event.clientY);
+    if(state.tool==='transform'&&state.selected>=0&&!state.objects[state.selected]?.locked){
+      const handle=selectedHandleAt(point,state.baseScale*state.zoom);
+      if(handle){
+        canvas.style.cursor=handle.name==='rotate'?'crosshair':
+          handle.xAxis&&handle.yAxis?(handle.sx===handle.sy?'nwse-resize':'nesw-resize'):
+          handle.xAxis?'ew-resize':'ns-resize';
+        return;
+      }
+    }
+    if(state.tool==='select'||state.tool==='transform'){
+      canvas.style.cursor=hitTest(point)>=0?'move':'grab';
+      return;
+    }
+    canvas.style.cursor='';
+  }
+  document.addEventListener('pointermove',event=>{
+    if(!touchLayerDrag||touchLayerDrag.pointerId!==event.pointerId)return;
+    if(!touchLayerDrag.moved&&Math.abs(event.clientY-touchLayerDrag.startY)<8)return;
+    touchLayerDrag.moved=true;event.preventDefault();
+    const sourceRow=$(`layout-layers`).querySelector(`[data-layer-index="${touchLayerDrag.source}"]`);
+    sourceRow?.classList.add('dragging');
+    const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('#layout-layers .layout-layer-row');
+    if(!target)return;
+    $('layout-layers').querySelectorAll('.drop-before,.drop-after').forEach(row=>row.classList.remove('drop-before','drop-after'));
+    touchLayerDrag.target=Number(target.dataset.layerIndex);
+    touchLayerDrag.beforeVisual=event.clientY<target.getBoundingClientRect().top+target.getBoundingClientRect().height/2;
+    if(touchLayerDrag.target!==touchLayerDrag.source)target.classList.add(touchLayerDrag.beforeVisual?'drop-before':'drop-after');
+  },{passive:false});
+  const finishTouchLayerDrag=(event,cancelled=false)=>{
+    if(!touchLayerDrag||touchLayerDrag.pointerId!==event.pointerId)return;
+    const drag=touchLayerDrag;touchLayerDrag=null;
+    if(drag.moved&&!cancelled){
+      ignoreLayerClick=true;
+      moveLayerByDrop(drag.source,drag.target,drag.beforeVisual);
+      setTimeout(()=>{ignoreLayerClick=false},0);
+    }
+    clearLayerDragState();
+  };
+  document.addEventListener('pointerup',event=>finishTouchLayerDrag(event));
+  document.addEventListener('pointercancel',event=>finishTouchLayerDrag(event,true));
+  function renderObjectFields(){
+    const item=state.objects[state.selected],container=$('layout-object-fields');
+    container.hidden=!item;
+    if(!item)return;
+    container.querySelectorAll('input,select,button').forEach(control=>{control.disabled=!!item.locked});
+    $('layout-crop-zoom').disabled=!!item.locked;
+    $('layout-crop-reset').disabled=!!item.locked||item.type!=='image';
+    const imageOnly=['layout-object-shape','layout-object-fit','layout-fit-area','layout-fit-page'].map($);
+    imageOnly.forEach(control=>{control.closest('.grid,.layout-tools')?.toggleAttribute('hidden',item.type&&item.type!=='image')});
+    $('layout-object-opacity').value=Math.round((item.opacity??1)*100);$('layout-object-opacity-value').textContent=`${$('layout-object-opacity').value}%`;
+    $('layout-object-x').value=item.x.toFixed(1);$('layout-object-y').value=item.y.toFixed(1);
+    $('layout-object-width').value=item.w.toFixed(1);$('layout-object-height').value=item.h.toFixed(1);
+    $('layout-object-rotation').value=Math.round(item.rotation);
+    $('layout-object-shape').value=item.shape||'rect';$('layout-object-fit').value=item.fit||'contain';
+    $('layout-crop-zoom').value=Math.round((item.cropZoom||1)*100);$('layout-crop-zoom-value').textContent=`${$('layout-crop-zoom').value}%`;
+    $('layout-align-controls').hidden=!!item.locked;
+  }
+  function selectObject(index){
+    state.selected=index;renderLayers();renderObjectFields();
+    if(state.tool==='crop'&&state.objects[index]?.type==='image'){
+      const item=state.objects[index];
+      if(item.fit!=='cover'){saveHistory();item.fit='cover'}
+      $('layout-object-fit').value='cover';$('layout-crop-zoom').value=Math.round((item.cropZoom||1)*100);
+      $('layout-crop-zoom-value').textContent=`${$('layout-crop-zoom').value}%`;
+    }
+    if(state.objects[index]?.type==='text'){
+      const item=state.objects[index];$('layout-text-value').value=item.text;$('layout-text-size').value=item.fontSize;$('layout-text-font').value=item.fontFamily||'Arial';$('layout-text-color').value=item.fillColor||'#123a2c';
+    }
+    $('layout-crop-reset').disabled=index<0||state.objects[index]?.locked||state.objects[index]?.type!=='image';
+    scheduleDraw();updateHistoryButtons();
+  }
+  function pointerToLocal(item,point){
+    const angle=-item.rotation*Math.PI/180,dx=point.x-item.x,dy=point.y-item.y;
+    return {x:dx*Math.cos(angle)-dy*Math.sin(angle),y:dx*Math.sin(angle)+dy*Math.cos(angle)};
+  }
+  function selectionLocalPolygon(item){
+    if(!state.selection)return null;
+    return [
+      {x:state.selection.x,y:state.selection.y},
+      {x:state.selection.x+state.selection.w,y:state.selection.y},
+      {x:state.selection.x+state.selection.w,y:state.selection.y+state.selection.h},
+      {x:state.selection.x,y:state.selection.y+state.selection.h}
+    ].map(point=>pointerToLocal(item,point));
+  }
+  function hitTest(point){
+    for(let i=state.objects.length-1;i>=0;i--){
+      const item=state.objects[i];if(item.visible===false)continue;
+      const local=pointerToLocal(item,point);
+      if(item.type==='paint'){
+        for(const stroke of item.strokes||[]){
+          const radius=stroke.width/2+2;
+          for(let j=0;j<stroke.points.length;j++){
+            const a=stroke.points[j],b=stroke.points[Math.min(j+1,stroke.points.length-1)],dx=b.x-a.x,dy=b.y-a.y;
+            const t=dx||dy?clamp(((local.x-a.x)*dx+(local.y-a.y)*dy)/(dx*dx+dy*dy),0,1):0;
+            if(Math.hypot(local.x-(a.x+t*dx),local.y-(a.y+t*dy))<=radius)return i;
+          }
+        }
+        continue;
+      }
+      if(item.type==='shape'&&item.shapeKind==='ellipse'&&(local.x*local.x)/(item.w*item.w/4)+(local.y*local.y)/(item.h*item.h/4)>1)continue;
+      if(item.type==='shape'&&item.shapeKind==='triangle'){
+        if(Math.abs(local.x)>item.w/2*(1-(local.y+item.h/2)/item.h)||Math.abs(local.y)>item.h/2)continue;
+      }
+      if(item.shape==='circle'){
+        const radius=Math.min(item.w,item.h)/2;
+        if((local.x*local.x+local.y*local.y)/(radius*radius)<=1)return i;
+        continue;
+      }
+      if(item.shape==='oval'&&(local.x*local.x)/(item.w*item.w/4)+(local.y*local.y)/(item.h*item.h/4)>1)continue;
+      if(item.shape==='hex'&&Math.abs(local.x)>item.w/2*(1-Math.abs(local.y)/(item.h))&&Math.abs(local.y)<=item.h/2)continue;
+      if(Math.abs(local.x)<=item.w/2&&Math.abs(local.y)<=item.h/2)return i;
+    }
+    return -1;
+  }
+  function selectedHandleAt(point,viewScale){
+    const item=state.objects[state.selected];if(!item)return null;
+    const local=pointerToLocal(item,point),radius=10/viewScale;
+    return transformHandles(item,viewScale).find(handle=>Math.hypot(local.x-handle.x,local.y-handle.y)<=radius)||null;
+  }
+  function setTool(tool){
+    state.tool=tool;
+    canvas.classList.remove('tool-select','tool-marquee','tool-transform','tool-crop','tool-magic-eraser','tool-bucket','tool-brush','tool-shape','tool-text');
+    canvas.classList.add(`tool-${tool}`);
+    canvas.style.cursor='';
+    const buttons={select:'layout-tool-select',marquee:'layout-tool-marquee',transform:'layout-tool-transform',crop:'layout-tool-crop','magic-eraser':'layout-tool-magic-eraser',bucket:'layout-tool-bucket',brush:'layout-tool-brush',shape:'layout-tool-shape',text:'layout-tool-text'};
+    Object.entries(buttons).forEach(([name,id])=>{
+      $(id).classList.toggle('on',tool===name);$(id).setAttribute('aria-pressed',String(tool===name));
+    });
+    $('layout-crop-controls').hidden=tool!=='crop';
+    $('layout-selection-clear').disabled=!state.selection;
+    document.querySelectorAll('#layout-tool-options [data-for]').forEach(group=>group.hidden=!group.dataset.for.split(' ').includes(tool));
+    document.querySelectorAll('#layout-tool-options [data-for-tool]').forEach(control=>control.hidden=!control.dataset.forTool.split(' ').includes(tool));
+    $('layout-tool-options').hidden=['select','transform','crop'].includes(tool);
+    $('layout-tool-help').textContent=tool==='crop'
+      ?'Tarik foto di dalam bingkai untuk mengatur bagian yang terlihat. Gunakan Zoom crop untuk memperbesar; ukuran dan posisi bingkai cetak tidak berubah.'
+      :tool==='transform'
+        ?'Tarik bagian dalam bingkai untuk memindahkannya, pegangan sudut/sisi untuk mengubah ukuran, atau pegangan bulat di atas untuk memutar. Shift saat menarik sudut menjaga rasio.'
+        :tool==='marquee'
+          ?'Tarik pada kertas untuk membuat seleksi persegi. Brush, Magic Eraser, dan Paint Bucket hanya mengubah area di dalam seleksi. Tekan Escape atau Hapus seleksi untuk membatalkannya.'
+        :tool==='magic-eraser'
+          ?'Klik area warna pada foto untuk menghapus piksel yang serupa. Atur toleransi dan pilih area tersambung atau semua area serupa.'
+          :tool==='bucket'
+            ?'Klik area warna pada foto untuk mengisinya dengan warna pilihan. Atur toleransi dan cakupan area di Opsi alat.'
+            :tool==='brush'
+              ?'Brush melukis langsung pada layer foto aktif. Jika layer aktif bukan foto, kuas memakai layer cat terpisah atau membuatnya otomatis.'
+              :tool==='shape'
+                ?'Tarik di kanvas untuk membuat bentuk pada layer vektor baru.'
+                :tool==='text'
+                  ?'Klik kanvas untuk menempatkan teks. Edit isi, ukuran, dan warnanya di Opsi alat.'
+                  :'Klik foto atau layer untuk memilih, lalu tarik untuk memindahkannya. Pilih Transform untuk pegangan ukuran dan rotasi.';
+    const item=state.objects[state.selected];
+    if(tool==='crop'&&item?.type==='image'){
+      if(item.fit!=='cover'){saveHistory();item.fit='cover'}
+      $('layout-object-fit').value='cover';$('layout-crop-zoom').value=Math.round((item.cropZoom||1)*100);$('layout-crop-zoom-value').textContent=`${$('layout-crop-zoom').value}%`;
+    }
+    if(tool==='text'&&item?.type==='text'){
+      $('layout-text-value').value=item.text;$('layout-text-size').value=item.fontSize;$('layout-text-font').value=item.fontFamily||'Arial';$('layout-text-color').value=item.fillColor||'#123a2c';
+    }
+    scheduleDraw();
+  }
+  function makeTextLayer(x,y){
+    const text=$('layout-text-value').value.trim()||'Teks baru',size=clamp(Number($('layout-text-size').value)||12,1,300);
+    const w=Math.max(size*text.length*.65,10),h=size*1.4;
+    return {type:'text',name:text.slice(0,24),text,fontSize:size,fontFamily:$('layout-text-font').value,fillColor:$('layout-text-color').value,x,y,w,h,baseW:w,baseH:h,rotation:0,opacity:1};
+  }
+  function copyImageToCanvas(image){
+    const width=image.naturalWidth||image.width,height=image.naturalHeight||image.height;
+    if(!width||!height||width*height>16000000)throw new Error('Foto terlalu besar untuk penyuntingan piksel. Gunakan gambar berukuran 16 megapiksel atau kurang.');
+    const bitmap=document.createElement('canvas');bitmap.width=width;bitmap.height=height;
+    const context=bitmap.getContext('2d',{willReadFrequently:true});if(!context)throw new Error('Peramban tidak dapat membuka piksel foto.');
+    context.drawImage(image,0,0);return {bitmap,context};
+  }
+  function fillPixels(data,width,height,startX,startY,tolerance,color,contiguous,allowed=()=>true){
+    const start=(startY*width+startX)*4,target=[data[start],data[start+1],data[start+2],data[start+3]];
+    const threshold=tolerance*2.55,threshold2=threshold*threshold*3;
+    const matches=index=>{
+      const pixel=index>>2;
+      return allowed(pixel%width,Math.floor(pixel/width))&&data[index+3]>0&&((data[index]-target[0])**2+(data[index+1]-target[1])**2+(data[index+2]-target[2])**2)<=threshold2;
+    };
+    const similar=(color[0]-target[0])**2+(color[1]-target[1])**2+(color[2]-target[2])**2<=threshold2;
+    if(similar)return 0;
+    let changed=0;
+    const replace=index=>{data[index]=color[0];data[index+1]=color[1];data[index+2]=color[2];data[index+3]=color[3];changed++};
+    if(!contiguous){
+      for(let index=0;index<data.length;index+=4)if(matches(index))replace(index);
+      return changed;
+    }
+    const stack=[[startX,startY]];
+    while(stack.length){
+      const [seedX,y]=stack.pop();if(y<0||y>=height||seedX<0||seedX>=width)continue;
+      let x=seedX;while(x>=0&&matches((y*width+x)*4))x++;x--;
+      if(x<seedX)continue;
+      const left=x;
+      while(x>=0&&matches((y*width+x)*4)){replace((y*width+x)*4);x--}
+      const right=left;
+      for(const nextY of [y-1,y+1]){
+        if(nextY<0||nextY>=height)continue;
+        let inRun=false;
+        for(let scanX=x+1;scanX<=right;scanX++){
+          const hit=matches((nextY*width+scanX)*4);
+          if(hit&&!inRun){stack.push([scanX,nextY]);inRun=true}
+          else if(!hit)inRun=false;
+        }
+      }
+    }
+    return changed;
+  }
+  function applyPixelTool(item,point){
+    if(!item||item.type!=='image'){$('layout-editor-status').textContent='Pilih layer foto di panel Lapisan untuk memakai Magic Eraser atau Paint Bucket.';return}
+    if(item.locked){$('layout-editor-status').textContent='Layer terkunci. Buka kuncinya di panel Lapisan untuk mengedit.';return}
+    try{
+      const local=pointerToLocal(item,point),rect=objectImageRect(item),sourceW=item.image.naturalWidth||item.image.width,sourceH=item.image.naturalHeight||item.image.height;
+      const x=Math.floor((local.x-rect.x)/rect.width*sourceW),y=Math.floor((local.y-rect.y)/rect.height*sourceH);
+      if(x<0||y<0||x>=sourceW||y>=sourceH){$('layout-editor-status').textContent='Klik area foto yang terlihat.';return}
+      if(state.selection&&(point.x<state.selection.x||point.y<state.selection.y||point.x>state.selection.x+state.selection.w||point.y>state.selection.y+state.selection.h)){
+        $('layout-editor-status').textContent='Klik area di dalam seleksi aktif.';return;
+      }
+      const before=cloneObjects(),{bitmap,context}=copyImageToCanvas(item.image),imageData=context.getImageData(0,0,bitmap.width,bitmap.height);
+      const color=state.tool==='magic-eraser'?[0,0,0,0]:[...hexToRgb($('layout-fill-color').value),255];
+      const allowed=state.selection?(pixelX,pixelY)=>{
+        const localX=rect.x+(pixelX+.5)/bitmap.width*rect.width,localY=rect.y+(pixelY+.5)/bitmap.height*rect.height,angle=item.rotation*Math.PI/180;
+        const pageX=item.x+localX*Math.cos(angle)-localY*Math.sin(angle),pageY=item.y+localX*Math.sin(angle)+localY*Math.cos(angle);
+        return pageX>=state.selection.x&&pageX<=state.selection.x+state.selection.w&&pageY>=state.selection.y&&pageY<=state.selection.y+state.selection.h;
+      }:undefined;
+      const changed=fillPixels(imageData.data,bitmap.width,bitmap.height,x,y,Number($('layout-tolerance').value),color,$('layout-contiguous').checked,allowed);
+      if(!changed){$('layout-editor-status').textContent='Tidak ada piksel yang cocok; naikkan toleransi atau pilih area lain.';return}
+      context.putImageData(imageData,0,0);item.image=bitmap;
+      saveHistory(before);scheduleDraw();
+      $('layout-editor-status').textContent=state.tool==='magic-eraser'?`${changed.toLocaleString('id-ID')} piksel dihapus dari ${item.name}.`:`${changed.toLocaleString('id-ID')} piksel diisi pada ${item.name}.`;
+    }catch(error){$('layout-editor-status').textContent=`Alat piksel gagal: ${error.message}`;console.error('Layout pixel tool:',error)}
+  }
+  function applyCanvasPixelTool(point){
+    if(state.selection&&(point.x<state.selection.x||point.y<state.selection.y||point.x>state.selection.x+state.selection.w||point.y>state.selection.y+state.selection.h)){
+      $('layout-editor-status').textContent='Klik area di dalam seleksi aktif.';return;
+    }
+    if(state.background&&state.tool==='bucket'&&state.background.toLowerCase()===$('layout-fill-color').value.toLowerCase()){
+      $('layout-editor-status').textContent='Latar kanvas sudah memakai warna tersebut.';return;
+    }
+    if(!state.background&&state.tool==='magic-eraser'){
+      $('layout-editor-status').textContent='Latar kanvas sudah transparan.';return;
+    }
+    if(state.selection){
+      $('layout-editor-status').textContent='Seleksi aktif. Hapus seleksi untuk mengubah seluruh latar kanvas.';return;
+    }
+    saveHistory(cloneObjects());
+    state.background=state.tool==='magic-eraser'?null:$('layout-fill-color').value;
+    $('layout-background-mode').value=state.background?'color':'transparent';
+    $('layout-background-color-field').hidden=!state.background;
+    if(state.background)$('layout-background-color').value=state.background;
+    scheduleDraw();
+    $('layout-editor-status').textContent=state.background?'Warna latar kanvas diperbarui.':'Latar kanvas dihapus; PNG akan transparan.';
+  }
+  function applyImageBrush(item,stroke){
+    try{
+      const before=cloneObjects(),{bitmap,context}=copyImageToCanvas(item.image),rect=objectImageRect(item);
+      const points=stroke.points.map(point=>({x:(point.x-rect.x)/rect.width*bitmap.width,y:(point.y-rect.y)/rect.height*bitmap.height}));
+      context.save();context.beginPath();context.rect(0,0,bitmap.width,bitmap.height);context.clip();
+      if(state.selection){
+        const angle=item.rotation*Math.PI/180,corners=[
+          {x:state.selection.x,y:state.selection.y},{x:state.selection.x+state.selection.w,y:state.selection.y},
+          {x:state.selection.x+state.selection.w,y:state.selection.y+state.selection.h},{x:state.selection.x,y:state.selection.y+state.selection.h}
+        ].map(point=>{
+          const dx=point.x-item.x,dy=point.y-item.y,localX=dx*Math.cos(angle)+dy*Math.sin(angle),localY=-dx*Math.sin(angle)+dy*Math.cos(angle);
+          return {x:(localX-rect.x)/rect.width*bitmap.width,y:(localY-rect.y)/rect.height*bitmap.height};
+        });
+        context.beginPath();context.moveTo(corners[0].x,corners[0].y);corners.slice(1).forEach(point=>context.lineTo(point.x,point.y));context.closePath();context.clip();
+      }
+      context.strokeStyle=stroke.color;context.fillStyle=stroke.color;context.lineWidth=Math.max(.1,stroke.width*(bitmap.width/rect.width+bitmap.height/rect.height)/2);context.lineCap='round';context.lineJoin='round';
+      context.beginPath();context.moveTo(points[0].x,points[0].y);
+      for(let index=1;index<points.length;index++)context.lineTo(points[index].x,points[index].y);
+      if(points.length===1){context.lineTo(points[0].x+.01,points[0].y+.01)}
+      context.stroke();context.restore();item.image=bitmap;saveHistory(before);scheduleDraw();
+      $('layout-editor-status').textContent=`Sapuan kuas diterapkan langsung pada layer foto ${item.name}.`;
+    }catch(error){$('layout-editor-status').textContent=`Kuas gagal: ${error.message}`;console.error('Layout image brush:',error)}
+  }
+  function hexToRgb(hex){
+    const value=Number.parseInt(hex.slice(1),16);
+    return [(value>>16)&255,(value>>8)&255,value&255];
+  }
+  function pointerDistance(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+  function pointerCenter(a,b){return {x:(a.x+b.x)/2,y:(a.y+b.y)/2}}
+  function beginPinch(){
+    const entries=[...pointers.entries()].slice(0,2),a=entries[0][1],b=entries[1][1],center=pointerCenter(a,b);
+    const rect=canvas.getBoundingClientRect(),view=pageOrigin();
+    interaction={kind:'pinch',ids:entries.map(entry=>entry[0]),distance:Math.max(1,pointerDistance(a,b)),zoom:state.zoom,anchor:{x:(center.x-rect.left-view.x)/view.scale,y:(center.y-rect.top-view.y)/view.scale},panX:state.panX,panY:state.panY,rect};
+  }
+  function handlePointerDown(event){
+    if(event.button!==undefined&&event.button!==0&&event.button!==1)return;
+    event.preventDefault();canvas.setPointerCapture(event.pointerId);pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    if(pointers.size===2){beginPinch();canvas.classList.add('dragging');return}
+    if(pointers.size>2)return;
+    const point=screenPoint(event.clientX,event.clientY),rect=canvas.getBoundingClientRect(),view=pageOrigin();
+    if(event.button===1||event.altKey||spacePan){
+      interaction={kind:'pan',pointerId:event.pointerId,startX:event.clientX-rect.left,startY:event.clientY-rect.top,panX:state.panX,panY:state.panY};
+      canvas.classList.add('dragging');return;
+    }
+    const outsidePage=point.x<0||point.y<0||point.x>state.pageW||point.y>state.pageH;
+    if(outsidePage&&['shape','text','magic-eraser','bucket','brush','marquee'].includes(state.tool))return;
+    if(state.tool==='marquee'){
+      state.selection=null;$('layout-selection-clear').disabled=true;
+      interaction={kind:'marquee',pointerId:event.pointerId,start:point};
+      canvas.classList.add('dragging');scheduleDraw();return;
+    }
+    if(state.tool==='shape'){
+      const before=cloneObjects(),item={type:'shape',name:`${$('layout-shape-kind').selectedOptions[0].text} ${++sequence}`,shapeKind:$('layout-shape-kind').value,fillColor:$('layout-shape-color').value,x:point.x,y:point.y,w:1,h:1,brushSize:Math.max(.1,Number($('layout-shape-stroke').value)||1),rotation:0,opacity:1};
+      state.objects.push(item);state.selected=state.objects.length-1;
+      interaction={kind:'shape-create',pointerId:event.pointerId,index:state.selected,start:point,before};
+      renderLayers();renderObjectFields();canvas.classList.add('dragging');scheduleDraw();return;
+    }
+    if(state.tool==='text'){
+      const before=cloneObjects(),item=makeTextLayer(point.x,point.y);state.objects.push(item);state.selected=state.objects.length-1;
+      saveHistory(before);renderLayers();renderObjectFields();$('layout-editor-status').textContent='Layer teks ditambahkan. Ubah teks melalui Opsi alat.';
+      scheduleDraw();return;
+    }
+    if(state.tool==='magic-eraser'||state.tool==='bucket'){
+      const target=hitTest(point);
+      if(target>=0){
+        if(state.objects[target].type==='image')applyPixelTool(state.objects[target],point);
+        else $('layout-editor-status').textContent='Magic Eraser dan Paint Bucket mengedit foto atau latar kanvas, bukan bentuk/teks.';
+      }else applyCanvasPixelTool(point);
+      return;
+    }
+    if(state.tool==='brush'){
+      const before=cloneObjects();let index=state.selected,item=state.objects[index];
+      if(item?.locked){$('layout-editor-status').textContent='Layer terkunci. Buka kuncinya di panel Lapisan untuk melukis.';return}
+      if(item?.type==='image'&&item.visible!==false&&!item.locked){
+        const stroke={color:$('layout-brush-color').value,width:Math.max(.1,Number($('layout-brush-size').value)||2),points:[pointerToLocal(item,point)]};
+        interaction={kind:'brush-image',pointerId:event.pointerId,index,stroke,before};
+        canvas.classList.add('dragging');return;
+      }
+      if(item?.type!=='paint'||item.visible===false){
+        item={type:'paint',name:`Kuas ${++sequence}`,x:state.pageW/2,y:state.pageH/2,w:state.pageW,h:state.pageH,rotation:0,opacity:1,strokes:[]};
+        state.objects.push(item);index=state.objects.length-1;state.selected=index;
+      }
+      const local=pointerToLocal(item,point),stroke={color:$('layout-brush-color').value,width:Math.max(.1,Number($('layout-brush-size').value)||2),points:[local],selection:selectionLocalPolygon(item)};
+      item.strokes.push(stroke);interaction={kind:'brush',pointerId:event.pointerId,index,stroke,before};
+      renderLayers();renderObjectFields();canvas.classList.add('dragging');scheduleDraw();return;
+    }
+    if(state.tool==='transform'&&state.selected>=0&&!state.objects[state.selected]?.locked){
+      const handle=selectedHandleAt(point,view.scale);
+      if(handle){
+        const item=state.objects[state.selected],original={...item},before=cloneObjects(),localPoint=pointerToLocal(item,point);
+        if(handle.name==='rotate'){
+          const angle=Math.atan2(localPoint.y,localPoint.x)*180/Math.PI;
+          interaction={kind:'rotate',pointerId:event.pointerId,index:state.selected,original,before,startAngle:angle};
+        }else{
+          const anchor={x:handle.sx===0?0:-handle.sx*item.w/2,y:handle.sy===0?0:-handle.sy*item.h/2};
+          interaction={kind:'transform-resize',pointerId:event.pointerId,index:state.selected,original,before,handle,anchor,ratio:item.h/item.w};
+        }
+        canvas.classList.add('dragging');return;
+      }
+    }
+    if(event.target===canvas&&hitTest(point)<0){
+      interaction={kind:'pan',pointerId:event.pointerId,startX:event.clientX-rect.left,startY:event.clientY-rect.top,panX:state.panX,panY:state.panY};
+      canvas.classList.add('dragging');return;
+    }
+    const selected=hitTest(point);
+    if(selected<0){selectObject(-1);interaction=null;return}
+    selectObject(selected);
+    const item=state.objects[selected];
+    if(item.locked){$('layout-editor-status').textContent='Layer terkunci. Buka kuncinya di panel Lapisan untuk mengedit.';return}
+    const local=pointerToLocal(item,point),handleRadius=14/view.scale;
+    const onHandle=Math.hypot(local.x-item.w/2,local.y-item.h/2)<=handleRadius;
+    const before=cloneObjects();
+    const kind=state.tool==='crop'&&item.type==='image'?'crop-move':state.tool==='transform'?'move':onHandle?'resize':'move';
+    if(state.tool==='crop'&&item.type!=='image')$('layout-editor-status').textContent='Crop hanya dapat digunakan pada layer foto.';
+    interaction={kind,pointerId:event.pointerId,index:selected,start:point,original:{...item},before};
+    canvas.classList.add('dragging');
+  }
+  function handlePointerMove(event){
+    if(state.tool==='brush'){
+      state.cursorPage=screenPoint(event.clientX,event.clientY);scheduleDraw();
+    }
+    if(!pointers.has(event.pointerId)){updateCanvasHoverCursor(event);return}
+    pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    if(!interaction)return;
+    if(interaction.kind==='pinch'){
+      const a=pointers.get(interaction.ids[0]),b=pointers.get(interaction.ids[1]);if(!a||!b)return;
+      const center=pointerCenter(a,b),rect=interaction.rect;
+      const distance=pointerDistance(a,b),nextZoom=clamp(interaction.zoom*distance/interaction.distance,.15,5);
+      const nextScale=state.baseScale*nextZoom;
+      state.zoom=nextZoom;
+      state.panX=center.x-rect.left-(rect.width-state.pageW*nextScale)/2-interaction.anchor.x*nextScale;
+      state.panY=center.y-rect.top-(rect.height-state.pageH*nextScale)/2-interaction.anchor.y*nextScale;
+      scheduleDraw();return;
+    }
+    if(interaction.pointerId!==event.pointerId)return;
+    if(interaction.kind==='pan'){
+      const rect=canvas.getBoundingClientRect();
+      state.panX=interaction.panX+event.clientX-rect.left-interaction.startX;
+      state.panY=interaction.panY+event.clientY-rect.top-interaction.startY;
+      scheduleDraw();return;
+    }
+    const point=screenPoint(event.clientX,event.clientY);
+    if(interaction.kind==='marquee'){
+      const x=clamp(Math.min(interaction.start.x,point.x),0,state.pageW),y=clamp(Math.min(interaction.start.y,point.y),0,state.pageH);
+      state.selection={x,y,w:clamp(Math.abs(point.x-interaction.start.x),0,state.pageW-x),h:clamp(Math.abs(point.y-interaction.start.y),0,state.pageH-y)};
+      scheduleDraw();return;
+    }
+    const item=state.objects[interaction.index],original=interaction.original;
+    if(interaction.kind==='brush'||interaction.kind==='brush-image'){
+      const local=pointerToLocal(item,point),last=interaction.stroke.points[interaction.stroke.points.length-1];
+      if(Math.hypot(local.x-last.x,local.y-last.y)>.05)interaction.stroke.points.push(local);
+      scheduleDraw();return;
+    }
+    if(interaction.kind==='shape-create'){
+      item.x=(interaction.start.x+point.x)/2;item.y=(interaction.start.y+point.y)/2;
+      item.w=Math.max(1,Math.abs(point.x-interaction.start.x));item.h=Math.max(1,Math.abs(point.y-interaction.start.y));
+      item.lineStart={x:interaction.start.x-item.x,y:interaction.start.y-item.y};item.lineEnd={x:point.x-item.x,y:point.y-item.y};
+      renderObjectFields();scheduleDraw();return;
+    }
+    if(interaction.kind==='move'){
+      item.x=original.x+point.x-interaction.start.x;item.y=original.y+point.y-interaction.start.y;
+    }else if(interaction.kind==='crop-move'){
+      const angle=original.rotation*Math.PI/180,dx=point.x-interaction.start.x,dy=point.y-interaction.start.y;
+      item.cropX=(original.cropX||0)+dx*Math.cos(angle)+dy*Math.sin(angle);
+      item.cropY=(original.cropY||0)-dx*Math.sin(angle)+dy*Math.cos(angle);
+    }else{
+      if(interaction.kind==='rotate'){
+        const local=pointerToLocal(original,point),angle=Math.atan2(local.y,local.x)*180/Math.PI;
+        item.rotation=original.rotation+angle-interaction.startAngle;
+      }else if(interaction.kind==='transform-resize'){
+        const local=pointerToLocal(original,point),handle=interaction.handle,anchor=interaction.anchor;
+        let width=handle.xAxis?Math.max(1,Math.abs(local.x-anchor.x)):original.w;
+        let height=handle.yAxis?Math.max(1,Math.abs(local.y-anchor.y)):original.h;
+        if(event.shiftKey&&handle.xAxis&&handle.yAxis){
+          const ratio=interaction.ratio;if(width/height>1/ratio)height=width*ratio;else width=height/ratio;
+        }
+        const signX=handle.xAxis?Math.sign(local.x-anchor.x):0,signY=handle.yAxis?Math.sign(local.y-anchor.y):0;
+        const movedLocal={x:handle.xAxis?anchor.x+signX*width/2:0,y:handle.yAxis?anchor.y+signY*height/2:0};
+        const angle=original.rotation*Math.PI/180;
+        item.x=original.x+movedLocal.x*Math.cos(angle)-movedLocal.y*Math.sin(angle);
+        item.y=original.y+movedLocal.x*Math.sin(angle)+movedLocal.y*Math.cos(angle);
+        item.w=width;item.h=height;
+      }else{
+        const local=pointerToLocal(original,point);
+        const newW=Math.max(1,Math.abs(local.x)*2),ratio=original.h/original.w;
+        item.w=newW;item.h=Math.max(1,newW*ratio);
+      }
+    }
+    renderObjectFields();scheduleDraw();
+  }
+  function handlePointerUp(event){
+    if(interaction&&interaction.kind==='pinch'){
+      pointers.delete(event.pointerId);
+      if(pointers.size>=2){beginPinch();return}
+      interaction=null;canvas.classList.remove('dragging');return;
+    }
+    if(interaction&&interaction.pointerId===event.pointerId){
+      if(interaction.kind==='marquee'){
+        const selection=state.selection;
+        if(!selection||selection.w<.5||selection.h<.5){
+          state.selection=null;$('layout-selection-clear').disabled=true;
+          $('layout-editor-status').textContent='Seleksi dibatalkan.';
+        }else{
+          $('layout-selection-clear').disabled=false;
+          $('layout-editor-status').textContent=`Seleksi ${selection.w.toFixed(1)} × ${selection.h.toFixed(1)} mm aktif.`;
+        }
+      }else if(interaction.kind==='brush-image'&&interaction.before){
+        applyImageBrush(state.objects[interaction.index],interaction.stroke);
+      }else if(interaction.kind==='brush'&&interaction.before){
+        saveHistory(interaction.before);$('layout-editor-status').textContent=`Sapuan kuas ditambahkan ke ${state.objects[interaction.index].name}.`;
+      }else if(interaction.kind==='shape-create'&&interaction.before){
+        saveHistory(interaction.before);$('layout-editor-status').textContent='Bentuk ditambahkan sebagai layer vektor.';
+      }else if(['move','resize','crop-move','rotate','transform-resize'].includes(interaction.kind)&&interaction.before){
+        const item=state.objects[interaction.index],before=interaction.original;
+        if(Math.abs(item.x-before.x)>.01||Math.abs(item.y-before.y)>.01||Math.abs(item.w-before.w)>.01||Math.abs(item.h-before.h)>.01||Math.abs(item.rotation-before.rotation)>.01||Math.abs((item.cropX||0)-(before.cropX||0))>.01||Math.abs((item.cropY||0)-(before.cropY||0))>.01)saveHistory(interaction.before);
+      }
+      interaction=null;canvas.classList.remove('dragging');
+      canvas.style.cursor='';
+      scheduleDraw();
+    }
+    pointers.delete(event.pointerId);
+    if(event.pointerType==='touch'&&state.tool==='brush'){state.cursorPage=null;scheduleDraw()}
+  }
+  $('layout-template').addEventListener('change',()=>{
+    const template=$('layout-template').value;
+    if(template==='custom'){state.template='custom';scheduleDraw();return}
+    templateDefaults(template);
+  });
+  ['layout-page-width','layout-page-height'].forEach(id=>$(id).addEventListener('change',()=>{
+    $('layout-template').value='custom';state.template='custom';validDimensions();
+  }));
+  ['layout-area-width','layout-area-height','layout-mark-type','layout-mark-size','layout-mark-offset','layout-export-dpi','layout-marks-export'].forEach(id=>{
+    $(id).addEventListener('input',()=>{if(id==='layout-area-width'||id==='layout-area-height'){$('layout-template').value='custom';state.template='custom'}validDimensions()});
+    $(id).addEventListener('change',()=>{if(id==='layout-area-width'||id==='layout-area-height'){$('layout-template').value='custom';state.template='custom'}validDimensions()});
+  });
+  $('layout-mark-type').addEventListener('change',()=>{
+    if(['prima-diecut','prima-kisscut'].includes($('layout-template').value)&&$('layout-mark-type').value!==$('layout-template').value){
+      $('layout-editor-status').textContent='Jenis marka custom dipilih; garis batas area Prima tetap terkunci pada ukuran templat.';
+    }
+  });
+  $('layout-editor-input').addEventListener('change',event=>{
+    const files=[...(event.target.files||[])];event.target.value='';
+    files.forEach(file=>{
+      if(!file.type.startsWith('image/')){$('layout-editor-status').textContent=`${file.name} bukan berkas gambar yang didukung.`;return}
+      const url=URL.createObjectURL(file),image=new Image();
+      image.onload=()=>{
+        URL.revokeObjectURL(url);
+        const width=Math.min(60,state.areaW*.35),height=width*(image.naturalHeight/image.naturalWidth);
+        const offset=state.objects.length*5;
+        const before=cloneObjects();
+        state.objects.push({type:'image',image,name:file.name||`Foto ${++sequence}`,x:state.pageW/2+offset,y:state.pageH/2+offset,w:width,h:Math.max(1,height),rotation:0,shape:'rect',fit:'contain',opacity:1});
+        state.selected=state.objects.length-1;saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
+        $('layout-editor-status').textContent=`${file.name} ditambahkan. Geser foto untuk menata; tarik sudut kanan bawah untuk mengubah ukuran.`;
+      };
+      image.onerror=()=>{URL.revokeObjectURL(url);$('layout-editor-status').textContent=`Gagal membuka gambar: ${file.name}.`};
+      image.src=url;
+    });
+  });
+  $('layout-editor-input').addEventListener('dragover',event=>event.preventDefault());
+  $('layout-editor-panel').addEventListener('dragover',event=>{if(event.dataTransfer?.types.includes('Files'))event.preventDefault()});
+  $('layout-editor-panel').addEventListener('drop',event=>{
+    if(!event.dataTransfer?.files?.length)return;
+    event.preventDefault();
+    const files=[...event.dataTransfer.files];
+    files.forEach(file=>{
+      if(!file.type.startsWith('image/'))return;
+      const url=URL.createObjectURL(file),image=new Image();
+      image.onload=()=>{URL.revokeObjectURL(url);const w=Math.min(60,state.areaW*.35),before=cloneObjects();state.objects.push({type:'image',image,name:file.name,x:state.pageW/2,y:state.pageH/2,w,h:w*image.naturalHeight/image.naturalWidth,rotation:0,shape:'rect',fit:'contain',opacity:1});state.selected=state.objects.length-1;saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();$('layout-editor-status').textContent=`${file.name} ditambahkan ke kanvas.`};
+      image.onerror=()=>{URL.revokeObjectURL(url);$('layout-editor-status').textContent=`Gagal membuka gambar: ${file.name}.`};
+      image.src=url;
+    });
+  });
+  $('layout-zoom-in').onclick=()=>setZoom(state.zoom*1.2);
+  $('layout-zoom-out').onclick=()=>setZoom(state.zoom/1.2);
+  $('layout-fit').onclick=()=>{state.zoom=1;state.panX=state.panY=0;scheduleDraw()};
+  canvas.addEventListener('wheel',event=>{
+    event.preventDefault();
+    const rect=canvas.getBoundingClientRect(),point=screenPoint(event.clientX,event.clientY);
+    if(state.tool==='crop'&&state.selected>=0&&hitTest(point)===state.selected){
+      const item=state.objects[state.selected],old=item.cropZoom||1,next=clamp(old*(event.deltaY<0?1.1:1/1.1),1,4),factor=next/old;
+      if(Math.abs(next-old)>.001)saveHistory();
+      item.cropZoom=next;item.cropX=(item.cropX||0)*factor;item.cropY=(item.cropY||0)*factor;
+      $('layout-crop-zoom').value=Math.round(next*100);$('layout-crop-zoom-value').textContent=`${Math.round(next*100)}%`;
+      scheduleDraw();return;
+    }
+    setZoom(state.zoom*(event.deltaY<0?1.12:1/1.12),event.clientX-rect.left,event.clientY-rect.top);
+  },{passive:false});
+  canvas.addEventListener('pointerdown',handlePointerDown);
+  canvas.addEventListener('pointermove',handlePointerMove);
+  canvas.addEventListener('pointerup',handlePointerUp);
+  canvas.addEventListener('pointercancel',handlePointerUp);
+  canvas.addEventListener('pointerleave',()=>{if(state.tool==='brush'&&!interaction){state.cursorPage=null;scheduleDraw()}});
+  $('layout-undo').onclick=undo;$('layout-redo').onclick=redo;
+  $('layout-tool-select').onclick=()=>setTool('select');
+  $('layout-tool-marquee').onclick=()=>setTool('marquee');
+  $('layout-tool-transform').onclick=()=>setTool('transform');
+  $('layout-tool-crop').onclick=()=>setTool('crop');
+  $('layout-tool-magic-eraser').onclick=()=>setTool('magic-eraser');
+  $('layout-tool-bucket').onclick=()=>setTool('bucket');
+  $('layout-tool-brush').onclick=()=>setTool('brush');
+  $('layout-tool-shape').onclick=()=>setTool('shape');
+  $('layout-tool-text').onclick=()=>setTool('text');
+  $('layout-selection-clear').onclick=()=>{
+    if(!state.selection)return;
+    state.selection=null;$('layout-selection-clear').disabled=true;scheduleDraw();
+    $('layout-editor-status').textContent='Seleksi dihapus.';
+  };
+  $('layout-layer-add').onclick=()=>{
+    const before=cloneObjects(),item={type:'paint',name:`Layer ${++sequence}`,x:state.pageW/2,y:state.pageH/2,w:state.pageW,h:state.pageH,rotation:0,opacity:1,strokes:[]};
+    state.objects.push(item);state.selected=state.objects.length-1;saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
+    $('layout-editor-status').textContent='Layer kosong dibuat. Pilih Brush untuk menggambar pada layer ini.';
+  };
+  function duplicateSelectedLayer(){
+    const item=state.objects[state.selected];if(!item)return;
+    const before=cloneObjects(),copy={...cloneObjects()[state.selected],name:`${item.name} copy`,x:item.x+5,y:item.y+5,locked:false};
+    state.objects.splice(state.selected+1,0,copy);state.selected++;
+    saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
+    $('layout-editor-status').textContent=`Layer ${item.name} diduplikasi.`;
+  }
+  $('layout-layer-duplicate').onclick=duplicateSelectedLayer;
+  $('layout-tolerance').addEventListener('input',()=>{$('layout-tolerance-value').textContent=$('layout-tolerance').value});
+  $('layout-object-opacity').addEventListener('input',()=>{
+    const item=state.objects[state.selected];$('layout-object-opacity-value').textContent=`${$('layout-object-opacity').value}%`;
+    if(item){item.opacity=Number($('layout-object-opacity').value)/100;scheduleDraw()}
+  });
+  $('layout-object-opacity').addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+  $('layout-object-opacity').addEventListener('change',()=>{if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}});
+  const textControls=['layout-text-value','layout-text-size','layout-text-font','layout-text-color'];
+  textControls.forEach(id=>{
+    $(id).addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+    $(id).addEventListener('input',()=>{
+      const item=state.objects[state.selected];if(!item||item.type!=='text'||item.locked)return;
+      item.text=$('layout-text-value').value;item.name=item.text.trim().slice(0,24)||'Teks';
+      item.fontSize=clamp(Number($('layout-text-size').value)||12,1,300);item.fontFamily=$('layout-text-font').value;item.fillColor=$('layout-text-color').value;
+      item.w=Math.max(item.fontSize*(item.text.length||1)*.65,10);item.h=item.fontSize*1.4;
+      item.baseW=item.w;item.baseH=item.h;
+      renderLayers();scheduleDraw();
+    });
+    $(id).addEventListener('change',()=>{if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}});
+  });
+  $('layout-add-text').onclick=()=>{
+    const before=cloneObjects(),item=makeTextLayer(state.pageW/2,state.pageH/2);state.objects.push(item);state.selected=state.objects.length-1;
+    saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();$('layout-editor-status').textContent='Layer teks ditambahkan di tengah kertas.';
+  };
+  $('layout-background-mode').addEventListener('change',()=>{
+    const before=cloneObjects();
+    state.background=$('layout-background-mode').value==='color'?$('layout-background-color').value:null;
+    $('layout-background-color-field').hidden=!state.background;
+    saveHistory(before);scheduleDraw();
+    $('layout-editor-status').textContent=state.background?'Latar warna diterapkan ke seluruh kertas.':'Latar transparan aktif; PNG akan menampilkan objek saja.';
+  });
+  $('layout-background-color').addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+  $('layout-background-color').addEventListener('input',()=>{
+    if($('layout-background-mode').value!=='color')return;
+    state.background=$('layout-background-color').value;scheduleDraw();
+  });
+  $('layout-background-color').addEventListener('change',()=>{
+    if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}
+    $('layout-editor-status').textContent='Warna latar kanvas diperbarui.';
+  });
+  function alignSelected(alignment){
+    const item=state.objects[state.selected];if(!item||item.locked)return;
+    const before=cloneObjects(),angle=item.rotation*Math.PI/180;
+    const boundsW=Math.abs(item.w*Math.cos(angle))+Math.abs(item.h*Math.sin(angle));
+    const boundsH=Math.abs(item.w*Math.sin(angle))+Math.abs(item.h*Math.cos(angle));
+    if(alignment==='left')item.x=boundsW/2;
+    else if(alignment==='right')item.x=state.pageW-boundsW/2;
+    else if(alignment==='center-x')item.x=state.pageW/2;
+    else if(alignment==='top')item.y=boundsH/2;
+    else if(alignment==='bottom')item.y=state.pageH-boundsH/2;
+    else if(alignment==='center-y')item.y=state.pageH/2;
+    else if(alignment==='center'){item.x=state.pageW/2;item.y=state.pageH/2}
+    saveHistory(before);renderObjectFields();scheduleDraw();
+    $('layout-editor-status').textContent=`Objek diratakan ${alignment.replace('-',' ')} pada kertas.`;
+  }
+  document.querySelectorAll('#layout-align-controls [data-align]').forEach(button=>button.addEventListener('click',()=>alignSelected(button.dataset.align)));
+  setTool('select');
+  $('layout-crop-zoom').addEventListener('input',()=>{
+    const item=state.objects[state.selected];$('layout-crop-zoom-value').textContent=`${$('layout-crop-zoom').value}%`;
+    if(item){item.cropZoom=Number($('layout-crop-zoom').value)/100;scheduleDraw()}
+  });
+  $('layout-crop-zoom').addEventListener('change',()=>{
+    if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}
+  });
+  $('layout-crop-zoom').addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+  $('layout-crop-reset').onclick=()=>{
+    const item=state.objects[state.selected];if(!item)return;
+    saveHistory();item.cropZoom=1;item.cropX=0;item.cropY=0;item.fit='cover';
+    $('layout-crop-zoom').value='100';$('layout-crop-zoom-value').textContent='100%';
+    renderObjectFields();scheduleDraw();
+  };
+  $('layout-delete').onclick=()=>{
+    if(state.selected<0)return;
+    const before=cloneObjects();state.objects.splice(state.selected,1);state.selected=state.objects.length?Math.min(state.selected,state.objects.length-1):-1;saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
+  };
+  $('layout-layer-up').onclick=()=>{
+    const index=state.selected;if(index<0||index>=state.objects.length-1)return;
+    const before=cloneObjects();[state.objects[index],state.objects[index+1]]=[state.objects[index+1],state.objects[index]];state.selected++;saveHistory(before);renderLayers();scheduleDraw();
+  };
+  $('layout-layer-down').onclick=()=>{
+    const index=state.selected;if(index<=0)return;
+    const before=cloneObjects();[state.objects[index],state.objects[index-1]]=[state.objects[index-1],state.objects[index]];state.selected--;saveHistory(before);renderLayers();scheduleDraw();
+  };
+  const objectFields=[['layout-object-x','x'],['layout-object-y','y'],['layout-object-width','w'],['layout-object-height','h'],['layout-object-rotation','rotation']];
+  objectFields.forEach(([id,key])=>{
+    const input=$(id);
+    input.addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+    input.addEventListener('input',()=>{
+      const item=state.objects[state.selected],value=Number(input.value);if(!item||!Number.isFinite(value))return;
+      item[key]=key==='w'||key==='h'?Math.max(1,value):value; scheduleDraw();
+    });
+    input.addEventListener('change',()=>{
+      if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}
+      renderObjectFields();scheduleDraw();
+    });
+  });
+  ['layout-object-shape','layout-object-fit'].forEach((id,index)=>{
+    const key=index===0?'shape':'fit',input=$(id);
+    input.addEventListener('focus',()=>{fieldSnapshot=cloneObjects()});
+    input.addEventListener('change',()=>{
+      const item=state.objects[state.selected];if(!item)return;
+      if(fieldSnapshot){saveHistory(fieldSnapshot);fieldSnapshot=null}
+      item[key]=input.value;renderObjectFields();scheduleDraw();
+    });
+  });
+  function fitSelectedToArea(usePaper){
+    const item=state.objects[state.selected];if(!item)return;
+    const before=cloneObjects(),area=usePaper?{x:0,y:0,w:state.pageW,h:state.pageH}:areaBounds();
+    item.x=area.x+area.w/2;item.y=area.y+area.h/2;item.w=area.w;item.h=area.h;item.fit='cover';
+    saveHistory(before);renderObjectFields();scheduleDraw();
+    $('layout-editor-status').textContent=usePaper?'Foto memenuhi seluruh kertas; marka tetap berada di atas artwork.':'Foto memenuhi area kerja templat.';
+  }
+  $('layout-fit-area').onclick=()=>fitSelectedToArea(false);
+  $('layout-fit-page').onclick=()=>fitSelectedToArea(true);
+  document.addEventListener('keydown',event=>{
+    if(!document.body.classList.contains('tab-layout')||event.altKey||event.metaKey||event.ctrlKey)return;
+    if(event.key.toLowerCase()==='escape'&&state.selection){event.preventDefault();$('layout-selection-clear').click();return}
+    const active=document.activeElement;
+    if(active&&['INPUT','SELECT','TEXTAREA'].includes(active.tagName))return;
+    if(event.code==='Space'){event.preventDefault();spacePan=true;canvas.classList.add('space-pan');return}
+    const key=event.key.toLowerCase(),tools={v:'select',m:'marquee',c:'crop',e:'magic-eraser',g:'bucket',b:'brush',u:'shape',t:'text'};
+    if(tools[key]){event.preventDefault();setTool(tools[key])}
+    if(key==='delete'||key==='backspace'){event.preventDefault();$('layout-delete').click()}
+  });
+  document.addEventListener('keyup',event=>{
+    if(event.code==='Space'){spacePan=false;canvas.classList.remove('space-pan')}
+  });
+  window.addEventListener('blur',()=>{spacePan=false;canvas.classList.remove('space-pan')});
+  document.addEventListener('keydown',event=>{
+    if(!document.body.classList.contains('tab-layout')||!(event.ctrlKey||event.metaKey)||event.altKey)return;
+    const active=document.activeElement;
+    if(active&&['INPUT','SELECT','TEXTAREA'].includes(active.tagName))return;
+    if(event.key.toLowerCase()==='z'){event.preventDefault();event.shiftKey?redo():undo()}
+    if(event.key.toLowerCase()==='y'){event.preventDefault();redo()}
+    if(event.key.toLowerCase()==='t'){event.preventDefault();setTool('transform')}
+    if(event.key.toLowerCase()==='j'){event.preventDefault();duplicateSelectedLayer()}
+  });
+  function outputCanvas(whiteBackground=false){
+    const pxPerMm=state.dpi/25.4,width=Math.round(state.pageW*pxPerMm),height=Math.round(state.pageH*pxPerMm);
+    if(width*height>30000000)throw new Error('Ukuran ekspor melebihi 30 megapiksel. Pilih DPI lebih rendah atau ukuran kertas lebih kecil.');
+    const output=document.createElement('canvas');output.width=width;output.height=height;
+    const outputContext=output.getContext('2d');
+    if(!outputContext)throw new Error('Peramban tidak dapat menyiapkan kanvas ekspor.');
+    if(whiteBackground&&!state.background){outputContext.fillStyle='#fff';outputContext.fillRect(0,0,width,height)}
+    drawScene(outputContext,pxPerMm,false);
+    return output;
+  }
+  function pngChunk(type,data){
+    const bytes=new Uint8Array(data.length+12),view=new DataView(bytes.buffer);
+    view.setUint32(0,data.length);for(let i=0;i<4;i++)bytes[4+i]=type.charCodeAt(i);
+    bytes.set(data,8);
+    let crc=0xffffffff;
+    for(let i=4;i<8+data.length;i++){
+      crc^=bytes[i];
+      for(let bit=0;bit<8;bit++)crc=crc&1?0xedb88320^(crc>>>1):crc>>>1;
+    }
+    view.setUint32(8+data.length,(crc^0xffffffff)>>>0);
+    return bytes;
+  }
+  async function setPngResolution(blob,dpi){
+    const bytes=new Uint8Array(await blob.arrayBuffer());
+    if(bytes.length<33||bytes[0]!==137||bytes[1]!==80||bytes[2]!==78||bytes[3]!==71)throw new Error('Peramban menghasilkan file PNG yang tidak valid.');
+    const pixelsPerMeter=Math.round(dpi/0.0254),data=new Uint8Array(9),view=new DataView(data.buffer);
+    view.setUint32(0,pixelsPerMeter);view.setUint32(4,pixelsPerMeter);data[8]=1;
+    const resolutionChunk=pngChunk('pHYs',data),parts=[bytes.subarray(0,8)];
+    let offset=8,hasHeader=false;
+    while(offset+12<=bytes.length){
+      const length=new DataView(bytes.buffer,bytes.byteOffset+offset,4).getUint32(0),end=offset+length+12;
+      if(end>bytes.length)throw new Error('Peramban menghasilkan PNG yang tidak lengkap.');
+      const type=String.fromCharCode(bytes[offset+4],bytes[offset+5],bytes[offset+6],bytes[offset+7]);
+      if(type!=='pHYs')parts.push(bytes.subarray(offset,end));
+      if(type==='IHDR'){parts.push(resolutionChunk);hasHeader=true}
+      offset=end;if(type==='IEND')break;
+    }
+    if(!hasHeader)throw new Error('Dimensi PNG tidak ditemukan.');
+    return new Blob(parts,{type:'image/png'});
+  }
+  function exportName(extension){return `layout-bebas-${state.pageW}x${state.pageH}mm-${state.dpi}dpi.${extension}`}
+  $('layout-export-png').onclick=async()=>{
+    const button=$('layout-export-png');button.disabled=true;
+    try{
+      const output=outputCanvas(),raw=await new Promise((resolve,reject)=>output.toBlob(value=>value?resolve(value):reject(new Error('Peramban gagal membuat PNG.')),'image/png')),blob=await setPngResolution(raw,state.dpi);
+      const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=exportName('png');link.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+      $('layout-editor-status').textContent=`PNG ${state.pageW} × ${state.pageH} mm, ${state.dpi} DPI berhasil disiapkan.`;
+    }catch(error){$('layout-editor-status').textContent=`Ekspor PNG gagal: ${error.message}`;console.error('Layout PNG export:',error)}
+    finally{button.disabled=false}
+  };
+  $('layout-export-pdf').onclick=()=>{
+    const button=$('layout-export-pdf');button.disabled=true;
+    try{
+      const Pdf=window.jspdf?.jsPDF;if(!Pdf)throw new Error('Pustaka PDF belum tersedia. Muat ulang aplikasi lalu coba lagi.');
+      const output=outputCanvas(true),pdf=new Pdf({unit:'mm',format:[state.pageW,state.pageH],orientation:state.pageW>state.pageH?'landscape':'portrait',compress:true});
+      pdf.addImage(output.toDataURL('image/png'),'PNG',0,0,state.pageW,state.pageH,undefined,'FAST');
+      pdf.save(exportName('pdf'));
+      $('layout-editor-status').textContent=`PDF ${state.pageW} × ${state.pageH} mm berhasil diekspor. Latar transparan di PNG menjadi putih di PDF. Marka ${$('layout-marks-export').checked?'disertakan':'tidak disertakan'}.`;
+    }catch(error){$('layout-editor-status').textContent=`Ekspor PDF gagal: ${error.message}`;console.error('Layout PDF export:',error)}
+    finally{button.disabled=false}
+  };
+  templateDefaults('a4');
+  new ResizeObserver(scheduleDraw).observe(stage);
+  renderLayers();renderObjectFields();scheduleDraw();
 })();
 
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(error=>{reportAppError('Could not enable offline storage: '+((error&&error.message)||error))})})}
