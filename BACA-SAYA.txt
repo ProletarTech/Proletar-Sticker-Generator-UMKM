@@ -1,31 +1,25 @@
-PROLETAR PROJECT STICKER GENERATOR (aplikasi web / PWA)
+PROLETAR STICKER STUDIO (aplikasi web / PWA)
 
-Isi folder ini harus diunggah SEMUA ke hosting HTTPS, lalu dibuka dari alamatnya:
-- index.html, manifest.webmanifest, sw.js, proletar-logo.png, icon-192.png, icon-512.png, icon-maskable-512.png
-- Proletar Tech · Invoice.html
+index.html di folder utama adalah satu-satunya aplikasi utama. Aset aplikasi,
+ikon, manifest, service worker, dan halaman pendukung berada di folder utama;
+folder classic\ sudah tidak digunakan.
+Untuk menerbitkan lewat GitHub Pages, unggah/push seluruh proyek ini beserta
+.github\workflows\pages.yml.
 
-Cara pasang jadi aplikasi (tanpa Play Store):
-1. Unggah folder ke hosting gratis: Netlify Drop (app.netlify.com/drop), GitHub Pages, atau Cloudflare Pages.
-2. Buka alamatnya di Chrome HP, lalu menu titik tiga > "Pasang aplikasi" / "Tambahkan ke layar utama".
-   Di layar intro juga akan muncul tombol "Pasang sebagai aplikasi".
-3. Setelah terpasang, aplikasi bisa dibuka offline (semua file sudah tersimpan).
-
-Mau jadi file APK untuk dibagikan atau Play Store?
-- Buka pwabuilder.com, masukkan alamat hosting tadi, pilih Android, unduh paketnya.
-- Atau bungkus dengan Capacitor / Bubblewrap bila ingin dikembangkan lebih lanjut.
-
-Catatan: file index.html di dalam folder ini tidak bisa diinstal bila hanya dibuka langsung dari penyimpanan HP (file://). Harus lewat hosting HTTPS.
+Untuk memasang aplikasi sebagai PWA, buka alamat HTTPS situs. Aplikasi dapat
+digunakan di browser lokal, tetapi pemasangan/offline PWA memerlukan HTTPS atau
+localhost. Ini adalah aplikasi web/PWA, bukan APK Android native.
 
 Navigasi aplikasi menampilkan alat utama; Vektor Trace, Pratinjau File, dan Invoice ada di menu "More tools". Pada tab Sticker Sheet, "Quick setup" menampilkan alur dasar dan ekspor PDF. Pilih "All settings" untuk membuka semua pengaturan dan format ekspor lanjutan. Fitur tetap tersedia; mode ini hanya mengatur tampilan.
 Gunakan Tab lalu tombol panah kiri/kanan, Home, atau End untuk navigasi tab dengan keyboard. Buka More tools dengan Enter atau Space, tekan Esc untuk menutupnya. Langkah Quick setup dapat dipilih untuk lompat ke upload, pilihan bentuk, atau ekspor.
 
 Batas gambar dan ekspor:
 - Tidak ada batas ukuran file atau megapiksel untuk unggahan gambar.
-- PNG dibatasi maksimal 25 megapiksel dan sisi terpanjang 12.000 piksel. Jika batas perangkat tercapai saat membuat PNG atau PDF, pilih coba lagi, turunkan resolusi otomatis, atau batalkan.
-- Saat resolusi diturunkan, aplikasi mencoba bertahap dan menampilkan ukuran serta DPI hasil akhirnya. PDF lossless dapat beralih ke raster beresolusi lebih rendah hanya jika pengguna memilih menurunkan resolusi.
-- SVG lembar menyematkan gambar PNG/JPEG sumber sekali per desain dan memakainya ulang pada stiker duplikat, sehingga file tetap ringkas dan resolusi tidak ditentukan oleh DPI ekspor. Artwork yang perlu efek berbasis piksel mengikuti DPI ekspor; garis potong tetap berupa vektor. SVG Hybrid juga mempertahankan artwork hasil trace sebagai vektor.
-- Switch warna PDF **RGB / CMYK** ada di bagian ekspor Sticker Sheet dan berlaku untuk ekspor PDF. CMYK menghasilkan warna DeviceCMYK melalui konversi generik dari RGB, tanpa profil ICC; pada PDF Hybrid, artwork yang sudah ditrace tetap berupa vektor. Hasil bisa berbeda menurut mesin dan bahan, jadi tanyakan profil yang diminta ke percetakan. SVG tidak dipengaruhi switch ini.
-- Dalam mode RGB, gambar PNG pada PDF lembar stiker dikompresi secara lossless; kompresi ini tidak mengubah piksel atau menurunkan resolusi. Mode CMYK merasterkan artwork raster sesuai DPI PDF yang dipilih, sementara artwork vektor pada PDF Hybrid tetap vektor; opsi lossless hanya berlaku untuk RGB. PDF Invoice memakai dialog cetak browser.
+- PNG dibatasi maksimal 25 megapiksel dan sisi terpanjang 12.000 piksel. SVG for CorelDRAW memakai batas khusus 75 megapiksel untuk mendekati 600 DPI pada kertas A3; batas sisi 12.000 px tetap berlaku. Jika batas perangkat tercapai, pilih coba lagi, turunkan resolusi otomatis, atau batalkan.
+- PDF RGB mempertahankan artwork trace sebagai vektor serta PNG/JPEG utuh pada resolusi sumber, seperti SVG. Artwork yang perlu efek berbasis piksel memakai maksimum 300 DPI secara default dan tidak dinaikkan melebihi resolusi sumber. DPI lebih tinggi tetap tersedia; garis potong dan marka tetap vektor. Mode Maximum detail (lossless) dapat menghasilkan file lebih besar.
+- **SVG sheet** dan **SVG Hybrid** mengikuti kualitas PDF: PNG/JPEG yang sesuai disematkan pada resolusi sumber, artwork hasil vectorize tetap path, dan gambar yang perlu pemrosesan piksel dirender pada PDF raster DPI terpilih (default 300), dibatasi resolusi sumber serta kemampuan perangkat. Gambar sumber diposisikan dan diskalakan dalam satuan mm yang sama dengan lembar, lalu disematkan pada setiap stiker. Garis potong dan marka tetap vektor. **SVG for CorelDRAW (lightweight)** memakai satu PNG seluruh halaman hingga 600 DPI dengan batas khusus 75 megapiksel dan sisi 12.000 px; resolusi turun untuk kertas besar atau jika perangkat kehabisan memori.
+- Switch warna PDF **RGB / CMYK** ada di bagian ekspor Sticker Sheet dan berlaku untuk ekspor PDF. CMYK mengonversi artwork raster pada DPI terpilih ke DeviceCMYK generik, tanpa profil ICC. Hasil bisa berbeda menurut mesin dan bahan, jadi tanyakan profil yang diminta ke percetakan. SVG tidak dipengaruhi switch ini.
+- PDF memakai ulang image sumber PNG/JPEG untuk stiker duplikat; path artwork hasil trace, garis potong, dan marka tetap vektor dalam mode RGB. PDF Invoice memakai dialog cetak browser.
 
 Penghapus latar:
 - "Hapus latar otomatis" mendeteksi warna dari sudut gambar; warna serupa di bagian lain gambar juga dapat ikut terhapus.
@@ -46,10 +40,12 @@ Upscaler:
 - Slider perbandingan menampilkan asli dan hasil pembesaran. Hasil PNG dapat diunduh atau dikirim langsung ke Studio Warna maupun Lembar Stiker.
 
 Studio Warna:
-- Buat variasi logo secara batch hingga 100 desain; hasil dapat diunduh sebagai ZIP atau PNG satu per satu.
+- Pilih palet **Palet Proletar** atau **Palet RWM** pada Color Studio. Palet RWM berisi #EB683C, #FF8752, #FFCFE7, #D33636, #DE74C8, #584CF6, #4D84F5, #479D53, dan #F9DB48; tombol warna acak mengikuti palet yang dipilih.
+- Buat variasi logo secara batch hingga 100 desain; hasil duplikat PNG dilewati dan variasi baru dicoba. Jika pilihan mode membatasi hasil unik, jumlah file yang dibuat akan lebih sedikit dan aplikasi menampilkan alasannya. Hasil dapat diunduh sebagai ZIP atau PNG satu per satu.
 - Pilihan mode warna mendukung tombol panah kiri/kanan, Home, dan End. Perkiraan CMYK menampilkan kedua ujung gradient; hasilnya simulasi RGB, bukan profil warna khusus percetakan.
 - SVG tanpa gambar berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
-- Untuk impor ke CorelDRAW, gunakan tombol **Download SVG for CorelDRAW**: artwork satu lembar disematkan sebagai satu PNG sesuai DPI cetak, sementara garis potong dan marka tetap vektor.
+- Kontur potong SVG/PDF memakai jalur vektor magenta #FF00FF, lebar garis 0,1 mm, dan nama layer default CutContour. Lebar garis hanya tampilan; mesin mengikuti centerline vektor. Untuk mesin CCD atau plotter umum, cocokkan nama layer/warna atau spot color di software mesin karena dukungan tiap model berbeda; preset tertentu dapat memakai nama layer lain.
+- Untuk impor ke CorelDRAW dengan kualitas artwork seperti PDF, gunakan **Download SVG sheet (PDF-quality artwork)** atau **SVG Hybrid (PDF-quality artwork)**. Bila file terlalu besar atau impor lambat, pilih **SVG for CorelDRAW (lightweight)** yang merasterkan artwork menjadi satu PNG halaman.
 - Untuk memisahkan produksi, gunakan menu **Two synchronized PDFs for CorelDRAW**: PDF 1 berisi artwork stiker + marka untuk dicetak tanpa kontur potong; PDF 2 berisi marka yang sama + kontur potong magenta tanpa artwork. Unduh PDF 1 dahulu, lalu PDF 2. Jika unggahan atau pengaturan berubah, unduh ulang keduanya; impor pada ukuran dan posisi halaman asli agar tetap sinkron.
 - Untuk menerima keduanya sekaligus, klik **Download both PDFs as ZIP**. Arsip ZIP berisi PDF artwork/marka dan PDF marka/kontur cutting yang sinkron.
 - Ekspor mengikuti batas 25 megapiksel dan sisi 12.000 piksel. Ukuran total PNG dalam batch dibatasi 64 MB agar penggunaan memori tetap terkendali.
@@ -64,9 +60,9 @@ Invoice:
 
 Nama file lembar cetak:
 - Pilih layout **Standard** untuk baris lurus non-zigzag, **Efficient** untuk membandingkan grid lurus dengan susunan rapat stiker bulat dan memilih jumlah lebih banyak, atau **Zigzag** untuk memaksa susunan baris selang-seling stiker bulat. Bentuk lain tetap memakai grid atau pengemasan berdasarkan ukuran.
-- **Paper size** hanya untuk memilih ukuran kertas standar atau ukuran khusus. Preset **Die Cut Prima** dan **Kiss Cut Prima** dipilih terpisah pada bagian **Print preset**. Die Cut Prima memakai halaman lanskap 483 × 325 mm dengan area kerja tepat 420 × 280 mm; margin dihitung otomatis dan layout stiker disesuaikan ke area tersebut. Marka titik sudut, silang tengah sisi, dan panahnya mengikuti PDF. Kiss Cut Prima memakai halaman potret 325 × 483 mm dengan area kerja tepat 290 × 430 mm; margin dan layout stiker dihitung otomatis. Marka siku sudut dan titik registrasinya mengikuti PDF. Marka ikut pada ekspor PDF, SVG, dan DXF. Bingkai magenta menunjukkan area kerja di preview saja; bingkai ini bukan jalur potong stiker dan tidak diekspor.
-- Preset **CDR** potret memakai halaman 325 × 485 mm dengan bingkai magenta 305 × 435 mm sebagai panduan area print di preview saja, sesuai posisi file referensi (margin sekitar 10 mm kiri/kanan, 32,85 mm atas, dan 17,15 mm bawah). Bingkai tidak diekspor sebagai jalur potong. Marka hitam berupa siku L terbuka di empat sudut bingkai serta dua titik bulat di atas kertas. Stiker ditempatkan dengan jarak aman minimal 5 mm dari batas bingkai/marka; bingkai tetap pada posisi referensi. Untuk grid, posisi semua bentuk dan ukuran stiker dihitung agar muat sebanyak mungkin; sisa ruang dibagi pada jarak antarstiker tanpa mengurangi jarak minimum dan stiker yang lebih besar dari area bermargin tidak ditempatkan. Kontur magenta pada setiap stiker adalah jalur potong sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Siku L dan titik registrasi tidak dimasukkan ke jalur potong stiker. Preset ini terpisah dari pilihan Paper size A3+ standar.
+- **Paper size** hanya untuk memilih ukuran kertas standar atau ukuran khusus. Preset **Die Cut Prima** dan **Kiss Cut Prima** dipilih terpisah pada bagian **Print preset**. Die Cut Prima memakai halaman lanskap 483 × 325 mm dengan area kerja tepat 420 × 280 mm; margin dihitung otomatis dan layout stiker disesuaikan ke area tersebut. Marka titik sudut, silang tengah sisi, dan panahnya mengikuti PDF. Kiss Cut Prima memakai halaman potret 325 × 483 mm dengan area kerja tepat 290 × 430 mm; margin dan layout stiker dihitung otomatis. Marka siku sudut dan titik registrasinya mengikuti PDF. Marka ikut pada ekspor PDF dan SVG. Bingkai magenta menunjukkan area kerja di preview saja; bingkai ini bukan jalur potong stiker dan tidak diekspor.
+- Preset **CDR** potret memakai halaman 325 × 485 mm dengan bingkai magenta 305 × 435 mm sebagai panduan area print di preview saja. Posisi bingkai mengikuti referensi: kiri 10,0241 mm, kanan 9,9759 mm, atas 32,8446 mm, dan bawah 17,1554 mm. Bingkai tidak diekspor sebagai jalur potong. Marka referensi meliputi empat siku L terbuka di bingkai, empat titik bulat berjari-jari 2,5 mm pada sudut luar, dan empat kotak putih 2 × 2 mm. Bentuk, warna, ukuran, dan posisi marka disamakan dengan file pembanding. Stiker ditempatkan dengan jarak aman minimal 5 mm dari batas bingkai/marka; bingkai tetap pada posisi referensi. Untuk grid, posisi semua bentuk dan ukuran stiker dihitung agar muat sebanyak mungkin; sisa ruang dibagi pada jarak antarstiker tanpa mengurangi jarak minimum dan stiker yang lebih besar dari area bermargin tidak ditempatkan. Kontur magenta pada setiap stiker adalah jalur potong sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Marka registrasi tidak dimasukkan ke jalur potong stiker. Preset ini terpisah dari pilihan Paper size A3+ standar.
 - Atur nama pesanan, bahan stiker, laminasi, finishing, dan jenis potongan pada Lembar Stiker.
-- PDF, PNG, SVG, DXF, dan PLT memakai nama yang mencantumkan spesifikasi tersebut, ukuran kertas, bentuk, dan ukuran stiker.
-- Teks tepi lembar dapat diaktifkan, diubah, atau dikosongkan di Lembar Stiker. Teks dicetak di tengah tepi bawah lembar, bukan pada setiap stiker.
+- PDF, PNG, dan SVG memakai nama yang mencantumkan spesifikasi tersebut, ukuran kertas, bentuk, dan ukuran stiker.
+- Teks tepi lembar dapat diaktifkan, diubah, atau dikosongkan di Lembar Stiker. Jika aktif dan diisi, teks tampil kecil di tepi bawah preview dan ekspor, bukan pada setiap stiker. PDF dan SVG menyematkannya sebagai gambar agar CorelDRAW tidak meminta font pengganti. Matikan opsi atau kosongkan isian untuk menghapus teks.
 - Metadata adalah label nama file saja. Cocokkan proses laminasi dan potongan dengan percetakan; pilihan nama tidak mengubah garis potong atau memberi efek finishing otomatis.

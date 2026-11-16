@@ -1,0 +1,24 @@
+Classic baseline snapshot
+Source: local working tree after "save all file to lokal"
+Captured: 2026-11-10
+Scope: all 18 files tracked by git at capture time; hash each file's exact bytes.
+Note: this records the saved local snapshot, not an independently verified production revision.
+SHA-256  Path
+c11394f08979ebc10058b62ecf3368016d824b9e00e9f5c15c9a6928cca63f77  .github/workflows/pages.yml
+847f9763ee2267aa2053e8cb82914b705ba9e75324526a47b10c678ba2b5650c  .gitignore
+f5ca70305f70d8f3cacd3a09e5d0720eb8c6890527215acd0edad6a15be91ffd  20240313_120452_0000.png
+16cf497f0e1b73899092bfd9b6ecc82616b7af8eb2ca8963eff33339d26d463e  BACA-SAYA.txt
+230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809  LICENSE
+32fcf9118d827e77f6f03565b758961bf17530d0733e63fdb9fcc392452b449f  NOTICE.md
+fadbcd2b592e7b5056d7b1d1e5f8db33bdbd32d30b1df4b654363d4732e29fb6  Proletar Tech · Invoice.html
+1cc0eb2d262508a4d45bc9326c57101e6bba7ef510be6a6dcb1d98b547c3f241  README.md
+1f940397e30a59a2b5d07662630bcf61d3a71e9e9bdfe84d06af0d28b72b4625  Studio Warna.html
+a1674ad0c426a6cdf1bf0d0d14bb26c244addf6bcd5b2f5d47ab89511ecd05f3  file.png
+ab87d2207dbec338728b59a2fc5b73b4278c2855a025381cd3e478b7a31923ff  icon-192.png
+0e92a5e06efd7911eff7800cd7ee73b978a3e01817349dcd279b8979927ad9a1  icon-512.png
+02b6217da232fe13281cef81565e1d12d948e830530804ed26a35d630d1ff408  icon-maskable-512.png
+950c765c86a58d271ea9c79434ab40b612203602fed25c275a427c8cec870b6b  index.html
+e48e4306e3d3031ee6e328eb3c462e4adfe08be916e93cac94539c2fc7480c2a  manifest.webmanifest
+c5456884cdce2195a3d4620c2a3691a1f7bf6160f5f39c6401abf253155d6b50  proletar-logo.png
+69e7b37e2ebdaf8fc313bf6cb74882fed65895e5f853736e65759bafb333bc6b  proletar-sticker-app Rev 1.1.code-workspace
+e469af6f80d20b7bca21080c2ff728737f9974c48a704c7c0c46ce8e70be0a84  sw.js

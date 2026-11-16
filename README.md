@@ -1,79 +1,13 @@
 # Proletar Sticker Studio
 
-Aplikasi web untuk menyiapkan desain stiker dan lembar cetak, langsung dari browser.
+The repository root is the complete static web app/PWA. [index.html](./index.html) is the single app entry point; its icons, manifest, service worker, and supporting pages are alongside it.
 
-**Buka aplikasi:** [proletartech.github.io/Proletar-Sticker-Generator-UMKM](https://proletartech.github.io/Proletar-Sticker-Generator-UMKM/)
+The GitHub Pages workflow publishes the repository root. Open the published site over HTTPS to install the PWA and use its offline support. The app can also be opened locally, but service workers require HTTPS or localhost.
 
-## Mulai menggunakan
+`Studio Warna.html` is the standalone Color Studio page. `Proletar Tech · Invoice.html` is available as a standalone page and from inside the main app.
 
-1. Buka aplikasi melalui tautan di atas. Untuk memasang sebagai aplikasi, buka menu browser lalu pilih **Tambahkan ke layar utama** atau **Install app** jika tersedia.
-2. Pilih tab sesuai pekerjaan: **Studio Warna**, **Layout Bebas**, **Cut Image**, **Hapus Latar**, **Upscaler**, **Lembar Stiker**, **Vektor Trace**, **Pratinjau File**, atau **Invoice**.
-3. Unggah gambar, atur hasil, lalu unduh file yang dibutuhkan.
+`CLASSIC-BASELINE-SHA256.txt` records hashes for the preserved historical baseline; the current app files are maintained at the repository root.
 
-Navigasi menampilkan alat utama terlebih dahulu; **More tools** berisi Vektor Trace, Pratinjau File, dan Invoice. Di **Sticker Sheet**, **Quick setup** mengikuti alur artwork → bentuk/ukuran/posisi per stiker → jumlah dan area aman per desain → kertas/preset/marka → detail pesanan → preview dan ekspor. Ekspor PDF 1/PDF 2 dan ZIP juga tersedia di Quick setup. Kontrol teknis seperti margin rinci, layout, bleed, pengaturan vektor, marka lanjutan, dan format ekspor tambahan tersedia di **All settings**. Perpindahan ini hanya merapikan tampilan; tidak ada fitur yang dihapus. Simpan/buka project dan preset cetak tetap tersedia.
+## License
 
-Navigasi alat mendukung keyboard: gunakan **Tab** lalu tombol **← / →**, **Home**, atau **End** untuk berpindah tab. Buka **More tools** dengan **Enter** atau **Space**, dan tekan **Esc** untuk menutupnya. Tombol langkah pada Quick setup dapat dipilih untuk lompat ke upload, pilihan bentuk, atau ekspor.
-
-Gunakan browser modern. Instalasi dan dukungan offline bergantung pada browser dan perangkat; buka aplikasi sekali saat online agar asetnya dapat tersimpan.
-
-## Fitur dan format ekspor
-
-- **Studio Warna:** buat variasi warna logo, simpan PNG satu per satu, atau buat batch hingga 100 desain sebagai ZIP. Mode warna dapat dinavigasi dengan tombol panah kiri/kanan, Home, dan End. Perkiraan CMYK ditampilkan untuk kedua ujung warna gradient; nilainya merupakan simulasi dari RGB, bukan profil warna cetak.
-- **Vektor Trace:** ruang kerja mandiri untuk mengubah logo atau ilustrasi menjadi SVG vektor. Daftar gambar dan pengaturannya terpisah dari menu lain; gambar hanya masuk atau keluar jika pengguna memilih transfer.
-- Alat selain **Invoice** dapat mengirim file atau hasilnya ke menu lain. Vektor Trace menerima gambar dari menu-menu tersebut; saat mengirim hasil, menu yang mendukung SVG menerima file vektor, sedangkan Cut Image, Hapus Latar, dan Upscaler menerima PNG pratinjau. Pengiriman berlangsung lokal di browser; file tidak diunggah.
-- **Cek sebelum cetak:** bagian Print preflight di Preview & Export memeriksa artwork, kapasitas layout, resolusi efektif gambar, marka registrasi, dan ketersediaan ekspor PDF. Pesan peringatan membantu menunjukkan hal yang perlu diperiksa, tetapi tidak menggantikan pemeriksaan akhir percetakan.
-- **Preset cetak lokal:** simpan, muat, dan hapus preset pengaturan lembar, marka, serta bahan/finishing di browser perangkat ini. Preset tidak menyimpan gambar atau nama pesanan.
-- **Preset cetak CDR dan Prima:** pilih presetnya pada bagian **Print preset**, terpisah dari **Paper size**. Preset menerapkan ukuran halaman khusus, area kerja, margin, dan marka yang sesuai. Paper size hanya memilih ukuran kertas standar atau **Custom size**; perubahan ukuran kertas tidak otomatis menerapkan preset. Area kustom nonaktif saat preset CDR/Prima yang cocok dipilih agar geometri referensinya tidak berubah.
-- **Spesifikasi cetak:** unduh PDF ringkasan yang mencantumkan detail pesanan, material, ukuran, layout, kapasitas, marka, dan pengaturan ekspor untuk disertakan bersama file produksi.
-- Di preview Lembar Stiker, buka **Simulate material & finish in preview** untuk melihat simulasi sederhana bahan dan finishing yang dipilih. Efek ini hanya untuk preview, tidak mengubah file ekspor, dan bukan proof warna.
-- Rasio asli tiap artwork dipertahankan di Lembar Stiker; gunakan pilihan **Show entire image / Auto-crop** untuk menentukan cara gambar masuk ke bentuk potong. Bentuk stiker setiap logo tetap dapat berbeda dalam satu lembar.
-- Sticker Sheet menyediakan bagian **Bingung dengan istilah Sticker Sheet? Buka penjelasan** berisi panduan sederhana tentang artwork, ukuran, margin, bleed, layout, kontur potong, marka, PDF, DPI, RGB/CMYK, dan jenis potongan.
-- Alur ukuran Sticker Sheet: atur ukuran fisik kertas dan stiker dalam mm; Pixel mode nonaktif secara default dan hanya perlu dipakai jika ingin memasukkan ukuran dalam px. **Paper size** menjadi sumber ukuran halaman; preset CDR/Prima yang dipilih terpisah mengatur halaman dan konfigurasi produksi sekaligus. **Canvas preset** hanya mengikuti ukuran halaman dan tidak mengubahnya. Saat Pixel mode aktif, DPI sizing menjaga ukuran fisik saat resolusi diubah. Resolusi PNG mengatur detail ekspor PNG, sedangkan resolusi raster PDF di pengaturan ekspor mengatur detail artwork raster dalam PDF. Keduanya tidak mengubah ukuran kertas atau ketajaman preview layar; garis potong vektor tetap tajam.
-- **Pratinjau File:** buka PDF, SVG/SVGZ, PNG, JPG, WebP, GIF, BMP, dan AVIF dalam satu menu. CDR dan beberapa format vektor dicoba lewat gambar pratinjau tertanam bila tersedia; file diproses lokal di browser.
-- **Invoice:** buat, cetak, dan kelola riwayat invoice dari tab baru. Data Invoice disimpan terpisah secara lokal di browser perangkat ini.
-- **Hapus Latar:** hapus latar otomatis atau area warna tersambung; tersedia undo/redo dan unduhan PNG.
-- **Upscaler:** perbesar gambar 2×, 3×, atau 4× dengan interpolasi browser. Fitur ini menghaluskan pembesaran, bukan menghasilkan detail baru seperti upscaler AI.
-- **Cut Image:** potong gambar ke bentuk persegi panjang, lingkaran, oval, persegi panjang membulat, atau heksagon dengan ukuran fisik dalam mm. Atur skala dan posisi artwork, gunakan kuas hapus dengan ukuran serta hardness yang bisa diubah, undo/redo, lalu ekspor PNG transparan pada 150/300/600 dpi (resolusi cetak disimpan dalam metadata PNG) atau kirim langsung ke Sticker Sheet. Ekspor dibatasi 25 megapiksel dan 12.000 px per sisi.
-- **Layout Bebas:** susun beberapa foto sebagai lapisan pada kertas A4, A3, A3+, CDR, Prima, atau ukuran custom. Mode Pilih, Seleksi persegi (M), Transform (Ctrl+T untuk resize/putar), Crop, Magic Eraser, Paint Bucket, Brush, Shape, dan Text; kursor kanvas mengikuti alat aktif dan pegangan transform. Seleksi membatasi sapuan Brush serta perubahan piksel Magic Eraser/Paint Bucket sampai seleksi dibatalkan. Magic Eraser/Paint Bucket mengedit foto aktif atau menghapus/mewarnai latar kertas; Brush melukis langsung pada foto aktif atau memakai/membuat layer cat jika layer aktif bukan foto, dan pratinjau kuas menunjukkan diameter sapuan. Latar transparan ditandai pola kotak-kotak dan diekspor transparan di PNG; PDF memakai latar putih jika mode transparan dipilih. Teks mendukung pilihan font dasar. Pilih layer dengan klik; Ctrl+J menduplikasi layer terpilih, dan objek dapat diratakan ke kiri/tengah/kanan/atas/bawah atau dipusatkan pada kertas. Ubah urutan layer dengan menyeretnya atau memakai tombol naik/turun. Atur visibilitas, opasitas, undo/redo, zoom/pan, dan ukuran posisi dalam mm. Garis area kerja tetap terkunci di preview; marka registrasi dapat disertakan pada ekspor PNG/PDF dengan ukuran halaman fisik yang sama.
-- **Lembar Stiker:** susun beberapa desain pada ukuran kertas termasuk A3+, atur ukuran stiker, jarak, margin, bleed, dan garis potong. Pilih layout **Standar** untuk baris lurus non-zigzag, **Efisien** untuk memilih hasil terbaik antara grid dan susunan rapat, atau **Zigzag** untuk memaksa baris selang-seling; susunan rapat hanya berlaku untuk stiker bulat. Untuk grid, posisi semua bentuk dan ukuran dihitung agar muat sebanyak mungkin; sisa ruang dibagi ke jarak antarstiker tanpa mengurangi jarak minimum, dan stiker yang melampaui area bermargin tidak ditempatkan. Pengaturan **Sticker-to-mark clearance** (default **5 mm**) mengatur jarak minimum dari tepi tinta marka terpilih ke tepi layout stiker pada pengaturan non-preset. Margin serta area cetak/potong kustom tetap menjadi batas tambahan; batas yang lebih ketat digunakan. Pada preset tetap, clearance diterapkan ke area kerja preset. Ubah nilainya di **Quick setup** atau **All settings**. Pengaturan ini tidak memindahkan marka atau mengubah kontur potong. Warna latar stiker  mengisi area kosong di dalam bentuk potong; memilih warna manual otomatis menonaktifkan sampling warna dari sudut gambar. **Print preset Die Cut Prima** memakai halaman lanskap **48,3 × 32,5 cm** dengan area kerja **42 × 28 cm** dan marka titik di sudut, tanda silang di tengah sisi, serta panah; **Kiss Cut Prima** memakai halaman potret **32,5 × 48,3 cm** dengan area kerja **29 × 43 cm** dan marka siku di sudut serta titik registrasi. Preset CDR memakai halaman **32,5 × 48,5 cm** dengan bingkai **30,5 × 43,5 cm**. Preset terpisah dari pilihan **Paper size** dan menerapkan ukuran halaman serta konfigurasi produksi terkait. Margin dihitung dari ukuran halaman dan target area tersebut, lalu layout stiker dihitung ulang agar tetap berada di dalam area cetak yang tepat. Bentuk, posisi, dan bobot garis marka mengikuti PDF referensi. Bingkai magenta menunjukkan area kerja di preview saja, bukan jalur potong stiker dan tidak diekspor. Kontur potong stiker tetap magenta sesuai ukuran stiker; lingkaran batas aman hitam tidak digunakan. Teks kustom tepi bawah lembar bersifat opsional dan nonaktif secara default; jika diaktifkan, teks tidak dicetak pada masing-masing stiker.
-- Ekspor lembar cetak tersedia sebagai **PDF** dan **PNG**; file potong tersedia sebagai **SVG**, **DXF**, dan **PLT**.
-- Kontur lingkaran dan oval pada PDF diekspor sebagai kurva Bézier, bukan polyline dengan banyak titik, agar lebih ringan dan tidak membuat lingkaran dipenuhi node saat diedit.
-- Pilihan warna PDF **RGB / CMYK** tersedia sebagai switch di Sticker Sheet dan berlaku untuk ekspor PDF. CMYK memakai DeviceCMYK dengan konversi generik dari RGB, bukan profil ICC percetakan; pada PDF Hybrid, artwork yang sudah ditrace tetap berupa vektor. Hasil akhir dapat berbeda menurut mesin dan bahan, jadi konfirmasikan profil yang diminta dengan percetakan. Ekspor SVG tidak berubah.
-- Teks tepi Sticker Sheet dirender sebagai gambar kecil berfont sans-serif pada PDF agar tampil konsisten dan tidak meminta font pengganti saat dibuka di aplikasi lain; teks ini tidak dapat diedit sebagai teks di PDF.
-- **SVG untuk CorelDRAW** menyematkan artwork seluruh lembar sebagai satu PNG pada DPI cetak, dengan garis potong dan marka registrasi tetap vektor. Gunakan opsi ini jika gambar SVG lain tidak tampil di CorelDRAW.
-- **Pasangan SVG sinkron:** SVG 1 berisi artwork stiker + marka registrasi tanpa kontur potong; SVG 2 berisi marka yang sama + kontur potong tanpa artwork. SVG 1 menyematkan sumber gambar satu kali per desain lalu menggunakannya kembali untuk setiap stiker, sehingga tidak meraster seluruh lembar dan dapat mengurangi ukuran file. Artwork yang perlu diproses tetap dirender sebagai PNG pada DPI ekspor. Unduh SVG 1 terlebih dahulu sebelum SVG 2; jika pengaturan atau artwork berubah, buat ulang SVG 1. Tombol ZIP membuat kedua file sekaligus dengan ukuran, posisi, artwork, dan marka yang cocok.
-- **Download both SVGs as ZIP** membungkus pasangan SVG sinkron di atas dalam satu arsip ZIP.
-- Ekspor terpisah untuk CorelDRAW tersedia sebagai dua PDF sinkron: PDF 1 berisi artwork stiker dan marka registrasi untuk dicetak, tanpa kontur potong; PDF 2 berisi marka registrasi yang sama dan kontur potong magenta, tanpa artwork. Unduh PDF 1 dahulu, lalu PDF 2; aplikasi memastikan unggahan dan pengaturan tidak berubah di antara ekspor. Jika ada perubahan, unduh ulang keduanya. Impor pada ukuran dan posisi asli tanpa mengubah skala atau posisi.
-- Tombol **Download 2-page print + cut PDF** membuat satu PDF sinkron: halaman pertama berisi artwork stiker dan marka registrasi tanpa kontur potong; halaman kedua berisi marka registrasi yang sama dan kontur potong magenta tanpa artwork. Kedua halaman memakai ukuran kertas dan posisi yang identik.
-- Tombol **Download both PDFs as ZIP** membuat satu arsip ZIP berisi kedua PDF sinkron di atas sekaligus.
-- Dalam mode RGB, gambar PNG pada PDF lembar stiker dikompresi secara lossless untuk mengurangi ukuran file tanpa mengubah piksel atau menurunkan resolusi. Mode CMYK merasterkan artwork raster sesuai DPI PDF yang dipilih, sementara artwork vektor pada PDF Hybrid tetap vektor; opsi lossless hanya berlaku untuk RGB. PDF Invoice memakai dialog cetak browser.
-- **SVG tanpa gambar** berisi kontur potong dan marka registrasi sebagai vektor; pengaturan bentuk, layout, offset, dan marka tetap diterapkan.
-- Nama ekspor lembar cetak dapat mencantumkan pesanan, bahan, laminasi, finishing, potongan, ukuran kertas, bentuk, dan ukuran stiker.
-
-**Catatan produksi:** informasi bahan, laminasi, finishing, dan jenis potongan hanya menjadi label nama file. Pilihan tersebut tidak mengubah proses finishing atau geometri potong secara otomatis. Konfirmasikan spesifikasi produksi dan margin aman dengan percetakan.
-
-## Batas pemrosesan
-
-- Tidak ada batas ukuran file atau megapiksel untuk unggahan gambar.
-- Hasil ekspor dibatasi hingga **25 megapiksel** dan sisi terpanjang **12.000 piksel**. Jika perangkat mencapai batas memori, aplikasi menyediakan opsi untuk mencoba lagi dengan resolusi lebih rendah atau membatalkan.
-- SVG lembar menyematkan gambar PNG/JPEG sumber sekali per desain dan memakainya ulang pada stiker duplikat, sehingga file tetap ringkas dan resolusi tidak ditentukan oleh DPI ekspor. Artwork yang perlu efek berbasis piksel mengikuti DPI ekspor; garis potong tetap berupa vektor. SVG Hybrid juga mempertahankan artwork hasil trace sebagai vektor.
-- Total PNG dalam batch Studio Warna dibatasi hingga **64 MB**.
-- Penghapus latar dan upscaler bekerja dengan piksel yang berdekatan/warna yang dipilih dan interpolasi; periksa tepi desain sebelum mengirim ke percetakan.
-
-## Berkas proyek
-
-- `index.html` — aplikasi utama dan tab Studio Warna tertanam; entry point GitHub Pages.
-- `Studio Warna.html` — Studio Warna mandiri.
-- `Proletar Tech · Invoice.html` — aplikasi Invoice yang juga tersedia sebagai tab tertanam di aplikasi utama.
-- `BACA-SAYA.txt` — catatan penggunaan dan batas pemrosesan.
-- `manifest.webmanifest`, `sw.js`, ikon, dan logo — aset instalasi/PWA.
-- `LICENSE` — lisensi proyek.
-- `NOTICE.md` — penjelasan lisensi kode dan batas penggunaan merek/aset Proletar.
-
-Perubahan pada branch `main` dipublikasikan melalui GitHub Pages.
-
-## Lisensi dan atribusi
-
-Kode asli Proletar dilisensikan di bawah **GNU GPL v3.0** dan boleh digunakan, diubah, serta didistribusikan, termasuk secara komersial, dengan mengikuti GPLv3 dan ketentuan atribusi tambahan yang dijelaskan di [NOTICE.md](NOTICE.md). Komponen pihak ketiga mengikuti lisensi dan pemberitahuannya masing-masing.
-
-Nama dan logo Proletar merupakan identitas merek terpisah dan tidak mendapat izin penggunaan dari lisensi kode. Baca [NOTICE.md](NOTICE.md) sebelum memakai atau mendistribusikan fork
+See [LICENSE](./LICENSE) and [NOTICE.md](./NOTICE.md). Third-party libraries retain their own licenses.

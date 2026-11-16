@@ -653,7 +653,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 }
 
 @media(min-width:1100px){
-  main{max-width:1720px}
+  main{width:calc(100% - 24px);max-width:none;padding:20px}
   .brand-head{gap:24px;padding-bottom:16px;margin-bottom:16px}
   .brand-logo{width:clamp(96px,8vw,124px);max-height:124px;object-fit:contain}
   .brand-copy h1{font-size:clamp(32px,3vw,40px)}
@@ -675,7 +675,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 
 .brand-copy h1{font-family:inherit;font-weight:800;letter-spacing:-.045em;line-height:1;text-transform:uppercase}
 .toolnav{position:sticky;top:10px;z-index:80;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;margin:0 0 20px;padding:6px;border:1px solid rgba(18,58,44,.12);border-radius:18px;background:rgba(184,196,178,.9);backdrop-filter:blur(14px)}
-.toolnav .maintabs{grid-template-columns:repeat(5,minmax(0,1fr));margin:0}
+.toolnav .maintabs{grid-template-columns:repeat(6,minmax(0,1fr));margin:0}
 .more-tools{position:relative;z-index:90}
 .more-tools>summary{display:flex;align-items:center;justify-content:center;min-height:64px;padding:12px 16px;border:1px solid rgba(18,58,44,.16);border-radius:16px;background:rgba(184,196,178,.62);color:var(--deep);font-size:13px;font-weight:750;cursor:pointer;list-style:none;white-space:nowrap}
 .more-tools>summary::-webkit-details-marker{display:none}
@@ -898,7 +898,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Area kerja tinggi (mm)<input id="layout-area-height" type="number" min="1" value="261"></label>
 </div>
 <p class="info" style="margin:4px 0">Area kerja mengikuti templat; pada ukuran custom area dipusatkan di kertas. Garis biru adalah panduan preview dan tidak ikut dicetak.</p>
-<label class="f">Jenis marka<select id="layout-mark-type"><option value="L">L · sudut</option><option value="dot">Titik bulat</option><option value="cross">Tanda silang</option><option value="cdr">CDR · L + titik atas</option><option value="prima-diecut">Prima die cut</option><option value="prima-kisscut">Prima kiss cut</option><option value="none">Tanpa marka</option></select></label>
+<label class="f">Jenis marka<select id="layout-mark-type"><option value="L">L · sudut</option><option value="dot">Titik bulat</option><option value="cross">Tanda silang</option><option value="cdr">CDR · titik/kotak sudut + 4 L</option><option value="prima-diecut">Prima die cut</option><option value="prima-kisscut">Prima kiss cut</option><option value="none">Tanpa marka</option></select></label>
 <div class="grid">
 <label class="f">Ukuran marka (mm)<input id="layout-mark-size" type="number" min="1" max="30" step="0.5" value="5"></label>
 <label class="f">Jarak marka dari tepi (mm)<input id="layout-mark-offset" type="number" min="1" max="50" step="0.5" value="10"></label>
@@ -1062,12 +1062,6 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <div class="card">
 <p class="info" id="info"></p>
 <div class="pv"><div id="sheet-preview-sheet" class="material-white finish-none"><canvas id="cv"></canvas><div id="finish-preview-overlay" aria-hidden="true"></div></div></div>
-<details class="preview-simulation">
-<summary>Simulate material &amp; finish in preview</summary>
-<p class="info" style="margin:6px 0 0">Uses the material and finishing choices below. Visual simulation only; exports are unchanged and this is not a color proof.</p>
-<div class="row"><input type="checkbox" id="finish-preview-enabled"><label for="finish-preview-enabled">Show approximate material / finish</label></div>
-<p class="info" id="finish-preview-label" style="margin:4px 0 0">Preview simulation is off.</p>
-</details>
 </div>
 </div>
 <div class="sheet-controls">
@@ -1141,7 +1135,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <button type="button" data-print-area="prima-diecut">Die Cut Prima · 483 × 325 mm page · 420 × 280 mm area</button>
 <button type="button" data-print-area="prima-kisscut">Kiss Cut Prima · 325 × 483 mm page · 290 × 430 mm area</button>
 </div>
-<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print preset details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">CDR and Prima are print presets, not paper sizes. Selecting a preset sets its page dimensions, working area, margins, and registration marks. CDR uses a 325 × 485 mm portrait page; Die Cut Prima uses a 483 × 325 mm landscape page with a 420 × 280 mm area; Kiss Cut Prima uses a 325 × 483 mm portrait page with a 290 × 430 mm area. Sticker placement also keeps a 5 mm clearance inside the work-area boundary. The magenta frame marks the working area in preview only and is not exported as a cut line.</p></details>
+<details class="ez" style="margin-top:6px"><summary style="cursor:pointer;font-weight:700;padding:6px">Print preset details (optional)</summary><p class="info" id="ez-template-info" style="margin:6px 0 0">CDR and Prima are print presets, not paper sizes. Selecting a preset sets its page dimensions, working area, margins, and registration marks. CDR uses a 325 × 485 mm portrait page; its reference includes four L marks, four round dots, and four white corner squares. Die Cut Prima uses a 483 × 325 mm landscape page with a 420 × 280 mm area; Kiss Cut Prima uses a 325 × 483 mm portrait page with a 290 × 430 mm area. Sticker placement also keeps a 5 mm clearance inside the work-area boundary. The magenta frame marks the working area in preview only and is not exported as a cut line.</p></details>
 <p class="info ez" style="margin:6px 0 0">Custom paper dimensions and detailed print-area limits are in All settings.</p>
 <h3 style="margin:14px 0 6px;font-size:14px">Registration marks</h3>
 <div id="quick-registration-mark"></div>
@@ -1268,7 +1262,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <h2>Sheet edge &amp; sticker border</h2>
 <div class="row" style="margin-top:0"><input type="checkbox" id="credit"><label for="credit">Print text along the sheet edge</label></div>
 <label class="f" style="margin-top:8px">Sheet edge text<input id="credit-text" type="text" maxlength="100" value=""></label>
-<p class="info" style="margin:6px 0 0">Text is printed at the center of the bottom edge, not on each sticker.</p>
+<p class="info" style="margin:6px 0 0">When enabled with non-empty text, it appears small at the bottom edge of the preview and PDF/SVG exports, not on each sticker. Exported text is embedded as an image so CorelDRAW does not need to find its font; turn this off or clear the text to omit it.</p>
 <hr class="sep">
 <div class="row"><input type="checkbox" id="ez-bord"><label for="ez-bord"><b>Automatic white border</b> (white outline around each sticker / die-cut line)</label></div>
 <label class="f">Border width (mm)<input id="ez-bw" type="number" min="0.3" max="4" step="0.1" value="1"></label>
@@ -1286,15 +1280,15 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Canvas height (px)<input id="pxh" type="number" value="9921" min="500"></label>
 <label class="f">Sticker diameter (px)<input id="pxd" type="number" value="378" min="20"></label>
 </div>
-<p class="info" style="margin:8px 0 0">Paper size is the source of truth; Canvas preset only shows its matching preset and cannot change the paper size. For a custom paper size, enter the canvas width and height in pixels. Changing sizing DPI recalculates those pixel dimensions while keeping the physical page size. The export buttons below create different file formats: PDF for printing, SVG cut lines for plotters, and an SVG sheet to open the layout in design software. The sheet SVG uses source PNG/JPG images; it does not automatically vectorize them.</p>
+<p class="info" style="margin:8px 0 0">Paper size is the source of truth; Canvas preset only shows its matching preset and cannot change the paper size. For a custom paper size, enter the canvas width and height in pixels. Changing sizing DPI recalculates those pixel dimensions while keeping the physical page size. The export buttons below create PDF files for printing and SVG files for cut lines or to open the layout in design software. The sheet SVG uses source PNG/JPG images; it does not automatically vectorize them.</p>
 </div>
 <label class="f" style="margin-top:10px">Sheet background color<input id="sbg" type="color" value="#ffffff"></label>
 <div class="row"><input type="checkbox" id="strans"><label for="strans">Transparent background in preview and sheet SVG</label></div>
 <p class="info" style="margin:8px 0 0">Vectorized artwork stays sharp when enlarged. Raster images in PDF use the separate PDF raster resolution setting; lossless mode embeds eligible source images without resizing.</p>
 <hr class="sep">
 <div class="grid">
-<label class="f">Cutting plotter<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), common</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka (HPGL)</option><option value="custom">Custom</option></select></label>
-<span id="mtype-home"></span><label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR preset marks (4 L corners + 2 top dots)</option><option value="prima-diecut">Die Cut Prima preset marks</option><option value="prima-kisscut">Kiss Cut Prima preset marks</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
+<label class="f">Cutting plotter<select id="mach"><option value="roland" selected>Roland (CAMM-1 / GS / GX), common</option><option value="graphtec">Graphtec (CE / FC), ARMS</option><option value="mimaki">Mimaki (CG), FineCut</option><option value="summa">Summa, OPOS</option><option value="redsail">Redsail / Liyu / Jinka</option><option value="custom">Custom</option></select></label>
+<span id="mtype-home"></span><label class="f">Registration mark shape<select id="mtype"><option value="L">L-shaped corners</option><option value="dot">Round dots</option><option value="cdr">CDR reference marks (4 L corners + 4 dots and 4 corner squares)</option><option value="prima-diecut">Die Cut Prima preset marks</option><option value="prima-kisscut">Kiss Cut Prima preset marks</option><option value="cross">Cross</option><option value="square">Square</option></select></label>
 <label class="f">Mark size (mm)<input id="msz" type="number" value="5" min="1" step="0.5"></label>
 <label class="f">Distance from edge (mm)<input id="moff" type="number" value="8" min="2" step="0.5"></label>
 <label class="f">Mark line width (mm)<input id="mw" type="number" value="0.3" min="0.1" step="0.1"></label>
@@ -1321,6 +1315,12 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Additional finish<select id="job-finish"><option value="standar">Standard</option><option value="hologram">Holographic</option><option value="uv-spot">Spot UV</option><option value="hot-stamping">Hot stamping</option><option value="custom">Other / custom</option></select><input class="job-custom" id="job-finish-custom" type="text" maxlength="32" placeholder="Enter finishing type" aria-label="Custom finishing type" hidden></label>
 <label class="f">Cut type<select id="job-cut"><option value="kiss-cut">Kiss cut (through sticker layer)</option><option value="die-cut">Die cut (through backing)</option><option value="potong-lembar">Sheet cut / trim</option><option value="custom">Other / custom</option></select><input class="job-custom" id="job-cut-custom" type="text" maxlength="32" placeholder="Enter cut type" aria-label="Custom cut type" hidden></label>
 </div>
+<details class="preview-simulation">
+<summary>Simulate material &amp; finish in preview</summary>
+<p class="info" style="margin:6px 0 0">Uses the material and finishing choices above. Visual simulation only; exports are unchanged and this is not a color proof.</p>
+<div class="row"><input type="checkbox" id="finish-preview-enabled"><label for="finish-preview-enabled">Show approximate material / finish</label></div>
+<p class="info" id="finish-preview-label" style="margin:4px 0 0">Preview simulation is off.</p>
+</details>
 <p class="info" id="job-filename-preview" role="status" aria-live="polite" style="margin:10px 0 0"></p>
 </div>
 
@@ -1335,7 +1335,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" id="k-out" style="margin-top:12px;font-size:14px;color:var(--tx)"></p>
 </div>
 
-<div class="card" id="export-card"><h2 class="ez"><span class="stepn">3</span>Preview &amp; Export</h2><h2 class="adv">Export Files</h2><p class="info adv" style="margin:0 0 10px">PDF Legacy preserves the existing export behavior. PDF Hybrid keeps traced artwork as vector paths, embeds eligible PNG/JPEG sources directly, and rasterizes only objects needing pixel-based edits. For CorelDRAW, the separate PDFs contain (1) sticker artwork + registration marks and (2) the same registration marks + cut contours. SVG exports remain available separately.</p>
+<div class="card" id="export-card"><h2 class="ez"><span class="stepn">3</span>Preview &amp; Export</h2><h2 class="adv">Export Files</h2><p class="info adv" style="margin:0 0 10px">RGB PDF preserves traced artwork as vector paths and embeds eligible PNG/JPEG artwork at its original resolution, like SVG; artwork needing pixel edits uses up to 300 DPI by default. CMYK artwork is converted at the selected DPI. Cut lines and registration marks remain vector. For CorelDRAW, the separate PDFs contain (1) sticker artwork + registration marks and (2) the same registration marks + cut contours.</p>
 <section class="preflight" id="print-preflight" aria-live="polite">
 <h3 id="preflight-title">Print preflight</h3><p id="preflight-summary">Checking current sheet settings…</p><ul id="preflight-items"></ul>
 </section>
@@ -1352,24 +1352,24 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="info" id="print-preset-status" role="status" style="margin:6px 0 0"></p>
 </div>
 <div class="pdf-color-control"><strong id="pdf-color-label">PDF color mode</strong><div class="pdf-color-toggle" role="group" aria-labelledby="pdf-color-label"><button type="button" data-pdf-color-mode="rgb" aria-pressed="true">RGB</button><button type="button" data-pdf-color-mode="cmyk" aria-pressed="false">CMYK</button></div><p class="info" id="pdf-color-note" style="flex-basis:100%;margin:0">RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.</p></div>
-<input type="checkbox" id="lossless" hidden><button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Lossless compression: OFF</button><p class="info" id="llinfo" style="margin:8px 0 0"></p>
-<label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="2400" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Controls raster artwork detail in PDF, not the page or sticker size. Vector cut lines and registration marks stay sharp regardless of this value. Eligible original images may be embedded at source resolution in some PDF modes.</p><div class="btns">
+<input type="checkbox" id="lossless" hidden><button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Maximum detail (lossless): OFF</button><p class="info" id="llinfo" style="margin:8px 0 0">Default PDF raster output is optimized for print at up to 300 DPI. Maximum detail embeds eligible source images without resampling and can create larger files.</p>
+<label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Sets the maximum raster detail for artwork needing pixel edits in PDF (300 DPI is suitable for most print jobs). Eligible untouched PNG/JPEG images use their original resolution and traced artwork stays vector in RGB mode. Images are never upsampled beyond source resolution. Page size and vector cut lines/registration marks are unaffected; CMYK converts raster artwork at the selected DPI.</p><div class="btns">
 <button class="p" id="pdf">Download print-ready PDF</button><button class="p o" id="pdf-two-page">Download 2-page print + cut PDF</button><button class="p o adv" id="pdf-hybrid">Download PDF Hybrid</button>
-<button class="p o adv" id="svg">Download SVG cut lines + marks</button><button class="p o adv" id="svg-contour">Download SVG without images (contours + marks)</button><button class="p o adv" id="svg-corel">Download SVG for CorelDRAW</button><button class="p o adv" id="svg-sheet">Download SVG sheet (advanced)</button><button class="p o adv" id="svg-hybrid">Download SVG Hybrid</button><button class="p o adv" id="dxf">Download DXF cut lines</button><button class="p o adv" id="plt">Download PLT (HPGL)</button>
+<button class="p o adv" id="svg">Download SVG cut lines + marks</button><button class="p o adv" id="svg-contour">Download SVG without images (contours + marks)</button><button class="p o adv" id="svg-corel">Download SVG for CorelDRAW (lightweight)</button><button class="p o adv" id="svg-sheet">Download SVG sheet (PDF-quality artwork)</button><button class="p o adv" id="svg-hybrid">Download SVG Hybrid (PDF-quality artwork)</button>
 <details style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">PDF 1 / PDF 2 / both for CorelDRAW</summary><p class="info">PDF 1 is for printing: sticker artwork + registration marks, no cut contours. PDF 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download individually, or create one ZIP containing both synchronized PDFs.</p><div class="btns"><button class="p o" id="pdf-corel-art">Download PDF 1 — stickers + marks (print)</button><button class="p o" id="pdf-corel-cut">Download PDF 2 — marks + cut contours</button><button class="p" id="pdf-corel-zip">Download both PDFs as ZIP</button></div></details>
 <details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized SVGs</summary><p class="info">SVG 1 is for printing: sticker artwork + registration marks, no cut contours. SVG 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download SVG 1 before SVG 2; if settings or artwork change, download SVG 1 again. Or create both synchronized SVGs in one ZIP.</p><div class="btns"><button class="p o" id="svg-sticker-marks">Download SVG 1 — stickers + marks</button><button class="p o" id="svg-marks-contours">Download SVG 2 — marks + cut contours</button><button class="p" id="svg-pair-zip">Download both SVGs as ZIP</button></div></details>
-</div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Include cut lines / guides (magenta) in the PDF. Turn this off to print the artwork only.</label></div><p class="info ez quick-export-note">SVG, DXF, PLT, and PDF Hybrid are in <b>All settings</b>. PDF 1 / PDF 2 and the ZIP option are available here.</p><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
+</div><div class="row ez"><input type="checkbox" id="ez-cut" checked><label for="ez-cut">Include cut lines / guides (magenta) in the PDF. Turn this off to print the artwork only.</label></div><p class="info ez quick-export-note">SVG and PDF Hybrid are in <b>All settings</b>. PDF 1 / PDF 2 and the ZIP option are available here.</p><p class="info ez" id="ez-llnote" style="margin:10px 0 0"></p><p class="info" id="dlstatus" style="margin:10px 0 0"></p></div>
 
 <div class="card btns"><button class="p o" id="psave">Save project</button><button class="p o" id="popen">Open project</button><input id="projfile" type="file" accept=".json,application/json" aria-hidden="true" tabindex="-1" hidden></div>
 <div class="card adv" style="font-size:13px">
 <b>Cutting guide (kiss cut / die cut)</b>
 <ul style="margin:8px 0 0;padding-left:18px;color:var(--mut)">
 <li><b>PDF Legacy / PDF Hybrid</b>: print artwork with magenta vector cut lines (0.1 mm) overlaid. Turn off the checkbox to export artwork only.</li>
-<li><b>SVG for CorelDRAW</b>: the full sticker artwork is one embedded raster image at print DPI, while cut paths, registration marks, and edge text stay vector. Use this option when CorelDRAW has trouble displaying SVG-embedded sticker images.</li>
+<li><b>SVG sheet and SVG Hybrid</b>: follow PDF quality handling: eligible PNG/JPEG artwork is embedded at source resolution and vectorized artwork stays vector; artwork requiring pixel processing uses the selected PDF raster DPI, capped by source resolution and device limits. Images are embedded inline for each sticker to improve CorelDRAW compatibility, so files can be larger than PDF. Cut paths and registration marks remain vector, including circle contours. <b>SVG for CorelDRAW (lightweight)</b> instead embeds the artwork as one PNG page for faster imports; its quality is limited by the selected PNG DPI and device limits.</li>
 <li><b>Two synchronized CorelDRAW PDFs</b>: PDF 1 is sticker artwork + registration marks for printing (no cut contours); PDF 2 is the same registration marks + magenta cut contours for cutting (no artwork). Both use the same page dimensions and mark positions; import them at their original size and position without resizing or repositioning.</li>
-<li><b>SVG sheet / SVG Hybrid (advanced)</b>: these retain artwork per sticker and may not display embedded images in CorelDRAW 2019. Use <b>SVG for CorelDRAW</b> for a single embedded page image instead. SVG Hybrid keeps traced artwork as vector paths; cut paths remain vector.</li>
 <li><b>SVG without images</b>: cut contours and registration marks as pure vectors, with no raster artwork. Shape, layout, contour offset, and mark settings use the controls above.</li>
 <li><b>Kiss cut</b> cuts only the sticker layer, not the backing. <b>Die cut</b> cuts through the backing. Set this on the plotter (force and blade depth), not in the file.</li>
+<li><b>CCD / general cutter contour:</b> SVG and PDF cut paths use pure magenta <b>#FF00FF</b>, a <b>0.1 mm</b> line, and the default <b>CutContour</b> layer name. Line width is for display; the cutter follows the vector centerline. Cutter software varies, so map the layer/color to its cut setting (or required spot color) after import; some presets use a different layer name.</li>
 <li>Roland and Summa plotters commonly recognize spot-color cut lines named <b>CutContour</b>. In CorelDRAW, assign that spot color to the magenta lines after import.</li>
 <li>Registration marks vary by plotter (Graphtec ARMS, Summa OPOS, etc.). These are general-purpose marks; add machine-specific marks in the plotter software if needed.</li>
 <li>Always test-cut one sheet first to adjust force and offset.</li>
@@ -1418,6 +1418,7 @@ select,input[type=number]{width:100%;padding:9px;border:1px solid var(--line);bo
 input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2px;border-radius:9px;background:var(--panel);flex:none}
 .pal{display:flex;flex-wrap:wrap;gap:5px;flex:1}.pal button{width:22px;height:22px;border-radius:7px;border:1px solid #0002;padding:0}
 .pal button:hover{transform:scale(1.12)}
+.palette-control{display:grid;gap:4px;margin:0 0 10px}.palette-control label{font-size:12px;font-weight:700;color:var(--muted)}
 .hid{display:none!important}
 .stage{position:relative;border-radius:14px;overflow:hidden;display:grid;place-items:center;min-height:380px;padding:14px;background-color:#edf3f1;background-image:linear-gradient(45deg,#dbe4e1 25%,transparent 25%),linear-gradient(-45deg,#dbe4e1 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#dbe4e1 75%),linear-gradient(-45deg,transparent 75%,#dbe4e1 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
 #cv{display:block;max-width:100%;max-height:560px;width:auto;height:auto;box-shadow:0 8px 24px #0002}
@@ -1478,6 +1479,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 
  <section class="card">
   <h2><span class="n">2</span>Set logo colors</h2>
+  <div class="palette-control"><label for="palette-select">Color palette</label><select id="palette-select"><option value="proletar">Palet Proletar</option><option value="rwm">Palet RWM</option></select></div>
   <div class="tabs" data-g="logoMode" role="group" aria-label="Logo color mode" aria-describedby="studio-key-help"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Original</button></div>
   <div id="lgrp">
    <div class="cr"><b>Color A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
@@ -2381,7 +2383,7 @@ function pngDpiVal(){
 function applyLossless(){
   const on=LL(),b=$('llbtn');
   const cmyk=getPdfColorMode()==='cmyk';
-  b.disabled=cmyk;b.textContent='Lossless compression: '+(on?'ON':'OFF')+(cmyk?' (RGB only)':'');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);
+  b.disabled=cmyk;b.textContent='Maximum detail (lossless): '+(on?'ON':'OFF')+(cmyk?' (RGB only)':'');b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);
   tileCache.clear();
   updateBtns();loadPanel();schedule();
 }
@@ -2904,6 +2906,11 @@ function fitScale(lg,w,h){
   const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height,z=lg.zoom/100;
   return (lg.fit==='cover'?Math.max:Math.min)(w*z/iw,h*z/ih);
 }
+function sourceResolutionDpi(lg,L){
+  if(!lg)return Infinity;
+  const scale=fitScale(lg,L.w,L.h);
+  return Number.isFinite(scale)&&scale>0?25.4/scale:Infinity;
+}
 function drawCell(ctx,lg,cx,cy,w,h,shape,bleed,ppm){
   ctx.save();
   if(shape!=='design'){shapePath(ctx,cx,cy,w,h,shape,bleed,lg);ctx.clip()}
@@ -3140,7 +3147,7 @@ function drawMarks(ctx,L,withCredit){
   }
   const text=withCredit&&$('credit').checked?$('credit-text').value.trim():'';
   if(text){
-    ctx.fillStyle='#000';ctx.font='2.6px system-ui,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle='#000';ctx.font='2.6px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(text,W/2,H-6,W-12);
   }
 }
@@ -3228,7 +3235,7 @@ function render(){
   const used=Object.values(cnt).reduce((a,b)=>a+b,0),dp=pngDpiVal();
   const fixed=logos.reduce((s,l)=>s+(l.qty>0?l.qty:0),0);
   const exportDisabled=L.cells.length===0;
-  ['pdf','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-sheet','dxf','plt'].forEach(id=>{$(id).disabled=exportDisabled;$(id).title=exportDisabled?'Reduce sticker size or adjust page size/margins to fit.':''});
+  ['pdf','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-sheet'].forEach(id=>{$(id).disabled=exportDisabled;$(id).title=exportDisabled?'Reduce sticker size or adjust page size/margins to fit.':''});
   const layoutLabel=L.hexPacked?(L.efficient?'Efficient layout':'Zigzag layout'):L.mixed?'Efficient mixed layout':`${L.cols} columns × ${L.rows} rows`;
   $('info').textContent=`${layoutLabel} · stickers per sheet: ${L.cells.length}`+(logos.length?` · filled ${used}`:'')+(L.cells.length?'':' · Sticker size does not fit within the current margins')
     +(logos.length>1?' · '+logos.map((l,i)=>`#${i+1}: ${cnt[i]||0}`).join(', '):'')
@@ -3496,6 +3503,7 @@ oc.addEventListener('wheel',e=>{
 
 /* ---------- upload ---------- */
 const MAX_EXPORT_PIXELS=25e6,MAX_EXPORT_SIDE=12000;
+const CUT_CONTOUR_COLOR='#FF00FF',CUT_CONTOUR_WIDTH=0.1;
 const readURL=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)});
 async function makeLogo0(url){
   const img=new Image();
@@ -3745,24 +3753,15 @@ function hybridRotation(pdf,cl,cx,cy,drawObject){
     drawObject();
   }finally{pdf.internal.write('Q')}
 }
-function hybridImageCell(pdf,lg,L,cx,cy,shape,bleed,im){
-  const k=pdf.internal.scaleFactor,f=n=>n.toFixed(3),Y=y=>(H-y)*k,w=s=>pdf.internal.write(s);
-  const col=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255].map(v=>(v/255).toFixed(4)).join(' ')};
-  const poly=P=>P.map((p,i)=>f(p[0]*k)+' '+f(Y(p[1]))+(i?' l':' m')).join('\n')+'\nh\n';
-  const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height,sc=fitScale(lg,L.w,L.h);
-  w('q');
-  try{
-    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
-    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
-    w(col(lg.auto?lg.corner:lg.bgc)+' rg');
-    w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f');
-    pdf.addImage(im.data,im.fmt,cx-iw*sc/2+lg.ox/100*L.w,cy-ih*sc/2+lg.oy/100*L.h,iw*sc,ih*sc,im.alias,'SLOW');
-  }finally{w('Q')}
-}
 function hybridRasterTile(lg,L,shape,bleed,dpi){
   const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height;
   const tw=L.w+2*bleed,th=L.h+2*bleed;
-  const ppm=Math.min(dpi/25.4,MAX_EXPORT_SIDE/Math.max(tw,th),Math.sqrt(MAX_EXPORT_PIXELS/(tw*th)));
+  const ppm=Math.min(
+    dpi/25.4,
+    sourceResolutionDpi(lg,L)/25.4,
+    MAX_EXPORT_SIDE/Math.max(tw,th),
+    Math.sqrt(MAX_EXPORT_PIXELS/(tw*th))
+  );
   const canvas=document.createElement('canvas');
   canvas.width=Math.max(1,Math.ceil(tw*ppm));canvas.height=Math.max(1,Math.ceil(th*ppm));
   const ctx=canvas.getContext('2d');
@@ -3785,12 +3784,12 @@ function setPdfColorMode(mode){
     button.setAttribute('aria-pressed',String(button.dataset.pdfColorMode===PDF_COLOR_MODE));
   });
   $('llbtn').disabled=PDF_COLOR_MODE==='cmyk';
-  $('llbtn').textContent='Lossless compression: '+(LL()?'ON':'OFF')+(PDF_COLOR_MODE==='cmyk'?' (RGB only)':'');
+  $('llbtn').textContent='Maximum detail (lossless): '+(LL()?'ON':'OFF')+(PDF_COLOR_MODE==='cmyk'?' (RGB only)':'');
   $('pdpi').disabled=LL()&&PDF_COLOR_MODE!=='cmyk';
-  $('pdf').textContent=PDF_COLOR_MODE==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (lossless)':'Download PDF ('+pdfDpi()+' DPI)';
+  $('pdf').textContent=PDF_COLOR_MODE==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (maximum detail)':'Download print-ready PDF';
   $('pdf-color-note').textContent=PDF_COLOR_MODE==='cmyk'
     ?'CMYK converts raster artwork at the selected PDF DPI; traced artwork in PDF Hybrid stays vector. Colors use generic DeviceCMYK with no ICC print profile. Confirm the intended profile with your print shop. Lossless embedding applies only to RGB. SVG exports are unchanged.'
-    :'RGB is the default. CMYK creates DeviceCMYK PDF colors using a generic RGB conversion; no ICC print profile is embedded. SVG exports are unchanged.';
+    :'RGB PDF preserves traced artwork as vectors and eligible PNG/JPEG artwork at original resolution; edited artwork uses the selected raster DPI. CMYK creates DeviceCMYK colors using a generic RGB conversion with no ICC print profile.';
   document.dispatchEvent(new Event('pdf-color-mode-change'));
 }
 document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.addEventListener('click',()=>setPdfColorMode(button.dataset.pdfColorMode)));
@@ -3829,13 +3828,13 @@ function addCmykCanvas(pdf,canvas,x,y,w,h,alias,rotation=0){
   const image=ctx.getImageData(0,0,canvas.width,canvas.height);
   pdf.addImage({data:image.data,width:canvas.width,height:canvas.height},'RGBA',x,y,w,h,alias,'SLOW',rotation);
 }
-function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
+function createSheetEdgeTextImage(text,scale=4){
   const label=String(text||'').trim();
-  if(!label)return;
-  const pxPerMm=96/25.4,scale=4,maxWidth=Math.max(1,(W-12)*pxPerMm);
+  if(!label)return null;
+  const pxPerMm=96/25.4,maxWidth=Math.max(1,(W-12)*pxPerMm);
   let fontSize=7.4*96/72;
   const measureCanvas=document.createElement('canvas'),measureCtx=measureCanvas.getContext('2d');
-  if(!measureCtx)throw new Error('Could not prepare sheet edge text for PDF export.');
+  if(!measureCtx)throw new Error('Could not measure sheet edge text.');
   const font=()=>`${fontSize}px Arial, Helvetica, sans-serif`;
   measureCtx.font=font();
   let measured=measureCtx.measureText(label).width;
@@ -3846,12 +3845,17 @@ function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
   const canvas=document.createElement('canvas');
   canvas.width=Math.ceil(textWidth*scale);canvas.height=Math.ceil(textHeight*scale);
   const ctx=canvas.getContext('2d');
-  if(!ctx)throw new Error('Could not render sheet edge text for PDF export.');
+  if(!ctx)throw new Error('Could not render sheet edge text.');
   ctx.scale(scale,scale);ctx.font=font();ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText(label,textWidth/2,textHeight/2);
   const width=textWidth/pxPerMm,height=textHeight/pxPerMm,x=W/2-width/2,y=H-6-height/2;
-  if(colorMode==='cmyk')addCmykCanvas(pdf,canvas,x,y,width,height,'sheet-edge-text');
-  else pdf.addImage(canvas.toDataURL('image/png'),'PNG',x,y,width,height,'sheet-edge-text','SLOW');
+  return {canvas,x,y,width,height};
+}
+function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
+  const edge=createSheetEdgeTextImage(text);
+  if(!edge)return;
+  if(colorMode==='cmyk')addCmykCanvas(pdf,edge.canvas,edge.x,edge.y,edge.width,edge.height,'sheet-edge-text');
+  else pdf.addImage(edge.canvas.toDataURL('image/png'),'PNG',edge.x,edge.y,edge.width,edge.height,'sheet-edge-text','SLOW');
 }
 function setPdfColor(pdf,hex,mode='rgb',stroke=false){
   if(mode==='cmyk'){pdf.internal.write(pdfColorOperator(hex,mode,stroke));return}
@@ -3859,7 +3863,7 @@ function setPdfColor(pdf,hex,mode='rgb',stroke=false){
   pdf[stroke?'setDrawColor':'setFillColor'](r,g,b);
 }
 function busy(b,msg){if(b)showLoader(msg||"Processing...");else hideLoader();['pdf','pdf-two-page','pdf-hybrid','pdf-corel-art','pdf-corel-cut','pdf-corel-zip','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-corel','svg-sheet','svg-hybrid'].forEach(id=>$(id).disabled=b);document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
-function updateBtns(){readPaper();$('pdf').textContent=getPdfColorMode()==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (lossless)':'Download PDF ('+pdfDpi()+' DPI)'}
+function updateBtns(){readPaper();$('pdf').textContent=getPdfColorMode()==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (maximum detail)':'Download print-ready PDF'}
 let LASTINFO='',COREL_PAIR_SIGNATURE='',SVG_PAIR_SIGNATURE='';
 function corelPairSignature(L,colorMode=getPdfColorMode()){
   const controls=['paper','shape','pw','ph','d','h','gap','mt','mb','ml','mr','bleed','layout','newrow','mtype','msz','mw','moff','mark-clearance','cox','coy','pdpi'];
@@ -3942,7 +3946,7 @@ function saveDirectFile(name,blob,status){
   return doSave(name,blob,status);
 }
 function needLogo(){if(!logos.length){$('dlstatus').textContent='The SVG sheet contains artwork and needs at least one image. For an empty sheet, use PDF, cut-line SVG, or SVG without images.';return true}return false}
-async function svgOriginalSource(lg){
+async function originalRasterSource(lg){
   if(!lg||!lg.img||lg.key||lg.vec)return null;
   let dataUrl=lg.url||'';
   if(lg.sourceBlob)dataUrl=await readURL(lg.sourceBlob);
@@ -3967,6 +3971,21 @@ function svgVectorSource(lg){
   if(!iw||!ih)return null;
   return {paths:paths.join(''),iw,ih,viewBox:vb};
 }
+function pdfVectorReady(lg){
+  return !!(lg&&lg.vec&&lg.vimg&&lg.vsvg&&/viewBox="0 0 [\d.]+ [\d.]+"/.test(lg.vsvg)&&/ width="[\d.]+"/.test(lg.vsvg)&&vecPaths(lg).length);
+}
+async function pdfOriginalTiles(assign,isCmyk){
+  const tiles=new Map();
+  if(isCmyk)return tiles;
+  for(const li of new Set(assign.filter(index=>index>=0))){
+    const lg=logos[li],original=await originalRasterSource(lg);
+    if(!original)continue;
+    const mime=(original.dataUrl.match(/^data:image\/(png|jpe?g);base64,/i)||[])[1];
+    if(!mime)continue;
+    tiles.set(li,{data:original.dataUrl,fmt:mime.toLowerCase()==='png'?'PNG':'JPEG',alias:`native-${lg.id}`});
+  }
+  return tiles;
+}
 function svgShapePath(cx,cy,w,h,shape,grow,lg){
   return shPoly(cx,cy,w,h,shape,grow,lg)
     .map((p,i)=>`${i?'L':'M'}${p[0].toFixed(4)} ${p[1].toFixed(4)}`).join(' ')+' Z';
@@ -3978,55 +3997,64 @@ $('pdf').onclick=async()=>{
   while(true){
   try{
     const dpi=rasterDpi||initialDpi;
+    await ensureCurrentTraces();
     const L=calc(),s=$('shape').value,bleed=+$('bleed').value||0,hasRotated=L.cells.some(cl=>cl.rot);
     const pdf=new jspdf.jsPDF({unit:'mm',format:[W,H],orientation:W>H?'landscape':'portrait',compress:true});
     if(isCmyk)enableCmykImages(pdf);
     const edgeText=$('credit').checked?$('credit-text').value.trim():'';
     if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
-    const urls={},imgs={};
+    const urls={},imgs={},originalTiles=await pdfOriginalTiles(L.assign,isCmyk);
+    let vectors=0,nativeImages=0,rasterized=0;
     forCells(L,(cx,cy,li,cl)=>{
       const lg=logos[li],id=lg?lg.id:0;
       const cellShape=shapeForLogo(li,s);
       const physicalLayout=logoLayout(li,L,s).L;
       if(isCmyk){
         const sd=rasterDpi||dpi,tw=physicalLayout.w+2*bleed,th=physicalLayout.h+2*bleed;
-        let tp=Math.max(72,Math.min(dpi,sd))/25.4;
+        let tp=Math.min(dpi,sd,sourceResolutionDpi(lg,physicalLayout))/25.4;
         const cap=Math.min(MAX_EXPORT_SIDE/Math.max(tw,th),Math.sqrt(MAX_EXPORT_PIXELS/(tw*th)));
         tp=Math.min(tp,cap);
         const tile=getTile(lg,physicalLayout,cellShape,bleed,tp);
         addCmykCanvas(pdf,tile,cx-physicalLayout.w/2-bleed,cy-physicalLayout.h/2-bleed,tw,th,'cmyk-tile-'+id+'-'+cellShape,cl.rot||0);
         return;
       }
-      if(!cl.rot&&LL()&&!rasterDpi&&lg){try{imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,origImg(lg,imgs));return}catch(e){}}
-      if(!cl.rot&&!rasterDpi&&!lg.key&&/^data:image\/(?:png|jpe?g)/i.test(lg.url||'')){
-        imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,{data:lg.url,fmt:/png/i.test(lg.url)?'PNG':'JPEG',alias:'src'+lg.id});
-        return;
+      if(pdfVectorReady(lg)){
+        hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
+        vectors++;return;
       }
+      const original=originalTiles.get(li);
+      if(original){
+        hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
+        nativeImages++;return;
+      }
+      if(!cl.rot&&LL()&&!rasterDpi&&lg){try{imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,origImg(lg,imgs));return}catch(e){}}
       const tileKey=id+':'+cellShape;
       if(!urls[tileKey]){
         const sd=rasterDpi||dpi,tw=physicalLayout.w+2*bleed,th=physicalLayout.h+2*bleed;
         let tp;
-        if(LL()&&!rasterDpi&&lg)tp=sd/25.4;
-        else tp=Math.max(72,Math.min(dpi,sd))/25.4;
+        if(LL()&&!rasterDpi&&lg)tp=Math.min(sd,sourceResolutionDpi(lg,physicalLayout))/25.4;
+        else tp=Math.min(dpi,sd,sourceResolutionDpi(lg,physicalLayout))/25.4;
         const cap=Math.min(MAX_EXPORT_SIDE/Math.max(tw,th),Math.sqrt(MAX_EXPORT_PIXELS/(tw*th)));
         tp=Math.min(tp,cap);
         urls[tileKey]=getTile(lg,physicalLayout,cellShape,bleed,tp).toDataURL('image/png');
       }
       pdf.addImage(urls[tileKey],'PNG',cx-physicalLayout.w/2-bleed,cy-physicalLayout.h/2-bleed,physicalLayout.w+2*bleed,physicalLayout.h+2*bleed,'t'+id,'SLOW',cl.rot||0);
+      rasterized++;
     });
     drawSheetMarksPdf(pdf,L,colorMode);
     if($('vcut').checked)drawCutContoursPdf(pdf,L,colorMode);
-    const usedLogos=logos.filter((_,i)=>L.assign.includes(i)),rasterCount=usedLogos.length;
     if(isCmyk){
-      LASTINFO=`${colorMode.toUpperCase()} PDF: artwork rasterized at ${dpi} DPI and converted to generic DeviceCMYK. No ICC print profile is embedded${rasterDpi&&dpi<initialDpi?`; resolution reduced from ${initialDpi} DPI due to device limits`:''}.`;
+      LASTINFO=`${colorMode.toUpperCase()} PDF: raster artwork rendered at up to ${dpi} DPI, capped by source resolution, and converted to generic DeviceCMYK. No ICC print profile is embedded${rasterDpi&&dpi<initialDpi?`; resolution reduced from ${initialDpi} DPI due to device limits`:''}.`;
+    }else if(vectors||nativeImages){
+      LASTINFO=`RGB PDF: ${vectors} vector sticker placement(s), ${nativeImages} original-resolution PNG/JPEG placement(s) reused from one embedded image per design, and ${rasterized} pixel-edited raster placement(s) at up to ${dpi} DPI (capped by source resolution). Cut contours and registration marks remain vector.`;
     }else if(rasterDpi){
-      LASTINFO=`Raster PDF at ${dpi} DPI${dpi<initialDpi?` (reduced from ${initialDpi} DPI due to device limits)`:''}.`;
+      LASTINFO=`Raster PDF at up to ${dpi} DPI; artwork is not upsampled beyond source resolution${dpi<initialDpi?` (reduced from ${initialDpi} DPI due to device limits)`:''}.`;
     }else if(LL()&&hasRotated){
       LASTINFO=`Lossless PDF for unrotated stickers; rotated stickers are rendered at source resolution (${Math.round(dpi)} DPI).`;
     }else if(LL()){
       LASTINFO=`Lossless PDF: original images are compressed without detail loss or resampling (maximum resolution follows the original image, about ${Math.round(nativeDpi())} DPI).`;
     }else{
-      LASTINFO=`PDF image resolution: ${dpi} DPI.`;
+      LASTINFO=`PDF image resolution: up to ${dpi} DPI; artwork is not upsampled beyond source resolution.`;
     }
     const suffix=isCmyk?`-${dpi}dpi-cmyk`:rasterDpi?`-${dpi}dpi`:LL()?'-lossless':`-${dpi}dpi`;
     await saveFile(sheetFileName('pdf').replace(/\.pdf$/,`${suffix}.pdf`),pdf.output('blob'));
@@ -4057,8 +4085,8 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
     if(isCmyk)enableCmykImages(pdf);
     const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
     if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
-    const nativeImages={},rasterTiles=new Map();
-    let vectors=0,native=0,rasterized=0;
+    const rasterTiles=new Map(),originalTiles=await pdfOriginalTiles(L.assign,isCmyk);
+    let vectors=0,nativeImages=0,rasterized=0;
     forCells(L,(cx,cy,li,cl)=>{
       const lg=li>=0?logos[li]:null,cellShape=shapeForLogo(li,s),physicalLayout=logoLayout(li,L,s).L;
       if(!lg){
@@ -4069,17 +4097,14 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
         return;
       }
       const canVector=!!(lg.vec&&lg.vimg&&lg.vsvg&&/viewBox="0 0 [\d.]+ [\d.]+"/.test(lg.vsvg)&&/ width="[\d.]+"/.test(lg.vsvg)&&vecPaths(lg).length);
-      if(canVector){
+      if(pdfVectorReady(lg)){
         hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
         vectors++;return;
       }
-      const source=lg.url||'';
-      const direct=!isCmyk&&!lg.key&&/^data:image\/(?:png|jpe?g)/i.test(source);
-      if(direct){
-        const imageKey='src'+lg.id;
-        if(!nativeImages[imageKey])nativeImages[imageKey]={data:source,fmt:/^data:image\/png/i.test(source)?'PNG':'JPEG',alias:imageKey};
-        hybridRotation(pdf,cl,cx,cy,()=>hybridImageCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,nativeImages[imageKey]));
-        native++;return;
+      const original=originalTiles.get(li);
+      if(original){
+        hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
+        nativeImages++;return;
       }
       const tileKey=[lg.id,cellShape,physicalLayout.w,physicalLayout.h,bleed,dpi].join(':');
       let tile=rasterTiles.get(tileKey);
@@ -4096,7 +4121,7 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
       drawSheetMarksPdf(pdf,L,colorMode);
       drawCutContoursPdf(pdf,L,colorMode);
     }
-    LASTINFO=`PDF Hybrid: ${vectors} vector sticker(s), ${native} directly embedded PNG/JPEG placement(s), ${rasterized} selectively rasterized placement(s) at up to ${dpi} DPI${includeCutPage?'; page 1 has artwork and registration marks, page 2 has matching registration marks and vector cut contours':includeCutLines&&$('vcut').checked?'; vector cut contours included':'; no cut contours'}${isCmyk?'; PDF artwork and marks use generic DeviceCMYK, with no embedded ICC profile':''}.`;
+    LASTINFO=`PDF Hybrid: ${vectors} vector sticker placement(s), ${nativeImages} original-resolution PNG/JPEG placement(s) reused from one embedded image per design, and ${rasterized} pixel-edited raster placement(s) at up to ${dpi} DPI (capped by source resolution). Cut contours and registration marks remain vector${includeCutPage?'; page 1 has artwork and registration marks, page 2 has matching registration marks and vector cut contours':includeCutLines&&$('vcut').checked?'; vector cut contours included':'; no cut contours'}${isCmyk?'; artwork requiring pixel edits and marks use generic DeviceCMYK, with no embedded ICC profile':''}.`;
     const name=sheetFileName('pdf').replace(/\.pdf$/,`${fileSuffix}${isCmyk?'-cmyk':''}.pdf`),blob=pdf.output('blob');
     if(fileSuffix.startsWith('-artwork-registration')&&!includeCutLines&&!includeEdgeText)COREL_PAIR_SIGNATURE=corelPairSignature(L,colorMode);
     if(returnBlob){busy(false);return {name,blob}}
@@ -4217,12 +4242,13 @@ $('svg').onclick=async()=>{
       const x=cx-physicalLayout.w/2,y=cy-physicalLayout.h/2;
       let contour;
       if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,physicalLayout.w,physicalLayout.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}"/>`;
-      else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physicalLayout.w/2)}" ry="${f(physicalLayout.h/2)}"/>`;
+      else if(cellShape==='circle')contour=`<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(physicalLayout.w/2)}"/>`;
+      else if(cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physicalLayout.w/2)}" ry="${f(physicalLayout.h/2)}"/>`;
       else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,physicalLayout.w,physicalLayout.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
       else{const r=cellShape==='rounded'?roundedRadius(physicalLayout.w,physicalLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physicalLayout.w)}" height="${f(physicalLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
       g+=svgCellRotation(cl,cx,cy,contour);
     });
-    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${g}</g></svg>`;
+    const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${g}</g></svg>`;
     await saveFile(sheetFileName('svg'),new Blob([svg],{type:'image/svg+xml'}));
   }catch(err){$('dlstatus').textContent='Could not create SVG: '+((err&&err.message)||err)}
   busy(false);
@@ -4237,12 +4263,13 @@ function createSvgCutContours(){
     const x=cx-logoL.w/2,y=cy-logoL.h/2;
     let contour;
     if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoL.w,logoL.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}"/>`;
-    else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoL.w/2)}" ry="${f(logoL.h/2)}"/>`;
+    else if(cellShape==='circle')contour=`<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(logoL.w/2)}"/>`;
+    else if(cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoL.w/2)}" ry="${f(logoL.h/2)}"/>`;
     else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoL.w,logoL.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
     else{const r=cellShape==='rounded'?roundedRadius(logoL.w,logoL.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoL.w)}" height="${f(logoL.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
     contours+=svgCellRotation(cl,cx,cy,contour);
   });
-  const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${contours}</g></svg>`;
+  const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${contours}</g></svg>`;
   return new Blob([svg],{type:'image/svg+xml'});
 }
 $('svg-contour').onclick=async()=>{
@@ -4256,7 +4283,7 @@ $('svg-contour').onclick=async()=>{
 };
 async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false,fileSuffix=null){
   if(needLogo())return;
-  const requestedDpi=pngDpiVal(),safeDpiForTile=(w,h)=>{
+  const requestedDpi=pdfDpi(),safeDpiForTile=(w,h)=>{
     let dpi=Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(w,h),Math.sqrt(MAX_EXPORT_PIXELS*25.4*25.4/(w*h))));
     while(dpi>0){
       const width=Math.round(w*dpi/25.4),height=Math.round(h*dpi/25.4);
@@ -4267,36 +4294,31 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
   };
   const bleed=+$('bleed').value||0,L=calc(),shape=$('shape').value;
   const tileSizeFor=(li)=>{const cellShape=shapeForLogo(li,shape),physicalLayout=logoLayout(li,L,shape).L;return {cellShape,logoLayout:physicalLayout,tileW:physicalLayout.w+2*bleed,tileH:physicalLayout.h+2*bleed}};
-  const tileW=L.w+2*bleed,tileH=L.h+2*bleed;
-  const safeDpi=safeDpiForTile(tileW,tileH);
-  let dpi=Math.min(requestedDpi,safeDpi),lowerAutomatically=false,result=null;
-  if(dpi<72){$('dlstatus').textContent='Page size is too large for a sheet SVG, even at 72 DPI.';return}
+  let dpi=requestedDpi,lowerAutomatically=false,result=null;
   busy(true,`${hybrid?'Creating SVG Hybrid':'Menyusun SVG lembar'} ${dpi} dpi...`);await pause();
   while(true){
     try{
-      const rasterTiles=new Map(),originalTiles=new Map(),vectorTiles=new Map(),tileDefinitions=[],nativeClips=[],logoCount=new Set(L.assign.filter(i=>i>=0)).size;let vectorCount=0;
+      const rasterTiles=new Map(),originalTiles=new Map(),vectorTiles=new Map(),nativeClips=[],logoCount=new Set(L.assign.filter(i=>i>=0)).size;let vectorCount=0;
       for(const li of L.assign){
         if(li<0||rasterTiles.has(li)||originalTiles.has(li)||vectorTiles.has(li))continue;
         $('loadmsg').textContent=`Preparing image ${rasterTiles.size+originalTiles.size+vectorTiles.size+1} of ${logoCount} at ${dpi} DPI...`;
         await pause();
-        if(hybrid){
-          const vector=svgVectorSource(logos[li]);
-          if(vector){vectorTiles.set(li,vector);vectorCount++;continue}
+        const vector=svgVectorSource(logos[li]);
+        if(vector){
+          vectorTiles.set(li,vector);
+          vectorCount++;continue;
         }
-        const original=await svgOriginalSource(logos[li]);
+        const original=await originalRasterSource(logos[li]);
         if(original){
-          const id=`tile-${tileDefinitions.length}`;
-          originalTiles.set(li,{...original,id});
-          tileDefinitions.push(`<image id="${id}" x="0" y="0" width="${original.iw}" height="${original.ih}" preserveAspectRatio="none" href="${original.dataUrl}" xlink:href="${original.dataUrl}"/>`);
+          originalTiles.set(li,original);
           continue;
         }
         const {cellShape,logoLayout,tileW,tileH}=tileSizeFor(li);
-        const tile=getTile(logos[li],logoLayout,cellShape,bleed,dpi/25.4);
+        const tileDpi=Math.min(dpi,safeDpiForTile(tileW,tileH),sourceResolutionDpi(logos[li],logoLayout));
+        const tile=getTile(logos[li],logoLayout,cellShape,bleed,tileDpi/25.4);
         const png=await new Promise((resolve,reject)=>tile.toBlob(blob=>blob?resolve(blob):reject(new Error('The browser could not save the image for SVG.')),'image/png'));
         const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error||new Error('Could not read the exported image.'));reader.readAsDataURL(png)});
-        const id=`tile-${tileDefinitions.length}`;
-        rasterTiles.set(li,{id,tileW,tileH});
-        tileDefinitions.push(`<image id="${id}" x="0" y="0" width="${tileW}" height="${tileH}" preserveAspectRatio="none" href="${dataUrl}" xlink:href="${dataUrl}"/>`);
+        rasterTiles.set(li,{dataUrl,tileW,tileH});
       }
       let images='',copyIndex=0;
       forCells(L,(cx,cy,li,cl)=>{
@@ -4312,7 +4334,7 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
           const underlay=cellShape==='design'
             ?`<rect x="${cx-logoLayout.w}" y="${cy-logoLayout.h}" width="${2*logoLayout.w}" height="${2*logoLayout.h}" fill="${background}"/>`
             :`<path d="${outer}" fill="${lg.bw>0?lg.bc:background}"/>${lg.bw>0?`<path d="${inner}" fill="${background}"/>`:''}`;
-          const image=`<use href="#${original.id}" xlink:href="#${original.id}" transform="matrix(${sc} 0 0 ${sc} ${imgX} ${imgY})"/>`;
+          const image=`<image x="${imgX}" y="${imgY}" width="${original.iw*sc}" height="${original.ih*sc}" preserveAspectRatio="none" xlink:href="${original.dataUrl}"/>`;
           const artwork=cellShape==='design'?image:`<g clip-path="url(#${clipId})">${image}</g>`;
           images+=svgCellRotation(cl,cx,cy,underlay+artwork);
           return;
@@ -4329,13 +4351,16 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
           const underlay=cellShape==='design'
             ?`<rect x="${cx-logoLayout.w}" y="${cy-logoLayout.h}" width="${2*logoLayout.w}" height="${2*logoLayout.h}" fill="${background}"/>`
             :`<path d="${outer}" fill="${lg.bw>0?lg.bc:background}"/>${lg.bw>0?`<path d="${inner}" fill="${background}"/>`:''}`;
-          const vectorImage=`<svg x="${imgX}" y="${imgY}" width="${vector.iw*sc}" height="${vector.ih*sc}" viewBox="${vector.viewBox.join(' ')}" preserveAspectRatio="none">${vector.paths}</svg>`;
+          const [viewX,viewY,viewW,viewH]=vector.viewBox;
+          const scaleX=vector.iw*sc/viewW,scaleY=vector.ih*sc/viewH;
+          const transform=`matrix(${scaleX.toFixed(8)} 0 0 ${scaleY.toFixed(8)} ${(imgX-scaleX*viewX).toFixed(8)} ${(imgY-scaleY*viewY).toFixed(8)})`;
+          const vectorImage=`<g transform="${transform}">${vector.paths}</g>`;
           const artwork=cellShape==='design'?vectorImage:`<g clip-path="url(#${lg.bw>0?innerId:outerId})">${vectorImage}</g>`;
           images+=svgCellRotation(cl,cx,cy,underlay+artwork);
           return;
         }
         const tile=rasterTiles.get(li),x=cx-tile.tileW/2,y=cy-tile.tileH/2;
-        images+=svgCellRotation(cl,cx,cy,`<use href="#${tile.id}" xlink:href="#${tile.id}" x="${x}" y="${y}"/>`);
+        images+=svgCellRotation(cl,cx,cy,`<image x="${x}" y="${y}" width="${tile.tileW}" height="${tile.tileH}" preserveAspectRatio="none" xlink:href="${tile.dataUrl}"/>`);
       });
       const f=n=>n.toFixed(3),shape=$('shape').value;
       let cuts='';
@@ -4344,7 +4369,8 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         const {cellShape,logoLayout}=tileSizeFor(li),x=cx-logoLayout.w/2,y=cy-logoLayout.h/2;
         let contour;
         if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,logoLayout.w,logoLayout.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}"/>`;
-        else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoLayout.w/2)}" ry="${f(logoLayout.h/2)}"/>`;
+        else if(cellShape==='circle')contour=`<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(logoLayout.w/2)}"/>`;
+        else if(cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(logoLayout.w/2)}" ry="${f(logoLayout.h/2)}"/>`;
         else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,logoLayout.w,logoLayout.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
         else{const r=cellShape==='rounded'?roundedRadius(logoLayout.w,logoLayout.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(logoLayout.w)}" height="${f(logoLayout.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
         cuts+=svgCellRotation(cl,cx,cy,contour);
@@ -4353,28 +4379,20 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
       const edgeText=$('credit').checked?$('credit-text').value.trim():'';
       let credit='';
       if(edgeText){
-        const measure=document.createElement('canvas').getContext('2d');
-        measure.font='2.6px system-ui,Arial,sans-serif';
-        const maxWidth=Math.max(1,W-12),textWidth=measure.measureText(edgeText).width;
-        const fontSize=textWidth>maxWidth?2.6*maxWidth/textWidth:2.6;
-        const escaped=edgeText.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
-        credit=`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="${fontSize}" fill="#000">${escaped}</text>`;
+        const edge=createSheetEdgeTextImage(edgeText);
+        credit=`<image x="${edge.x}" y="${edge.y}" width="${edge.width}" height="${edge.height}" preserveAspectRatio="none" xlink:href="${edge.canvas.toDataURL('image/png')}"/>`;
       }
-      const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
-      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${tileDefinitions.join('')}${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
-      LASTINFO=hybrid
-        ?`SVG Hybrid: ${vectorCount} traced artwork(s) remain vector paths; eligible PNG/JPEG sources keep their original pixels and are embedded once per design, while artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`
-        :includeCutLines
-          ?`Sheet SVG: eligible PNG/JPEG sources keep their original pixels and are embedded once per design; artwork needing pixel edits is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. Cut paths remain vector.`
-          :`SVG stickers + marks: eligible PNG/JPEG sources are embedded once per design and reused for each sticker; edited artwork is embedded as PNG at ${dpi} DPI${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit sticker size)`:''}. No cut contours are included.`;
+      const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${cuts}</g>`:'';
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
+      LASTINFO=`${hybrid?'SVG Hybrid':'Sheet SVG'}: ${vectorCount} vectorized design(s) remain vector; eligible PNG/JPEG sources are embedded at original resolution and pixel-processed artwork is rasterized at up to ${dpi} DPI, capped by source resolution and device limits. Images are embedded inline for each placement for CorelDRAW compatibility, which can increase file size. Cut paths and registration marks remain vector${includeCutLines&&$('vcut').checked?'.':'; no cut contours are included.'}`;
       const blob=new Blob([svg],{type:'image/svg+xml'});
       const suffix=fileSuffix||(hybrid?'-hybrid':'-lembar'),name=sheetFileName('svg').replace(/\.svg$/,`${suffix}.svg`);
       if(returnBlob){result={name,blob};break}
       await saveFile(name,blob);
       break;
     }catch(err){
-      const lower=Math.max(72,Math.min(Math.floor(dpi*0.8),safeDpi));
-      if(lower>=dpi){$('dlstatus').textContent=(hybrid?'SVG Hybrid':'Sheet SVG')+' export failed at the lowest safe resolution: '+((err&&err.message)||err);break}
+      const lower=Math.floor(dpi*0.8);
+      if(lower<72||lower>=dpi){$('dlstatus').textContent=(hybrid?'SVG Hybrid':'Sheet SVG')+' export failed: '+((err&&err.message)||err);break}
       if(lowerAutomatically){dpi=lower;$('loadmsg').textContent=`Device limits reached; trying sheet SVG at ${dpi} DPI...`;await pause();continue}
       const detail=`Each image is rendered at ${dpi} DPI.`;
       const choice=await askExportFallback(`The browser could not prepare images for the ${hybrid?'SVG Hybrid':'sheet SVG'}. Lowering raster resolution will retry progressively.`,detail,lower);
@@ -4390,12 +4408,13 @@ $('svg-sheet').onclick=()=>exportSvgSheet(false);
 $('svg-hybrid').onclick=()=>exportSvgSheet(true);
 async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEdgeText=true,returnBlob=false){
   if(needLogo())return;
-  const requestedDpi=pngDpiVal(),L=calc(),shape=$('shape').value,bleed=+$('bleed').value||0;
+  const maxCorelSvgPixels=75e6;
+  const requestedDpi=Math.max(600,pngDpiVal()),L=calc(),shape=$('shape').value,bleed=+$('bleed').value||0;
   const safeDpi=(w,h)=>{
-    let dpi=Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(w,h),Math.sqrt(MAX_EXPORT_PIXELS*25.4*25.4/(w*h))));
+    let dpi=Math.floor(Math.min(MAX_EXPORT_SIDE*25.4/Math.max(w,h),Math.sqrt(maxCorelSvgPixels*25.4*25.4/(w*h))));
     while(dpi>0){
       const width=Math.round(w*dpi/25.4),height=Math.round(h*dpi/25.4);
-      if(width<=MAX_EXPORT_SIDE&&height<=MAX_EXPORT_SIDE&&width*height<=MAX_EXPORT_PIXELS)return dpi;
+      if(width<=MAX_EXPORT_SIDE&&height<=MAX_EXPORT_SIDE&&width*height<=maxCorelSvgPixels)return dpi;
       dpi--;
     }
     return 0;
@@ -4442,7 +4461,8 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
         const cellShape=shapeForLogo(li,shape),physical=logoLayout(li,L,shape).L,x=cx-physical.w/2,y=cy-physical.h/2;
         let contour;
         if(cellShape==='design')contour=designSvgContour(logos[li],cx,cy,physical.w,physical.h,f)||`<rect x="${f(x)}" y="${f(y)}" width="${f(physical.w)}" height="${f(physical.h)}"/>`;
-        else if(cellShape==='circle'||cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physical.w/2)}" ry="${f(physical.h/2)}"/>`;
+        else if(cellShape==='circle')contour=`<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(physical.w/2)}"/>`;
+        else if(cellShape==='oval')contour=`<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(physical.w/2)}" ry="${f(physical.h/2)}"/>`;
         else if(cellShape==='hex')contour=`<polygon points="${hexPts(cx,cy,physical.w,physical.h).map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
         else{const r=cellShape==='rounded'?roundedRadius(physical.w,physical.h,logos[li]):0;contour=`<rect x="${f(x)}" y="${f(y)}" width="${f(physical.w)}" height="${f(physical.h)}" rx="${f(r)}" ry="${f(r)}"/>`}
         cuts+=svgCellRotation(cl,cx,cy,contour);
@@ -4452,18 +4472,14 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
       const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
       let credit='';
       if(edgeText){
-        const measure=document.createElement('canvas').getContext('2d');
-        measure.font='2.6px system-ui,Arial,sans-serif';
-        const maxWidth=Math.max(1,W-12),textWidth=measure.measureText(edgeText).width;
-        const fontSize=textWidth>maxWidth?2.6*maxWidth/textWidth:2.6;
-        const escaped=edgeText.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
-        credit=`<text x="${W/2}" y="${H-6}" text-anchor="middle" dominant-baseline="middle" font-family="system-ui,Arial,sans-serif" font-size="${fontSize}" fill="#000">${escaped}</text>`;
+        const edge=createSheetEdgeTextImage(edgeText);
+        credit=`<image x="${edge.x}" y="${edge.y}" width="${edge.width}" height="${edge.height}" preserveAspectRatio="none" xlink:href="${edge.canvas.toDataURL('image/png')}"/>`;
       }
-      const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="#EC008C" stroke-width="0.1">${cuts}</g>`:'';
+      const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${cuts}</g>`:'';
       const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${background}<image x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" xlink:href="${dataUrl}"/><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
       LASTINFO=includeCutLines
-        ?`CorelDRAW-compatible SVG: artwork is one embedded PNG at ${dpi} DPI; registration marks and cut paths remain vector${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`
-        :`SVG stickers + marks: artwork is one embedded PNG at ${dpi} DPI; registration marks remain vector; no cut contours or edge text are included${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit device limits)`:''}.`;
+        ?`CorelDRAW-compatible SVG: artwork is one embedded PNG at ${dpi} DPI; registration marks and cut paths remain vector${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit the 75-megapixel and device limits)`:''}.`
+        :`SVG stickers + marks: artwork is one embedded PNG at ${dpi} DPI; registration marks remain vector; no cut contours or edge text are included${dpi<requestedDpi?` (reduced from ${requestedDpi} DPI to fit the 75-megapixel and device limits)`:''}.`;
       const blob=new Blob([svg],{type:'image/svg+xml'}),name=sheetFileName('svg').replace(/\.svg$/,`${fileSuffix}.svg`);
       if(returnBlob)result={name,blob};else await saveFile(name,blob);
       page.width=page.height=1;
@@ -4543,7 +4559,7 @@ $('svg-pair-zip').onclick=async()=>{
 /* ---------- mesin cutting, marka registrasi, piksel ---------- */
 const clampDpi=(v,d)=>Math.min(2400,Math.max(72,Math.round(+v)||d));
 const outDpi=()=>$('pxm').checked?clampDpi($('mdpi').value,600):clampDpi($('dpi').value,300);
-const pdfDpi=()=>clampDpi($('pdpi').value,2400);
+const pdfDpi=()=>clampDpi($('pdpi').value,300);
 const cutName=()=>($('cname').value||'CutContour').replace(/[^\w-]/g,'_');
 function filenamePart(value,fallback){
   const clean=String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40).replace(/-+$/,'');
@@ -4584,7 +4600,7 @@ function updateJobFilenamePreview(){
   }
   try{
     const sample=sheetFileName('pdf');
-    $('job-filename-preview').textContent=`Example file name: ${sample.replace(/\.pdf$/,'')}.{pdf,svg,dxf,plt}`;
+    $('job-filename-preview').textContent=`Example file name: ${sample.replace(/\.pdf$/,'')}.{pdf,svg,png}`;
   }catch(error){
     $('job-filename-preview').textContent='Set the page and sticker sizes to see an example file name.';
   }
@@ -4758,12 +4774,22 @@ $('spec-pdf').addEventListener('click',async()=>{
   }catch(error){$('spec-status').textContent=`Could not create print specification: ${(error&&error.message)||error}`}
   finally{button.disabled=!logos.length||!calc().cells.length||!window.jspdf?.jsPDF}
 });
+const CDR_REFERENCE_FRAME=Object.freeze({left:10.0241,right:9.9759,top:32.8446,bottom:17.1554});
+function cdrOuterMarkGeometry(pageWidth,pageHeight,offset=10,dotRadius=2.5,squareSize=2){
+  const marks=[];
+  [[offset,offset,1,1],[pageWidth-offset,offset,-1,1],[offset,pageHeight-offset,1,-1],[pageWidth-offset,pageHeight-offset,-1,-1]].forEach(([x,y,dx,dy])=>{
+    const left=dx>0?x:x-squareSize,top=dy>0?y:y-squareSize;
+    marks.push({pts:[[left,top],[left+squareSize,top],[left+squareSize,top+squareSize],[left,top+squareSize]],z:1,f:1,color:'#FEFEFE',stroke:'none'});
+    marks.push({c:[x,y,dotRadius],f:1,color:'#2B2A29'});
+  });
+  return marks;
+}
 const MACH={
  roland:{t:'L',s:5,w:.3,o:8,c:'CutContour',h:'Roland: import PDF/SVG into CorelDRAW or Illustrator, assign the CutContour spot color, then use Print & Cut in CutStudio/VersaWorks.'},
- graphtec:{t:'dot',s:3,w:.3,o:10,c:'CutContour',h:'Graphtec ARMS: use DXF or SVG in Graphtec Studio / Cutting Master with 4 registration points.'},
+ graphtec:{t:'dot',s:3,w:.3,o:10,c:'CutContour',h:'Graphtec ARMS: use SVG in Graphtec Studio / Cutting Master with 4 registration points.'},
  mimaki:{t:'L',s:10,w:.3,o:10,c:'CutContour',h:'Mimaki: open SVG/PDF in Illustrator or CorelDRAW with the FineCut plugin; use 4 corner marks.'},
- summa:{t:'square',s:3,w:.3,o:10,c:'CutContour',h:'Summa OPOS: use DXF/PDF in GoSign / Flexi with 4 OPOS marks.'},
- redsail:{t:'dot',s:5,w:.3,o:10,c:'Cut',h:'Redsail / Liyu / Jinka: use PLT (HPGL) or DXF. Registration marks are printed, not cut.'},
+ summa:{t:'square',s:3,w:.3,o:10,c:'CutContour',h:'Summa OPOS: use PDF or SVG in GoSign / Flexi with 4 OPOS marks.'},
+ redsail:{t:'dot',s:5,w:.3,o:10,c:'Cut',h:'Redsail / Liyu / Jinka: check supported PDF or SVG workflows in your machine software. Registration marks are printed, not cut.'},
  custom:{h:'Custom: set the mark shape, size, and spacing according to your machine manual.'}};
 function applyMach(){const m=MACH[$('mach').value];if(m.t){$('mtype').value=m.t;$('msz').value=m.s;$('mw').value=m.w;$('moff').value=m.o;$('cname').value=m.c}$('mhint').textContent=m.h+' Mark dimensions are a general starting point; check the plotter manual and test-cut one sheet.';schedule()}
 function marksGeom(){
@@ -4801,8 +4827,9 @@ function marksGeom(){
   }
   if(t==='cdr'){
     const size=2*s,a=cdrFrame();
-    r.push({c:[o,o,s/2],f:1},{c:[W-o,o,s/2],f:1});
-    [[a.x,a.y,1,1],[a.x+a.w,a.y,-1,1],[a.x,a.y+a.h,1,-1],[a.x+a.w,a.y+a.h,-1,-1]].forEach(([x,y,sx,sy])=>r.push({pts:[[x+sx*size,y],[x,y],[x,y+sy*size]]}));
+    r.push(...cdrOuterMarkGeometry(W,H,o,s/2));
+    [[a.x,a.y,1,1],[a.x+a.w,a.y,-1,1],[a.x,a.y+a.h,1,-1],[a.x+a.w,a.y+a.h,-1,-1]]
+      .forEach(([x,y,sx,sy])=>r.push({pts:[[x+sx*size,y],[x,y],[x,y+sy*size]],stroke:'#2B2A29',width:+$('mw').value||0.7}));
     return r;
   }
   [[o,o,1,1],[W-o,o,-1,1],[o,H-o,1,-1],[W-o,H-o,-1,-1]].forEach(([x,y,sx,sy],i)=>{
@@ -4860,7 +4887,7 @@ function drawSheetMarksPdf(pdf,L,colorMode='rgb'){
 }
 function drawCutContoursPdf(pdf,L,colorMode='rgb'){
   const shape=$('shape').value,ox=+$('cox').value||0,oy=+$('coy').value||0;
-  setPdfColor(pdf,'#ec008c',colorMode,true);pdf.setLineWidth(0.1);
+  setPdfColor(pdf,CUT_CONTOUR_COLOR,colorMode,true);pdf.setLineWidth(CUT_CONTOUR_WIDTH);
   forCells(L,(cx,cy,li,cl)=>{
     cx+=ox;cy+=oy;
     const cellShape=shapeForLogo(li,shape),physical=logoLayout(li,L,shape).L;
@@ -4899,28 +4926,6 @@ function cdrFrame(){
 }
 function marksSvg(){const f=n=>n.toFixed(3),w=+$('mw').value||0.3;
   return marksGeom().map(p=>p.c?`<circle cx="${f(p.c[0])}" cy="${f(p.c[1])}" r="${f(p.radius||p.c[2])}" fill="${p.color||'#000'}"/>`:`<${p.z?'polygon':'polyline'} points="${p.pts.map(q=>f(q[0])+','+f(q[1])).join(' ')}" fill="${p.f?(p.color||'#000'):'none'}" stroke="${p.stroke||'#000'}" stroke-width="${p.width||w}"/>`).join('')}
-function cutPolys(L){
-  const s=$('shape').value,out=[],ox=+$('cox').value||0,oy=+$('coy').value||0;
-  const arc=(cx,cy,rx,ry)=>Array.from({length:120},(_,i)=>[cx+rx*Math.cos(i/120*6.2832),cy+ry*Math.sin(i/120*6.2832)]);
-  forCells(L,(cx,cy,li,cl)=>{cx+=ox;cy+=oy;const cellShape=shapeForLogo(li,s),physicalLayout=logoLayout(li,L,s).L;const w=physicalLayout.w,h=physicalLayout.h,x=cx-w/2,y=cy-h/2;let p;
-    if(cellShape==='circle'||cellShape==='oval')p=arc(cx,cy,w/2,h/2);
-    else if(cellShape==='hex')p=hexPts(cx,cy,w,h);
-    else if(cellShape==='rounded'){const r=roundedRadius(w,h,li>=0?logos[li]:null);p=[];[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;p.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
-    else p=[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
-    if(cl&&cl.rot){const rad=cl.rot*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);p=p.map(([px,py])=>{const dx=px-cx,dy=py-cy;return[cx+dx*cos-dy*sin,cy+dx*sin+dy*cos]})}
-    out.push(p)});
-  return out;
-}
-function exportDXF(L){const f=n=>n.toFixed(4);let s='0\nSECTION\n2\nHEADER\n9\n$INSUNITS\n70\n4\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n';
-  const add=(ly,P,z)=>{s+=`0\nPOLYLINE\n8\n${ly}\n66\n1\n70\n${z?1:0}\n`;P.forEach(q=>{s+=`0\nVERTEX\n8\n${ly}\n10\n${f(q[0])}\n20\n${f(H-q[1])}\n`});s+=`0\nSEQEND\n8\n${ly}\n`};
-  cutPolys(L).forEach(p=>add(cutName(),p,1));
-  marksGeom().forEach(m=>{if(m.c){const radius=m.radius||m.c[2],P=[];for(let i=0;i<24;i++)P.push([m.c[0]+radius*Math.cos(i/24*6.2832),m.c[1]+radius*Math.sin(i/24*6.2832)]);add('Registrasi',P,1)}else add('Registrasi',m.pts,!!m.z)});
-  return s+'0\nENDSEC\n0\nEOF\n';
-}
-function exportPLT(L){const q=p=>Math.round(p[0]*40)+','+Math.round((H-p[1])*40);let s='IN;SP1;';
-  cutPolys(L).forEach(p=>{s+='PU'+q(p[0])+';PD'+p.concat([p[0]]).map(q).join(',')+';'});return s+'PU0,0;SP0;\n'}
-$('dxf').onclick=async()=>{await saveFile(sheetFileName('dxf'),new Blob([exportDXF(calc())],{type:'application/dxf'}))};
-$('plt').onclick=async()=>{await saveFile(sheetFileName('plt'),new Blob([exportPLT(calc())],{type:'application/octet-stream'}))};
 $('mach').onchange=()=>{if(!applyingPrintPreset)applyMach()};
 ['pxw','pxh'].forEach(id=>{$(id).addEventListener('input',()=>{if(!applyingPrintPreset){const k=25.4/(+$('mdpi').value||600),w=+$('pxw').value,h=+$('pxh').value;if(w>0&&h>0){$('paper').value='custom';$('pw').value=(w*k).toFixed(2);$('ph').value=(h*k).toFixed(2)}}updateBtns();schedule()});$(id).addEventListener('change',()=>{updateBtns();schedule()})});
 let syncingShapeDimensions=false;
@@ -5020,7 +5025,7 @@ render();
 /* ============ Mode Mudah (pengguna awam) ============ */
 (function(){
   const PRINT_TEMPLATES=[
-    {id:'cdr-305x435',paper:'325x485',mt:32.85,mb:17.15,ml:10,mr:10,msz:5,moff:10,mw:0.7,clearance:5,mtype:'cdr',credit:true},
+    {id:'cdr-305x435',paper:'325x485',mt:CDR_REFERENCE_FRAME.top,mb:CDR_REFERENCE_FRAME.bottom,ml:CDR_REFERENCE_FRAME.left,mr:CDR_REFERENCE_FRAME.right,msz:5,moff:10,mw:0.7,clearance:5,mtype:'cdr',credit:true},
     {id:'prima-diecut',paper:'483x325',areaW:420,areaH:280,msz:5,moff:10,mw:0.3,clearance:5,mtype:'prima-diecut',credit:false},
     {id:'prima-kisscut',paper:'325x483',areaW:290,areaH:430,msz:5,moff:10,mw:0.3,clearance:5,mtype:'prima-kisscut',credit:false}
   ];
@@ -5060,7 +5065,6 @@ render();
   }
   const keep=['file','easy','cv','pdf','cost'];
   document.querySelectorAll('main > .card').forEach(c=>{if(c.id!=='easy'&&!keep.some(id=>c.querySelector('#'+id)))c.classList.add('adv')});
-  ['dxf','plt'].forEach(id=>{const b=$(id);if(b)b.classList.add('adv')});
   const hOf=d=>Math.round(d*0.7*2)/2;
   function applyH(){if($('shape').value==='oval'){$('h').value=hOf(+$('d').value||16);fire($('h'),'input')}}
   function sync(){
@@ -5077,7 +5081,7 @@ render();
     if(selectedTemplate){
       $('ez-template-info').textContent=selectedTemplate.areaW
         ?`${selectedTemplate.id==='prima-diecut'?'Die Cut':'Kiss Cut'} Prima preset selected: ${selectedTemplate.paper.replace('x',' × ')} mm page with a ${selectedTemplate.areaW} × ${selectedTemplate.areaH} mm working area. Sticker placement keeps a ${selectedTemplate.clearance} mm clearance inside the work-area boundary; margins and registration marks follow the preset. The magenta frame is preview-only.`
-        :`CDR preset selected: 325 × 485 mm page with the 305 × 435 mm reference print frame and matching registration marks. Sticker placement keeps a ${selectedTemplate.clearance} mm clearance inside the frame. The frame is preview-only.`;
+        :`CDR preset selected: 325 × 485 mm page with the 305 × 435 mm reference print frame, four L marks, and matching corner dots/squares. Sticker placement keeps a ${selectedTemplate.clearance} mm clearance inside the frame. The frame is preview-only.`;
     }else{
       $('ez-template-info').textContent='CDR and Prima are print presets, not paper sizes. Selecting one sets its page dimensions, working area, margins, and registration marks. Sticker placement keeps a 5 mm clearance inside the work-area boundary by default; change this in All settings. The magenta working-area frame is preview-only and is not exported as a cut line.';
     }
@@ -5333,8 +5337,8 @@ async function readAny(f){
   function sync(){
     const on=LL();
     const cmyk=getPdfColorMode()==='cmyk';
-    note.textContent=cmyk?'Unavailable in CMYK mode. Switch to RGB to embed source images without resizing.':on?'On: the PDF uses source images without reducing detail. Sharpening and vectorization are not applied.':'Off: PDF image resolution follows the selected DPI. Source images are not vectorized.';
-    $('ez-llnote').textContent=cmyk?'CMYK mode rasterizes artwork at the selected PDF DPI; lossless embedding applies only to RGB exports.':on?'Lossless mode is on: source images are embedded without resizing.':'';
+    note.textContent=cmyk?'Unavailable in CMYK mode. Switch to RGB to embed source images without resizing.':on?'On: pixel-edited artwork can use source-resolution pixels where device limits allow. Files can be much larger.':'Off: untouched PNG/JPEG and traced artwork keep their source/vector quality; artwork needing pixel edits uses the selected maximum DPI (300 by default).';
+    $('ez-llnote').textContent=cmyk?'CMYK mode rasterizes artwork at the selected PDF DPI; maximum-detail embedding applies only to RGB exports.':on?'Maximum-detail mode is on: pixel-edited artwork can use source-resolution pixels; files can be larger.':'';
   }
   new MutationObserver(sync).observe($('info'),{childList:true,characterData:true,subtree:true});
   document.addEventListener('pdf-color-mode-change',sync);
@@ -5352,7 +5356,11 @@ async function readAny(f){
 function initStudio(R){
 
 const $=id=>R.getElementById(id),v=id=>$(id).value;
-const PAL=['#1E5A50','#D59B3A','#84A99F','#17201E','#EDF3F1','#2F7D70','#B8CBC6','#8FA69F','#E8B75F'];
+const PALETTES={
+  proletar:['#1E5A50','#D59B3A','#84A99F','#17201E','#EDF3F1','#2F7D70','#B8CBC6','#8FA69F','#E8B75F'],
+  rwm:['#EB683C','#FF8752','#FFCFE7','#D33636','#DE74C8','#584CF6','#4D84F5','#479D53','#F9DB48']
+};
+let PAL=PALETTES.proletar;
 const M={logoMode:'solid',bgMode:'transparent'};
 let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false;
 const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
@@ -5362,8 +5370,20 @@ function contrast(a,b){const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.
 function cmyk(h){let [r,g,b]=hex2rgb(h).map(x=>x/255);const k=1-Math.max(r,g,b);if(k>=.999)return [0,0,0,100];return [(1-r-k)/(1-k),(1-g-k)/(1-k),(1-b-k)/(1-k),k].map(x=>Math.round(x*100))}
 function setColor(id,h){$(id).value=h.toLowerCase()}
 
-/* palette chips */
-R.querySelectorAll('.pal').forEach(p=>{PAL.forEach(h=>{const b=document.createElement('button');b.style.background=h;b.title=h;b.setAttribute('aria-label',h);b.onclick=()=>{setColor(p.dataset.t,h);sched()};p.appendChild(b)})});
+function renderPalette(){
+  const paletteName=$('palette-select').selectedOptions[0].textContent;
+  R.querySelectorAll('.pal').forEach(p=>{
+    p.replaceChildren();
+    PAL.forEach(h=>{
+      const b=document.createElement('button');
+      b.style.background=h;b.title=`${paletteName}: ${h}`;b.setAttribute('aria-label',`${paletteName}: ${h}`);
+      b.onclick=()=>{setColor(p.dataset.t,h);sched()};
+      p.appendChild(b);
+    });
+  });
+}
+renderPalette();
+$('palette-select').addEventListener('change',()=>{PAL=PALETTES[$('palette-select').value];renderPalette()});
 /* mode controls support both Tab/Enter and arrow-key navigation */
 R.querySelectorAll('.tabs').forEach(t=>{
   const buttons=[...t.querySelectorAll('.tab')];
@@ -5521,6 +5541,16 @@ function renderBlob(requestedScale){
 }
 const CRC_TABLE=(()=>{const table=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;table[n]=c>>>0}return table})();
 function crc32(bytes){let c=0xFFFFFFFF;for(let i=0;i<bytes.length;i++)c=CRC_TABLE[(c^bytes[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function isDuplicateImage(bytes,seen){
+  const key=`${bytes.length}:${crc32(bytes)}`,matches=seen.get(key)||[];
+  for(const previous of matches){
+    if(previous.length!==bytes.length)continue;
+    let equal=true;
+    for(let i=0;i<bytes.length;i++)if(previous[i]!==bytes[i]){equal=false;break}
+    if(equal)return true;
+  }
+  matches.push(bytes);seen.set(key,matches);return false;
+}
 function makeZip(files){
   const enc=new TextEncoder(),local=[],central=[];let offset=0,size=0;
   const now=new Date(),time=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1),date=((Math.max(1980,now.getFullYear())-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate();
@@ -5577,15 +5607,20 @@ $('batch').onclick=async()=>{
   if(!logoModes.length||!bgModes.length){alert('Select at least one logo color mode and one background mode.');return}
   const count=+v('bn'),requestedScale=+v('scale'),withPattern=$('bpat').checked,withRatio=$('brat').checked;
   const savedModes={...M},savedValues=BATCH_SETTINGS.map(id=>v(id)),savedMesh=mesh.map(point=>({...point}));
-  const files=[];let shrunk=0,limitReached=false,errorMessage='';
+  const files=[],seenImages=new Map();let shrunk=0,limitReached=false,uniqueLimitReached=false,errorMessage='';
   const maxBatchBytes=64*1024*1024;
   batchBusy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('zipbox').classList.add('hid');$('progi').style.width='0';$('dbg').classList.add('hid');
   $('thumbs').replaceChildren();
   try{
     for(let i=0;i<count;i++){
-      randomizeBatch(logoModes,bgModes,withPattern,withRatio);sync();
-      const rendered=await renderBlob(requestedScale);
-      const data=new Uint8Array(await rendered.blob.arrayBuffer());
+      let rendered,data,isUnique=false;
+      for(let attempt=0;attempt<24;attempt++){
+        randomizeBatch(logoModes,bgModes,withPattern,withRatio);sync();
+        rendered=await renderBlob(requestedScale);
+        data=new Uint8Array(await rendered.blob.arrayBuffer());
+        if(!isDuplicateImage(data,seenImages)){isUnique=true;break}
+      }
+      if(!isUnique){uniqueLimitReached=true;break}
       if(data.byteLength>maxBatchBytes-files.reduce((total,file)=>total+file.data.byteLength,0)){limitReached=true;break}
       if(rendered.shrunk)shrunk++;
       const studioBase=customExportBase(name);
@@ -5606,7 +5641,7 @@ $('batch').onclick=async()=>{
     try{
     batchFiles=files;batchZip=makeZip(files);batchZipName=`${customExportBase(name)}-batch-${files.length}png.zip`;
       $('zipbtn').textContent=`Download ZIP (${files.length} PNG, ${(batchZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
-      $('stat').textContent=`${files.length} PNG files ready. Select Download ZIP.`+(shrunk?` ${shrunk} designs were reduced to fit this device.`:'')+(limitReached?' The 64 MB batch limit was reached; no more variations were created.':'')+(errorMessage?' Generation stopped: '+errorMessage:'');
+      $('stat').textContent=`${files.length} unique PNG ${files.length===1?'file':'files'} ready. Select Download ZIP.`+(shrunk?` ${shrunk} designs were reduced to fit this device.`:'')+(limitReached?' The 64 MB batch limit was reached; no more variations were created.':'')+(uniqueLimitReached?` Only ${files.length} unique design${files.length===1?' was':'s were'} possible with these options; choose more color or background modes for additional results.`:'')+(errorMessage?' Generation stopped: '+errorMessage:'');
     }catch(error){batchFiles=[];batchZip=null;$('stat').textContent='Could not package the batch as a ZIP.';dbg('ZIP failed: '+((error&&error.message)||error))}
   }else if(limitReached){$('stat').textContent='The batch size limit was reached before the first PNG was complete.'}
   else if(errorMessage){$('stat').textContent='Could not create the batch: '+errorMessage}
@@ -5889,7 +5924,7 @@ function setTab(t){
   }
 }
 const IMAGE_TRANSFER_TARGETS=new Set(['sheet','studio','cut','remove','upscale','vector']);
-async function sendFileToMenu(source,target,blob,name,status){
+async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
   if(!(blob instanceof Blob)){if(status)status.textContent='No finished image is available to send.';return}
   const fileName=name||'image.png',type=blob.type||'application/octet-stream';
   const raster=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif)$/.test(type)||/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(fileName);
@@ -5907,7 +5942,7 @@ async function sendFileToMenu(source,target,blob,name,status){
     }else if(target==='cut'){
       setTab('cut');window.dispatchEvent(new CustomEvent('studio-send-cut',{detail:{file}}));
     }else{
-      window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:fileName,source}}));
+      window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:fileName,source,vectorData}}));
     }
     if(status)status.textContent=`Sent ${fileName} to ${$(target==='viewer'?'t-viewer':`t-${target}`).textContent}.`;
   }catch(error){
@@ -6034,7 +6069,7 @@ async function sendFileToMenu(source,target,blob,name,status){
     if(tablist.closest('.more-tools'))tabButtons[next]._arrowNavigation=false;
   }));
   window.addEventListener('studio-send-target',async e=>{
-    const {target,blob,name,source='Color Studio'}=e.detail||{};
+    const {target,blob,name,source='Color Studio',vectorData}=e.detail||{};
     if(!['sheet','vector','remove','upscale','viewer','cut'].includes(target)||!(blob instanceof Blob)){
       $('status').textContent='Invalid destination or image for direct transfer.';
       return;
@@ -6050,7 +6085,9 @@ async function sendFileToMenu(source,target,blob,name,status){
       setTab(target);
       const l=await makeLogo(await readURL(file));l.sourceName=file.name;
       if(target==='vector')l.sourceVector=true;
-      else{l.sourceBlob=file;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg=''}
+      else if(target==='sheet'&&vectorData&&vectorData.vimg&&typeof vectorData.vsvg==='string'&&vectorData.vsvg){
+        l.sourceBlob=file;l.vec=true;l.sourceVector=false;l.vimg=vectorData.vimg;l.vsvg=vectorData.vsvg;
+      }else{l.sourceBlob=file;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg=''}
       logos.push(l);sel=logos.length-1;renderThumbs();loadPanel();schedule();
       if(target==='vector'){
         $('vhint').textContent=`Image from ${source} added to Vectorize (SVG) (${l.img.naturalWidth} × ${l.img.naturalHeight} px).`;
@@ -6908,7 +6945,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       blob=await new Promise((resolve,reject)=>canvas.toBlob(result=>result?resolve(result):reject(new Error('Could not create a raster preview for this destination.')),'image/png'));
     }else blob=new Blob([lg.vsvg],{type:'image/svg+xml'});
     const name=(lg.sourceName||'vektor-trace').replace(/\.[^.]+$/,'')+`-vektor.${rasterOnly?'png':'svg'}`;
-    await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'));
+    await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'),target==='sheet'?{vimg:lg.vimg,vsvg:lg.vsvg}:null);
   }
   [['vsend-studio','studio'],['vsend-remove','remove'],['vsend-upscale','upscale'],['vsend-sheet','sheet'],['vsend-cut','cut'],['vsend-viewer','viewer']].forEach(([id,target])=>$(id).onclick=()=>sendVector(target));
 })();
@@ -7043,7 +7080,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   function drawMarks(context){
     const type=state.mark;if(type==='none')return;
     const w=state.pageW,h=state.pageH,s=state.markSize,o=state.markOffset;
-    const drawL=(x,y,dx,dy)=>drawCornerMark(context,x,y,dx,dy,s*2);
+    const drawL=(x,y,dx,dy,color='#111')=>drawCornerMark(context,x,y,dx,dy,s*2,color);
     if(type==='prima-diecut'){
       const mx=w*32.3867/1368.71,my=h*35.2497/918.425,markSize=5*Math.min(w/483,h/325);
       [[mx,my],[w-mx,my],[mx,h-my],[w-mx,h-my]].forEach(([x,y])=>{context.fillStyle='#111';context.beginPath();context.arc(x,y,2.5*Math.min(w/483,h/325),0,Math.PI*2);context.fill()});
@@ -7062,9 +7099,23 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       return;
     }
     if(type==='cdr'){
-      const isCdr=state.template==='cdr',left=isCdr?10:(w-state.areaW)/2,right=isCdr?w-10:(w+state.areaW)/2,top=isCdr?32.85:(h-state.areaH)/2,bottom=isCdr?h-17.15:(h+state.areaH)/2;
-      context.fillStyle='#111';context.beginPath();context.arc(o,o,s/2,0,Math.PI*2);context.arc(w-o,o,s/2,0,Math.PI*2);context.fill();
-      [[left,top,1,1],[right,top,-1,1],[left,bottom,1,-1],[right,bottom,-1,-1]].forEach(([x,y,dx,dy])=>drawL(x,y,dx,dy));
+      const isCdr=state.template==='cdr',
+        left=isCdr?CDR_REFERENCE_FRAME.left:(w-state.areaW)/2,
+        right=isCdr?w-CDR_REFERENCE_FRAME.right:(w+state.areaW)/2,
+        top=isCdr?CDR_REFERENCE_FRAME.top:(h-state.areaH)/2,
+        bottom=isCdr?h-CDR_REFERENCE_FRAME.bottom:(h+state.areaH)/2;
+      cdrOuterMarkGeometry(w,h,o,s/2).forEach(mark=>{
+        context.beginPath();
+        if(mark.pts){
+          context.fillStyle=mark.color;
+          mark.pts.forEach(([x,y],index)=>index?context.lineTo(x,y):context.moveTo(x,y));
+          context.closePath();context.fill();
+        }else{
+          context.fillStyle=mark.color;
+          context.arc(mark.c[0],mark.c[1],mark.c[2],0,Math.PI*2);context.fill();
+        }
+      });
+      [[left,top,1,1],[right,top,-1,1],[left,bottom,1,-1],[right,bottom,-1,-1]].forEach(([x,y,dx,dy])=>drawL(x,y,dx,dy,'#2B2A29'));
       return;
     }
     const inset=type==='dot'?o+s:o;
@@ -7147,7 +7198,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     ];
   }
   function areaBounds(){
-    return {x:state.template==='cdr'?10:(state.pageW-state.areaW)/2,y:state.template==='cdr'?32.85:(state.pageH-state.areaH)/2,w:state.areaW,h:state.areaH};
+    return {x:state.template==='cdr'?CDR_REFERENCE_FRAME.left:(state.pageW-state.areaW)/2,y:state.template==='cdr'?CDR_REFERENCE_FRAME.top:(state.pageH-state.areaH)/2,w:state.areaW,h:state.areaH};
   }
   function drawScene(context,scale,preview,displayScale=scale){
     const w=state.pageW,h=state.pageH;
