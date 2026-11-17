@@ -238,8 +238,13 @@ body.tab-layout #layout-editor-canvas.space-pan:not(.dragging){cursor:grab!impor
 .sp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cognac),var(--accent));animation:fill 2s ease-out forwards}
 #splash button.p{width:100%;flex:none}
 #splash button:disabled{opacity:.5}
-#loader{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;text-align:center;padding:24px}
+#loader{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px}
 #loader.show{display:flex}
+#loader-panel{display:flex;flex-direction:column;align-items:center;gap:14px;width:min(360px,100%);padding:24px;border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--tx);box-shadow:0 16px 48px rgba(0,0,0,.28)}
+#loader-panel .spin{border-top-color:var(--ac)}
+#loadmsg{max-width:100%;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+#loader-hint{color:var(--mut);font-size:12px;line-height:1.4}
+#loader-cancel{flex:none;width:auto;min-width:120px;max-width:100%;min-height:44px;padding:10px 24px}
 .spin{width:58px;height:58px;border-radius:50%;border:6px solid rgba(249,237,240,.25);border-top-color:var(--surface);animation:spin 0.9s linear infinite}
 #done{position:fixed;inset:0;z-index:950;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px}
 #done.show{display:flex}
@@ -675,7 +680,14 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 
 .brand-copy h1{font-family:inherit;font-weight:800;letter-spacing:-.045em;line-height:1;text-transform:uppercase}
 .toolnav{position:sticky;top:10px;z-index:80;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;margin:0 0 20px;padding:6px;border:1px solid rgba(18,58,44,.12);border-radius:18px;background:rgba(184,196,178,.9);backdrop-filter:blur(14px)}
+body.tab-studio .toolnav{position:relative;top:auto}
 .toolnav .maintabs{grid-template-columns:repeat(6,minmax(0,1fr));margin:0}
+.image-transfer-queue{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end;margin:0 0 16px}
+.image-transfer-queue h2{margin-bottom:4px}
+.transfer-queue-controls{display:flex;align-items:end;gap:8px;flex-wrap:wrap}
+.transfer-queue-controls .f{min-width:180px;margin:0}
+.transfer-queue-controls button{min-height:42px}
+.image-transfer-queue[hidden]{display:none!important}
 .more-tools{position:relative;z-index:90}
 .more-tools>summary{display:flex;align-items:center;justify-content:center;min-height:64px;padding:12px 16px;border:1px solid rgba(18,58,44,.16);border-radius:16px;background:rgba(184,196,178,.62);color:var(--deep);font-size:13px;font-weight:750;cursor:pointer;list-style:none;white-space:nowrap}
 .more-tools>summary::-webkit-details-marker{display:none}
@@ -722,6 +734,10 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
   .more-tools>summary{min-height:40px;padding:7px 12px;border-radius:11px;font-size:12px}
   .more-tools-menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:5px;padding:6px;border-radius:12px;box-shadow:0 8px 18px rgba(18,58,44,.12)}
   .more-tools-menu button{min-height:42px;padding:9px 10px;font-size:12px}
+  .image-transfer-queue{grid-template-columns:1fr}
+  .transfer-queue-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .transfer-queue-controls .f{grid-column:1/-1}
+  .transfer-queue-controls button{width:100%}
   main [role=tabpanel]{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px))}
   .card,.vcard{padding:14px;border-radius:16px}
   .card h2,.vcard h2{font-size:17px;line-height:1.25}
@@ -820,7 +836,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <button class="p" id="sp-go" disabled>Loading...</button>
 <button class="p o" id="install" hidden style="color:#fff;border-color:#555;margin-top:8px">Install app</button>
 </div></div>
-<div id="loader" role="status" aria-live="polite" aria-atomic="true" aria-busy="false"><div class="spin" aria-hidden="true"></div><div id="loadmsg" style="font-weight:600">Processing...</div><div style="font-size:12px;opacity:.8">Please wait and keep this page open</div></div>
+<div id="loader" role="status" aria-live="polite" aria-atomic="true" aria-busy="false"><div id="loader-panel"><div class="spin" aria-hidden="true"></div><div id="loadmsg">Processing...</div><div id="loader-hint">Large images may take longer.</div><button class="p o" id="loader-cancel" type="button" hidden>Cancel</button></div></div>
 <div id="done" role="dialog" aria-modal="true" aria-labelledby="done-title"><div class="dn"><div class="ck" aria-hidden="true"></div><h3 id="done-title">Export complete!</h3><p id="done-name"></p><p id="done-info" style="color:var(--tx);margin-top:-6px"></p><div class="btns"><button class="p" id="done-dl">Download now</button><button class="p o" id="done-x">Close</button></div><p id="done-msg" style="margin:12px 0 0" role="status"></p></div></div>
 <div id="export-choice" role="dialog" aria-modal="true" aria-labelledby="export-choice-title"><div class="dn"><h3 id="export-choice-title">Export failed</h3><p id="export-choice-msg">Your device may have run out of memory while creating the image.</p><div class="btns"><button class="p" data-export-choice="retry">Try again</button><button class="p o" data-export-choice="lower">Lower resolution</button><button class="p o" data-export-choice="cancel">Cancel</button></div></div></div>
 <div id="app-error" role="alert" aria-live="assertive" aria-atomic="true" hidden><div class="error-row"><span id="app-error-message"></span><button id="app-error-close" type="button" aria-label="Close error message">Close</button></div></div>
@@ -835,11 +851,22 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <p class="s">Edit artwork, arrange sticker sheets, and prepare print-ready files. All processing happens on your device.</p>
 </div>
 </div>
-<div class="toolnav">
-<div class="maintabs" role="tablist" aria-label="Main tools" aria-describedby="keyboard-tab-help"><button id="t-sheet" class="on" role="tab" aria-selected="true" aria-controls="sheet-panel" tabindex="0">Sticker Sheet</button><button id="t-layout" role="tab" aria-selected="false" aria-controls="layout-editor-panel" tabindex="-1">Layout Bebas</button><button id="t-studio" role="tab" aria-selected="false" aria-controls="studio-host" tabindex="-1">Color Studio</button><button id="t-cut" role="tab" aria-selected="false" aria-controls="cut-image-card" tabindex="-1">Cut Image</button><button id="t-remove" role="tab" aria-selected="false" aria-controls="remove-card" tabindex="-1">Remove Background</button><button id="t-upscale" role="tab" aria-selected="false" aria-controls="upscale-card" tabindex="-1">Upscale Image</button></div>
-<details class="more-tools"><summary><span id="more-tools-label">More tools</span></summary><div class="more-tools-menu" role="tablist" aria-label="More tools" aria-describedby="keyboard-tab-help"><button id="t-vector" role="tab" aria-selected="false" aria-controls="vec-card" tabindex="0">Vectorize (SVG)</button><button id="t-viewer" role="tab" aria-selected="false" aria-controls="file-viewer-card" tabindex="-1">File Preview</button><button id="t-invoice" role="tab" aria-selected="false" aria-controls="invoice-card" tabindex="-1">Invoice</button></div></details>
-</div>
+<nav class="toolnav" aria-label="Tool navigation">
+<div class="maintabs" role="tablist" aria-orientation="horizontal" aria-label="Main tools" aria-describedby="keyboard-tab-help"><button id="t-sheet" class="on" role="tab" aria-selected="true" aria-controls="sheet-panel" tabindex="0">Sticker Sheet</button><button id="t-layout" role="tab" aria-selected="false" aria-controls="layout-editor-panel" tabindex="-1">Layout Bebas</button><button id="t-studio" role="tab" aria-selected="false" aria-controls="studio-host" tabindex="-1">Color Studio</button><button id="t-cut" role="tab" aria-selected="false" aria-controls="cut-image-card" tabindex="-1">Cut Image</button><button id="t-remove" role="tab" aria-selected="false" aria-controls="remove-card" tabindex="-1">Remove Background</button><button id="t-upscale" role="tab" aria-selected="false" aria-controls="upscale-card" tabindex="-1">Upscale Image</button></div>
+<details class="more-tools"><summary aria-controls="more-tools-menu"><span id="more-tools-label">More tools</span></summary><div id="more-tools-menu" class="more-tools-menu" role="tablist" aria-orientation="horizontal" aria-label="More tools" aria-describedby="keyboard-tab-help"><button id="t-vector" role="tab" aria-selected="false" aria-controls="vec-card" tabindex="0">Vectorize (SVG)</button><button id="t-viewer" role="tab" aria-selected="false" aria-controls="file-viewer-card" tabindex="-1">File Preview</button><button id="t-invoice" role="tab" aria-selected="false" aria-controls="invoice-card" tabindex="-1">Invoice</button></div></details>
+</nav>
 <p class="sr-only" id="keyboard-tab-help">Use Tab to reach a tool. Use Left and Right Arrow keys, Home, or End to move between tools. Press Enter or Space to open More tools; press Escape to close it.</p>
+<section id="image-transfer-queue" class="card image-transfer-queue" hidden aria-labelledby="image-transfer-queue-title">
+ <h2 id="image-transfer-queue-title">Sent image queue</h2>
+ <p id="image-transfer-queue-status" class="info" role="status" aria-live="polite"></p>
+ <div class="transfer-queue-controls">
+  <label class="f">Choose image in queue<select id="image-transfer-queue-select" aria-label="Choose image in send queue"></select></label>
+  <button type="button" class="p o" id="image-transfer-queue-prev">Previous</button>
+  <button type="button" class="p o" id="image-transfer-queue-next">Next</button>
+  <button type="button" class="p" id="image-transfer-queue-send">Send selected image</button>
+  <button type="button" class="p o" id="image-transfer-queue-clear">Clear queue</button>
+ </div>
+</section>
 <div id="studio-host" role="tabpanel" aria-labelledby="t-studio" tabindex="0"></div>
 <section class="card" id="layout-editor-panel" role="tabpanel" aria-labelledby="t-layout" tabindex="0">
 <h2>Layout Bebas · Editor Kertas</h2>
@@ -991,7 +1018,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <label class="f">Brush hardness: <span id="cut-hardness-value">100%</span><input id="cut-brush-hardness" type="range" min="0" max="100" value="100"></label>
 <div class="cut-buttons"><button type="button" class="p o" id="cut-undo" disabled>Undo erase</button><button type="button" class="p o" id="cut-redo" disabled>Redo erase</button><button type="button" class="p o" id="cut-reset" disabled>Reset placement</button></div>
 <p class="info">Tip: drag the artwork to reposition it. In Erase brush mode, paint over areas to make them transparent; lower hardness for softer edges.</p>
-<div class="cut-buttons"><button type="button" class="p" id="cut-download" disabled>Download cut PNG</button><select id="cut-send-target" aria-label="Send cut image to"><option value="sheet">Sticker Sheet</option><option value="studio">Color Studio</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select><button type="button" class="p o" id="cut-to-sheet" disabled>Send to menu</button></div>
+<div class="cut-buttons"><button type="button" class="p" id="cut-download" disabled>Download cut PNG</button><button type="button" class="p o" id="cut-cancel" hidden>Cancel</button><select id="cut-send-target" aria-label="Send cut image to"><option value="sheet">Sticker Sheet</option><option value="studio">Color Studio</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select><button type="button" class="p o" id="cut-to-sheet" disabled>Send to menu</button></div>
 </div>
 </div>
 </section>
@@ -1023,7 +1050,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input class="compare-range" id="remove-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original and result">
 </div>
 <p class="info" id="remove-status" role="status" style="margin-top:10px"></p>
-<div class="btns"><button class="p" id="remove-process" disabled>Remove Background</button><button class="p o" id="remove-download" disabled>Download Transparent PNG</button><label class="f" style="flex:1;min-width:180px">Send result to<select id="remove-send-target"><option value="studio">Color Studio</option><option value="sheet">Sticker Sheet</option><option value="cut">Cut Image</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="remove-send" disabled>Send result</button></div>
+<div class="btns"><button class="p" id="remove-process" disabled>Remove Background</button><button class="p o" id="remove-cancel" type="button" hidden>Cancel</button><button class="p o" id="remove-download" disabled>Download Transparent PNG</button><label class="f" style="flex:1;min-width:180px">Send result to<select id="remove-send-target"><option value="studio">Color Studio</option><option value="sheet">Sticker Sheet</option><option value="cut">Cut Image</option><option value="upscale">Upscale Image</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="remove-send" disabled>Send result</button></div>
 </section>
 <section class="card" id="upscale-card" role="tabpanel" aria-labelledby="t-upscale" tabindex="0">
 <h2>Upscale Image</h2>
@@ -1046,7 +1073,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input class="compare-range" id="upscale-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare original and upscaled image">
 </div>
 <p class="info" id="upscale-status" role="status" style="margin-top:10px"></p>
-<div class="btns"><button class="p" id="upscale-process" disabled>Upscale Image</button><button class="p o" id="upscale-download" disabled>Download PNG</button></div>
+<div class="btns"><button class="p" id="upscale-process" disabled>Upscale Image</button><button class="p o" id="upscale-cancel" type="button" hidden>Cancel</button><button class="p o" id="upscale-download" disabled>Download PNG</button></div>
 <div class="btns" style="margin-top:8px"><label class="f" style="flex:1;min-width:180px">Send result to<select id="upscale-send-target"><option value="studio">Color Studio</option><option value="sheet">Sticker Sheet</option><option value="cut">Cut Image</option><option value="remove">Remove Background</option><option value="vector">Vectorize (SVG)</option><option value="viewer">File Preview</option></select></label><button class="p o" id="upscale-send" disabled>Send result</button></div>
 </section>
 <div id="vec-card" class="vcard" role="tabpanel" aria-labelledby="t-vector" tabindex="0"><h2><span class="stepn">V</span>Convert Image to Vector (SVG)</h2>
@@ -1355,6 +1382,11 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <input type="checkbox" id="lossless" hidden><button class="p o" id="llbtn" style="margin-top:10px;width:100%" aria-pressed="false">Maximum detail (lossless): OFF</button><p class="info" id="llinfo" style="margin:8px 0 0">Default PDF raster output is optimized for print at up to 300 DPI. Maximum detail embeds eligible source images without resampling and can create larger files.</p>
 <label class="f adv" style="margin:0 0 10px">PDF raster artwork resolution (DPI)<input id="pdpi" type="number" list="dpi-list" value="300" min="72" max="2400" step="1"></label><p class="info adv" style="margin:-4px 0 10px">Sets the maximum raster detail for artwork needing pixel edits in PDF (300 DPI is suitable for most print jobs). Eligible untouched PNG/JPEG images use their original resolution and traced artwork stays vector in RGB mode. Images are never upsampled beyond source resolution. Page size and vector cut lines/registration marks are unaffected; CMYK converts raster artwork at the selected DPI.</p><div class="btns">
 <button class="p" id="pdf">Download print-ready PDF</button><button class="p o" id="pdf-two-page">Download 2-page print + cut PDF</button><button class="p o adv" id="pdf-hybrid">Download PDF Hybrid</button>
+<button class="p o adv" id="pdf-experiment-4000" type="button">Experimental PDF · full sheet (raster max 4000 PPI)</button>
+<button class="p o adv" id="pdf-experiment-artwork" type="button">Experimental PDF · artwork only (max 4000 PPI)</button>
+<button class="p o adv" id="pdf-experiment-contours" type="button">Experimental PDF · contours + marks only</button>
+<button class="p o adv" id="pdf-experiment-baked-fill" type="button">Experimental PDF · bake background into raster (4000 PPI)</button>
+<p class="info adv" style="flex-basis:100%;margin:0">Experiments only: eligible untouched PNG images above 4000 PPI are resampled. The baked-fill test merges the background fill into each reusable raster artwork; cut contours and marks remain vector. Pixel data changes and the resulting PDF may be larger or smaller. Artwork-only omits contours and marks. Contours-only contains vector cut contours + registration marks, with no artwork.</p>
 <button class="p o adv" id="svg">Download SVG cut lines + marks</button><button class="p o adv" id="svg-contour">Download SVG without images (contours + marks)</button><button class="p o adv" id="svg-corel">Download SVG for CorelDRAW (lightweight)</button><button class="p o adv" id="svg-sheet">Download SVG sheet (PDF-quality artwork)</button><button class="p o adv" id="svg-hybrid">Download SVG Hybrid (PDF-quality artwork)</button>
 <details style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">PDF 1 / PDF 2 / both for CorelDRAW</summary><p class="info">PDF 1 is for printing: sticker artwork + registration marks, no cut contours. PDF 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download individually, or create one ZIP containing both synchronized PDFs.</p><div class="btns"><button class="p o" id="pdf-corel-art">Download PDF 1 — stickers + marks (print)</button><button class="p o" id="pdf-corel-cut">Download PDF 2 — marks + cut contours</button><button class="p" id="pdf-corel-zip">Download both PDFs as ZIP</button></div></details>
 <details class="adv" style="flex-basis:100%"><summary style="cursor:pointer;font-weight:700;padding:8px">Two synchronized SVGs</summary><p class="info">SVG 1 is for printing: sticker artwork + registration marks, no cut contours. SVG 2 is for cutting: the same registration marks + magenta cut contours, no artwork. Download SVG 1 before SVG 2; if settings or artwork change, download SVG 1 again. Or create both synchronized SVGs in one ZIP.</p><div class="btns"><button class="p o" id="svg-sticker-marks">Download SVG 1 — stickers + marks</button><button class="p o" id="svg-marks-contours">Download SVG 2 — marks + cut contours</button><button class="p" id="svg-pair-zip">Download both SVGs as ZIP</button></div></details>
@@ -1365,7 +1397,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <b>Cutting guide (kiss cut / die cut)</b>
 <ul style="margin:8px 0 0;padding-left:18px;color:var(--mut)">
 <li><b>PDF Legacy / PDF Hybrid</b>: print artwork with magenta vector cut lines (0.1 mm) overlaid. Turn off the checkbox to export artwork only.</li>
-<li><b>SVG sheet and SVG Hybrid</b>: follow PDF quality handling: eligible PNG/JPEG artwork is embedded at source resolution and vectorized artwork stays vector; artwork requiring pixel processing uses the selected PDF raster DPI, capped by source resolution and device limits. Images are embedded inline for each sticker to improve CorelDRAW compatibility, so files can be larger than PDF. Cut paths and registration marks remain vector, including circle contours. <b>SVG for CorelDRAW (lightweight)</b> instead embeds the artwork as one PNG page for faster imports; its quality is limited by the selected PNG DPI and device limits.</li>
+<li><b>SVG sheet and SVG Hybrid</b>: follow PDF quality handling: eligible PNG/JPEG artwork is embedded once at source resolution and reused with SVG references; vectorized artwork stays vector and artwork requiring pixel processing uses the selected PDF raster DPI, capped by source resolution and device limits. Cut paths and registration marks remain vector, including circle contours. If an importer does not support SVG references, <b>SVG for CorelDRAW (lightweight)</b> embeds the artwork as one PNG page while keeping cut paths and registration marks vector; its quality is limited by the selected PNG DPI and device limits.</li>
 <li><b>Two synchronized CorelDRAW PDFs</b>: PDF 1 is sticker artwork + registration marks for printing (no cut contours); PDF 2 is the same registration marks + magenta cut contours for cutting (no artwork). Both use the same page dimensions and mark positions; import them at their original size and position without resizing or repositioning.</li>
 <li><b>SVG without images</b>: cut contours and registration marks as pure vectors, with no raster artwork. Shape, layout, contour offset, and mark settings use the controls above.</li>
 <li><b>Kiss cut</b> cuts only the sticker layer, not the backing. <b>Die cut</b> cuts through the backing. Set this on the plotter (force and blade depth), not in the file.</li>
@@ -1387,6 +1419,7 @@ main,.sheet-work,.sheet-controls,.sheet-preview,.grid>*{min-width:0}
 <footer>© <span id="yr"></span> <b>Proletar Project</b> · Supporting small businesses</footer>
 <template id="studio-tpl"><style>
 :host{display:block;--ink:#123A2C;--muted:#526760;--line:#B8C4B2;--pu:#0F5E4A;--pu2:#C9A24B;--panel:#fffaf0;--bg:#F3E9D2;--soft:#B8C4B2}
+:host-context(body.tab-studio) .studio-intro{display:none}
 *{box-sizing:border-box}.app{color:var(--ink);font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
 button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0}
 .app{max-width:1400px;margin:auto}
@@ -1394,6 +1427,7 @@ header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 .mark{width:64px;height:46px;object-fit:contain;flex:none}
 h1{font-size:clamp(22px,3vw,32px);line-height:1.15;margin:0;letter-spacing:-.6px}.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
 .work{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}
+.prev{min-width:0}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
 .panel{display:flex;flex-direction:column;gap:16px}
 h2{font-size:15px;font-weight:800;margin:0 0 12px;display:flex;align-items:center;gap:9px}.n{width:26px;height:26px;border-radius:8px;background:var(--soft);color:var(--pu);display:grid;place-items:center;font-size:13px}
@@ -1430,6 +1464,25 @@ input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2p
 .chk{display:flex;flex-wrap:wrap;gap:8px}.chk label{display:flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid var(--line);border-radius:9px;background:var(--panel);font-size:12px}
 .prog{height:8px;margin-top:12px;border-radius:99px;background:var(--soft);overflow:hidden}.prog i{display:block;width:0;height:100%;background:var(--pu);transition:width .15s}
 .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px;margin-top:10px}.thumbs img{width:100%;height:76px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.thumbs .output-preview{width:100%;min-width:0;padding:2px;border:2px solid transparent;border-radius:10px;background:transparent}
+.thumbs .output-preview[aria-pressed="true"]{border-color:var(--pu)}
+.result-preview-tray{margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.result-preview-tray h3{margin:0;font-size:13px;font-weight:800}
+.result-preview-tray .thumbs{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;align-content:start;padding:2px}
+.result-preview-tray .thumbs img{height:112px}
+.result-preview-tray .thumbs>div{min-width:0;display:grid;grid-template-rows:1fr auto;gap:6px;align-content:start}
+.result-preview-tray .result-thumb-remove{min-height:36px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:12px;font-weight:750}
+.result-preview-tray .result-thumb{position:relative}
+.result-preview-tray .result-thumb-send{position:absolute;top:7px;left:7px;z-index:1;display:flex;align-items:center;gap:4px;padding:4px 7px;border-radius:7px;background:var(--panel);font-size:11px;font-weight:750;box-shadow:0 1px 5px #0002}
+.result-preview-tray .result-thumb-send input{width:16px;height:16px;margin:0;accent-color:var(--pu)}
+.result-preview-tray .note{margin-top:8px}
+.source-thumbs{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}
+.source-thumbs>div{display:flex;min-width:0;flex-direction:column;align-items:center;gap:5px}
+.source-thumbs .source-thumb-select{width:100%;height:74px;min-width:0;padding:4px;border:2px solid transparent;border-radius:12px;background:transparent}
+.source-thumbs .source-thumb-select[aria-pressed="true"]{border-color:var(--pu);background:var(--soft)}
+.source-thumbs img{height:100%;border-radius:8px}
+.source-thumbs .source-thumb-name{max-width:100%;overflow-wrap:anywhere;text-align:center;font-size:11px;color:var(--muted)}
+.source-thumbs .source-thumb-remove{width:100%;min-height:32px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:12px;font-weight:700}
 .thumbs>div{min-width:76px}
 .thumbs .thumb-delete{min-width:74px;min-height:32px;white-space:nowrap;text-align:center}
 .nz{grid-template-columns:96px 68px minmax(120px,1fr) 68px!important}
@@ -1439,7 +1492,8 @@ input[type=color]{width:38px;height:34px;border:1px solid var(--line);padding:2p
 @media(forced-colors:active){.app button:focus-visible,.app input:focus-visible,.app select:focus-visible{outline:3px solid Highlight;outline-offset:3px}}
 @media(prefers-reduced-motion:reduce){:host *, :host *::before, :host *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
-@media(max-width:900px){.app{width:calc(100% - 20px);padding:16px;border-radius:20px}.mark{width:92px}.work{grid-template-columns:1fr}.prev{order:-1}.stage{min-height:300px}}
+@media(min-width:901px){.prev{position:sticky;top:12px;align-self:start}}
+@media(max-width:900px){.app{width:calc(100% - 20px);padding:16px;border-radius:20px}.mark{width:92px}.work{grid-template-columns:1fr}.prev{position:static;order:-1}.stage{min-height:300px}}
 @media(max-width:760px){
   .app{width:100%;margin:0;padding:0;border-radius:0;box-shadow:none}
   .work{gap:10px}
@@ -1464,22 +1518,31 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   .thumbs{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:7px}
   .thumbs>div{min-width:64px}
   .thumbs img{height:64px}
+  .source-thumbs .source-thumb-select{height:64px}
   footer{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
 }
 @media(max-width:380px){.card{padding:10px}.stage{min-height:190px}}
 </style><div class="app"><main class="work">
 <aside class="panel">
- <p class="note">Recolor a logo, customize its background and canvas size, then save it as a PNG. The logo shape stays intact, and all processing happens on your device.</p>
+ <p class="note studio-intro">Recolor a logo, customize its background and canvas size, then save it as a PNG. The logo shape stays intact, and all processing happens on your device.</p>
  <section class="card">
   <h2><span class="n">1</span>Choose an image or logo</h2>
-  <label class="up" id="drop" for="file"><strong>Choose or drop an image here</strong><small>Transparent PNG works best for logos. Images are processed on your device and are not uploaded to a server.</small></label>
-  <input id="file" type="file" accept="image/png,image/webp,image/jpeg">
+  <label class="up" id="drop" for="file"><strong>Choose or drop one or more images</strong><small>Hold Ctrl (or Command on Mac) to select multiple files. Images are processed on your device and are not uploaded to a server.</small></label>
+  <input id="file" type="file" accept="image/png,image/webp,image/jpeg" multiple>
   <div class="status" id="fstat" role="status" aria-live="polite">No file selected.</div>
+  <div class="thumbs source-thumbs hid" id="source-thumbs" aria-label="Selected source images"></div>
+  <div id="source-batch-controls" class="hid" style="margin-top:10px">
+   <p class="note">Apply the current Color Studio settings to every selected image and download the PNGs together or individually.</p>
+   <button class="btn p full" id="source-batch" disabled>Process selected images</button>
+   <button class="btn s full" id="source-variations-batch" style="margin-top:8px" disabled>Create variations for all images</button>
+   <p class="note">The selected number of variations is requested for each logo (up to 100). Duplicate variations may be skipped; actual counts per logo are shown in the result status. Large batches may use substantial browser memory.</p>
+   <div class="status" id="source-batch-status" role="status" aria-live="polite"></div>
+  </div>
  </section>
 
  <section class="card">
   <h2><span class="n">2</span>Set logo colors</h2>
-  <div class="palette-control"><label for="palette-select">Color palette</label><select id="palette-select"><option value="proletar">Palet Proletar</option><option value="rwm">Palet RWM</option></select></div>
+  <div class="palette-control"><label for="logo-palette-select">Logo color palette</label><select id="logo-palette-select"><option value="proletar">Palet Proletar</option><option value="rwm">Palet RWM</option></select></div>
   <div class="tabs" data-g="logoMode" role="group" aria-label="Logo color mode" aria-describedby="studio-key-help"><button type="button" class="tab on" data-v="solid" aria-pressed="true">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="orig" aria-pressed="false">Original</button></div>
   <div id="lgrp">
    <div class="cr"><b>Color A</b><input type="color" id="la" value="#584CF6"><div class="pal" data-t="la"></div></div>
@@ -1492,6 +1555,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 
  <section class="card">
   <h2><span class="n">3</span>Set the background</h2>
+  <div class="palette-control"><label for="bg-palette-select">Background color palette</label><select id="bg-palette-select"><option value="proletar">Palet Proletar</option><option value="rwm">Palet RWM</option></select></div>
   <div class="tabs" data-g="bgMode" role="group" aria-label="Background type" aria-describedby="studio-key-help"><button type="button" class="tab on" data-v="transparent" aria-pressed="true">Transparent</button><button type="button" class="tab" data-v="solid" aria-pressed="false">Solid</button><button type="button" class="tab" data-v="gradient" aria-pressed="false">Gradient</button><button type="button" class="tab" data-v="radial" aria-pressed="false">Radial</button><button type="button" class="tab" data-v="mesh" aria-pressed="false">Mesh</button></div>
   <p class="sr-only" id="studio-key-help">Use Left and Right Arrow keys to change the selected option. Home and End select the first or last option.</p>
   <p class="note">A gradient blends colors smoothly. Radial starts from a central point, while mesh creates a more organic blend.</p>
@@ -1527,7 +1591,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
  </section>
  <section class="card">
   <h2><span class="n">5</span>Create variations</h2>
-  <label class="f">Number of variations <span id="bnv">12</span></label><input id="bn" type="range" min="1" max="100" value="12">
+  <label class="f">Variations per logo <span id="bnv">12</span></label><input id="bn" type="range" min="1" max="100" value="12">
   <label class="f">Logo color modes</label>
   <div class="chk" id="bl"><label><input type="checkbox" value="solid" checked>Solid</label><label><input type="checkbox" value="gradient" checked>Gradient</label><label><input type="checkbox" value="orig">Original</label></div>
   <label class="f">Background modes</label>
@@ -1538,8 +1602,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
   <div class="prog hid" id="prog" role="progressbar" aria-label="Variation generation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progi"></i></div>
   <div id="zipbox" class="hid" style="margin-top:12px"><button class="btn p full" id="zipbtn">Download all (ZIP)</button><button class="btn full" id="pngsbtn" style="margin-top:8px">Download PNGs individually</button><p class="note">The ZIP archive contains all PNG files. Approve the save prompt to store the files on your device.</p></div>
   <div class="status" id="bstat" role="status"></div>
-  <div class="thumbs" id="thumbs"></div>
-  <p class="note">Select a thumbnail to save one PNG. Colors use the settings above, and padding, glow, and scale remain unchanged. You can also download all PNGs in one ZIP file.</p>
  </section>
  <button class="btn s full" id="rndAll">Randomize all (logo + background)</button>
 </aside>
@@ -1547,10 +1609,16 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 0 4px}
 <section class="prev">
  <div class="card">
   <div class="stage" id="stage"><div class="empty" id="empty"><div class="big">▧</div><strong>Your logo will appear here</strong><p>Choose an image to start adjusting its colors and background.</p></div><canvas id="cv" class="hid"></canvas></div>
+  <section id="result-preview-tray" class="result-preview-tray hid" aria-labelledby="results-heading">
+   <h3 id="results-heading">Processed image previews</h3>
+   <div class="thumbs" id="thumbs" aria-label="Processed images"></div>
+   <p class="note" id="thumb-help">Select a thumbnail to preview one PNG. Colors use the settings above, and padding, glow, and scale remain unchanged. You can also download all PNGs in one ZIP file.</p>
+   <p class="note">Select the “Send” checkbox on one or more results, or choose all results in the send options.</p>
+  </section>
   <div class="bar">
    <span class="sw" id="sw"></span>
    <div><strong style="font-size:13px">Logo color</strong><small id="hex" aria-live="polite" aria-atomic="true">-</small><small id="cmyk" role="status" aria-live="polite" aria-atomic="true">-</small></div>
-   <div class="act"><button class="btn" id="copy">Copy color code</button><label class="hid" for="send-target">Send result directly to</label><select id="send-target" aria-label="Send Color Studio result directly to"><option value="sheet" selected>Sticker Sheet</option><option value="cut">Cut Image</option><option value="vector">Vectorize (SVG)</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="viewer">File Preview</option></select><button class="btn s" id="send">Send directly</button><button class="btn p" id="dl">Download high-resolution PNG</button><button class="btn" id="dltest">Test download</button></div>
+   <div class="act"><button class="btn" id="copy">Copy color code</button><label class="hid" for="send-scope">Which image or images to send</label><select id="send-scope" aria-label="Which Color Studio images to send"><option value="current" selected>Current preview · 1 image</option><option value="selected">Selected results</option><option value="all">All results</option></select><label class="hid" for="send-target">Send result directly to</label><select id="send-target" aria-label="Send Color Studio result directly to"><option value="sheet" selected>Sticker Sheet</option><option value="layout">Layout Bebas</option><option value="cut">Cut Image</option><option value="vector">Vectorize (SVG)</option><option value="remove">Remove Background</option><option value="upscale">Upscale Image</option><option value="viewer">File Preview</option></select><button class="btn s" id="send">Send directly</button><button class="btn p" id="dl">Download high-resolution PNG</button><button class="btn" id="dltest">Test download</button></div>
   </div>
   <div class="status" id="stat" role="status">Ready. Choose an image to get started.</div>
   <pre id="dbg" class="hid"></pre>
@@ -2788,6 +2856,17 @@ function assignLogos(L){
   return a;
 }
 function forCells(L,fn){L.cells.forEach((cl,i)=>{const li=L.assign[i];if(logos.length&&li<0)return;fn(cl.x,cl.y,li,cl)})}
+async function forCellsYielding(L,fn){
+  let processed=0;const signal=activeLoaderController?.signal;
+  for(let i=0;i<L.cells.length;i++){
+    throwIfLoaderCancelled(signal);
+    const cl=L.cells[i],li=L.assign[i];
+    if(logos.length&&li<0)continue;
+    await fn(cl.x,cl.y,li,cl);
+    throwIfLoaderCancelled(signal);
+    if(++processed%8===0)await new Promise(resolve=>setTimeout(resolve,0));
+  }
+}
 function svgCellRotation(cl,cx,cy,content){return cl&&cl.rot?`<g transform="rotate(${cl.rot} ${cx} ${cy})">${content}</g>`:content}
 function shapeForLogo(index,fallback){
   const lg=index>=0&&logos[index]?logos[index]:null;
@@ -3583,6 +3662,40 @@ function shPoly(cx,cy,w,h,s,g,lg){w+=2*g;h+=2*g;const x=cx-w/2,y=cy-h/2,P=[];
   else if(s==='rounded'){const r=roundedRadius(w,h,lg);[[x+w-r,y+r,-90],[x+w-r,y+h-r,0],[x+r,y+h-r,90],[x+r,y+r,180]].forEach(([qx,qy,a])=>{for(let i=0;i<=8;i++){const t=(a+i*90/8)*Math.PI/180;P.push([qx+r*Math.cos(t),qy+r*Math.sin(t)])}})}
   else P.push([x,y],[x+w,y],[x+w,y+h],[x,y+h]);
   return P}
+// Kurva PDF menghindari poligon 180 titik pada setiap stiker berbentuk lingkaran.
+function pdfShapePath(cx,cy,w,h,shape,g,lg,k,Y){
+  w+=2*g;h+=2*g;
+  const x=cx-w/2,y=cy-h/2,f=n=>n.toFixed(3),point=(px,py)=>`${f(px*k)} ${f(Y(py))}`;
+  const move=(px,py)=>`${point(px,py)} m`,line=(px,py)=>`${point(px,py)} l`;
+  const curve=(x1,y1,x2,y2,x3,y3)=>`${point(x1,y1)} ${point(x2,y2)} ${point(x3,y3)} c`;
+  if(shape==='circle'||shape==='oval'){
+    const rx=w/2,ry=h/2,c=.5522847498307936;
+    return [
+      move(cx+rx,cy),
+      curve(cx+rx,cy-c*ry,cx+c*rx,cy-ry,cx,cy-ry),
+      curve(cx-c*rx,cy-ry,cx-rx,cy-c*ry,cx-rx,cy),
+      curve(cx-rx,cy+c*ry,cx-c*rx,cy+ry,cx,cy+ry),
+      curve(cx+c*rx,cy+ry,cx+rx,cy+c*ry,cx+rx,cy),
+      'h'
+    ].join('\n')+'\n';
+  }
+  if(shape==='rounded'){
+    const r=roundedRadius(w,h,lg),c=.5522847498307936;
+    if(r>0)return [
+      move(x+r,y),line(x+w-r,y),
+      curve(x+w-r+c*r,y,x+w,y+r-c*r,x+w,y+r),
+      line(x+w,y+h-r),
+      curve(x+w,y+h-r+c*r,x+w-r+c*r,y+h,x+w-r,y+h),
+      line(x+r,y+h),
+      curve(x+r-c*r,y+h,x,y+h-r+c*r,x,y+h-r),
+      line(x,y+r),
+      curve(x,y+r-c*r,x+r-c*r,y,x+r,y),
+      'h'
+    ].join('\n')+'\n';
+  }
+  return shPoly(cx,cy,w-2*g,h-2*g,shape,g,lg)
+    .map((p,i)=>`${point(p[0],p[1])} ${i?'l':'m'}`).join('\n')+'\nh\n';
+}
 function designSvgContour(lg,cx,cy,w,h,f){
   if(!lg||!lg.vout)return '';
   const viewBox=(lg.vout.match(/viewBox=["']([^"']+)["']/i)||[])[1];
@@ -3705,13 +3818,13 @@ function vecPaths(lg){
 function vecCell(pdf,lg,L,cx,cy,shape,bleed,transparent=false,colorMode='rgb'){
   const k=pdf.internal.scaleFactor,f=n=>n.toFixed(3),Y=y=>(H-y)*k,w=s=>pdf.internal.write(s);
   const col=(h,stroke=false)=>pdfColorOperator(h,colorMode,stroke);
-  const poly=P=>P.map((p,i)=>f(p[0]*k)+' '+f(Y(p[1]))+(i?' l':' m')).join('\n')+'\nh\n';
+  const path=(width,height,g)=>pdfShapePath(cx,cy,width,height,shape,g,lg,k,Y);
   const sv=lg.vsvg,vb=sv.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),wa=+sv.match(/ width="([\d.]+)"/)[1],ha=+sv.match(/ height="([\d.]+)"/)[1];
   const sc=fitScale(lg,L.w,L.h),m=sc*wa/(+vb[1]),X0=cx-wa*sc/2+lg.ox/100*L.w,Y0=cy-ha*sc/2+lg.oy/100*L.h;
   const P=p=>f((X0+p[0]*m)*k)+' '+f(Y(Y0+p[1]*m));
   w('q');
-  if(lg.bw>0){w(col(lg.bc)+'\n');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
-  w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
+  if(lg.bw>0){w(col(lg.bc)+'\n');w(path(L.w,L.h,bleed)+'f')}
+  w(path(L.w,L.h,lg.bw>0?-lg.bw:bleed)+'W n');
   if(!transparent){w(col(lg.auto?lg.corner:lg.bgc)+'\n');w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f')}
   for(const p of vecPaths(lg)){
     let o='';
@@ -3733,24 +3846,24 @@ function origImg(lg,c){
 function imgCell(pdf,lg,L,cx,cy,shape,bleed,im){
   const k=pdf.internal.scaleFactor,f=n=>n.toFixed(3),Y=y=>(H-y)*k,w=s=>pdf.internal.write(s);
   const col=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255].map(v=>(v/255).toFixed(4)).join(' ')};
-  const poly=P=>P.map((p,i)=>f(p[0]*k)+' '+f(Y(p[1]))+(i?' l':' m')).join('\n')+'\nh\n';
+  const path=(width,height,g)=>pdfShapePath(cx,cy,width,height,shape,g,lg,k,Y);
   const src=getSrc(lg),iw=src.naturalWidth||src.width,ih=src.naturalHeight||src.height,sc=fitScale(lg,L.w,L.h);
   w('q');
   try{
-    if(lg.bw>0){w(col(lg.bc)+' rg');w(poly(shPoly(cx,cy,L.w,L.h,shape,bleed,lg))+'f')}
-    w(poly(shPoly(cx,cy,L.w,L.h,shape,lg.bw>0?-lg.bw:bleed,lg))+'W n');
+    if(lg.bw>0){w(col(lg.bc)+' rg');w(path(L.w,L.h,bleed)+'f')}
+    w(path(L.w,L.h,lg.bw>0?-lg.bw:bleed)+'W n');
     w(col(lg.auto?lg.corner:lg.bgc)+' rg');w(f((cx-L.w)*k)+' '+f(Y(cy+L.h))+' '+f(2*L.w*k)+' '+f(2*L.h*k)+' re f');
     pdf.addImage(im.data,im.fmt,cx-iw*sc/2+lg.ox/100*L.w,cy-ih*sc/2+lg.oy/100*L.h,iw*sc,ih*sc,im.alias,'SLOW');
   }catch(e){w('Q');throw e}
   w('Q');
 }
-function hybridRotation(pdf,cl,cx,cy,drawObject){
-  if(!cl.rot){drawObject();return}
+async function hybridRotation(pdf,cl,cx,cy,drawObject){
+  if(!cl.rot){await drawObject();return}
   const k=pdf.internal.scaleFactor,a=cl.rot*Math.PI/180,cos=Math.cos(a),sin=Math.sin(a),x=cx*k,y=(H-cy)*k;
   pdf.internal.write('q');
   try{
     pdf.internal.write([cos,sin,-sin,cos,x-cos*x+sin*y,y-sin*x-cos*y].map(v=>v.toFixed(6)).join(' ')+' cm');
-    drawObject();
+    await drawObject();
   }finally{pdf.internal.write('Q')}
 }
 function hybridRasterTile(lg,L,shape,bleed,dpi){
@@ -3805,7 +3918,10 @@ function pdfColorOperator(hex,colorMode='rgb',stroke=false){
   return [r,g,b].map(n=>(n/255).toFixed(4)).join(' ')+(stroke?' RG':' rg');
 }
 function enableCmykImages(pdf){
+  pdf.__preparedCmykImages=new WeakMap();
   pdf.processRGBA=function(image,index,alias){
+    const prepared=this.__preparedCmykImages.get(image.data);
+    if(prepared)return{alpha:prepared.alpha,data:prepared.data,index,alias,colorSpace:'DeviceCMYK',bitsPerComponent:8,width:image.width,height:image.height};
     const rgba=image.data;
     if(!rgba||rgba.length!==image.width*image.height*4)throw new Error('Could not read raster pixels for CMYK PDF conversion.');
     const cmyk=new Uint8Array(rgba.length),alpha=new Uint8Array(rgba.length/4);
@@ -3822,11 +3938,42 @@ function enableCmykImages(pdf){
     };
   };
 }
-function addCmykCanvas(pdf,canvas,x,y,w,h,alias,rotation=0){
+async function rgbaToCmykBinary(rgba,signal=activeLoaderController?.signal){
+  const cmyk=new Uint8Array(rgba.length),alpha=new Uint8Array(rgba.length/4),pixelCount=alpha.length,pixelChunk=262144;
+  for(let start=0;start<pixelCount;start+=pixelChunk){
+    throwIfLoaderCancelled(signal);
+    const end=Math.min(pixelCount,start+pixelChunk);
+    for(let p=start,i=start*4;p<end;p++,i+=4){
+      const values=rgbToCmyk(rgba[i],rgba[i+1],rgba[i+2]);
+      cmyk[i]=Math.round(values[0]*255);cmyk[i+1]=Math.round(values[1]*255);
+      cmyk[i+2]=Math.round(values[2]*255);cmyk[i+3]=Math.round(values[3]*255);
+      alpha[p]=rgba[i+3];
+    }
+    if(end<pixelCount)await new Promise(resolve=>setTimeout(resolve,0));
+    throwIfLoaderCancelled(signal);
+  }
+  const cmykParts=[],alphaParts=[],stringChunk=8192;
+  for(let start=0;start<pixelCount;start+=stringChunk){
+    const end=Math.min(pixelCount,start+stringChunk);
+    cmykParts.push(String.fromCharCode(...cmyk.subarray(start*4,end*4)));
+    alphaParts.push(String.fromCharCode(...alpha.subarray(start,end)));
+    if(Math.floor(end/stringChunk)%32===0&&end<pixelCount)await new Promise(resolve=>setTimeout(resolve,0));
+  }
+  return{data:cmykParts.join(''),alpha:alphaParts.join('')};
+}
+async function addCmykCanvas(pdf,canvas,x,y,w,h,alias,rotation=0){
+  const signal=activeLoaderController?.signal;
+  throwIfLoaderCancelled(signal);
+  await new Promise(resolve=>setTimeout(resolve,0));
+  throwIfLoaderCancelled(signal);
   const ctx=canvas.getContext('2d',{willReadFrequently:true});
   if(!ctx)throw new Error('Could not read artwork pixels for CMYK PDF export.');
   const image=ctx.getImageData(0,0,canvas.width,canvas.height);
-  pdf.addImage({data:image.data,width:canvas.width,height:canvas.height},'RGBA',x,y,w,h,alias,'SLOW',rotation);
+  const prepared=await rgbaToCmykBinary(image.data,signal);
+  throwIfLoaderCancelled(signal);
+  pdf.__preparedCmykImages.set(image.data,prepared);
+  try{pdf.addImage({data:image.data,width:canvas.width,height:canvas.height},'RGBA',x,y,w,h,alias,'SLOW',rotation)}
+  finally{pdf.__preparedCmykImages.delete(image.data)}
 }
 function createSheetEdgeTextImage(text,scale=4){
   const label=String(text||'').trim();
@@ -3851,10 +3998,10 @@ function createSheetEdgeTextImage(text,scale=4){
   const width=textWidth/pxPerMm,height=textHeight/pxPerMm,x=W/2-width/2,y=H-6-height/2;
   return {canvas,x,y,width,height};
 }
-function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
+async function addSheetEdgeTextPdf(pdf,text,colorMode='rgb'){
   const edge=createSheetEdgeTextImage(text);
   if(!edge)return;
-  if(colorMode==='cmyk')addCmykCanvas(pdf,edge.canvas,edge.x,edge.y,edge.width,edge.height,'sheet-edge-text');
+  if(colorMode==='cmyk')await addCmykCanvas(pdf,edge.canvas,edge.x,edge.y,edge.width,edge.height,'sheet-edge-text');
   else pdf.addImage(edge.canvas.toDataURL('image/png'),'PNG',edge.x,edge.y,edge.width,edge.height,'sheet-edge-text','SLOW');
 }
 function setPdfColor(pdf,hex,mode='rgb',stroke=false){
@@ -3862,7 +4009,8 @@ function setPdfColor(pdf,hex,mode='rgb',stroke=false){
   const raw=String(hex||'#000000').replace('#',''),r=parseInt(raw.slice(0,2),16)||0,g=parseInt(raw.slice(2,4),16)||0,b=parseInt(raw.slice(4,6),16)||0;
   pdf[stroke?'setDrawColor':'setFillColor'](r,g,b);
 }
-function busy(b,msg){if(b)showLoader(msg||"Processing...");else hideLoader();['pdf','pdf-two-page','pdf-hybrid','pdf-corel-art','pdf-corel-cut','pdf-corel-zip','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-corel','svg-sheet','svg-hybrid'].forEach(id=>$(id).disabled=b);document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
+function busy(b,msg){if(b)showLoader(msg||"Processing...",true);else hideLoader();['pdf','pdf-two-page','pdf-hybrid','pdf-experiment-4000','pdf-experiment-artwork','pdf-experiment-contours','pdf-experiment-baked-fill','pdf-corel-art','pdf-corel-cut','pdf-corel-zip','svg','svg-contour','svg-sticker-marks','svg-marks-contours','svg-pair-zip','svg-corel','svg-sheet','svg-hybrid'].forEach(id=>$(id).disabled=b);document.querySelectorAll('[data-pdf-color-mode]').forEach(button=>button.disabled=b);if(msg!==undefined)$('dlstatus').textContent=msg}
+function updateBusyMessage(message){$('loadmsg').textContent=message;$('dlstatus').textContent=message}
 function updateBtns(){readPaper();$('pdf').textContent=getPdfColorMode()==='cmyk'?'Download CMYK PDF ('+pdfDpi()+' DPI)':LL()?'Download PDF (maximum detail)':'Download print-ready PDF'}
 let LASTINFO='',COREL_PAIR_SIGNATURE='',SVG_PAIR_SIGNATURE='';
 function corelPairSignature(L,colorMode=getPdfColorMode()){
@@ -3974,14 +4122,43 @@ function svgVectorSource(lg){
 function pdfVectorReady(lg){
   return !!(lg&&lg.vec&&lg.vimg&&lg.vsvg&&/viewBox="0 0 [\d.]+ [\d.]+"/.test(lg.vsvg)&&/ width="[\d.]+"/.test(lg.vsvg)&&vecPaths(lg).length);
 }
-async function pdfOriginalTiles(assign,isCmyk){
+async function resamplePdfPng(lg,original,layout,maxPpi){
+  const sourcePpi=sourceResolutionDpi(lg,layout);
+  if(sourcePpi<=maxPpi)return original;
+  const scale=maxPpi/sourcePpi;
+  const width=Math.max(1,Math.round(original.iw*scale)),height=Math.max(1,Math.round(original.ih*scale));
+  if(width>=original.iw&&height>=original.ih)return original;
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  throwIfLoaderCancelled();
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)throw new Error('Could not create a canvas for the 4000 PPI experiment.');
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  ctx.drawImage(getSrc(lg),0,0,width,height);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+  canvas.width=canvas.height=1;
+  if(!blob)throw new Error('Could not encode the resampled PNG artwork.');
+  throwIfLoaderCancelled();
+  return {dataUrl:await readURL(blob),iw:width,ih:height};
+}
+async function pdfOriginalTiles(assign,isCmyk,maxPpi=0,L=null,stats=null){
   const tiles=new Map();
   if(isCmyk)return tiles;
   for(const li of new Set(assign.filter(index=>index>=0))){
-    const lg=logos[li],original=await originalRasterSource(lg);
+    throwIfLoaderCancelled();
+    const lg=logos[li];let original=await originalRasterSource(lg);
+    throwIfLoaderCancelled();
     if(!original)continue;
     const mime=(original.dataUrl.match(/^data:image\/(png|jpe?g);base64,/i)||[])[1];
     if(!mime)continue;
+    if(maxPpi&&L&&mime.toLowerCase()==='png'){
+      const layout=logoLayout(li,L,$('shape').value).L;
+      const resized=await resamplePdfPng(lg,original,layout,maxPpi);
+      if(resized.iw!==original.iw||resized.ih!==original.ih){
+        original=resized;
+        if(stats)stats.resampled++;
+      }
+    }
     tiles.set(li,{data:original.dataUrl,fmt:mime.toLowerCase()==='png'?'PNG':'JPEG',alias:`native-${lg.id}`});
   }
   return tiles;
@@ -3990,22 +4167,24 @@ function svgShapePath(cx,cy,w,h,shape,grow,lg){
   return shPoly(cx,cy,w,h,shape,grow,lg)
     .map((p,i)=>`${i?'L':'M'}${p[0].toFixed(4)} ${p[1].toFixed(4)}`).join(' ')+' Z';
 }
-$('pdf').onclick=async()=>{
+async function exportPdf(maxRasterPpi=0,forceRgb=false,outputMode='combined',bakeRasterFill=false){
   if(!window.jspdf){$('dlstatus').textContent='The PDF library has not loaded. Check your internet connection and reload the page.';return}
-  const initialDpi=pdfDpi(),colorMode=getPdfColorMode(),isCmyk=colorMode==='cmyk';let rasterDpi=null,lowerAutomatically=false;
-  busy(true,'Creating '+colorMode.toUpperCase()+' PDF at '+initialDpi+' DPI...');await pause();
+  const initialDpi=pdfDpi(),colorMode=forceRgb?'rgb':getPdfColorMode(),isCmyk=colorMode==='cmyk',experimentStats={resampled:0,baked:0};let rasterDpi=null,lowerAutomatically=false;
+  const modeLabel=bakeRasterFill?'background baked into raster':outputMode==='artwork-only'?'artwork-only':outputMode==='contours-only'?'contours + marks only':'full sheet';
+  busy(true,maxRasterPpi?`Creating experimental ${modeLabel} RGB PDF (max ${maxRasterPpi} PPI)...`:'Creating '+colorMode.toUpperCase()+' PDF at '+initialDpi+' DPI...');await pause();
   while(true){
+  experimentStats.resampled=0;experimentStats.baked=0;
   try{
     const dpi=rasterDpi||initialDpi;
-    await ensureCurrentTraces();
+    if(outputMode!=='contours-only')await ensureCurrentTraces();
     const L=calc(),s=$('shape').value,bleed=+$('bleed').value||0,hasRotated=L.cells.some(cl=>cl.rot);
     const pdf=new jspdf.jsPDF({unit:'mm',format:[W,H],orientation:W>H?'landscape':'portrait',compress:true});
     if(isCmyk)enableCmykImages(pdf);
-    const edgeText=$('credit').checked?$('credit-text').value.trim():'';
-    if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
-    const urls={},imgs={},originalTiles=await pdfOriginalTiles(L.assign,isCmyk);
+    const edgeText=outputMode==='combined'&&$('credit').checked?$('credit-text').value.trim():'';
+    if(edgeText)await addSheetEdgeTextPdf(pdf,edgeText,colorMode);
+    const urls={},imgs={},bakedTiles=new Map(),originalTiles=outputMode==='contours-only'||bakeRasterFill?new Map():await pdfOriginalTiles(L.assign,isCmyk,maxRasterPpi,L,experimentStats);
     let vectors=0,nativeImages=0,rasterized=0;
-    forCells(L,(cx,cy,li,cl)=>{
+    if(outputMode!=='contours-only')await forCellsYielding(L,async(cx,cy,li,cl)=>{
       const lg=logos[li],id=lg?lg.id:0;
       const cellShape=shapeForLogo(li,s);
       const physicalLayout=logoLayout(li,L,s).L;
@@ -4015,19 +4194,30 @@ $('pdf').onclick=async()=>{
         const cap=Math.min(MAX_EXPORT_SIDE/Math.max(tw,th),Math.sqrt(MAX_EXPORT_PIXELS/(tw*th)));
         tp=Math.min(tp,cap);
         const tile=getTile(lg,physicalLayout,cellShape,bleed,tp);
-        addCmykCanvas(pdf,tile,cx-physicalLayout.w/2-bleed,cy-physicalLayout.h/2-bleed,tw,th,'cmyk-tile-'+id+'-'+cellShape,cl.rot||0);
+        await addCmykCanvas(pdf,tile,cx-physicalLayout.w/2-bleed,cy-physicalLayout.h/2-bleed,tw,th,'cmyk-tile-'+id+'-'+cellShape,cl.rot||0);
         return;
       }
       if(pdfVectorReady(lg)){
-        hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
+        await hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
         vectors++;return;
+      }
+      if(bakeRasterFill){
+        const tileKey=[id,cellShape,physicalLayout.w,physicalLayout.h,bleed].join(':');
+        let tile=bakedTiles.get(tileKey);
+        if(!tile){
+          tile=hybridRasterTile(lg,physicalLayout,cellShape,bleed,maxRasterPpi);
+          bakedTiles.set(tileKey,tile);experimentStats.baked++;
+          if(sourceResolutionDpi(lg,physicalLayout)>maxRasterPpi)experimentStats.resampled++;
+        }
+        await hybridRotation(pdf,cl,cx,cy,()=>pdf.addImage(tile.data,tile.fmt,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias,'SLOW'));
+        rasterized++;return;
       }
       const original=originalTiles.get(li);
       if(original){
-        hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
+        await hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
         nativeImages++;return;
       }
-      if(!cl.rot&&LL()&&!rasterDpi&&lg){try{imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,origImg(lg,imgs));return}catch(e){}}
+      if(!cl.rot&&LL()&&!rasterDpi&&lg&&!maxRasterPpi){try{imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,origImg(lg,imgs));return}catch(e){}}
       const tileKey=id+':'+cellShape;
       if(!urls[tileKey]){
         const sd=rasterDpi||dpi,tw=physicalLayout.w+2*bleed,th=physicalLayout.h+2*bleed;
@@ -4041,9 +4231,17 @@ $('pdf').onclick=async()=>{
       pdf.addImage(urls[tileKey],'PNG',cx-physicalLayout.w/2-bleed,cy-physicalLayout.h/2-bleed,physicalLayout.w+2*bleed,physicalLayout.h+2*bleed,'t'+id,'SLOW',cl.rot||0);
       rasterized++;
     });
-    drawSheetMarksPdf(pdf,L,colorMode);
-    if($('vcut').checked)drawCutContoursPdf(pdf,L,colorMode);
-    if(isCmyk){
+    if(outputMode!=='artwork-only')drawSheetMarksPdf(pdf,L,colorMode);
+    if(outputMode==='contours-only'||(outputMode==='combined'&&$('vcut').checked))drawCutContoursPdf(pdf,L,colorMode);
+    if(bakeRasterFill){
+      LASTINFO=`EXPERIMENTAL RGB PDF: background fill baked into ${experimentStats.baked} reusable raster artwork design(s); ${experimentStats.resampled} design(s) downsampled to a maximum of ${maxRasterPpi} PPI. Raster pixels change; traced vector artwork remains vector. Cut contours and registration marks remain vector. File size may increase or decrease.`;
+    }else if(outputMode==='artwork-only'){
+      LASTINFO=`EXPERIMENTAL artwork-only RGB PDF: ${experimentStats.resampled} eligible untouched PNG design(s) resampled to a maximum of ${maxRasterPpi} PPI. Pixel data changes; no cut contours or registration marks are included.`;
+    }else if(outputMode==='contours-only'){
+      LASTINFO='Contour-only PDF: no artwork; vector cut contours and registration marks are included.';
+    }else if(maxRasterPpi){
+      LASTINFO=`EXPERIMENTAL RGB PDF: ${experimentStats.resampled} eligible untouched PNG design(s) resampled to a maximum of ${maxRasterPpi} PPI using browser high-quality resampling. This changes image pixels; JPEGs, processed artwork and vector artwork are unchanged. Cut contours and registration marks remain vector.`;
+    }else if(isCmyk){
       LASTINFO=`${colorMode.toUpperCase()} PDF: raster artwork rendered at up to ${dpi} DPI, capped by source resolution, and converted to generic DeviceCMYK. No ICC print profile is embedded${rasterDpi&&dpi<initialDpi?`; resolution reduced from ${initialDpi} DPI due to device limits`:''}.`;
     }else if(vectors||nativeImages){
       LASTINFO=`RGB PDF: ${vectors} vector sticker placement(s), ${nativeImages} original-resolution PNG/JPEG placement(s) reused from one embedded image per design, and ${rasterized} pixel-edited raster placement(s) at up to ${dpi} DPI (capped by source resolution). Cut contours and registration marks remain vector.`;
@@ -4056,13 +4254,16 @@ $('pdf').onclick=async()=>{
     }else{
       LASTINFO=`PDF image resolution: up to ${dpi} DPI; artwork is not upsampled beyond source resolution.`;
     }
-    const suffix=isCmyk?`-${dpi}dpi-cmyk`:rasterDpi?`-${dpi}dpi`:LL()?'-lossless':`-${dpi}dpi`;
+    const suffix=maxRasterPpi?`-experiment-${maxRasterPpi}ppi${bakeRasterFill?'-fill-baked':outputMode==='combined'?'':`-${outputMode}`}`:isCmyk?`-${dpi}dpi-cmyk`:rasterDpi?`-${dpi}dpi`:LL()?'-lossless':`-${dpi}dpi`;
+    await new Promise(resolve=>setTimeout(resolve,0));
+    throwIfLoaderCancelled();
     await saveFile(sheetFileName('pdf').replace(/\.pdf$/,`${suffix}.pdf`),pdf.output('blob'));
     break;
   }catch(err){
+    if(isCancellationError(err)){$('dlstatus').textContent='PDF export canceled.';break}
     const current=rasterDpi||initialDpi,lower=rasterDpi?Math.max(72,Math.floor(current*0.8)):Math.max(72,Math.floor(Math.min(initialDpi,1200)*0.8));
     if(lower>=current){$('dlstatus').textContent='PDF export failed even at 72 DPI. Try a smaller page or reduce the sheet contents.';break}
-    if(lowerAutomatically){rasterDpi=lower;$('loadmsg').textContent=`Device limits reached; trying raster PDF at ${rasterDpi} DPI...`;await pause();continue}
+    if(lowerAutomatically){rasterDpi=lower;updateBusyMessage(`Device limits reached; trying raster PDF at ${rasterDpi} DPI...`);await pause();continue}
     const detail=isCmyk?`CMYK PDF failed at ${current} DPI. Lower resolution: ${lower} DPI.`:LL()&&!rasterDpi?`Lossless PDF failed. Raster fallback resolution: ${lower} DPI.`:`PDF failed at ${current} DPI. Lower resolution: ${lower} DPI.`;
     const choice=await askExportFallback('The device could not create the PDF. Try again, automatically lower the raster resolution, or cancel.',detail,lower);
     if(choice==='cancel'){$('dlstatus').textContent='PDF export canceled.';break}
@@ -4071,7 +4272,12 @@ $('pdf').onclick=async()=>{
   }
   }
   busy(false);
-};
+}
+$('pdf').onclick=()=>exportPdf();
+$('pdf-experiment-4000').onclick=()=>exportPdf(4000,true);
+$('pdf-experiment-artwork').onclick=()=>exportPdf(4000,true,'artwork-only');
+$('pdf-experiment-contours').onclick=()=>exportPdf(4000,true,'contours-only');
+$('pdf-experiment-baked-fill').onclick=()=>exportPdf(4000,true,'combined',true);
 $('pdf-hybrid').onclick=()=>exportPdfHybrid(true,'-hybrid');
 async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',includeEdgeText=true,returnBlob=false,colorMode=getPdfColorMode(),includeCutPage=false){
   if(!window.jspdf){$('dlstatus').textContent='The PDF library has not loaded. Check your internet connection and reload the page.';return}
@@ -4084,10 +4290,10 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
     const pdf=new jspdf.jsPDF({unit:'mm',format:[W,H],orientation:W>H?'landscape':'portrait',compress:true});
     if(isCmyk)enableCmykImages(pdf);
     const edgeText=includeEdgeText&&$('credit').checked?$('credit-text').value.trim():'';
-    if(edgeText)addSheetEdgeTextPdf(pdf,edgeText,colorMode);
+    if(edgeText)await addSheetEdgeTextPdf(pdf,edgeText,colorMode);
     const rasterTiles=new Map(),originalTiles=await pdfOriginalTiles(L.assign,isCmyk);
     let vectors=0,nativeImages=0,rasterized=0;
-    forCells(L,(cx,cy,li,cl)=>{
+    await forCellsYielding(L,async(cx,cy,li,cl)=>{
       const lg=li>=0?logos[li]:null,cellShape=shapeForLogo(li,s),physicalLayout=logoLayout(li,L,s).L;
       if(!lg){
         const p=shPoly(cx,cy,physicalLayout.w,physicalLayout.h,cellShape,bleed);
@@ -4098,20 +4304,21 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
       }
       const canVector=!!(lg.vec&&lg.vimg&&lg.vsvg&&/viewBox="0 0 [\d.]+ [\d.]+"/.test(lg.vsvg)&&/ width="[\d.]+"/.test(lg.vsvg)&&vecPaths(lg).length);
       if(pdfVectorReady(lg)){
-        hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
+        await hybridRotation(pdf,cl,cx,cy,()=>vecCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,false,colorMode));
         vectors++;return;
       }
       const original=originalTiles.get(li);
       if(original){
-        hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
+        await hybridRotation(pdf,cl,cx,cy,()=>imgCell(pdf,lg,physicalLayout,cx,cy,cellShape,bleed,original));
         nativeImages++;return;
       }
       const tileKey=[lg.id,cellShape,physicalLayout.w,physicalLayout.h,bleed,dpi].join(':');
       let tile=rasterTiles.get(tileKey);
       if(!tile){tile=hybridRasterTile(lg,physicalLayout,cellShape,bleed,dpi);rasterTiles.set(tileKey,tile)}
-      hybridRotation(pdf,cl,cx,cy,()=>isCmyk
-        ?addCmykCanvas(pdf,tile.canvas,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias)
-        :pdf.addImage(tile.data,tile.fmt,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias,'SLOW'));
+      await hybridRotation(pdf,cl,cx,cy,async()=>{
+        if(isCmyk)await addCmykCanvas(pdf,tile.canvas,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias);
+        else pdf.addImage(tile.data,tile.fmt,cx-tile.w/2,cy-tile.h/2,tile.w,tile.h,tile.alias,'SLOW');
+      });
       rasterized++;
     });
     drawSheetMarksPdf(pdf,L,colorMode);
@@ -4121,6 +4328,8 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
       drawSheetMarksPdf(pdf,L,colorMode);
       drawCutContoursPdf(pdf,L,colorMode);
     }
+    await new Promise(resolve=>setTimeout(resolve,0));
+    throwIfLoaderCancelled();
     LASTINFO=`PDF Hybrid: ${vectors} vector sticker placement(s), ${nativeImages} original-resolution PNG/JPEG placement(s) reused from one embedded image per design, and ${rasterized} pixel-edited raster placement(s) at up to ${dpi} DPI (capped by source resolution). Cut contours and registration marks remain vector${includeCutPage?'; page 1 has artwork and registration marks, page 2 has matching registration marks and vector cut contours':includeCutLines&&$('vcut').checked?'; vector cut contours included':'; no cut contours'}${isCmyk?'; artwork requiring pixel edits and marks use generic DeviceCMYK, with no embedded ICC profile':''}.`;
     const name=sheetFileName('pdf').replace(/\.pdf$/,`${fileSuffix}${isCmyk?'-cmyk':''}.pdf`),blob=pdf.output('blob');
     if(fileSuffix.startsWith('-artwork-registration')&&!includeCutLines&&!includeEdgeText)COREL_PAIR_SIGNATURE=corelPairSignature(L,colorMode);
@@ -4128,6 +4337,11 @@ async function exportPdfHybrid(includeCutLines=true,fileSuffix='-hybrid',include
     await saveFile(name,blob);
   }catch(err){
     busy(false);
+    if(isCancellationError(err)){
+      $('dlstatus').textContent=(includeCutPage?'Two-page print + cut PDF':'PDF Hybrid')+' export canceled.';
+      if(returnBlob)throw err;
+      return;
+    }
     $('dlstatus').textContent=(includeCutPage?'Two-page print + cut PDF':'PDF Hybrid')+' failed: '+((err&&err.message)||err)+(includeCutLines?'. Switching to PDF Legacy.':'');
     if(returnBlob)throw err;
     if(!includeCutLines)return;
@@ -4141,6 +4355,7 @@ $('pdf-corel-art').onclick=()=>exportPdfHybrid(false,'-artwork-registration',fal
 $('pdf-two-page').onclick=()=>exportPdfHybrid(false,'-print-and-cut',true,false,getPdfColorMode(),true);
 async function createCutContoursPdf(requireSavedArtwork=true,colorMode=getPdfColorMode()){
   await ensureCurrentTraces();
+  throwIfLoaderCancelled();
   const L=calc(),signature=corelPairSignature(L,colorMode);
   if(requireSavedArtwork&&COREL_PAIR_SIGNATURE!==signature){
     throw new Error(COREL_PAIR_SIGNATURE?'Settings or sticker artwork changed since PDF 1. Download PDF 1 again, then create PDF 2.':'Download PDF 1 first so PDF 2 uses the exact same upload and settings.');
@@ -4159,7 +4374,7 @@ $('pdf-corel-cut').onclick=async()=>{
     LASTINFO='Cut-contours PDF: magenta vector cut paths and black registration marks matching the artwork PDF. Import over the artwork PDF without resizing or repositioning.';
     await saveFile(result.name,result.blob);
   }catch(err){
-    $('dlstatus').textContent='Could not create cut-contours PDF: '+((err&&err.message)||err);
+    $('dlstatus').textContent=isCancellationError(err)?'Cut-contours PDF export canceled.':'Could not create cut-contours PDF: '+((err&&err.message)||err);
   }
   busy(false);
 };
@@ -4175,13 +4390,15 @@ async function createStoredZip(entries){
     if(size>0xffffffff||offset>0xffffffff)throw new Error('ZIP64 is required for files larger than 4 GB.');
     let crc=0xffffffff;
     for(let start=0;start<size;start+=1024*1024){
+      throwIfLoaderCancelled();
       const bytes=new Uint8Array(await entry.blob.slice(start,Math.min(start+1024*1024,size)).arrayBuffer());
       for(const byte of bytes){
         crc^=byte;
         for(let bit=0;bit<8;bit++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);
       }
-      $('loadmsg').textContent=`Packaging ${entry.name} for ZIP... ${Math.min(100,Math.round((start+bytes.length)/size*100))}%`;
+      updateBusyMessage(`Packaging ${entry.name} for ZIP... ${Math.min(100,Math.round((start+bytes.length)/size*100))}%`);
       await pause();
+      throwIfLoaderCancelled();
     }
     crc=(crc^0xffffffff)>>>0;
     const local=new Uint8Array(30+name.length),localView=new DataView(local.buffer);
@@ -4228,14 +4445,14 @@ $('pdf-corel-zip').onclick=async()=>{
     const zipName=sheetFileName('pdf').replace(/\.pdf$/,`-corel-synced${colorMode==='cmyk'?'-cmyk':''}.zip`);
     await saveFile(zipName,zip);
   }catch(err){
-    $('dlstatus').textContent='Could not create synchronized PDF ZIP: '+((err&&err.message)||err);
+    $('dlstatus').textContent=isCancellationError(err)?'Synchronized PDF ZIP export canceled.':'Could not create synchronized PDF ZIP: '+((err&&err.message)||err);
   }finally{busy(false)}
 };
 $('svg').onclick=async()=>{
   busy(true,'Creating SVG...');await pause();
   try{
     const L=calc(),s=$('shape').value,f=n=>n.toFixed(3);let g='';
-    forCells(L,(cx,cy,li,cl)=>{
+    await forCellsYielding(L,async(cx,cy,li,cl)=>{
       cx+=+$('cox').value||0;cy+=+$('coy').value||0;
       const cellShape=shapeForLogo(li,s);
       const physicalLayout=logoLayout(li,L,s).L;
@@ -4250,13 +4467,13 @@ $('svg').onclick=async()=>{
     });
     const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}"><g id="Registrasi">${marksSvg()}</g><g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${g}</g></svg>`;
     await saveFile(sheetFileName('svg'),new Blob([svg],{type:'image/svg+xml'}));
-  }catch(err){$('dlstatus').textContent='Could not create SVG: '+((err&&err.message)||err)}
+  }catch(err){$('dlstatus').textContent=isCancellationError(err)?'SVG export canceled.':'Could not create SVG: '+((err&&err.message)||err)}
   busy(false);
 };
-function createSvgCutContours(){
+async function createSvgCutContours(){
   const L=calc(),shape=$('shape').value,f=n=>n.toFixed(3);
   let contours='';
-  forCells(L,(cx,cy,li,cl)=>{
+  await forCellsYielding(L,async(cx,cy,li,cl)=>{
     cx+=+$('cox').value||0;cy+=+$('coy').value||0;
     const cellShape=shapeForLogo(li,shape);
     const logoL=logoLayout(li,L,shape).L;
@@ -4277,8 +4494,9 @@ $('svg-contour').onclick=async()=>{
   await pause();
   try{
     LASTINFO='Vector SVG includes cut contours and registration marks based on your settings, without raster images.';
-    await saveFile(sheetFileName('svg').replace(/\.svg$/,'-tanpa-gambar.svg'),createSvgCutContours());
-  }catch(err){$('dlstatus').textContent='Could not create SVG without images: '+((err&&err.message)||err)}
+    const blob=await createSvgCutContours();
+    await saveFile(sheetFileName('svg').replace(/\.svg$/,'-tanpa-gambar.svg'),blob);
+  }catch(err){$('dlstatus').textContent=isCancellationError(err)?'Contour SVG export canceled.':'Could not create SVG without images: '+((err&&err.message)||err)}
   busy(false);
 };
 async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false,fileSuffix=null){
@@ -4300,15 +4518,18 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
     try{
       const rasterTiles=new Map(),originalTiles=new Map(),vectorTiles=new Map(),nativeClips=[],logoCount=new Set(L.assign.filter(i=>i>=0)).size;let vectorCount=0;
       for(const li of L.assign){
+        throwIfLoaderCancelled();
         if(li<0||rasterTiles.has(li)||originalTiles.has(li)||vectorTiles.has(li))continue;
-        $('loadmsg').textContent=`Preparing image ${rasterTiles.size+originalTiles.size+vectorTiles.size+1} of ${logoCount} at ${dpi} DPI...`;
+        updateBusyMessage(`Preparing image ${rasterTiles.size+originalTiles.size+vectorTiles.size+1} of ${logoCount} at ${dpi} DPI...`);
         await pause();
+        throwIfLoaderCancelled();
         const vector=svgVectorSource(logos[li]);
         if(vector){
           vectorTiles.set(li,vector);
           vectorCount++;continue;
         }
         const original=await originalRasterSource(logos[li]);
+        throwIfLoaderCancelled();
         if(original){
           originalTiles.set(li,original);
           continue;
@@ -4316,12 +4537,25 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         const {cellShape,logoLayout,tileW,tileH}=tileSizeFor(li);
         const tileDpi=Math.min(dpi,safeDpiForTile(tileW,tileH),sourceResolutionDpi(logos[li],logoLayout));
         const tile=getTile(logos[li],logoLayout,cellShape,bleed,tileDpi/25.4);
+        throwIfLoaderCancelled();
         const png=await new Promise((resolve,reject)=>tile.toBlob(blob=>blob?resolve(blob):reject(new Error('The browser could not save the image for SVG.')),'image/png'));
+        throwIfLoaderCancelled();
         const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error||new Error('Could not read the exported image.'));reader.readAsDataURL(png)});
         rasterTiles.set(li,{dataUrl,tileW,tileH});
       }
       let images='',copyIndex=0;
-      forCells(L,(cx,cy,li,cl)=>{
+      const sharedImages=new Map(),sharedImageDefs=[];
+      // Tiap sumber raster disimpan sekali; tiap stiker merujuknya dengan use.
+      const addSharedImage=(key,dataUrl,width,height)=>{
+        let id=sharedImages.get(key);
+        if(!id){
+          id=`sheet-art-${sharedImages.size}`;
+          sharedImages.set(key,id);
+          sharedImageDefs.push(`<image id="${id}" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="none" xlink:href="${dataUrl}"/>`);
+        }
+        return id;
+      };
+      await forCellsYielding(L,async(cx,cy,li,cl)=>{
         const {cellShape,logoLayout}=tileSizeFor(li);
         if(originalTiles.has(li)){
           const lg=logos[li],original=originalTiles.get(li),sc=fitScale(lg,logoLayout.w,logoLayout.h);
@@ -4334,7 +4568,8 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
           const underlay=cellShape==='design'
             ?`<rect x="${cx-logoLayout.w}" y="${cy-logoLayout.h}" width="${2*logoLayout.w}" height="${2*logoLayout.h}" fill="${background}"/>`
             :`<path d="${outer}" fill="${lg.bw>0?lg.bc:background}"/>${lg.bw>0?`<path d="${inner}" fill="${background}"/>`:''}`;
-          const image=`<image x="${imgX}" y="${imgY}" width="${original.iw*sc}" height="${original.ih*sc}" preserveAspectRatio="none" xlink:href="${original.dataUrl}"/>`;
+          const imageId=addSharedImage(`original-${li}`,original.dataUrl,original.iw*sc,original.ih*sc);
+          const image=`<use href="#${imageId}" xlink:href="#${imageId}" x="${imgX}" y="${imgY}"/>`;
           const artwork=cellShape==='design'?image:`<g clip-path="url(#${clipId})">${image}</g>`;
           images+=svgCellRotation(cl,cx,cy,underlay+artwork);
           return;
@@ -4360,11 +4595,12 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
           return;
         }
         const tile=rasterTiles.get(li),x=cx-tile.tileW/2,y=cy-tile.tileH/2;
-        images+=svgCellRotation(cl,cx,cy,`<image x="${x}" y="${y}" width="${tile.tileW}" height="${tile.tileH}" preserveAspectRatio="none" xlink:href="${tile.dataUrl}"/>`);
+        const imageId=addSharedImage(`raster-${li}`,tile.dataUrl,tile.tileW,tile.tileH);
+        images+=svgCellRotation(cl,cx,cy,`<use href="#${imageId}" xlink:href="#${imageId}" x="${x}" y="${y}"/>`);
       });
       const f=n=>n.toFixed(3),shape=$('shape').value;
       let cuts='';
-      if(includeCutLines&&$('vcut').checked)forCells(L,(cx,cy,li,cl)=>{
+      if(includeCutLines&&$('vcut').checked)await forCellsYielding(L,async(cx,cy,li,cl)=>{
         cx+=+$('cox').value||0;cy+=+$('coy').value||0;
         const {cellShape,logoLayout}=tileSizeFor(li),x=cx-logoLayout.w/2,y=cy-logoLayout.h/2;
         let contour;
@@ -4383,17 +4619,22 @@ async function exportSvgSheet(hybrid=false,includeCutLines=true,returnBlob=false
         credit=`<image x="${edge.x}" y="${edge.y}" width="${edge.width}" height="${edge.height}" preserveAspectRatio="none" xlink:href="${edge.canvas.toDataURL('image/png')}"/>`;
       }
       const cutLayer=cuts?`<g id="${cutName()}" fill="none" stroke="${CUT_CONTOUR_COLOR}" stroke-width="${CUT_CONTOUR_WIDTH}">${cuts}</g>`:'';
-      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${nativeClips.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
-      LASTINFO=`${hybrid?'SVG Hybrid':'Sheet SVG'}: ${vectorCount} vectorized design(s) remain vector; eligible PNG/JPEG sources are embedded at original resolution and pixel-processed artwork is rasterized at up to ${dpi} DPI, capped by source resolution and device limits. Images are embedded inline for each placement for CorelDRAW compatibility, which can increase file size. Cut paths and registration marks remain vector${includeCutLines&&$('vcut').checked?'.':'; no cut contours are included.'}`;
+      const svg=`<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${W}mm" height="${H}mm" viewBox="0 0 ${W} ${H}">${bg}<defs>${nativeClips.join('')}${sharedImageDefs.join('')}</defs><g id="Gambar">${images}</g><g id="Registrasi">${marksSvg()}${credit}</g>${cutLayer}</svg>`;
+      throwIfLoaderCancelled();
+      LASTINFO=`${hybrid?'SVG Hybrid':'Sheet SVG'}: ${vectorCount} vectorized design(s) remain vector; each eligible PNG/JPEG source is embedded once and reused with SVG use references. Pixel-processed artwork is rasterized at up to ${dpi} DPI, capped by source resolution and device limits. Cut paths and registration marks remain vector${includeCutLines&&$('vcut').checked?'.':'; no cut contours are included.'}`;
       const blob=new Blob([svg],{type:'image/svg+xml'});
       const suffix=fileSuffix||(hybrid?'-hybrid':'-lembar'),name=sheetFileName('svg').replace(/\.svg$/,`${suffix}.svg`);
       if(returnBlob){result={name,blob};break}
       await saveFile(name,blob);
       break;
     }catch(err){
+      if(isCancellationError(err)){
+        $('dlstatus').textContent=(hybrid?'SVG Hybrid':'Sheet SVG')+' export canceled.';
+        break;
+      }
       const lower=Math.floor(dpi*0.8);
       if(lower<72||lower>=dpi){$('dlstatus').textContent=(hybrid?'SVG Hybrid':'Sheet SVG')+' export failed: '+((err&&err.message)||err);break}
-      if(lowerAutomatically){dpi=lower;$('loadmsg').textContent=`Device limits reached; trying sheet SVG at ${dpi} DPI...`;await pause();continue}
+      if(lowerAutomatically){dpi=lower;updateBusyMessage(`Device limits reached; trying sheet SVG at ${dpi} DPI...`);await pause();continue}
       const detail=`Each image is rendered at ${dpi} DPI.`;
       const choice=await askExportFallback(`The browser could not prepare images for the ${hybrid?'SVG Hybrid':'sheet SVG'}. Lowering raster resolution will retry progressively.`,detail,lower);
       if(choice==='cancel'){$('dlstatus').textContent=(hybrid?'SVG Hybrid':'Sheet SVG')+' export canceled.';break}
@@ -4433,20 +4674,26 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
       if(!ctx)throw new Error('The browser could not create the sheet image.');
       ctx.setTransform(ppm,0,0,ppm,0,0);
       ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-      const tiles=new Map(),logoCount=new Set(L.assign.filter(i=>i>=0)).size;
-      forCells(L,(cx,cy,li,cl)=>{
+      const tiles=new Map(),totalStickers=L.assign.filter(index=>index>=0).length;
+      const progressStep=Math.max(1,Math.ceil(totalStickers/20));
+      let renderedStickers=0;
+      await forCellsYielding(L,async(cx,cy,li,cl)=>{
         if(li<0)return;
         const cellShape=shapeForLogo(li,shape),logo=logos[li],physical=logoLayout(li,L,shape).L;
         const key=`${li}:${cellShape}:${physical.w}:${physical.h}`;
         let tile=tiles.get(key);
         if(!tile){
-          $('loadmsg').textContent=`Rendering sticker ${tiles.size+1} of ${logoCount} at ${dpi} DPI...`;
+          updateBusyMessage(`Preparing artwork tile ${tiles.size+1} at ${dpi} DPI...`);
           tile=getTile(logo,physical,cellShape,bleed,ppm);tiles.set(key,tile);
         }
+        throwIfLoaderCancelled();
         const tw=physical.w+2*bleed,th=physical.h+2*bleed;
         ctx.save();ctx.translate(cx,cy);
         if(cl.rot)ctx.rotate(cl.rot*Math.PI/180);
         ctx.drawImage(tile,-tw/2,-th/2,tw,th);ctx.restore();
+        renderedStickers++;
+        if(renderedStickers===1||renderedStickers%progressStep===0||renderedStickers===totalStickers)
+          updateBusyMessage(`Rendering sticker ${renderedStickers} of ${totalStickers} at ${dpi} DPI...`);
       });
       const png=await new Promise((resolve,reject)=>page.toBlob(blob=>blob?resolve(blob):reject(new Error('The browser could not save the sheet image.')),'image/png'));
       const dataUrl=await new Promise((resolve,reject)=>{
@@ -4456,7 +4703,7 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
       });
       const f=n=>n.toFixed(3);
       let cuts='';
-      if(includeCutLines&&$('vcut').checked)forCells(L,(cx,cy,li,cl)=>{
+      if(includeCutLines&&$('vcut').checked)await forCellsYielding(L,async(cx,cy,li,cl)=>{
         cx+=+$('cox').value||0;cy+=+$('coy').value||0;
         const cellShape=shapeForLogo(li,shape),physical=logoLayout(li,L,shape).L,x=cx-physical.w/2,y=cy-physical.h/2;
         let contour;
@@ -4486,9 +4733,13 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
       break;
     }catch(err){
       if(page){page.width=page.height=1}
+      if(isCancellationError(err)){
+        $('dlstatus').textContent='CorelDRAW SVG export canceled.';
+        break;
+      }
       const lower=Math.max(72,Math.min(Math.floor(dpi*0.8),maxDpi));
       if(lower>=dpi){$('dlstatus').textContent='CorelDRAW SVG export failed at the lowest safe resolution: '+((err&&err.message)||err);break}
-      if(lowerAutomatically){dpi=lower;$('loadmsg').textContent=`Device limits reached; retrying CorelDRAW SVG at ${dpi} DPI...`;await pause();continue}
+      if(lowerAutomatically){dpi=lower;updateBusyMessage(`Device limits reached; retrying CorelDRAW SVG at ${dpi} DPI...`);await pause();continue}
       const choice=await askExportFallback('The browser could not render the CorelDRAW SVG sheet. Lowering its raster resolution will retry progressively.',`The whole sheet is rendered as one image at ${dpi} DPI.`,lower);
       if(choice==='cancel'){$('dlstatus').textContent='CorelDRAW SVG export canceled.';break}
       if(choice==='lower'){dpi=lower;lowerAutomatically=true}
@@ -4499,8 +4750,8 @@ async function exportSvgCorel(includeCutLines=true,fileSuffix='-corel',includeEd
   return result;
 }
 $('svg-corel').onclick=exportSvgCorel;
-function svgPairCutFile(){
-  const blob=createSvgCutContours();
+async function svgPairCutFile(){
+  const blob=await createSvgCutContours();
   const name=sheetFileName('svg').replace(/\.svg$/,'-marks-contours.svg');
   return {name,blob};
 }
@@ -4527,11 +4778,11 @@ $('svg-marks-contours').onclick=async()=>{
   busy(true,'Creating synchronized contour SVG...');
   await pause();
   try{
-    const cutting=svgPairCutFile();
+    const cutting=await svgPairCutFile();
     if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG. Please download SVG 1 again.');
     LASTINFO='SVG 2 of 2: the matching registration marks + cut contours, without sticker artwork.';
     await saveFile(cutting.name,cutting.blob);
-  }catch(error){$('dlstatus').textContent='Could not create synchronized contour SVG: '+((error&&error.message)||error)}
+  }catch(error){$('dlstatus').textContent=isCancellationError(error)?'Synchronized contour SVG export canceled.':'Could not create synchronized contour SVG: '+((error&&error.message)||error)}
   finally{busy(false)}
 };
 $('svg-pair-zip').onclick=async()=>{
@@ -4540,9 +4791,13 @@ $('svg-pair-zip').onclick=async()=>{
   try{
     const signature=svgPairSignature(calc());
     const artwork=await exportSvgSheet(false,false,true,'-stickers-marks');
-    if(!artwork)throw new Error('Could not create the sticker + marks SVG.');
+    if(!artwork){
+      if(/export canceled\.$/.test($('dlstatus').textContent))throw cancellationError();
+      throw new Error('Could not create the sticker + marks SVG.');
+    }
     if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG files. Please run the ZIP export again.');
-    const cutting=svgPairCutFile();
+    busy(true,'Creating synchronized contour SVG...');await pause();
+    const cutting=await svgPairCutFile();
     if(svgPairSignature(calc())!==signature)throw new Error('Settings changed while preparing the SVG files. Please run the ZIP export again.');
     busy(true,'Packaging synchronized SVGs into ZIP...');
     const zip=await createStoredZip([
@@ -4552,7 +4807,7 @@ $('svg-pair-zip').onclick=async()=>{
     LASTINFO='ZIP contains two synchronized SVGs: sticker artwork + registration marks for printing, and the same registration marks + cut contours for cutting.';
     const zipName=sheetFileName('svg').replace(/\.svg$/,'-sticker-cut-synced.zip');
     await saveFile(zipName,zip);
-  }catch(error){$('dlstatus').textContent='Could not create synchronized SVG ZIP: '+((error&&error.message)||error)}
+  }catch(error){$('dlstatus').textContent=isCancellationError(error)?'Synchronized SVG ZIP export canceled.':'Could not create synchronized SVG ZIP: '+((error&&error.message)||error)}
   finally{busy(false)}
 };
 
@@ -5203,7 +5458,10 @@ render();
 })();
 
 /* ============ Intro, loading, popup, rasio ============ */
-let loadT=null,modalReturnFocus=null;
+let loadT=null,modalReturnFocus=null,activeLoaderController=null,activeLoaderCanCancel=false;
+function cancellationError(){const error=new Error('Operation canceled.');error.name='AbortError';error.cancelled=true;return error}
+function isCancellationError(error){return error?.cancelled===true}
+function throwIfLoaderCancelled(signal=activeLoaderController?.signal){if(signal?.aborted)throw cancellationError()}
 function openModal(dialog,selector){
   if(!dialog.classList.contains('show'))modalReturnFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
   dialog.classList.add('show');requestAnimationFrame(()=>dialog.querySelector(selector)?.focus());
@@ -5221,11 +5479,27 @@ function closeModal(dialog){
   if(modalReturnFocus?.isConnected)modalReturnFocus.focus();
   modalReturnFocus=null;
 }
-function showLoader(m){
+function showLoader(m,cancellable=false){
+  if(!activeLoaderController)activeLoaderController=new AbortController();
+  activeLoaderCanCancel=activeLoaderCanCancel||cancellable;
   $('loadmsg').textContent=m;$('loader').setAttribute('aria-busy','true');$('loader').classList.add('show');
-  clearTimeout(loadT);loadT=setTimeout(()=>{$('loadmsg').textContent='Still processing. Large images may take longer.'},90000);
+  $('loader-cancel').hidden=!activeLoaderCanCancel;$('loader-cancel').disabled=activeLoaderController.signal.aborted;
+  clearTimeout(loadT);loadT=setTimeout(()=>{
+    const message='Still processing. Large images may take longer.';
+    $('loadmsg').textContent=message;
+    if(activeLoaderCanCancel)$('dlstatus').textContent=message;
+  },90000);
 }
-function hideLoader(){$('loader').classList.remove('show');$('loader').setAttribute('aria-busy','false');clearTimeout(loadT)}
+function hideLoader(){
+  $('loader').classList.remove('show');$('loader').setAttribute('aria-busy','false');clearTimeout(loadT);
+  $('loader-cancel').hidden=true;$('loader-cancel').disabled=false;
+  activeLoaderController=null;activeLoaderCanCancel=false;
+}
+$('loader-cancel').onclick=()=>{
+  if(!activeLoaderCanCancel||!activeLoaderController||activeLoaderController.signal.aborted)return;
+  activeLoaderController.abort();$('loader-cancel').disabled=true;$('loadmsg').textContent='Cancelling...';
+  if(activeLoaderCanCancel)$('dlstatus').textContent='Cancelling...';
+};
 function reportAppError(message){
   $('app-error-message').textContent='An unexpected error occurred. '+message+' Check your settings and try again; reload the page if the problem continues.';
   $('app-error').hidden=false;
@@ -5360,9 +5634,9 @@ const PALETTES={
   proletar:['#1E5A50','#D59B3A','#84A99F','#17201E','#EDF3F1','#2F7D70','#B8CBC6','#8FA69F','#E8B75F'],
   rwm:['#EB683C','#FF8752','#FFCFE7','#D33636','#DE74C8','#584CF6','#4D84F5','#479D53','#F9DB48']
 };
-let PAL=PALETTES.proletar;
+let LOGO_PAL=PALETTES.proletar,BG_PAL=PALETTES.proletar;
 const M={logoMode:'solid',bgMode:'transparent'};
-let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false;
+let img=null,ow=0,oh=0,name='logo',tint=null,tintKey='',mesh=[],noise=null,pend=false,sourceBatchFiles=[],sourceThumbUrls=new Map(),selectedSourceIndex=0,fileLoadVersion=0,previewOutput=null,previewOutputUrl='';
 const rnd=n=>Math.floor(Math.random()*n),pick=a=>a[rnd(a.length)];
 function hex2rgb(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16))}
 function lum(h){const c=hex2rgb(h).map(x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
@@ -5371,10 +5645,11 @@ function cmyk(h){let [r,g,b]=hex2rgb(h).map(x=>x/255);const k=1-Math.max(r,g,b);
 function setColor(id,h){$(id).value=h.toLowerCase()}
 
 function renderPalette(){
-  const paletteName=$('palette-select').selectedOptions[0].textContent;
   R.querySelectorAll('.pal').forEach(p=>{
     p.replaceChildren();
-    PAL.forEach(h=>{
+    const logoPalette=!!p.closest('#lgrp'),palette=logoPalette?LOGO_PAL:BG_PAL;
+    const paletteName=$(logoPalette?'logo-palette-select':'bg-palette-select').selectedOptions[0].textContent;
+    palette.forEach(h=>{
       const b=document.createElement('button');
       b.style.background=h;b.title=`${paletteName}: ${h}`;b.setAttribute('aria-label',`${paletteName}: ${h}`);
       b.onclick=()=>{setColor(p.dataset.t,h);sched()};
@@ -5383,7 +5658,8 @@ function renderPalette(){
   });
 }
 renderPalette();
-$('palette-select').addEventListener('change',()=>{PAL=PALETTES[$('palette-select').value];renderPalette()});
+$('logo-palette-select').addEventListener('change',()=>{LOGO_PAL=PALETTES[$('logo-palette-select').value];renderPalette()});
+$('bg-palette-select').addEventListener('change',()=>{BG_PAL=PALETTES[$('bg-palette-select').value];renderPalette()});
 /* mode controls support both Tab/Enter and arrow-key navigation */
 R.querySelectorAll('.tabs').forEach(t=>{
   const buttons=[...t.querySelectorAll('.tab')];
@@ -5416,19 +5692,81 @@ function sync(){
 ['la','lb','lang','ba','bb','bang','pat','pcol','psize','pop','grain','ratio','cw','ch','pad','glow','gcol','scale'].forEach(id=>$(id).addEventListener('input',()=>{$('dl').textContent='Download high-resolution PNG';sync();sched()}));
 
 /* load */
-function loadFile(f){
+function loadFile(f,selectedCount=1){
   if(!f)return;
   const supported=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif|svg\+xml)$/.test(f.type)||/\.(png|jpe?g|webp|gif|bmp|avif|svg)$/i.test(f.name||'');
   if(!supported){alert('Choose a PNG, JPG/JPEG, WebP, GIF, BMP, AVIF, or SVG file.');return}
+  const loadVersion=++fileLoadVersion;
   const u=URL.createObjectURL(f),im=new Image();
   im.onload=()=>{
     URL.revokeObjectURL(u);
+    if(loadVersion!==fileLoadVersion)return;
     const px=im.naturalWidth*im.naturalHeight;
     img=im;ow=im.naturalWidth;oh=im.naturalHeight;name=(f.name||'logo').replace(/\.[^.]+$/,'');tintKey='';
-    $('fstat').textContent=`${f.name} · ${ow} × ${oh} px`;$('stat').textContent='Logo loaded.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
-  im.onerror=()=>{alert('The image file could not be read.');URL.revokeObjectURL(u)};im.src=u;
+    $('fstat').textContent=selectedCount>1?`${selectedCount} images selected · previewing ${f.name} · ${ow} × ${oh} px`:`${f.name} · ${ow} × ${oh} px`;$('source-batch').disabled=sourceBatchFiles.length<2;$('source-variations-batch').disabled=sourceBatchFiles.length<2;$('stat').textContent='Logo loaded.';$('cv').classList.remove('hid');$('empty').classList.add('hid');newMesh();sync();sched()};
+  im.onerror=()=>{URL.revokeObjectURL(u);if(loadVersion===fileLoadVersion)alert('The image file could not be read.')};im.src=u;
 }
-$('file').onchange=e=>{loadFile(e.target.files[0]);e.target.value=''};
+function clearSourceThumbs(){
+  sourceThumbUrls.forEach(url=>URL.revokeObjectURL(url));sourceThumbUrls.clear();$('source-thumbs').replaceChildren();$('source-thumbs').classList.add('hid');
+}
+function clearBatchResults(){
+  clearPreviewOutput();batchFiles=[];batchZip=null;batchZipName='';hideImageTransferQueue();
+  $('zipbox').classList.add('hid');$('thumbs').replaceChildren();$('result-preview-tray').classList.add('hid');
+  $('thumb-help').textContent='Select a thumbnail to save one PNG. Colors use the settings above, and padding, glow, and scale remain unchanged. You can also download all PNGs in one ZIP file.';
+}
+function renderSourceThumbs(){
+  const host=$('source-thumbs');host.replaceChildren();
+  host.classList.toggle('hid',sourceBatchFiles.length<2);
+  if(sourceBatchFiles.length<2){clearSourceThumbs();return}
+  sourceBatchFiles.forEach((file,index)=>{
+    let url=sourceThumbUrls.get(file);
+    if(!url){url=URL.createObjectURL(file);sourceThumbUrls.set(file,url)}
+    const group=document.createElement('div'),select=document.createElement('button'),image=document.createElement('img'),label=document.createElement('span'),remove=document.createElement('button');
+    group.setAttribute('role','group');group.setAttribute('aria-label',`Source image ${index+1}: ${file.name}`);
+    select.type='button';select.className='source-thumb-select';select.setAttribute('aria-pressed',String(index===selectedSourceIndex));select.setAttribute('aria-label',`Preview source image ${index+1}: ${file.name}`);
+    image.src=url;image.alt='';select.appendChild(image);select.onclick=()=>{if(batchBusy)return;selectedSourceIndex=index;renderSourceThumbs();loadFile(file,sourceBatchFiles.length)};
+    label.className='source-thumb-name';label.textContent=file.name;label.title=file.name;
+    remove.type='button';remove.className='source-thumb-remove';remove.textContent='Remove';remove.setAttribute('aria-label',`Remove source image ${index+1}: ${file.name}`);remove.onclick=()=>removeSourceFile(index);
+    group.append(select,label,remove);host.appendChild(group);
+  });
+}
+function removeSourceFile(index){
+  if(batchBusy||index<0||index>=sourceBatchFiles.length)return;
+  clearBatchResults();
+  const wasSelected=index===selectedSourceIndex,removed=sourceBatchFiles[index],url=sourceThumbUrls.get(removed);
+  sourceBatchFiles.splice(index,1);
+  if(url){URL.revokeObjectURL(url);sourceThumbUrls.delete(removed)}
+  if(sourceBatchFiles.length<2){
+    const remaining=sourceBatchFiles[0];sourceBatchFiles=[];selectedSourceIndex=0;clearSourceThumbs();
+    $('source-batch-controls').classList.add('hid');$('source-batch-status').textContent='';
+    if(remaining)loadFile(remaining,1);
+    return;
+  }
+  if(index<selectedSourceIndex)selectedSourceIndex--;
+  else if(wasSelected)selectedSourceIndex=Math.min(index,sourceBatchFiles.length-1);
+  renderSourceThumbs();
+  $('source-batch-status').textContent=`${sourceBatchFiles.length} images selected. The current settings will be applied to each.`;
+  if(wasSelected)loadFile(sourceBatchFiles[selectedSourceIndex],sourceBatchFiles.length);
+  else{$('fstat').textContent=`${sourceBatchFiles.length} images selected · previewing ${sourceBatchFiles[selectedSourceIndex].name} · ${ow} × ${oh} px`;sched()}
+}
+function selectStudioFiles(fileList){
+  if(batchBusy)return;
+  const files=Array.from(fileList||[]);
+  if(!files.length)return;
+  clearBatchResults();
+  clearSourceThumbs();
+  if(files.length>100){sourceBatchFiles=[];$('source-batch-controls').classList.add('hid');$('fstat').textContent='Select no more than 100 images at a time.';return}
+  sourceBatchFiles=files.length>1?files:[];
+  selectedSourceIndex=0;
+  renderSourceThumbs();
+  $('source-batch-controls').classList.toggle('hid',sourceBatchFiles.length<2);
+  $('source-batch').disabled=sourceBatchFiles.length<2;
+  $('source-variations-batch').disabled=sourceBatchFiles.length<2;
+  $('source-batch-status').textContent='';
+  if(sourceBatchFiles.length>1)$('source-batch-status').textContent=`${sourceBatchFiles.length} images selected. The current settings will be applied to each.`;
+  loadFile(files[0],files.length);
+}
+$('file').onchange=e=>{selectStudioFiles(e.target.files);e.target.value=''};
 window.addEventListener('background-image',e=>{
   const file=new File([e.detail.blob],e.detail.name,{type:e.detail.type||e.detail.blob.type||'image/png'});
   loadFile(file);
@@ -5436,7 +5774,7 @@ window.addEventListener('background-image',e=>{
 const dz=$('drop');dz.tabIndex=0;dz.setAttribute('role','button');dz.setAttribute('aria-label','Pilih atau jatuhkan gambar logo');$('file').tabIndex=-1;$('file').setAttribute('aria-hidden','true');dz.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();$('file').click()}});
 ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
 ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
-dz.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
+dz.addEventListener('drop',e=>selectStudioFiles(e.dataTransfer.files));
 
 /* drawing */
 function lin(c,w,h,deg,a,b){const r=deg*Math.PI/180,cx=w/2,cy=h/2,len=Math.abs(w*Math.cos(r))+Math.abs(h*Math.sin(r)),dx=Math.cos(r)*len/2,dy=Math.sin(r)*len/2;const g=c.createLinearGradient(cx-dx,cy-dy,cx+dx,cy+dy);g.addColorStop(0,a);g.addColorStop(1,b);return g}
@@ -5449,7 +5787,7 @@ function tinted(){
 }
 function ratioVal(){const r=v('ratio');if(r==='orig')return 0;if(r==='custom')return Math.max(1,+v('cw')||1)/Math.max(1,+v('ch')||1);const [a,b]=r.split(':').map(Number);return a/b}
 function layout(){const p=+v('pad')/100,W0=ow/(1-2*p),H0=oh/(1-2*p),r=ratioVal();if(!r)return {W:Math.round(W0),H:Math.round(H0)};const W=Math.max(W0,H0*r);return {W:Math.round(W),H:Math.round(W/r)}}
-function newMesh(){mesh=[];for(let i=0;i<5;i++)mesh.push({x:Math.random(),y:Math.random(),r:.45+Math.random()*.5,c:pick(PAL)})}
+function newMesh(){mesh=[];for(let i=0;i<5;i++)mesh.push({x:Math.random(),y:Math.random(),r:.45+Math.random()*.5,c:pick(BG_PAL)})}
 function noiseTile(){if(noise)return noise;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),d=x.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const g=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=g;d.data[i+3]=255}x.putImageData(d,0,0);return noise=c}
 function drawPattern(x,W,H,k){
   const t=v('pat');if(t==='none')return;const s=+v('psize')*k;x.save();x.globalAlpha=+v('pop')/100;x.fillStyle=x.strokeStyle=v('pcol');x.lineWidth=Math.max(1,s*.1);
@@ -5477,7 +5815,9 @@ function render(c,k){
   return {w,h};
 }
 function frame(){
-  pend=false;if(!img)return;
+  pend=false;
+  if(previewOutput){drawPreviewOutput();return}
+  if(!img)return;
   const {W,H}=layout(),k=Math.min(1,900/Math.max(W,H));
   const o=render($('cv'),k);
   const s=+v('scale');$('size').textContent=`Canvas size: ${W*s} × ${H*s} px (preview ${o.w} × ${o.h})`;
@@ -5490,18 +5830,94 @@ function frame(){
     $('cmyk').textContent=M.logoMode==='gradient'?`${first} → ${format(cmyk(v('lb')))} (simulation)`:`${first} (simulation)`;
   }
 }
-function sched(){if(pend)return;pend=true;requestAnimationFrame(frame)}
+function drawPreviewOutput(){
+  if(!previewOutput)return;
+  const image=previewOutput.image,k=Math.min(1,900/Math.max(image.naturalWidth,image.naturalHeight));
+  const canvas=$('cv');canvas.width=Math.max(1,Math.round(image.naturalWidth*k));canvas.height=Math.max(1,Math.round(image.naturalHeight*k));
+  const context=canvas.getContext('2d');
+  if(!context){$('stat').textContent='The selected PNG preview is unavailable in this browser.';return}
+  context.drawImage(image,0,0,canvas.width,canvas.height);
+  $('size').textContent=`Previewing selected PNG: ${image.naturalWidth} × ${image.naturalHeight} px`;
+  $('dl').textContent='Download selected PNG';
+}
+function clearPreviewOutput(){
+  if(previewOutput&&previewOutput.button)previewOutput.button.setAttribute('aria-pressed','false');
+  previewOutput=null;
+  if(previewOutputUrl)URL.revokeObjectURL(previewOutputUrl);
+  previewOutputUrl='';$('dl').textContent='Download high-resolution PNG';
+}
+function showPreviewOutput(file,button){
+  clearPreviewOutput();
+  const url=URL.createObjectURL(new Blob([file.data],{type:'image/png'})),image=new Image();
+  previewOutputUrl=url;
+  image.onload=()=>{
+    if(previewOutputUrl!==url){URL.revokeObjectURL(url);return}
+    previewOutput={file,image,button};button.setAttribute('aria-pressed','true');drawPreviewOutput();
+    $('stat').textContent=`Previewing ${file.name}. Download the selected PNG or the ZIP.`;
+  };
+  image.onerror=()=>{
+    if(previewOutputUrl===url){previewOutputUrl='';URL.revokeObjectURL(url)}
+    $('stat').textContent=`Could not preview ${file.name}.`;
+  };
+  image.src=url;
+}
+function appendResultThumbnail(file,thumbnail,action='preview'){
+  const group=document.createElement('div'),actionButton=document.createElement('button'),removeButton=document.createElement('button');
+  const sendLabel=document.createElement('label'),sendCheckbox=document.createElement('input'),sendText=document.createElement('span');
+  const preview=action==='preview';
+  group.className='result-thumb';
+  actionButton.type='button';actionButton.className='output-preview';actionButton.setAttribute('aria-label',`${preview?'Preview':'Download'} ${file.name}`);
+  if(preview)actionButton.setAttribute('aria-pressed','false');
+  actionButton.title=`${preview?'Preview':'Download'} ${file.name}`;
+  thumbnail.alt='';actionButton.appendChild(thumbnail);
+  if(preview)actionButton.addEventListener('click',()=>showPreviewOutput(file,actionButton));
+  else actionButton.addEventListener('click',()=>saveDirectFile(file.name,new Blob([file.data],{type:'image/png'}),$('stat')));
+  sendLabel.className='result-thumb-send';
+  sendCheckbox.type='checkbox';sendCheckbox._resultFile=file;sendCheckbox.setAttribute('aria-label',`Select ${file.name} for direct sending`);
+  sendText.textContent='Send';sendLabel.append(sendCheckbox,sendText);
+  removeButton.type='button';removeButton.className='result-thumb-remove';removeButton.textContent='Remove result';
+  removeButton.setAttribute('aria-label',`Remove result ${file.name} from preview and downloads`);removeButton.disabled=batchBusy;
+  removeButton.addEventListener('click',()=>removeBatchResult(file,group));
+  group.append(actionButton,sendLabel,removeButton);$('thumbs').appendChild(group);
+  $('result-preview-tray').classList.remove('hid');
+}
+function enableResultRemoval(){
+  R.querySelectorAll('.result-thumb-remove').forEach(button=>{button.disabled=false});
+}
+function removeBatchResult(file,group){
+  if(batchBusy)return;
+  const index=batchFiles.indexOf(file);
+  if(index<0)return;
+  const nextFiles=batchFiles.filter((_,fileIndex)=>fileIndex!==index);
+  let nextZip=null;
+  try{if(nextFiles.length)nextZip=makeZip(nextFiles)}
+  catch(error){$('stat').textContent='Could not remove this result from the ZIP: '+((error&&error.message)||error);return}
+  const removedPreview=previewOutput&&previewOutput.file===file;
+  batchFiles=nextFiles;batchZip=nextZip;group.remove();pruneImageTransferQueue(file);
+  if(removedPreview){clearPreviewOutput();sched()}
+  if(!nextFiles.length){
+    batchZipName='';$('zipbox').classList.add('hid');$('result-preview-tray').classList.add('hid');
+    const message='No result images remain. The source images are unchanged; generate results again to create a new batch.';
+    $('stat').textContent=message;$('source-batch-status').textContent=message;return;
+  }
+  const zipBase=batchZipName.replace(/-(?:processed-\d+|batch-\d+png|\d+images-\d+each-\d+png|results-\d+png)\.zip$/,'');
+  batchZipName=`${zipBase}-results-${nextFiles.length}png.zip`;
+  $('zipbtn').textContent=`Download ZIP (${nextFiles.length} PNG, ${(nextZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+  const message=`Removed ${file.name} from results and downloads. ${nextFiles.length} PNG ${nextFiles.length===1?'remains':'remain'}; source images are unchanged.`;
+  $('stat').textContent=message;$('source-batch-status').textContent=message;
+}
+function sched(){clearPreviewOutput();if(pend)return;pend=true;requestAnimationFrame(frame)}
 
 /* randomizers */
 function rndLogo(){
-  const a=pick(PAL);let b=pick(PAL);while(b===a)b=pick(PAL);
+  const a=pick(LOGO_PAL);let b=pick(LOGO_PAL);while(b===a)b=pick(LOGO_PAL);
   if(M.logoMode==='orig')M.logoMode='solid';
   setColor('la',a);setColor('lb',b);if(M.logoMode==='gradient')$('lang').value=rnd(361);
 }
 function rndBg(){
   M.bgMode=pick(['solid','gradient','radial','mesh','gradient','mesh']);
   const L=v('la');let a,b,t=0;
-  do{a=pick(PAL);b=pick(PAL);t++}while((a===b||contrast(a,L)<1.6)&&t<40);
+  do{a=pick(BG_PAL);b=pick(BG_PAL);t++}while((a===b||contrast(a,L)<1.6)&&t<40);
   setColor('ba',a);setColor('bb',b);$('bang').value=rnd(361);newMesh();
   $('pat').value=Math.random()<.4?pick(['dots','stripes','grid','rings']):'none';
   setColor('pcol',lum(a)>.5?'#17172b':'#ffffff');$('psize').value=24+rnd(80);$('pop').value=12+rnd(25);
@@ -5570,12 +5986,12 @@ let batchBusy=false,batchFiles=[],batchZip=null,batchZipName='';
 const checkedModes=id=>[...R.querySelectorAll(`#${id} input:checked`)].map(input=>input.value);
 function randomizeBatch(logoModes,bgModes,withPattern,withRatio){
   M.logoMode=pick(logoModes);M.bgMode=pick(bgModes);
-  const a=pick(PAL);let b=pick(PAL);while(b===a)b=pick(PAL);
+  const a=pick(LOGO_PAL);let b=pick(LOGO_PAL);while(b===a)b=pick(LOGO_PAL);
   setColor('la',a);setColor('lb',b);$('lang').value=rnd(361);
   if(M.bgMode!=='transparent'){
     let first,second,tries=0;
     const minContrast=color=>M.logoMode==='orig'?9:Math.min(contrast(color,a),M.logoMode==='gradient'?contrast(color,b):9);
-    do{first=pick(PAL);second=pick(PAL);tries++}while((first===second||minContrast(first)<1.6)&&tries<60);
+    do{first=pick(BG_PAL);second=pick(BG_PAL);tries++}while((first===second||minContrast(first)<1.6)&&tries<60);
     setColor('ba',first);setColor('bb',second);$('bang').value=rnd(361);newMesh();
     if(withPattern){
       $('pat').value=Math.random()<.45?pick(['dots','stripes','grid','rings']):'none';
@@ -5586,6 +6002,155 @@ function randomizeBatch(logoModes,bgModes,withPattern,withRatio){
   if(withRatio)$('ratio').value=pick(['1:1','4:5','9:16','3:2','16:9','orig']);
 }
 $('bn').addEventListener('input',()=>{$('bnv').textContent=v('bn')});
+function decodeStudioFile(file){
+  return new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file),image=new Image();
+    image.onload=()=>{URL.revokeObjectURL(url);resolve(image)};
+    image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error(`Could not read ${file.name}.`))};
+    image.src=url;
+  });
+}
+async function processSourceFiles(){
+  if(batchBusy||sourceBatchFiles.length<2)return;
+  if(!img){$('source-batch-status').textContent='Choose an image and wait for its preview to load first.';return}
+  const sources=[...sourceBatchFiles],requestedScale=+v('scale');
+  const saved={img,ow,oh,name,tint,tintKey,mesh};
+  const files=[],seenImages=new Map(),failures=[];let totalBytes=0,duplicates=0,shrunk=0,limitReached=false;
+  batchBusy=true;$('source-batch').disabled=true;$('batch').disabled=true;$('dl').disabled=true;$('file').disabled=true;
+  $('prog').classList.remove('hid');$('prog').setAttribute('aria-valuenow','0');$('progi').style.width='0';
+  $('zipbox').classList.add('hid');$('thumbs').replaceChildren();$('result-preview-tray').classList.add('hid');$('dbg').classList.add('hid');
+  $('thumb-help').textContent='Click a processed image to preview it here. Use Download selected PNG or download all PNGs.';
+  clearPreviewOutput();
+  batchFiles=[];batchZip=null;hideImageTransferQueue();
+  try{
+    for(let i=0;i<sources.length;i++){
+      const source=sources[i];
+      try{
+        img=await decodeStudioFile(source);ow=img.naturalWidth;oh=img.naturalHeight;
+        name=(source.name||'image').replace(/\.[^.]+$/,'');tint=null;tintKey='';
+        const rendered=await renderBlob(requestedScale),data=new Uint8Array(await rendered.blob.arrayBuffer());
+        if(isDuplicateImage(data,seenImages)){duplicates++}
+        else if(data.byteLength>64*1024*1024-totalBytes){limitReached=true;break}
+        else{
+          if(rendered.shrunk)shrunk++;
+          const base=customExportBase(name),fileName=`${String(i+1).padStart(3,'0')}-${base}-${rendered.o.w}x${rendered.o.h}.png`;
+          const file={name:fileName,data};files.push(file);totalBytes+=data.byteLength;
+          const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');
+          appendResultThumbnail(file,thumb);
+        }
+      }catch(error){failures.push(`${source.name}: ${(error&&error.message)||error}`)}
+      const percent=Math.round((i+1)/sources.length*100);$('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));
+      $('stat').textContent=`Processing image ${i+1} of ${sources.length} (${percent}%)...`;$('source-batch-status').textContent=$('stat').textContent;
+      await new Promise(resolve=>setTimeout(resolve,0));
+      if(limitReached)break;
+    }
+  }catch(error){
+    failures.push(`Batch processing: ${(error&&error.message)||error}`);
+    dbg('Multi-image processing failed: '+((error&&error.message)||error));
+  }finally{
+    img=saved.img;ow=saved.ow;oh=saved.oh;name=saved.name;tint=saved.tint;tintKey=saved.tintKey;mesh=saved.mesh;sync();sched();
+  }
+  try{
+    if(files.length){
+      batchFiles=files;batchZip=makeZip(files);enableResultRemoval();batchZipName=`${customExportBase('color-studio-images')}-processed-${files.length}.zip`;
+      $('zipbtn').textContent=`Download ZIP (${files.length} PNG, ${(batchZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+      const details=failures.length?` ${failures.length} image${failures.length===1?'':'s'} failed: ${failures.slice(0,3).join('; ')}${failures.length>3?'; and '+(failures.length-3)+' more':''}.`:'';
+      $('stat').textContent=`${files.length} unique PNG ${files.length===1?'file':'files'} ready.`+(duplicates?` ${duplicates} duplicate output${duplicates===1?' was':'s were'} skipped.`:'')+(shrunk?` ${shrunk} image${shrunk===1?' was':'s were'} reduced to fit this device.`:'')+(limitReached?' The 64 MB batch limit was reached; no more images were processed.':'')+details+' Download the ZIP or save PNGs individually.';
+      $('source-batch-status').textContent=$('stat').textContent;
+    }else{
+      const details=failures.length?` ${failures.slice(0,3).join('; ')}${failures.length>3?'; and '+(failures.length-3)+' more':''}`:'';
+      $('stat').textContent=limitReached?'The 64 MB batch limit was reached before a PNG could be added.':`No PNGs were created.${details}`;
+      $('source-batch-status').textContent=$('stat').textContent;
+    }
+  }catch(error){
+    batchFiles=[];batchZip=null;$('zipbox').classList.add('hid');
+    $('stat').textContent='Could not package the processed images as a ZIP: '+((error&&error.message)||error);$('source-batch-status').textContent=$('stat').textContent;
+    dbg('Multi-image export failed: '+((error&&error.message)||error));
+  }finally{
+    batchBusy=false;$('source-batch').disabled=sourceBatchFiles.length<2;$('batch').disabled=false;$('dl').disabled=false;$('file').disabled=false;
+  }
+}
+$('source-batch').onclick=processSourceFiles;
+async function processSourceVariations(){
+  if(batchBusy||sourceBatchFiles.length<2)return;
+  const logoModes=checkedModes('bl'),bgModes=checkedModes('bb2');
+  if(!logoModes.length||!bgModes.length){alert('Select at least one logo color mode and one background mode.');return}
+  const sources=[...sourceBatchFiles],requestedPerImage=+v('bn');
+  const totalSlots=sources.length*requestedPerImage,requestedScale=+v('scale'),withPattern=$('bpat').checked,withRatio=$('brat').checked;
+  const saved={img,ow,oh,name,tint,tintKey,modes:{...M},values:BATCH_SETTINGS.map(id=>v(id)),mesh:mesh.map(point=>({...point}))};
+  const files=[],createdPerSource=Array(sources.length).fill(0),failures=[];let completed=0,duplicates=0,shrunk=0;
+  batchBusy=true;$('source-batch').disabled=true;$('source-variations-batch').disabled=true;$('batch').disabled=true;$('dl').disabled=true;$('file').disabled=true;
+  $('prog').classList.remove('hid');$('prog').setAttribute('aria-valuenow','0');$('progi').style.width='0';
+  $('zipbox').classList.add('hid');$('thumbs').replaceChildren();$('result-preview-tray').classList.add('hid');$('dbg').classList.add('hid');
+  $('thumb-help').textContent='Click a variation to preview it here. Use Download selected PNG or download all PNGs.';
+  clearPreviewOutput();batchFiles=[];batchZip=null;hideImageTransferQueue();
+  const updateProgress=(message)=>{
+    const percent=Math.round(completed/totalSlots*100);
+    $('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));
+    $('stat').textContent=message+` (${percent}%)...`;$('source-batch-status').textContent=$('stat').textContent;
+  };
+  try{
+    for(let sourceIndex=0;sourceIndex<sources.length;sourceIndex++){
+      const source=sources[sourceIndex],seenImages=new Map();
+      try{
+        img=await decodeStudioFile(source);ow=img.naturalWidth;oh=img.naturalHeight;
+        name=(source.name||'image').replace(/\.[^.]+$/,'');tint=null;tintKey='';
+      }catch(error){
+        failures.push(`${source.name}: ${(error&&error.message)||error}`);completed+=requestedPerImage;
+        updateProgress(`Could not load image ${sourceIndex+1} of ${sources.length}`);
+        continue;
+      }
+      for(let variationIndex=0;variationIndex<requestedPerImage;variationIndex++){
+        let rendered,data,isUnique=false;
+        try{
+          for(let attempt=0;attempt<24;attempt++){
+            randomizeBatch(logoModes,bgModes,withPattern,withRatio);sync();
+            rendered=await renderBlob(requestedScale);data=new Uint8Array(await rendered.blob.arrayBuffer());
+            if(!isDuplicateImage(data,seenImages)){isUnique=true;break}
+          }
+        }catch(error){failures.push(`${source.name}, variation ${variationIndex+1}: ${(error&&error.message)||error}`)}
+        if(!isUnique){duplicates++}
+        else{
+          if(rendered.shrunk)shrunk++;
+          const base=customExportBase(name),fileName=`${String(sourceIndex+1).padStart(3,'0')}-${base}-${String(variationIndex+1).padStart(3,'0')}-${M.logoMode}-${M.bgMode}-${rendered.o.w}x${rendered.o.h}.png`;
+          const file={name:fileName,data};files.push(file);createdPerSource[sourceIndex]++;
+          const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');
+          appendResultThumbnail(file,thumb);
+        }
+        completed++;updateProgress(`Creating variation ${variationIndex+1} of ${requestedPerImage} for image ${sourceIndex+1} of ${sources.length}`);
+        await new Promise(resolve=>setTimeout(resolve,0));
+      }
+    }
+  }catch(error){
+    failures.push(`Batch processing: ${(error&&error.message)||error}`);
+    dbg('Multi-image variations failed: '+((error&&error.message)||error));
+  }finally{
+    img=saved.img;ow=saved.ow;oh=saved.oh;name=saved.name;tint=saved.tint;tintKey=saved.tintKey;
+    Object.assign(M,saved.modes);BATCH_SETTINGS.forEach((id,index)=>{$(id).value=saved.values[index]});mesh=saved.mesh;sync();sched();
+  }
+  try{
+    if(files.length){
+      batchFiles=files;batchZip=makeZip(files);enableResultRemoval();
+      batchZipName=`${customExportBase('color-studio-all-images')}-${sources.length}images-${requestedPerImage}each-${files.length}png.zip`;
+      $('zipbtn').textContent=`Download ZIP (${files.length} PNG, ${(batchZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
+      const details=failures.length?` ${failures.length} issue${failures.length===1?'':'s'}: ${failures.slice(0,3).join('; ')}${failures.length>3?'; and '+(failures.length-3)+' more':''}.`:'';
+      $('stat').textContent=`${files.length} unique PNG files created from ${sources.length} images. Requested ${requestedPerImage} variations per logo; actual counts in upload order: ${createdPerSource.join(', ')}.`+(duplicates?` ${duplicates} duplicate variations were skipped.`:'')+(shrunk?` ${shrunk} PNGs were reduced to fit this device.`:'')+details+' Download the ZIP or save PNGs individually.';
+      $('source-batch-status').textContent=$('stat').textContent;
+    }else{
+      const details=failures.length?` ${failures.slice(0,3).join('; ')}${failures.length>3?'; and '+(failures.length-3)+' more':''}`:'';
+      $('stat').textContent=`No unique PNGs were created.${details}`;
+      $('source-batch-status').textContent=$('stat').textContent;
+    }
+  }catch(error){
+    batchFiles=[];batchZip=null;$('zipbox').classList.add('hid');
+    $('stat').textContent='Could not package the variations as a ZIP: '+((error&&error.message)||error);$('source-batch-status').textContent=$('stat').textContent;
+    dbg('Multi-image variation ZIP failed: '+((error&&error.message)||error));
+  }finally{
+    batchBusy=false;$('source-batch').disabled=sourceBatchFiles.length<2;$('source-variations-batch').disabled=sourceBatchFiles.length<2;
+    $('batch').disabled=false;$('dl').disabled=false;$('file').disabled=false;
+  }
+}
+$('source-variations-batch').onclick=processSourceVariations;
 $('zipbtn').onclick=async()=>{if(batchZip)await saveDirectFile(batchZipName,batchZip,$('stat'))};
 $('pngsbtn').onclick=async()=>{
   if(!batchFiles.length||batchBusy)return;
@@ -5607,10 +6172,10 @@ $('batch').onclick=async()=>{
   if(!logoModes.length||!bgModes.length){alert('Select at least one logo color mode and one background mode.');return}
   const count=+v('bn'),requestedScale=+v('scale'),withPattern=$('bpat').checked,withRatio=$('brat').checked;
   const savedModes={...M},savedValues=BATCH_SETTINGS.map(id=>v(id)),savedMesh=mesh.map(point=>({...point}));
-  const files=[],seenImages=new Map();let shrunk=0,limitReached=false,uniqueLimitReached=false,errorMessage='';
-  const maxBatchBytes=64*1024*1024;
+  const files=[],seenImages=new Map();let shrunk=0,uniqueLimitReached=false,errorMessage='';
   batchBusy=true;$('batch').disabled=true;$('prog').classList.remove('hid');$('zipbox').classList.add('hid');$('progi').style.width='0';$('dbg').classList.add('hid');
-  $('thumbs').replaceChildren();
+  clearPreviewOutput();$('thumb-help').textContent='Select a thumbnail to save one PNG. Colors use the settings above, and padding, glow, and scale remain unchanged. You can also download all PNGs in one ZIP file.';
+  $('thumbs').replaceChildren();$('result-preview-tray').classList.add('hid');
   try{
     for(let i=0;i<count;i++){
       let rendered,data,isUnique=false;
@@ -5621,14 +6186,12 @@ $('batch').onclick=async()=>{
         if(!isDuplicateImage(data,seenImages)){isUnique=true;break}
       }
       if(!isUnique){uniqueLimitReached=true;break}
-      if(data.byteLength>maxBatchBytes-files.reduce((total,file)=>total+file.data.byteLength,0)){limitReached=true;break}
       if(rendered.shrunk)shrunk++;
       const studioBase=customExportBase(name);
       const fileName=`${studioBase}-${String(files.length+1).padStart(3,'0')}-${M.logoMode}-${M.bgMode}-${rendered.o.w}x${rendered.o.h}.png`;
       const file={name:fileName,data};files.push(file);
-      const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');thumb.alt=fileName;thumb.title='Click to save '+fileName;
-      thumb.addEventListener('click',()=>saveDirectFile(file.name,new Blob([file.data],{type:'image/png'}),$('stat')));
-      $('thumbs').appendChild(thumb);
+      const thumb=document.createElement('img');thumb.src=rendered.thumb.toDataURL('image/png');
+      appendResultThumbnail(file,thumb,'download');
       const percent=Math.round((i+1)/count*100);$('progi').style.width=percent+'%';$('prog').setAttribute('aria-valuenow',String(percent));$('stat').textContent=`Creating variation ${i+1} of ${count} (${percent}%)...`;
       await new Promise(resolve=>setTimeout(resolve,0));
     }
@@ -5639,12 +6202,11 @@ $('batch').onclick=async()=>{
   }
   if(files.length){
     try{
-    batchFiles=files;batchZip=makeZip(files);batchZipName=`${customExportBase(name)}-batch-${files.length}png.zip`;
+    batchFiles=files;batchZip=makeZip(files);enableResultRemoval();batchZipName=`${customExportBase(name)}-batch-${files.length}png.zip`;
       $('zipbtn').textContent=`Download ZIP (${files.length} PNG, ${(batchZip.size/1048576).toFixed(1)} MB)`;$('zipbox').classList.remove('hid');
-      $('stat').textContent=`${files.length} unique PNG ${files.length===1?'file':'files'} ready. Select Download ZIP.`+(shrunk?` ${shrunk} designs were reduced to fit this device.`:'')+(limitReached?' The 64 MB batch limit was reached; no more variations were created.':'')+(uniqueLimitReached?` Only ${files.length} unique design${files.length===1?' was':'s were'} possible with these options; choose more color or background modes for additional results.`:'')+(errorMessage?' Generation stopped: '+errorMessage:'');
+      $('stat').textContent=`${files.length} unique PNG ${files.length===1?'file':'files'} ready. Select Download ZIP.`+(shrunk?` ${shrunk} designs were reduced to fit this device.`:'')+(uniqueLimitReached?` Only ${files.length} unique design${files.length===1?' was':'s were'} possible with these options; choose more color or background modes for additional results.`:'')+(errorMessage?' Generation stopped: '+errorMessage:'');
     }catch(error){batchFiles=[];batchZip=null;$('stat').textContent='Could not package the batch as a ZIP.';dbg('ZIP failed: '+((error&&error.message)||error))}
-  }else if(limitReached){$('stat').textContent='The batch size limit was reached before the first PNG was complete.'}
-  else if(errorMessage){$('stat').textContent='Could not create the batch: '+errorMessage}
+  }else if(errorMessage){$('stat').textContent='Could not create the batch: '+errorMessage}
   else{$('stat').textContent='No files were created. Choose a smaller scale.'}
 };
 $('dltest').onclick=async()=>{
@@ -5653,6 +6215,13 @@ $('dltest').onclick=async()=>{
 };
 new MutationObserver(()=>{$('bstat').textContent=$('stat').textContent}).observe($('stat'),{childList:true,characterData:true,subtree:true});
 $('dl').onclick=async()=>{
+  if(previewOutput){
+    const file=previewOutput.file;$('dl').disabled=true;
+    try{await saveDirectFile(file.name,new Blob([file.data],{type:'image/png'}),$('stat'))}
+    catch(error){$('stat').textContent='Could not download the selected PNG: '+((error&&error.message)||error);dbg('Selected PNG download failed: '+((error&&error.message)||error))}
+    finally{$('dl').disabled=false}
+    return;
+  }
   if(!img){alert('Choose a logo image first.');return}
   const requested=+v('scale'),{W,H}=layout(),safe=Math.min(MAX_EXPORT_SIDE/Math.max(W,H),Math.sqrt(MAX_EXPORT_PIXELS/(W*H)));
   let scale=Math.min(requested,safe),lowerAutomatically=false;
@@ -5684,12 +6253,49 @@ $('send').onclick=async()=>{
   if(!img){alert('Choose a logo image in Color Studio first.');return}
   $('send').disabled=true;$('stat').textContent='Preparing PNG for transfer...';
   try{
-    const c=document.createElement('canvas');render(c,1);
-    const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
-    if(!blob)throw new Error('The browser could not create the Color Studio PNG.');
-    const target=$('send-target').value;
-    window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:`${name||'logo'}.png`}}));
-    $('stat').textContent=`Sending result to ${$('send-target').selectedOptions[0].textContent}...`;
+    const target=$('send-target').value,scope=$('send-scope').value;
+    let files=[];
+    if(scope==='current'){
+      if(previewOutput)files=[{name:previewOutput.file.name,data:previewOutput.file.data}];
+      else{
+        const c=document.createElement('canvas');render(c,1);
+        const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+        if(!blob)throw new Error('The browser could not create the Color Studio PNG.');
+        files=[{name:`${name||'logo'}.png`,blob}];
+      }
+    }else if(scope==='selected'){
+      files=[...R.querySelectorAll('.result-thumb-send input:checked')]
+        .map(input=>input._resultFile).filter(Boolean);
+      if(!files.length){$('stat').textContent='Select at least one processed result first.';return}
+    }else files=[...batchFiles];
+    if(!files.length){$('stat').textContent='There are no processed results to send.';return}
+    const queuedFiles=files.map(file=>({name:file.name,data:file.data||new Uint8Array(),batchFile:file}));
+    const singleImageTargets=['cut','remove','upscale','viewer'];
+    if(files.length>1&&singleImageTargets.includes(target)){
+      setImageTransferQueue(queuedFiles,target);sendQueuedImage(0);
+      $('stat').textContent=`${files.length} results queued for ${$('send-target').selectedOptions[0].textContent}. Send each image from the queue when ready.`;
+      return;
+    }
+    hideImageTransferQueue();
+    if(files.length===1){
+      const file=files[0],blob=file.blob||new Blob([file.data],{type:'image/png'});
+      window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:file.name}}));
+      $('stat').textContent=`Sending ${file.name} to ${$('send-target').selectedOptions[0].textContent}...`;
+      return;
+    }
+    let sent=0,failed=[];
+    for(let i=0;i<files.length;i++){
+      const file=files[i],blob=file.blob||new Blob([file.data],{type:'image/png'});
+      $('stat').textContent=`Sending image ${i+1} of ${files.length}: ${file.name}...`;
+      const ok=await new Promise(resolve=>{
+        const timeout=setTimeout(()=>resolve(false),30000);
+        const onComplete=result=>{clearTimeout(timeout);resolve(!!result)};
+        window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{target,blob,name:file.name,source:'Color Studio',onComplete}}));
+      });
+      if(ok)sent++;else failed.push(file.name);
+    }
+    $('stat').textContent=`Sent ${sent} of ${files.length} images to ${$('send-target').selectedOptions[0].textContent}.`+
+      (failed.length?` Failed: ${failed.slice(0,3).join(', ')}${failed.length>3?`, and ${failed.length-3} more`:''}.`:'');
   }catch(err){$('stat').textContent='Could not prepare direct transfer: '+((err&&err.message)||err)}
   finally{$('send').disabled=false}
 };
@@ -5771,22 +6377,24 @@ function initFileViewer(){
   const release=()=>{urls.forEach(url=>URL.revokeObjectURL(url));urls=[]};
   const showError=message=>{status.textContent=message;stage.replaceChildren(Object.assign(document.createElement('div'),{className:'file-viewer-empty',textContent:message}))};
   const addUrl=blob=>{const url=URL.createObjectURL(blob);urls.push(url);return url};
-  const showImage=(blob,name,onload,token=job)=>{
+  const showImage=(blob,name,onload,token=job,onerror)=>{
     const image=document.createElement('img');image.alt='Preview of '+name;image.onload=()=>{
       if(token!==job)return;
       fullImage=image;fullPdfUrl='';fullName=name;fullOpen.disabled=false;
       if(onload)onload(image);
       $('file-viewer-full-info').textContent=`${name} · ${image.naturalWidth} × ${image.naturalHeight} px`;
-    };image.onerror=()=>{if(token===job)showError('This browser cannot display the image from this file.')};image.src=addUrl(blob);stage.replaceChildren(image);
+    };image.onerror=()=>{if(token===job){showError('This browser cannot display the image from this file.');if(onerror)onerror()}};image.src=addUrl(blob);stage.replaceChildren(image);
   };
-  async function openFile(file){
+  async function openFile(file,onComplete){
+    let completed=false;
+    const finish=(ok,message)=>{if(!completed&&onComplete){completed=true;onComplete(ok,message)}};
     const current=++job;release();stage.replaceChildren();download.hidden=true;download.removeAttribute('href');open.hidden=true;open.removeAttribute('href');clear.disabled=false;
     currentFile=file||null;send.disabled=!canSendImage(currentFile);updateSendTargets(currentFile);
     fullImage=null;fullPdfUrl='';fullName='';fullOpen.disabled=true;
-    if(!file){showError('Choose a file to preview.');clear.disabled=true;return}
-    if(file.size>150*1024*1024){showError('File is too large for browser preview (150 MB limit).');return}
+    if(!file){showError('Choose a file to preview.');clear.disabled=true;finish(false,'No image was provided.');return}
+    if(file.size>150*1024*1024){showError('File is too large for browser preview (150 MB limit).');finish(false,'File is too large for browser preview.');return}
     const name=file.name,ext=(name.split('.').pop()||'').toLowerCase(),pdfLike=ext==='pdf'||ext==='ai'&&/^%PDF-/i.test(new TextDecoder().decode(new Uint8Array(await file.slice(0,1024).arrayBuffer())));
-    if(current!==job)return;
+    if(current!==job){finish(false,'Preview was superseded.');return}
     download.href=addUrl(file);download.download=name;download.hidden=false;
     download.textContent='Download original file · '+formatFileSize(file.size);
     status.textContent=`Opening ${name} (${(file.size/1024/1024).toFixed(2)} MB)...`;
@@ -5796,25 +6404,28 @@ function initFileViewer(){
         fullPdfUrl=download.href;fullName=name;fullOpen.disabled=false;$('file-viewer-full-info').textContent=name;
         const frame=document.createElement('iframe');frame.title='PDF preview for '+name;frame.src=download.href;stage.replaceChildren(frame);
         status.textContent='PDF opened in the browser viewer. If the panel is blank, try opening or downloading the original file.';
+        finish(true,`Opened ${name} in File Preview.`);
       }else if(ext==='svgz'){
         if(typeof DecompressionStream==='undefined')throw new Error('This browser does not support SVGZ decompression.');
         const svg=await new Response(file.stream().pipeThrough(new DecompressionStream('gzip'))).blob();
-        if(current!==job)return;showImage(new Blob([svg],{type:'image/svg+xml'}),name,null,current);
+        if(current!==job){finish(false,'Preview was superseded.');return}
+        showImage(new Blob([svg],{type:'image/svg+xml'}),name,()=>finish(true,`Opened ${name} in File Preview.`),current,()=>finish(false,`Could not preview ${name}.`));
         status.textContent='SVGZ preview.';
       }else if(ext==='svg'||/^image\/(png|jpeg|webp|gif|bmp|avif)$/.test(file.type)||/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(name)){
-        showImage(file,name,image=>{status.textContent=`Previewing ${name} · ${image.naturalWidth} × ${image.naturalHeight} px.`},current);
+        showImage(file,name,image=>{status.textContent=`Previewing ${name} · ${image.naturalWidth} × ${image.naturalHeight} px.`;finish(true,`Opened ${name} in File Preview.`)},current,()=>finish(false,`Could not preview ${name}.`));
         status.textContent=`Loading preview ${name}...`;
       }else if(['cdr','cdrx','cmx','ai','eps','ps','wmf','emf'].includes(ext)){
-        const preview=await extractCdrPreview(file);if(current!==job)return;
+        const preview=await extractCdrPreview(file);if(current!==job){finish(false,'Preview was superseded.');return}
         if(preview){
-          showImage(preview,name,null,current);
+          showImage(preview,name,()=>finish(true,`Opened ${name} in File Preview.`),current,()=>finish(false,`Could not preview ${name}.`));
           status.textContent=ext==='cdr'||ext==='cdrx'?`Previewing the embedded thumbnail from ${name}; this is not a full vector rendering.`:`Previewing an embedded image from ${name}; the result may be incomplete.`;
-        }else showError(`No embedded preview image was found in ${name}. CDR/AI/EPS/WMF files cannot be fully rendered without a dedicated converter. Export the file from its original app as PDF or SVG, then open it here.`);
+        }else{showError(`No embedded preview image was found in ${name}. CDR/AI/EPS/WMF files cannot be fully rendered without a dedicated converter. Export the file from its original app as PDF or SVG, then open it here.`);finish(false,`No preview image found in ${name}.`)}
       }else{
-        showError(`The .${ext||'(no extension)'} format is not supported for preview. Try exporting as PDF, SVG, PNG, or JPG.`);
+        showError(`The .${ext||'(no extension)'} format is not supported for preview. Try exporting as PDF, SVG, PNG, or JPG.`);finish(false,`Unsupported preview format: ${ext||'unknown'}.`);
       }
     }catch(error){
       if(current===job)showError(`Could not open ${name}: ${(error&&error.message)||error}`);
+      finish(false,`Could not open ${name}: ${(error&&error.message)||error}`);
     }
   }
   function fullFit(){
@@ -5882,7 +6493,7 @@ function initFileViewer(){
     if(!canSendImage(currentFile)){status.textContent='This file is not an image format accepted by the other tools.';return}
     sendFileToMenu('File Preview',sendTarget.value,currentFile,currentFile.name,status);
   };
-  window.addEventListener('studio-send-viewer',event=>openFile(event.detail.file));
+  window.addEventListener('studio-send-viewer',event=>openFile(event.detail.file,event.detail.onComplete));
   input.addEventListener('change',()=>openFile(input.files&&input.files[0]));
   clear.addEventListener('click',()=>{job++;release();input.value='';currentFile=null;send.disabled=true;updateSendTargets(null);download.hidden=true;download.removeAttribute('href');open.hidden=true;open.removeAttribute('href');fullImage=null;fullPdfUrl='';fullName='';fullOpen.disabled=true;closeFull();stage.replaceChildren(Object.assign(document.createElement('div'),{className:'file-viewer-empty',textContent:'Your file preview will appear here.'}));status.textContent='No file selected.';clear.disabled=true});
   drop.setAttribute('role','button');drop.tabIndex=0;
@@ -5916,14 +6527,68 @@ function setTab(t){
   if(typeof loadPanel==='function')loadPanel();
   if(typeof schedule==='function')schedule();
   window.scrollTo(0,0);
-  if(mainTool&&window.matchMedia('(max-width:760px)').matches){
+  if(t==='studio'){
+    const button=$(tabs[t]);
+    if(window.matchMedia('(max-width:760px)').matches){
+      requestAnimationFrame(()=>button.scrollIntoView({
+        behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+        block:'nearest',inline:'nearest'
+      }));
+    }
+  }else if(mainTool&&window.matchMedia('(max-width:760px)').matches){
     requestAnimationFrame(()=>$(tabs[t]).scrollIntoView({
       behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
       block:'nearest',inline:'nearest'
     }));
   }
 }
-const IMAGE_TRANSFER_TARGETS=new Set(['sheet','studio','cut','remove','upscale','vector']);
+const IMAGE_TRANSFER_TARGETS=new Set(['sheet','studio','layout','cut','remove','upscale','vector']);
+let imageTransferQueue=[],imageTransferQueueTarget='',imageTransferQueueIndex=0,imageTransferQueuePending=false,imageTransferQueueTimeout=0,imageTransferQueueToken=0;
+function hideImageTransferQueue(){
+  clearTimeout(imageTransferQueueTimeout);imageTransferQueueTimeout=0;imageTransferQueueToken++;
+  imageTransferQueue=[];imageTransferQueueTarget='';imageTransferQueueIndex=0;imageTransferQueuePending=false;
+  $('image-transfer-queue').hidden=true;$('image-transfer-queue-select').replaceChildren();
+  $('image-transfer-queue-send').disabled=false;
+}
+function setImageTransferQueue(files,target){
+  imageTransferQueue=files;imageTransferQueueTarget=target;imageTransferQueueIndex=0;
+  const select=$('image-transfer-queue-select');
+  select.replaceChildren(...files.map((file,index)=>new Option(`${index+1}. ${file.name}`,String(index))));
+  $('image-transfer-queue').hidden=false;
+  $('image-transfer-queue-status').textContent=`${files.length} images queued for ${$(target==='viewer'?'t-viewer':`t-${target}`).textContent}. Choose an image, then send it when ready.`;
+}
+function pruneImageTransferQueue(removedFile){
+  if(!imageTransferQueue.some(file=>file.batchFile===removedFile))return;
+  imageTransferQueue=imageTransferQueue.filter(file=>file.batchFile!==removedFile);
+  if(!imageTransferQueue.length){hideImageTransferQueue();return}
+  const nextIndex=Math.min(imageTransferQueueIndex,imageTransferQueue.length-1);
+  setImageTransferQueue(imageTransferQueue,imageTransferQueueTarget);
+  imageTransferQueueIndex=nextIndex;
+  $('image-transfer-queue-select').value=String(imageTransferQueueIndex);
+}
+function sendQueuedImage(index=imageTransferQueueIndex){
+  if(imageTransferQueuePending||index<0||index>=imageTransferQueue.length)return;
+  imageTransferQueueIndex=index;$('image-transfer-queue-select').value=String(index);
+  const file=imageTransferQueue[index];
+  const token=++imageTransferQueueToken;
+  imageTransferQueuePending=true;$('image-transfer-queue-send').disabled=true;
+  $('image-transfer-queue-status').textContent=`Sending image ${index+1} of ${imageTransferQueue.length}: ${file.name}...`;
+  imageTransferQueueTimeout=setTimeout(()=>complete(false,`Timed out while loading ${file.name}.`),30000);
+  function complete(ok,message){
+    if(!imageTransferQueuePending||token!==imageTransferQueueToken)return;
+    clearTimeout(imageTransferQueueTimeout);imageTransferQueueTimeout=0;imageTransferQueuePending=false;$('image-transfer-queue-send').disabled=false;
+    $('image-transfer-queue-status').textContent=message||`${ok?'Sent':'Could not send'} ${file.name}.`;
+  }
+  window.dispatchEvent(new CustomEvent('studio-send-target',{detail:{
+    target:imageTransferQueueTarget,blob:new Blob([file.data],{type:'image/png'}),name:file.name,
+    source:'Color Studio queue',onComplete:complete
+  }}));
+}
+$('image-transfer-queue-select').addEventListener('change',()=>{imageTransferQueueIndex=Number($('image-transfer-queue-select').value)||0});
+$('image-transfer-queue-prev').addEventListener('click',()=>{if(imageTransferQueue.length)imageTransferQueueIndex=(imageTransferQueueIndex+imageTransferQueue.length-1)%imageTransferQueue.length;$('image-transfer-queue-select').value=String(imageTransferQueueIndex)});
+$('image-transfer-queue-next').addEventListener('click',()=>{if(imageTransferQueue.length)imageTransferQueueIndex=(imageTransferQueueIndex+1)%imageTransferQueue.length;$('image-transfer-queue-select').value=String(imageTransferQueueIndex)});
+$('image-transfer-queue-send').addEventListener('click',()=>sendQueuedImage());
+$('image-transfer-queue-clear').addEventListener('click',hideImageTransferQueue);
 async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
   if(!(blob instanceof Blob)){if(status)status.textContent='No finished image is available to send.';return}
   const fileName=name||'image.png',type=blob.type||'application/octet-stream';
@@ -5939,6 +6604,8 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
       setTab('studio');window.dispatchEvent(new CustomEvent('background-image',{detail:{blob,name:fileName,type}}));
     }else if(target==='viewer'){
       setTab('viewer');window.dispatchEvent(new CustomEvent('studio-send-viewer',{detail:{file}}));
+    }else if(target==='layout'){
+      setTab('layout');window.dispatchEvent(new CustomEvent('studio-send-layout',{detail:{file}}));
     }else if(target==='cut'){
       setTab('cut');window.dispatchEvent(new CustomEvent('studio-send-cut',{detail:{file}}));
     }else{
@@ -6069,15 +6736,22 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
     if(tablist.closest('.more-tools'))tabButtons[next]._arrowNavigation=false;
   }));
   window.addEventListener('studio-send-target',async e=>{
-    const {target,blob,name,source='Color Studio',vectorData}=e.detail||{};
-    if(!['sheet','vector','remove','upscale','viewer','cut'].includes(target)||!(blob instanceof Blob)){
+    const {target,blob,name,source='Color Studio',vectorData,onComplete}=e.detail||{};
+    const complete=(ok,message)=>{if(typeof onComplete==='function')onComplete(ok,message)};
+    if(!['sheet','vector','layout','remove','upscale','viewer','cut'].includes(target)||!(blob instanceof Blob)){
       $('status').textContent='Invalid destination or image for direct transfer.';
+      complete(false,'Invalid destination or image.');
       return;
     }
     const file=new File([blob],name||'studio-warna.png',{type:blob.type||'image/png'});
     if(target==='remove'||target==='upscale'||target==='viewer'||target==='cut'){
       setTab(target);
-      window.dispatchEvent(new CustomEvent(`studio-send-${target}`,{detail:{file}}));
+      window.dispatchEvent(new CustomEvent(`studio-send-${target}`,{detail:{file,onComplete:complete}}));
+      return;
+    }
+    if(target==='layout'){
+      setTab('layout');
+      window.dispatchEvent(new CustomEvent('studio-send-layout',{detail:{file,onComplete:complete}}));
       return;
     }
     showLoader(target==='vector'?'Sending Color Studio result to Vectorize (SVG)...':'Sending Color Studio result to Sticker Sheet...');await pause();
@@ -6086,14 +6760,22 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
       const l=await makeLogo(await readURL(file));l.sourceName=file.name;
       if(target==='vector')l.sourceVector=true;
       else if(target==='sheet'&&vectorData&&vectorData.vimg&&typeof vectorData.vsvg==='string'&&vectorData.vsvg){
-        l.sourceBlob=file;l.vec=true;l.sourceVector=false;l.vimg=vectorData.vimg;l.vsvg=vectorData.vsvg;
+        l.sourceBlob=file;l.vec=true;l.sourceVector=false;
+        l.vimg=vectorData.vimg;l.vsvg=vectorData.vsvg;l.vout=vectorData.vout||'';l.vcut=vectorData.vcut||'';
+        l.vpal=Array.isArray(vectorData.vpal)?vectorData.vpal.map(color=>({...color})):[];
+        ['vcol','vdet','vsm','key','tol','vcor','vmin','vmode','vnat','vstack'].forEach(key=>{
+          if(vectorData[key]!==undefined)l[key]=vectorData[key];
+        });
+        l.vdrop=Array.isArray(vectorData.vdrop)?vectorData.vdrop.slice():[];
+        l.vk=vectorData.vk||traceKey(l);
       }else{l.sourceBlob=file;l.vec=false;l.sourceVector=false;l.vimg=null;l.vsvg=''}
       logos.push(l);sel=logos.length-1;renderThumbs();loadPanel();schedule();
       if(target==='vector'){
         $('vhint').textContent=`Image from ${source} added to Vectorize (SVG) (${l.img.naturalWidth} × ${l.img.naturalHeight} px).`;
         $('vec-card').scrollIntoView({behavior:'smooth',block:'start'});
       }else $('status').textContent=`${source} result added to Sticker Sheet.`;
-    }catch(err){$('status').textContent='Could not transfer from Color Studio: '+((err&&err.message)||err)}
+      complete(true,`Sent ${file.name} to ${target==='vector'?'Vectorize (SVG)':'Sticker Sheet'}.`);
+    }catch(err){$('status').textContent='Could not transfer from Color Studio: '+((err&&err.message)||err);complete(false,`Could not send ${file.name}: ${((err&&err.message)||err)}`)}
     finally{hideLoader()}
   });
   window.addEventListener('background-send-studio',e=>{
@@ -6115,7 +6797,9 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
 (function(){
   const input=$('cut-image-input'),preview=$('cut-preview'),empty=$('cut-preview-empty'),status=$('cut-image-status'),fileInfo=$('cut-image-file-info');
   const work=document.createElement('canvas'),workCtx=work.getContext('2d',{willReadFrequently:true});
-  let image=null,imageName='cut-image',job=0,mode='move',zoom=1,offsetX=0,offsetY=0,strokes=[],redoStrokes=[],activeStroke=null,activePointer=null,lastPointer=null;
+  let image=null,imageName='cut-image',job=0,mode='move',zoom=1,offsetX=0,offsetY=0,strokes=[],redoStrokes=[],activeStroke=null,activePointer=null,lastPointer=null,cutExportCanceled=false;
+  const cutCancel=$('cut-cancel');
+  cutCancel.onclick=()=>{cutExportCanceled=true;cutCancel.disabled=true;status.textContent='Cancelling image creation...'};
   const maxPixels=25000000,maxSide=12000;
   function dimensions(){
     const widthMm=Number($('cut-width').value),heightMm=Number($('cut-height').value),dpi=Number($('cut-dpi').value);
@@ -6248,15 +6932,15 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
     if(!hasHeader)throw new Error('PNG dimensions are missing.');
     return new Blob(parts,{type:'image/png'});
   }
-  function loadImage(file){
-    if(!file)return;
+  function loadImage(file,onComplete){
+    if(!file){if(onComplete)onComplete(false,'No image was provided.');return}
     if(!/^image\/(png|jpeg|webp|gif|bmp|avif)$/.test(file.type)&&!/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(file.name||'')){
-      status.textContent='Unsupported image. Choose a PNG, JPG, WebP, GIF, BMP, or AVIF file.';return;
+      status.textContent='Unsupported image. Choose a PNG, JPG, WebP, GIF, BMP, or AVIF file.';if(onComplete)onComplete(false,status.textContent);return;
     }
     const token=++job,url=URL.createObjectURL(file),next=new Image();
     status.textContent='Loading image...';
     next.onload=()=>{
-      URL.revokeObjectURL(url);if(token!==job)return;
+      URL.revokeObjectURL(url);if(token!==job){if(onComplete)onComplete(false,'Image load was superseded.');return}
       try{
         work.width=next.naturalWidth;work.height=next.naturalHeight;
         if(!workCtx)throw new Error('This device cannot create an editing canvas.');
@@ -6265,12 +6949,14 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
         preview.hidden=false;empty.hidden=true;
         fileInfo.textContent=`${file.name} · ${next.naturalWidth} × ${next.naturalHeight} px · ${(file.size/1048576).toFixed(1)} MB`;
         $('cut-reset').disabled=false;render();updateHistory();
-      }catch(error){status.textContent='Could not prepare image: '+((error&&error.message)||error)}
+        if(onComplete)onComplete(true,`Loaded ${file.name} in Cut Image.`);
+      }catch(error){status.textContent='Could not prepare image: '+((error&&error.message)||error);if(onComplete)onComplete(false,status.textContent)}
     };
-    next.onerror=()=>{URL.revokeObjectURL(url);if(token===job)status.textContent='The image could not be read.'};
+    next.onerror=()=>{URL.revokeObjectURL(url);if(token===job){status.textContent='The image could not be read.';if(onComplete)onComplete(false,status.textContent)}};
     next.src=url;
   }
   async function createOutput(){
+    if(cutExportCanceled)throw cancellationError();
     if(!image)throw new Error('Choose an image first.');
     const geometry=dimensions();
     if(!geometry)throw new Error('Cut width and height must be between 5 and 1,000 mm.');
@@ -6282,11 +6968,16 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
     ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
     ctx.drawImage(work,(output.width-work.width*imageScale)/2+offsetX*output.width,(output.height-work.height*imageScale)/2+offsetY*output.height,work.width*imageScale,work.height*imageScale);
     ctx.restore();
+    if(cutExportCanceled)throw cancellationError();
     const png=await new Promise((resolve,reject)=>output.toBlob(blob=>blob?resolve(blob):reject(new Error('PNG export failed.')), 'image/png'));
-    return setPngResolution(png,geometry.dpi);
+    if(cutExportCanceled)throw cancellationError();
+    const result=await setPngResolution(png,geometry.dpi);
+    if(cutExportCanceled)throw cancellationError();
+    return result;
   }
-  input.addEventListener('change',()=>{const file=input.files&&input.files[0];input.value='';loadImage(file)});
+  input.addEventListener('change',()=>{const file=input.files&&input.files[0],onComplete=input._transferCompletion;input.value='';input._transferCompletion=null;loadImage(file,onComplete)});
   window.addEventListener('studio-send-cut',event=>{
+    input._transferCompletion=event.detail.onComplete;
     const transfer=new DataTransfer();
     transfer.items.add(event.detail.file);input.files=transfer.files;
     input.dispatchEvent(new Event('change',{bubbles:true}));
@@ -6338,16 +7029,18 @@ async function sendFileToMenu(source,target,blob,name,status,vectorData=null){
   $('cut-reset').onclick=()=>{zoom=1;offsetX=offsetY=0;$('cut-scale').value='100';$('cut-scale-value').textContent='100%';render()};
   $('cut-download').onclick=async()=>{
     $('cut-download').disabled=$('cut-to-sheet').disabled=true;status.textContent='Creating transparent PNG...';
+    cutExportCanceled=false;cutCancel.hidden=false;cutCancel.disabled=false;
     let downloadStatus='';
-    try{const blob=await createOutput();await saveDirectFile(`${imageName}-cut.png`,blob,status);downloadStatus=status.textContent}
-    catch(error){status.textContent='Could not export cut image: '+((error&&error.message)||error)}
-    finally{render();if(downloadStatus)status.textContent=downloadStatus}
+    try{const blob=await createOutput();cutCancel.hidden=true;await saveDirectFile(`${imageName}-cut.png`,blob,status);downloadStatus=status.textContent}
+    catch(error){status.textContent=isCancellationError(error)?'Image creation canceled.':'Could not export cut image: '+((error&&error.message)||error)}
+    finally{render();if(cutExportCanceled)status.textContent='Image creation canceled.';else if(downloadStatus)status.textContent=downloadStatus;cutCancel.hidden=true;cutCancel.disabled=false;cutExportCanceled=false}
   };
   $('cut-to-sheet').onclick=async()=>{
     $('cut-download').disabled=$('cut-to-sheet').disabled=true;status.textContent='Preparing cut image for transfer...';
-    try{const blob=await createOutput();await sendFileToMenu('Cut Image',$('cut-send-target').value,blob,`${imageName}-cut.png`,status)}
-    catch(error){status.textContent='Could not send cut image: '+((error&&error.message)||error)}
-    finally{render()}
+    cutExportCanceled=false;cutCancel.hidden=false;cutCancel.disabled=false;
+    try{const blob=await createOutput();cutCancel.hidden=true;await sendFileToMenu('Cut Image',$('cut-send-target').value,blob,`${imageName}-cut.png`,status)}
+    catch(error){status.textContent=isCancellationError(error)?'Image creation canceled.':'Could not send cut image: '+((error&&error.message)||error)}
+    finally{render();if(cutExportCanceled)status.textContent='Image creation canceled.';cutCancel.hidden=true;cutCancel.disabled=false;cutExportCanceled=false}
   };
   window.addEventListener('keydown',event=>{
     if(!document.body.classList.contains('tab-cut')||!(event.ctrlKey||event.metaKey)||event.altKey)return;
@@ -6436,10 +7129,15 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   return {render,hide};
 }
 (function(){
-  let image=null,imageUrl='',imageName='gambar',resultBlob=null,resultCanvas=null,currentBlob=null,job=0,magicMode=false,magicBusy=false;
+  let image=null,imageUrl='',imageName='gambar',resultBlob=null,resultCanvas=null,currentBlob=null,job=0,magicMode=false,magicBusy=false,cancelRequested=false,activeImageJob=false,pendingRemoveTransferCompletion=null;
   const undoHistory=[],redoHistory=[],MAX_HISTORY_STEPS=8,MAX_HISTORY_BYTES=128*1024*1024;
   const input=$('remove-input'),source=$('remove-original'),output=$('remove-result');
   const process=$('remove-process'),download=$('remove-download'),toStudio=$('remove-send'),toSheet=$('remove-send');
+  const cancelButton=$('remove-cancel');
+  cancelButton.onclick=()=>{
+    if(!activeImageJob||cancelRequested)return;
+    cancelRequested=true;cancelButton.disabled=true;$('remove-status').textContent='Cancelling image processing...';
+  };
   const undoButton=$('remove-undo'),redoButton=$('remove-redo');
   const autoMode=$('remove-auto-mode'),magicModeButton=$('remove-magic-mode'),toolHint=$('remove-tool-hint');
   const comparison=setupImageComparison('remove',source,output);
@@ -6528,24 +7226,27 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     output.width=source.width;output.height=source.height;
   }
   input.onchange=async e=>{
-    const f=e.target.files[0];input.value='';if(!f)return;
+    const f=e.target.files[0],transferCompletion=pendingRemoveTransferCompletion;pendingRemoveTransferCompletion=null;input.value='';
+    if(!f){if(transferCompletion)transferCompletion(false,'No image was provided.');return}
     const supported=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif)$/.test(f.type)||/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(f.name||'');
-    if(!supported){$('remove-status').textContent='Unsupported format. Choose a PNG, JPG/JPEG, WebP, GIF, BMP, or AVIF file.';return}
+    if(!supported){$('remove-status').textContent='Unsupported format. Choose a PNG, JPG/JPEG, WebP, GIF, BMP, or AVIF file.';if(transferCompletion)transferCompletion(false,$('remove-status').textContent);return}
     const token=++job,url=URL.createObjectURL(f),im=new Image();
     $('remove-status').textContent='Loading image...';
     im.onload=()=>{
       URL.revokeObjectURL(url);
-      if(token!==job)return;
-      image=im;imageName=(f.name||'gambar').replace(/\.[^.]+$/,'');magicBusy=false;initialFileBlob=currentBlob=f;undoHistory.length=redoHistory.length=0;invalidateResult();preview();updateHistoryButtons();
+      if(token!==job){if(transferCompletion)transferCompletion(false,'Image load was superseded.');return}
+      image=im;imageName=(f.name||'gambar').replace(/\.[^.]+$/,'');magicBusy=false;activeImageJob=false;cancelRequested=false;cancelButton.hidden=true;cancelButton.disabled=false;initialFileBlob=currentBlob=f;undoHistory.length=redoHistory.length=0;invalidateResult();preview();updateHistoryButtons();
       $('remove-file-info').textContent=`${f.name} · ${im.naturalWidth} × ${im.naturalHeight} px · ${(f.size/1048576).toFixed(1)} MB`;
       $('remove-status').textContent='Image ready. Select “Remove Background” to process it.';
       process.disabled=false;
       updateHistoryButtons();
+      if(transferCompletion)transferCompletion(true,`Loaded ${f.name} in Remove Background.`);
     };
-    im.onerror=()=>{URL.revokeObjectURL(url);if(token===job){process.disabled=!image;$('remove-status').textContent='The image could not be read.'}};
+    im.onerror=()=>{URL.revokeObjectURL(url);if(token===job){process.disabled=!image;$('remove-status').textContent='The image could not be read.';if(transferCompletion)transferCompletion(false,$('remove-status').textContent)}};
     im.src=url;
   };
   window.addEventListener('studio-send-remove',event=>{
+    pendingRemoveTransferCompletion=event.detail.onComplete;
     const transfer=new DataTransfer();
     transfer.items.add(event.detail.file);input.files=transfer.files;
     input.dispatchEvent(new Event('change',{bubbles:true}));
@@ -6561,7 +7262,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     const rect=source.getBoundingClientRect();
     const x=Math.min(image.naturalWidth-1,Math.max(0,Math.floor((e.clientX-rect.left)/rect.width*image.naturalWidth)));
     const y=Math.min(image.naturalHeight-1,Math.max(0,Math.floor((e.clientY-rect.top)/rect.height*image.naturalHeight)));
-    const token=++job;magicBusy=true;process.disabled=true;$('remove-status').setAttribute('aria-busy','true');updateHistoryButtons();
+    const token=++job;magicBusy=true;activeImageJob=true;cancelRequested=false;cancelButton.hidden=false;cancelButton.disabled=false;process.disabled=true;$('remove-status').setAttribute('aria-busy','true');updateHistoryButtons();
     $('remove-status').textContent='Checking the selected area...';await pause();
     try{
       const w=resultCanvas?.width||image.naturalWidth,h=resultCanvas?.height||image.naturalHeight,total=w*h;
@@ -6588,6 +7289,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       enqueue(py*w+px);
       while(head<tail){
         if(token!==job)return;
+        if(cancelRequested)throw cancellationError();
         const p=queue[head++],i=p*4;
         const dist=Math.hypot(d[i]-color[0],d[i+1]-color[1],d[i+2]-color[2]);
         let keep;
@@ -6596,11 +7298,13 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         d[i+3]=Math.round(d[i+3]*keep);visited++;
         const px=p%w,py=(p-px)/w;
         if(px>0)enqueue(p-1);if(px+1<w)enqueue(p+1);if(py>0)enqueue(p-w);if(py+1<h)enqueue(p+w);
-        if(head%300000===0){$('remove-status').textContent=`Checking area... ${visited.toLocaleString('en-US')} pixels`;await pause()}
+        if(head%300000===0){$('remove-status').textContent=`Checking area... ${visited.toLocaleString('en-US')} pixels`;await pause();if(cancelRequested)throw cancellationError()}
       }
       if(token!==job)return;
+      if(cancelRequested)throw cancellationError();
       ctx.putImageData(frame,0,0);
       const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+      if(cancelRequested)throw cancellationError();
       if(!blob)throw new Error('This device could not create a transparent PNG.');
       const historyLimited=saveHistory(currentBlob);showResultCanvas(c,blob);
       $('remove-status').textContent=`Done. Connected areas with a similar color were removed (${visited.toLocaleString('en-US')} pixels). Click another color to remove more areas.${historyLimited?' This change cannot be undone because the image is too large.':''}`;
@@ -6608,10 +7312,10 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       if(token===job){
         const hasResult=!!resultBlob;
         download.disabled=toStudio.disabled=toSheet.disabled=!hasResult;
-        $('remove-status').textContent='Could not remove the selected area: '+((err&&err.message)||err);
+        $('remove-status').textContent=isCancellationError(err)?'Image processing canceled.':'Could not remove the selected area: '+((err&&err.message)||err);
       }
     }finally{
-      if(token===job){magicBusy=false;process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
+      if(token===job){magicBusy=false;activeImageJob=false;cancelRequested=false;cancelButton.hidden=true;cancelButton.disabled=false;process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
     }
   });
   function sampleBackground(data,w,h){
@@ -6635,11 +7339,13 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   process.onclick=async()=>{
     if(!image)return;
     process.disabled=true;$('remove-status').setAttribute('aria-busy','true');updateHistoryButtons();const token=++job;
+    activeImageJob=true;cancelRequested=false;cancelButton.hidden=false;cancelButton.disabled=false;
     let scale=1,lowerAutomatically=false,retry=true;
     $('remove-status').textContent='Analyzing background color...';await pause();
     while(retry){
       retry=false;
       try{
+        if(cancelRequested)throw cancellationError();
         const base=resultCanvas||image,baseWidth=resultCanvas?.width||image.naturalWidth,baseHeight=resultCanvas?.height||image.naturalHeight;
         const w=Math.max(1,Math.round(baseWidth*scale)),h=Math.max(1,Math.round(baseHeight*scale));
         const c=document.createElement('canvas');c.width=w;c.height=h;
@@ -6648,6 +7354,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         const tolerance=+$('remove-tolerance').value*Math.sqrt(3),feather=+$('remove-feather').value*Math.sqrt(3),total=w*h,chunk=500000;
         for(let start=0;start<total;start+=chunk){
           if(token!==job)return;
+          if(cancelRequested)throw cancellationError();
           const end=Math.min(total,start+chunk);
           for(let p=start;p<end;p++){
             const i=p*4;if(d[i+3]===0)continue;
@@ -6658,16 +7365,23 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
             d[i+3]=Math.round(d[i+3]*keep);
           }
           $('remove-status').textContent=`Removing background... ${Math.round(end/total*100)}%`;
-          await pause();
+          await pause();if(cancelRequested)throw cancellationError();
         }
         if(token!==job)return;
+        if(cancelRequested)throw cancellationError();
         ctx.putImageData(frame,0,0);
         const blob=await new Promise(resolve=>c.toBlob(resolve,'image/png'));
+        if(cancelRequested)throw cancellationError();
         if(!blob)throw new Error('This device could not create a transparent PNG.');
         const historyLimited=saveHistory(currentBlob);showResultCanvas(c,blob);
         $('remove-status').textContent=`Done. Background color ${bg.map(Math.round).join(', ')} removed; result is ${w} × ${h} px${scale<1?` (reduced from ${baseWidth} × ${baseHeight} px to fit device limits)`:''}.${historyLimited?' This step cannot be undone because the image is too large.':''}`;
       }catch(err){
         if(token!==job)return;
+        if(isCancellationError(err)){
+          $('remove-status').textContent='Background removal canceled.';
+          retry=false;
+          continue;
+        }
         const lower=scale*0.8;
         if(lower<0.1){$('remove-status').textContent='Background removal failed at the lowest safe resolution: '+((err&&err.message)||err)}
         else if(lowerAutomatically){scale=lower;$('remove-status').textContent=`Device memory is limited; trying ${(scale*100).toFixed(0)}% resolution...`;retry=true}
@@ -6683,7 +7397,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         }
       }
     }
-  if(token===job){process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
+  if(token===job){activeImageJob=false;cancelRequested=false;cancelButton.hidden=true;cancelButton.disabled=false;process.disabled=false;$('remove-status').setAttribute('aria-busy','false');updateHistoryButtons()}
   };
   download.onclick=async()=>{
     if(!resultBlob)return;
@@ -6700,7 +7414,12 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   const toStudio=$('upscale-send'),toSheet=$('upscale-send');
   const comparison=setupImageComparison('upscale',source,output);
   enableImageDrop('upscale-upload-label','upscale-input');
-  let image=null,imageName='gambar',resultBlob=null,resultScale=1,job=0,busy=false;
+  let image=null,imageName='gambar',resultBlob=null,resultScale=1,job=0,busy=false,cancelRequested=false,pendingUpscaleTransferCompletion=null;
+  const cancelButton=$('upscale-cancel');
+  cancelButton.onclick=()=>{
+    if(!busy||cancelRequested)return;
+    cancelRequested=true;cancelButton.disabled=true;$('upscale-status').textContent='Cancelling image processing...';
+  };
   function invalidate(){
     resultBlob=null;resultScale=1;download.disabled=true;
     download.textContent='Download PNG';
@@ -6732,9 +7451,10 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     process.disabled=busy;
     $('upscale-status').textContent=`Target: ${target.width} × ${target.height} px (${target.scale.toFixed(2)}×)${target.limited?`; scale reduced from ${target.requested}× to stay within safe limits.`:''} Ready for offline processing.`;
   }
-  function resizeStaged(sourceCanvas,sourceWidth,sourceHeight,width,height,maximumPasses){
+  async function resizeStaged(sourceCanvas,sourceWidth,sourceHeight,width,height,maximumPasses,isCancelled){
     let canvas=sourceCanvas,currentWidth=sourceWidth,currentHeight=sourceHeight;
     while(currentWidth<width||currentHeight<height){
+      if(isCancelled())throw cancellationError();
       const nextWidth=Math.min(width,Math.max(currentWidth+1,Math.ceil(currentWidth*1.5)));
       const nextHeight=Math.min(height,Math.max(currentHeight+1,Math.ceil(currentHeight*1.5)));
       if(nextWidth===currentWidth&&nextHeight===currentHeight)break;
@@ -6745,10 +7465,12 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       canvas=next;currentWidth=nextWidth;currentHeight=nextHeight;
       if(--maximumPasses<=0)break;
       if(currentWidth===width&&currentHeight===height)break;
+      await new Promise(resolve=>setTimeout(resolve,0));
     }
+    if(isCancelled())throw cancellationError();
     return canvas;
   }
-  function enhanceDetails(canvas,quality){
+  async function enhanceDetails(canvas,quality,isCancelled){
     const ctx=canvas.getContext('2d',{willReadFrequently:true});if(!ctx)return 0;
     const {width,height}=canvas,frame=ctx.getImageData(0,0,width,height),src=frame.data,dst=new Uint8ClampedArray(src.length);
     const preset=quality==='high'
@@ -6788,8 +7510,10 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
           dst[i+c]=Math.max(localMin-8,Math.min(localMax+8,enhanced));
         }
       }
+      if(y%32===0){await new Promise(resolve=>setTimeout(resolve,0));if(isCancelled())throw cancellationError()}
     }
     for(let i=0;i<dst.length;i+=4){
+      if(i&&i%(262144*4)===0){await new Promise(resolve=>setTimeout(resolve,0));if(isCancelled())throw cancellationError()}
       if(src[i+3]<16)continue;
       for(let c=0;c<3;c++)dst[i+c]=(dst[i+c]-128)*preset.contrast+128;
     }
@@ -6797,22 +7521,25 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     return (quality==='high'?3:quality==='medium'?2:1);
   }
   input.onchange=e=>{
-    const file=e.target.files[0];input.value='';if(!file)return;
+    const file=e.target.files[0],transferCompletion=pendingUpscaleTransferCompletion;pendingUpscaleTransferCompletion=null;input.value='';
+    if(!file){if(transferCompletion)transferCompletion(false,'No image was provided.');return}
     const supported=/^image\/(png|jpeg|jpg|webp|gif|bmp|avif)$/.test(file.type)||/\.(png|jpe?g|webp|gif|bmp|avif)$/i.test(file.name||'');
-    if(!supported){$('upscale-status').textContent='Unsupported format. Choose a PNG, JPG/JPEG, WebP, GIF, BMP, or AVIF file.';return}
+    if(!supported){$('upscale-status').textContent='Unsupported format. Choose a PNG, JPG/JPEG, WebP, GIF, BMP, or AVIF file.';if(transferCompletion)transferCompletion(false,$('upscale-status').textContent);return}
     const token=++job,url=URL.createObjectURL(file),nextImage=new Image();
     $('upscale-status').textContent='Loading image...';
     nextImage.onload=()=>{
       URL.revokeObjectURL(url);
-      if(token!==job)return;
+      if(token!==job){if(transferCompletion)transferCompletion(false,'Image load was superseded.');return}
       image=nextImage;imageName=(file.name||'gambar').replace(/\.[^.]+$/,'');invalidate();preview();
       $('upscale-file-info').textContent=`${file.name} · ${image.naturalWidth} × ${image.naturalHeight} px · ${(file.size/1048576).toFixed(1)} MB`;
       updateTargetStatus();
+      if(transferCompletion)transferCompletion(true,`Loaded ${file.name} in Upscale Image.`);
     };
-    nextImage.onerror=()=>{URL.revokeObjectURL(url);if(token===job)$('upscale-status').textContent='The image could not be read.'};
+    nextImage.onerror=()=>{URL.revokeObjectURL(url);if(token===job){$('upscale-status').textContent='The image could not be read.';if(transferCompletion)transferCompletion(false,$('upscale-status').textContent)}};
     nextImage.src=url;
   };
   window.addEventListener('studio-send-upscale',event=>{
+    pendingUpscaleTransferCompletion=event.detail.onComplete;
     const transfer=new DataTransfer();
     transfer.items.add(event.detail.file);input.files=transfer.files;
     input.dispatchEvent(new Event('change',{bubbles:true}));
@@ -6823,7 +7550,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     if(!image||busy)return;
     let target=getTarget(),scale=target.scale,lowerAutomatically=false,retry=true;
     if(scale<=1){updateTargetStatus();return}
-    busy=true;invalidate();process.disabled=true;$('upscale-status').setAttribute('aria-busy','true');input.disabled=scaleSelect.disabled=qualitySelect.disabled=true;const token=++job;
+    busy=true;cancelRequested=false;cancelButton.hidden=false;cancelButton.disabled=false;invalidate();process.disabled=true;$('upscale-status').setAttribute('aria-busy','true');input.disabled=scaleSelect.disabled=qualitySelect.disabled=true;const token=++job;
     while(retry){
       retry=false;
       try{
@@ -6831,21 +7558,25 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         if(width*height>MAX_EXPORT_PIXELS||Math.max(width,height)>MAX_EXPORT_SIDE)throw new Error('Output exceeds the safe export limit.');
         $('upscale-status').textContent=`Upscaling ${image.naturalWidth} × ${image.naturalHeight} to ${width} × ${height} px...`;
         await pause();
+        if(cancelRequested)throw cancellationError();
         const sourceCanvas=document.createElement('canvas');sourceCanvas.width=image.naturalWidth;sourceCanvas.height=image.naturalHeight;
         const sourceCtx=sourceCanvas.getContext('2d',{willReadFrequently:true});if(!sourceCtx)throw new Error('This device cannot read the source image.');
         sourceCtx.drawImage(image,0,0);
-        const canvas=resizeStaged(sourceCanvas,image.naturalWidth,image.naturalHeight,width,height,12);
+        const canvas=await resizeStaged(sourceCanvas,image.naturalWidth,image.naturalHeight,width,height,12,()=>cancelRequested);
         let enhancedCanvas=canvas;
         if(canvas.width!==width||canvas.height!==height){
           const fitted=document.createElement('canvas');fitted.width=width;fitted.height=height;
           const fittedCtx=fitted.getContext('2d');fittedCtx.imageSmoothingEnabled=true;fittedCtx.imageSmoothingQuality='high';fittedCtx.drawImage(canvas,0,0,width,height);
-          enhanceDetails(fitted,qualitySelect.value);
+          await enhanceDetails(fitted,qualitySelect.value,()=>cancelRequested);
+          if(cancelRequested)throw cancellationError();
           resultBlob=await new Promise(resolve=>fitted.toBlob(resolve,'image/png'));
           enhancedCanvas=fitted;
         }else{
-          enhanceDetails(canvas,qualitySelect.value);
+          await enhanceDetails(canvas,qualitySelect.value,()=>cancelRequested);
+          if(cancelRequested)throw cancellationError();
           resultBlob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
         }
+        if(cancelRequested)throw cancellationError();
         if(token!==job)return;
         if(!resultBlob)throw new Error('This device could not create the upscaled PNG.');
         resultScale=width/image.naturalWidth;
@@ -6859,6 +7590,12 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         $('upscale-status').textContent=`Done: ${image.naturalWidth} × ${image.naturalHeight} enlarged to ${width} × ${height} px (${(width/image.naturalWidth).toFixed(2)}×) using progressive upscaling, adaptive edge detection, and ${method}.`;
       }catch(err){
         if(token!==job)return;
+        if(isCancellationError(err)){
+          resultBlob=null;resultScale=1;download.disabled=toStudio.disabled=toSheet.disabled=true;
+          $('upscale-status').textContent='Upscaling canceled.';
+          retry=false;
+          continue;
+        }
         const lower=scale*0.8;
         if(lowerAutomatically){
           if(lower<=1.01){$('upscale-status').textContent='Upscaling failed because of device limits: '+((err&&err.message)||err)}
@@ -6875,7 +7612,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         }
       }
     }
-    if(token===job){busy=false;input.disabled=scaleSelect.disabled=qualitySelect.disabled=false;process.disabled=false;$('upscale-status').setAttribute('aria-busy','false')}
+    if(token===job){busy=false;cancelRequested=false;cancelButton.hidden=true;cancelButton.disabled=false;input.disabled=scaleSelect.disabled=qualitySelect.disabled=false;process.disabled=false;$('upscale-status').setAttribute('aria-busy','false')}
   };
   download.onclick=async()=>{
     if(!resultBlob)return;
@@ -6900,14 +7637,22 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   $('vup').onclick=()=>$('vector-input').click();
   $('vector-input').addEventListener('change',async ()=>{
     const files=[...($('vector-input').files||[])]; if(!files.length)return;
-    showLoader('Preparing images for Vectorize (SVG)...');await pause();
-    let added=0;
+    showLoader('Preparing images for Vectorize (SVG)...',true);await pause();
+    const signal=activeLoaderController?.signal;
+    let added=0,canceled=false;
     for(const file of files){
       try{
-        const l=await makeLogo(await readURL(file));l.sourceName=file.name;l.sourceVector=true;logos.push(l);added++;
-      }catch(error){showError(`Could not open ${file.name}: ${error&&error.message?error.message:error}`)}
+        throwIfLoaderCancelled(signal);
+        const dataUrl=await readURL(file);throwIfLoaderCancelled(signal);
+        const l=await makeLogo(dataUrl);throwIfLoaderCancelled(signal);
+        l.sourceName=file.name;l.sourceVector=true;logos.push(l);added++;
+      }catch(error){
+        if(isCancellationError(error)){canceled=true;break}
+        showError(`Could not open ${file.name}: ${error&&error.message?error.message:error}`);
+      }
     }
     if(added){sel=logos.length-added;renderThumbs();loadPanel();schedule();drawVT();$('vhint').textContent=`${added} image(s) added to Vectorize (SVG).`}
+    if(canceled)$('vhint').textContent='Image preparation canceled.';
     $('vector-input').value='';
     hideLoader();
   });
@@ -6934,6 +7679,10 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   drawVT();
   async function sendVector(target){
     const lg=logos[sel];if(!lg||!lg.vimg||!lg.vsvg)return;
+    if(target==='sheet'){
+      await ensureTrace(lg);
+      if(!lg.vec||!lg.vimg||!lg.vsvg)return;
+    }
     const rasterOnly=['cut','remove','upscale'].includes(target);
     let blob;
     if(rasterOnly){
@@ -6945,7 +7694,13 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
       blob=await new Promise((resolve,reject)=>canvas.toBlob(result=>result?resolve(result):reject(new Error('Could not create a raster preview for this destination.')),'image/png'));
     }else blob=new Blob([lg.vsvg],{type:'image/svg+xml'});
     const name=(lg.sourceName||'vektor-trace').replace(/\.[^.]+$/,'')+`-vektor.${rasterOnly?'png':'svg'}`;
-    await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'),target==='sheet'?{vimg:lg.vimg,vsvg:lg.vsvg}:null);
+    const vectorData=target==='sheet'?{
+      vimg:lg.vimg,vsvg:lg.vsvg,vout:lg.vout,vcut:lg.vcut,vpal:lg.vpal,
+      vcol:lg.vcol,vdet:lg.vdet,vsm:lg.vsm,key:lg.key,tol:lg.tol,vcor:lg.vcor,
+      vmin:lg.vmin,vmode:lg.vmode,vnat:lg.vnat,vstack:lg.vstack,vdrop:(lg.vdrop||[]).slice(),
+      vk:traceKey(lg)
+    }:null;
+    await sendFileToMenu('Vectorize (SVG)',target,blob,name,$('vhint'),vectorData);
   }
   [['vsend-studio','studio'],['vsend-remove','remove'],['vsend-upscale','upscale'],['vsend-sheet','sheet'],['vsend-cut','cut'],['vsend-viewer','viewer']].forEach(([id,target])=>$(id).onclick=()=>sendVector(target));
 })();
@@ -6958,7 +7713,7 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
   const stage=canvas.parentElement;
   const state={pageW:210,pageH:297,areaW:174,areaH:261,template:'a4',mark:'L',markSize:5,markOffset:10,dpi:300,background:null,objects:[],selected:-1,selection:null,cursorPage:null,tool:'select',zoom:1,panX:0,panY:0,baseScale:1,originX:0,originY:0};
   const undoStack=[],redoStack=[],pointers=new Map();
-  let interaction=null,fieldSnapshot=null,sequence=0,renderQueued=false,spacePan=false;
+  let interaction=null,fieldSnapshot=null,sequence=0,renderQueued=false,spacePan=false,pendingLayoutTransferCompletion=null;
   const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
   const cloneObjects=()=>{
     const objects=state.objects.map(item=>({...item,strokes:item.strokes?.map(stroke=>({...stroke,points:stroke.points.map(point=>({...point})),selection:stroke.selection?.map(point=>({...point}))}))}));
@@ -7862,9 +8617,9 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
     }
   });
   $('layout-editor-input').addEventListener('change',event=>{
-    const files=[...(event.target.files||[])];event.target.value='';
+    const files=[...(event.target.files||[])],transferCompletion=pendingLayoutTransferCompletion;pendingLayoutTransferCompletion=null;event.target.value='';
     files.forEach(file=>{
-      if(!file.type.startsWith('image/')){$('layout-editor-status').textContent=`${file.name} bukan berkas gambar yang didukung.`;return}
+      if(!file.type.startsWith('image/')){$('layout-editor-status').textContent=`${file.name} bukan berkas gambar yang didukung.`;if(transferCompletion)transferCompletion(false,$('layout-editor-status').textContent);return}
       const url=URL.createObjectURL(file),image=new Image();
       image.onload=()=>{
         URL.revokeObjectURL(url);
@@ -7874,10 +8629,24 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
         state.objects.push({type:'image',image,name:file.name||`Foto ${++sequence}`,x:state.pageW/2+offset,y:state.pageH/2+offset,w:width,h:Math.max(1,height),rotation:0,shape:'rect',fit:'contain',opacity:1});
         state.selected=state.objects.length-1;saveHistory(before);renderLayers();renderObjectFields();scheduleDraw();
         $('layout-editor-status').textContent=`${file.name} ditambahkan. Geser foto untuk menata; tarik sudut kanan bawah untuk mengubah ukuran.`;
+        if(transferCompletion)transferCompletion(true,$('layout-editor-status').textContent);
       };
-      image.onerror=()=>{URL.revokeObjectURL(url);$('layout-editor-status').textContent=`Gagal membuka gambar: ${file.name}.`};
+      image.onerror=()=>{URL.revokeObjectURL(url);$('layout-editor-status').textContent=`Gagal membuka gambar: ${file.name}.`;if(transferCompletion)transferCompletion(false,$('layout-editor-status').textContent)};
       image.src=url;
     });
+  });
+  window.addEventListener('studio-send-layout',event=>{
+    const {file,onComplete}=event.detail||{};
+    if(!file){if(onComplete)onComplete(false,'No image was provided.');return}
+    try{
+      pendingLayoutTransferCompletion=onComplete;
+      const transfer=new DataTransfer();transfer.items.add(file);
+      $('layout-editor-input').files=transfer.files;
+      $('layout-editor-input').dispatchEvent(new Event('change',{bubbles:true}));
+    }catch(error){
+      pendingLayoutTransferCompletion=null;
+      if(onComplete)onComplete(false,`Could not add ${file.name}: ${(error&&error.message)||error}`);
+    }
   });
   $('layout-editor-input').addEventListener('dragover',event=>event.preventDefault());
   $('layout-editor-panel').addEventListener('dragover',event=>{if(event.dataTransfer?.types.includes('Files'))event.preventDefault()});
@@ -8146,5 +8915,6 @@ function setupImageComparison(prefix,sourceCanvas,outputCanvas){
 
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(error=>{reportAppError('Could not enable offline storage: '+((error&&error.message)||error))})})}
 </script>
+<script src="./pdfium-svgo-integration.js"></script>
 </body>
 </html>

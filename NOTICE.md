@@ -19,3 +19,7 @@ Lisensi GPLv3 untuk kode tidak memberikan izin menggunakan nama, logo, atau kary
 Merek, aset, dan komponen pihak ketiga tidak tercakup oleh pemberitahuan ini dan tetap tunduk pada hak pemilik serta lisensi yang berlaku.
 
 Pemberitahuan ini menjelaskan maksud proyek mengenai lisensi kode dan aset merek, bukan nasihat hukum. Repository ini sebelumnya pernah dipublikasikan dengan GPLv3; pemberitahuan ini tidak membatalkan izin GPLv3 yang telah diberikan untuk versi atau salinan sebelumnya.
+
+## Library pihak ketiga untuk PDF dan SVG
+
+Aplikasi memakai `@hyzyla/pdfium` (MIT) untuk merender PDF di browser dan SVGO (MIT) untuk mengoptimalkan SVG. PDFium WebAssembly memuat komponen pihak ketiga dengan lisensi masing-masing; salinan lisensi dan pemberitahuannya disertakan di `vendor/PDFIUM-LICENSE.md` dan `vendor/PDFIUM-THIRD-PARTY-NOTICES.md`. Lisensi SVGO disertakan di `vendor/SVGO-LICENSE`.

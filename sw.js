@@ -1,9 +1,22 @@
-const C='sticker-gen-classic-v141',F=['./','./index.html','./Studio%20Warna.html','./Proletar%20Tech%20%C2%B7%20Invoice.html','./manifest.webmanifest','./proletar-logo.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
+const C='sticker-gen-classic-v164',F=['./','./index.html','./pdfium-svgo-integration.js','./vendor/svgo-runtime.js','./Studio%20Warna.html','./Proletar%20Tech%20%C2%B7%20Invoice.html','./manifest.webmanifest','./proletar-logo.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>(x==='sticker-gen-v127'||/^sticker-gen-classic-v\d+$/.test(x))&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
   const r=e.request;
   if(r.method!=='GET'||new URL(r.url).origin!==self.location.origin)return;
+  if(new URL(r.url).pathname.endsWith('/vendor/pdfium-runtime.js')){
+    e.respondWith(caches.open(C).then(async c=>{
+      const cached=await c.match(r);
+      if(cached)return cached;
+      const response=await fetch(r);
+      if(response.ok){
+        try{await c.put(r,response.clone())}
+        catch(error){console.warn('Could not cache the optional PDFium runtime:',error)}
+      }
+      return response;
+    }));
+    return;
+  }
   if(r.url.includes('Proletar%20Tech')||r.url.includes('native=')){
     e.respondWith(fetch(r,{cache:'no-store'}).catch(async()=>{
       const c=await caches.open(C);
